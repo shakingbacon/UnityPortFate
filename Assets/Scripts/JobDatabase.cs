@@ -12,7 +12,7 @@ public class JobDatabase : MonoBehaviour {
         jobs.Add(new Job("Mage", 0));
         jobs.Add(new Job("Rouge", 1));
         jobs.Add(new Job("Warrior", 2));
-        jobs.Add(new Job("Freelancer", 3));
+        //jobs.Add(new Job("Freelancer", 3));
     }
 	
     

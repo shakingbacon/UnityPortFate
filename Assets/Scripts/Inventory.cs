@@ -2,51 +2,69 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Inventory : MonoBehaviour {
-    public int slotsX, slotsY;
+public class Inventory : MonoBehaviour
+{
+    GameObject inventoryPanel;
+    public float slotsX, slotsY, boxX, boxY, boxW, boxH, titleH, equipSlotX, equipSlotY;
     public GUISkin skin;
+    public List<Item> equipment = new List<Item>();
+    public List<Item> equipmentSlots = new List<Item>();
     public List<Item> inventory = new List<Item>();
     public List<Item> slots = new List<Item>();
     private ItemDatabase database;
     private bool showInventory;
-    private bool showTooltip;
-    private string tooltip;
+    private bool mouseIsDown = false;
+    public SlotButton slotButton;
 
-
+    private bool draggingTitle;
     private bool draggingItem;
-    private Item draggedItem;
 
     private int prevIndex;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start()
+    {
         for (int i = 0; i < (slotsX * slotsY); i += 1)
         {
             slots.Add(new Item());
             inventory.Add(new Item());
         }
+        for (int i = 0; i < (equipSlotX * equipSlotY); i += 1)
+        {
+            equipmentSlots.Add(new Item());
+            equipment.Add(new Item());
+        }
+        slotButton = slotButton.GetComponent<SlotButton>();
         database = GameObject.FindGameObjectWithTag("Item Database").GetComponent<ItemDatabase>();
+        equipment[0] = database.items[0];
+        equipment[1] = database.items[2];
+        equipment[2] = database.items[1];
+        equipment[3] = database.items[3];
+        equipment[4] = database.items[4];
+        equipment[5] = database.items[5];
+        equipment[6] = database.items[6];
+        equipment[7] = database.items[5];
         AddItem(0);
         AddItem(1);
         AddItem(2);
-
-        print(InventoryContains(5)); 
+        AddItem(200);
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update()
+    {
         if (Input.GetButtonDown("Inventory"))
         {
             showInventory = !showInventory;
-            showTooltip = false;
+            slotButton.showTooltip = false;
             if (draggingItem)
             {
-                inventory[prevIndex] = draggedItem;
+                inventory[prevIndex] = slotButton.draggedItem;
                 draggingItem = false;
-                draggedItem = null;
+                slotButton.draggedItem = null;
             }
         }
-	}
+    }
     void OnGUI()
     {
         if (GUI.Button(new Rect(40, 400, 100, 40), "Save"))
@@ -57,94 +75,53 @@ public class Inventory : MonoBehaviour {
         {
             LoadInventory();
         }
-        tooltip = "";
         GUI.skin = skin;
+        slotButton.tooltip = "";
         if (showInventory)
         {
             DrawInventory();
+
         }
-        if (showTooltip)
+        if (slotButton.showTooltip)
         {
-            GUI.Box(new Rect(Event.current.mousePosition.x, Event.current.mousePosition.y-250, 250,250), tooltip, skin.GetStyle("Tooltip"));
+            GUI.Box(new Rect(Event.current.mousePosition.x, Event.current.mousePosition.y, 250, 250), slotButton.tooltip, skin.GetStyle("Tooltip"));
         }
-        if (draggingItem)
+        if (slotButton.draggingItem)
         {
-            GUI.DrawTexture(new Rect(Event.current.mousePosition.x, Event.current.mousePosition.y - 100, 100,100), draggedItem.itemImg);
+            GUI.DrawTexture(new Rect(Event.current.mousePosition.x, Event.current.mousePosition.y - 100, 100, 100), slotButton.draggedItem.itemImg);
         }
 
     }
+
+
 
     void DrawInventory()
     {
         Event e = Event.current;
-        int i = 0;
-        for (int y = 0; y < slotsY; y += 1)
+        // title drag
+        if (e.button == 0 && new Rect(boxX, boxY, boxW, titleH).Contains(Event.current.mousePosition) && e.type == EventType.mouseDrag) // title drag
         {
-            for (int x = 0; x < slotsX; x += 1)
-            {
-                Rect slotRect = new Rect(60 + x * 115, 540 + y * 115, 100, 100);
-                GUI.Box(slotRect, "", skin.GetStyle("Slot"));
-                slots[i] = inventory[i];
-                if (slots[i].itemName != null)
-                {
-                    GUI.DrawTexture(slotRect, slots[i].itemImg);
-                    if (slotRect.Contains(Event.current.mousePosition))
-                    {
-                        tooltip = CreateTooltip(slots[i]);
-                        showTooltip = true;
-                        if (e.button == 0 && e.type == EventType.mouseDrag && !draggingItem)
-                        {
-                            draggingItem = true;
-                            prevIndex = i;
-                            draggedItem = slots[i];
-                            inventory[i] = new Item();
-                        }
-                        if (e.type == EventType.mouseUp && draggingItem)
-                        {
-                            inventory[prevIndex] = inventory[i];
-                            inventory[i] = draggedItem;
-                            draggingItem = false;
-                            draggedItem = null;
-                        }
-                        // right click in inventory
-                        if (e.isMouse && e.type == EventType.mouseDown && e.button == 1)
-                        {
-                            if (slots[i].itemType == Item.ItemType.Consumable)
-                            {
-                                UseConsumable(slots[i], i, true);
-                            }
-                        }
-                    }
-
-                }
-                else
-                {
-                    if (slotRect.Contains(Event.current.mousePosition))
-                    {
-                        if (e.type == EventType.mouseUp && draggingItem)
-                        {
-                            inventory[prevIndex] = inventory[i];
-                            inventory[i] = draggedItem;
-                            draggingItem = false;
-                        }
-                    }
-                }
-                if (tooltip == "")
-                {
-                    showTooltip = false;
-                }
-                i += 1;
-            }
+            draggingTitle = true;
+            boxX = Event.current.mousePosition.x - boxW/2;
+            boxY = Event.current.mousePosition.y - titleH/2;
         }
+        else
+        {
+            draggingTitle = false;
+        }
+        // Background
+        GUI.Box(new Rect(boxX, boxY, boxW, boxH), "", skin.GetStyle("Panel Brown"));
+        // Title
+        GUI.Box(new Rect(boxX, boxY, boxW, titleH), "", skin.GetStyle("Button Long Brown"));
+        // Equip Slots
+        slotButton.MatrixSlot(equipSlotX, equipSlotY, equipmentSlots, equipment, boxX+29, boxY+50, 60, 60);
+        // Inventory Slots
+        slotButton.MatrixSlot(slotsX, slotsY, slots, inventory, boxX + 29, boxY + 215, 60, 60);
+
     }
 
-    string CreateTooltip(Item item)
-    {
-        tooltip = "<color=#00ff00>" + item.itemName + "</color>\n" + item.itemDesc;
-        return tooltip;
-    }
 
-    void AddItem(int id)
+void AddItem(int id)
     {
         for (int i = 0; i < inventory.Count; i += 1)
         {
@@ -191,9 +168,9 @@ public class Inventory : MonoBehaviour {
 
     private void UseConsumable(Item item, int slot, bool deleteItem)
     {
-        switch(item.itemID)
+        switch (item.itemID)
         {
-        case 2:
+            case 2:
                 {
                     //PlayerStats.IncreaseStat(stat id, buff amount, turns);
                     break;
@@ -209,7 +186,7 @@ public class Inventory : MonoBehaviour {
     {
         for (int i = 0; i < inventory.Count; i += 1)
         {
-            PlayerPrefs.SetInt("Inventory " +  i, inventory[i].itemID);
+            PlayerPrefs.SetInt("Inventory " + i, inventory[i].itemID);
         }
     }
 
@@ -219,6 +196,6 @@ public class Inventory : MonoBehaviour {
         {
             inventory[i] = PlayerPrefs.GetInt("Inventory " + i, -1) >= 0 ? database.items[PlayerPrefs.GetInt("Inventory " + i)] : new Item();
         }
-            
+
     }
 }

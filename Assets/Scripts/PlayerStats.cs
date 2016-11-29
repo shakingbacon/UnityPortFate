@@ -40,7 +40,7 @@ public class PlayerStats : MonoBehaviour
         jobDatabase = GameObject.FindGameObjectWithTag("Job Database").GetComponent<JobDatabase>();
         for (int i = 0; i < jobDatabase.jobs.Count; i += 1)
         {
-            if (jobDatabase.jobs[i].jobID == 3)
+            if (jobDatabase.jobs[i].jobID == 0)
             {
                 job = jobDatabase.jobs[i];
                 break;
@@ -112,6 +112,16 @@ public class PlayerStats : MonoBehaviour
             }
         }
     }
+    public void ResetStat(int id, int amount)
+    {
+        for (int i = 0; i < stats.Count; i += 1)
+        {
+            if (stats[i].statID == id)
+            {
+                stats[i].buffedAmount = 0;
+            }
+        }
+    }
 
     public void HealHPFull()
     {
@@ -162,7 +172,7 @@ public class PlayerStats : MonoBehaviour
         }
         switch (job.jobID)
         {
-            case 3:// Freelancer Stat Updates
+            case 0:// Mage Stat Updates
                 {   // These are stats based off other stats
                     for (int i = 0; i < stats.Count; i += 1)
                     {
@@ -196,17 +206,17 @@ public class PlayerStats : MonoBehaviour
                             stats[i].statAmount = 15 + FindStatTotal(1) * 9 + FindStatTotal(16) * 10;
                             stats[i].totalAmount = stats[i].statAmount + stats[i].buffedAmount;
                         }
-                        if (stats[i].statID == 11) // Hit rate
+                        if (stats[i].statID == 12) // Hit rate
                         {
                             stats[i].statAmount = 90 + FindStatTotal(2) + FindStatTotal(3);
                             stats[i].totalAmount = stats[i].statAmount + stats[i].buffedAmount;
                         }
-                        if (stats[i].statID == 11) // Dodge rate
+                        if (stats[i].statID == 13) // Dodge rate
                         {
                             stats[i].statAmount = 1 + FindStatTotal(2) + FindStatTotal(3);
                             stats[i].totalAmount = stats[i].statAmount + stats[i].buffedAmount;
                         }
-                        if (stats[i].statID == 11) // Crit rate
+                        if (stats[i].statID == 14) // Crit rate
                         {
                             stats[i].statAmount = 3 + FindStatTotal(2) + FindStatTotal(3);
                             stats[i].totalAmount = stats[i].statAmount + stats[i].buffedAmount;

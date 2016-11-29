@@ -4,7 +4,7 @@ using System.Collections;
 [System.Serializable]
 public class Stat {
     public string statName;
-    public int statAmount;
+    public int statAmount; 
     public int buffedAmount;
     public int totalAmount;
     public int statID;
