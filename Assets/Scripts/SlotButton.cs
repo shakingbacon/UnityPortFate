@@ -7,16 +7,19 @@ public class SlotButton : MonoBehaviour {
     public bool showTooltip;
     public bool draggingItem;
     public Item draggedItem;
-
     private int prevIndex;
-
-
+    private List<Item> prevList;
     public string tooltip;
-
-
     public GUISkin skin;
-  
+    public PlayerStats playerStats;
+    public Inventory inventory;
+    public Equipment equipment;
 
+    void Start()
+    {
+        inventory = inventory.GetComponent<Inventory>();
+        equipment = equipment.GetComponent<Equipment>();
+    }
 
     public void MatrixSlot(float col, float row, List<Item> slots, List<Item> items, float x, float y, float xdis, float ydis)
     {
@@ -62,46 +65,54 @@ public class SlotButton : MonoBehaviour {
                     {
                         showTooltip = true;
                         CreateTooltip(slots[index]);
-                        // dragging item
+                        // lift up an item and drag
                         if (e.button == 0 && e.type == EventType.mouseDrag && !draggingItem)
                         {
                             draggingItem = true;
+                            prevList = items;
                             prevIndex = index;
                             draggedItem = slots[index];
                             items[index] = new Item();
-                        }
-                        if (e.type == EventType.mouseUp && draggingItem)
-                        {
-                            items[prevIndex] = items[index];
-                            items[index] = draggedItem;
-                            draggingItem = false;
-                            draggedItem = null;
                         }
                         // right click in inventory
                         if (e.isMouse && e.type == EventType.mouseDown && e.button == 1)
                         {
                             if (slots[index].itemType == Item.ItemType.Consumable)
                             {
-                                print("use consume");
-                                //UseConsumable(slots[i], i, true);
+                                UseConsumable(slots[index], index, true);
                             }
                         }
                     }
                 }
-                else
+                else // if slot has no item
                 {
-                    if (slotRect.Contains(Event.current.mousePosition))
-                    {
-                        if (e.type == EventType.mouseUp && draggingItem)
-                        {
-                            items[prevIndex] = items[index];
-                            items[index] = draggedItem;
-                            draggingItem = false;
-                        }
-                    }
                     if (tooltip == "")
                     {
                         showTooltip = false;
+                    }
+                }
+                // Let go of item
+                bool allowedToDrop = true;
+                if (slotRect.Contains(Event.current.mousePosition))
+                {
+                    if (e.type == EventType.mouseUp && draggingItem)
+                    {
+                        // EQUIPMENT CHECKERS
+                        if (items == equipment.equipment)
+                        {
+                            allowedToDrop = false;
+                            if (index == 0 && draggedItem.itemType == Item.ItemType.Weapon) // index 0 is weapon slot
+                            {
+                                allowedToDrop = true;
+                            }
+                        }
+                        if (allowedToDrop)
+                        {
+                            prevList[prevIndex] = items[index];
+                            items[index] = draggedItem;
+                            draggingItem = false;
+                            draggedItem = null;
+                        }
                     }
                 }
                 ////////////////////////////////////////////////////////////
@@ -114,9 +125,134 @@ public class SlotButton : MonoBehaviour {
         
     }
 
-    string CreateTooltip(Item item)
+    private void UseConsumable(Item item, int slot, bool deleteItem)
     {
-        tooltip = "<color=#00ff00>" + item.itemName + "</color>\n" + item.itemDesc;
+        switch (item.itemID)
+        {
+            case 1000:
+                {
+                    playerStats.HealHP(100);
+                    break;
+                }
+        }
+        /*
+        if (deleteItem)
+        {
+            inventory[slot] = new Item();
+        }*/
+    }
+
+    string CreateTooltip(Item item)
+    {   // NAME
+        tooltip = "<size=26><color=#000000>" + item.itemName + "</color></size>\n";
+        // ITEM TYPE
+        if (item.itemType == Item.ItemType.Accessory)
+        {
+            tooltip += "(<color=#FFABAB>" + item.itemType.ToString() + "</color>)\n";
+        }
+        else if (item.itemType == Item.ItemType.Armor)
+        {
+            if (item.armorType == Item.ArmorType.Head)
+            {
+                tooltip += "(<color=#3BCD58>" + item.armorType.ToString() + "</color>)\n";
+            }
+            else if (item.armorType == Item.ArmorType.Body)
+            {
+                tooltip += "(<color=#F7CA34>" + item.armorType.ToString() + "</color>)\n";
+            }
+            else if (item.armorType == Item.ArmorType.Bottom)
+            {
+                tooltip += "(<color=#F78F34>" + item.armorType.ToString() + "</color>)\n";
+            }
+            else if (item.armorType == Item.ArmorType.Left)
+            {
+                tooltip += "(<color=#55B600>" + item.armorType.ToString() + "</color>)\n";
+            }
+        }
+        else if (item.itemType == Item.ItemType.Weapon)
+        {
+            if (item.weaponType == Item.WeaponType.Sword)
+            {
+                tooltip += "(<color=#FF0000>" + item.weaponType.ToString() + "</color>)\n";
+            }
+            else if (item.weaponType == Item.WeaponType.Axe)
+            {
+                tooltip += "(<color=#0000CB>" + item.weaponType.ToString() + "</color>)\n";
+            }
+            else if (item.weaponType == Item.WeaponType.Dagger)
+            {
+                tooltip += "(<color=#8B00A1>" + item.weaponType.ToString() + "</color>)\n";
+            }
+            else if (item.weaponType == Item.WeaponType.Shuriken)
+            {
+                tooltip += "(<color=#900000>" + item.weaponType.ToString() + "</color>)\n";
+            }
+            else if (item.weaponType == Item.WeaponType.Wand)
+            {
+                tooltip += "(<color=#914800>" + item.weaponType.ToString() + "</color>)\n";
+            }
+            else if (item.weaponType == Item.WeaponType.Staff)
+            {
+                tooltip += "(<color=#463811>" + item.weaponType.ToString() + "</color>)\n";
+
+            }
+        }
+        else if (item.itemType == Item.ItemType.Consumable)
+        {
+            tooltip += "(<color=#81CAE1>" + item.itemType.ToString() + "</color>)\n";
+        }
+        // COST
+        tooltip += "<color=#ECF32A>COST: $" + item.itemCost.ToString() + "</color>\n";
+        // DESCRIPTION
+        tooltip += item.itemDesc + "\n";
+        // BONUS STATS
+        List<int> values = new List<int>
+            (new int[] {item.itemBonusStr, item.itemBonusInt, item.itemBonusAgi, item.itemBonusLuk,
+            item.itemBonusHP, item.itemBonusMP, item.itemBonusAtk, item.itemBonusMAtk,
+            item.itemBonusDef, item.itemBonusResist,
+            item.itemBonusHit, item.itemBonusDodge, item.itemBonusCrit, item.itemBonusCritMulti });
+        List<string> desc = new List<string>
+            (new string[] {"<color=#C40D0D>STR: " , "<color=#0000FF>INT: ", "<color=#00FF00>AGI: ",
+                "<color=#F3F335>LUK: ", "<color=#F00000>HP: ", "<color=#2BF2F2>MP: ",
+                "<color=#EC2E2E>ATK: ", "<color=#2200FF>MATK: ", "<color=#FFB811>DEF: ",
+            "<color=#04007F>RES: ", "<color=#2EEC61>HIT: ", "<color=#2EED8E>DODGE: ",
+                "<color=#2EEDED>CRIT: ", "<color=#DEAB71>CRITMULTI: "});
+        for (int i = 0; i < values.Count; i+=2){
+            string string1 = "";
+            string string2 = "";
+            if (values[i] != 0)
+            {
+                if (values[i] > 0)
+                {
+                    string1 = desc[i] + "+" + values[i].ToString() + "</color>    ";
+                }
+                else
+                {
+                    string1 = desc[i] + values[i].ToString()+ "</color>    ";
+                }
+            }
+            if (values[i+1] != 0)
+            {
+                if (values[i+1] > 0)
+                {
+                    string2 = desc[i + 1] + "+" + values[i + 1].ToString() + "</color>";
+                }
+                else
+                {
+                    string2 = desc[i + 1] + values[i + 1].ToString() + "</color>";
+                }
+            }
+            if (string1 != "" && string2 != "")
+            {
+                tooltip += string1 + string2 + "\n";
+            } else if (string1 != "" && string2 == "")
+            {
+                tooltip += string1 + "\n";
+            } else if (string1 == "" && string2 != "")
+            {
+                tooltip += string2 + "\n";
+            }
+        }
         return tooltip;
     }
 }

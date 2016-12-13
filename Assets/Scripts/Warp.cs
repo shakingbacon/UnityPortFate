@@ -3,12 +3,12 @@ using System.Collections;
 
 public class Warp : MonoBehaviour {
 
-    public Transform warpTarget;
+    public Transform goToTarget;
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        other.gameObject.transform.position = warpTarget.position;
-        Camera.main.transform.position = warpTarget.position;
+        other.gameObject.transform.position = goToTarget.position;
+        Camera.main.transform.position = goToTarget.position;
 
     }
 }

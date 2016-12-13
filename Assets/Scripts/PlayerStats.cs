@@ -58,6 +58,19 @@ public class PlayerStats : MonoBehaviour
     {
     }
 
+    public Stat FindStat(int id)
+    {
+        Stat stat = stats[0];
+        for (int i = 0; i < stats.Count; i += 1)
+        {
+            if (stats[i].statID == id)
+            {
+                stat = stats[i];
+            }
+        }
+        return stat;
+    }
+
     public int FindStatTotal(int id)
     {
         for (int i = 0; i < stats.Count; i += 1)
@@ -123,6 +136,34 @@ public class PlayerStats : MonoBehaviour
         }
     }
 
+    public void HealHP(int amount)
+    {
+        for (int i = 0; i < stats.Count; i += 1)
+        {
+            if (stats[i].statID == 4)
+            {
+                for (int j = 0; j < stats.Count; j += 1)
+                {
+                    if (stats[j].statID == 5)
+                    {
+                        if (stats[i].statAmount + amount > stats[j].totalAmount)
+                        {
+                            stats[i].statAmount = stats[j].totalAmount;
+                        }
+                        else
+                        {
+                            stats[i].statAmount += amount;
+                        }
+                        break;
+                    }
+
+                }
+                break;
+            }
+        }
+        StatsUpdate();
+        
+    }
     public void HealHPFull()
     {
         int hp = 0;
@@ -131,6 +172,7 @@ public class PlayerStats : MonoBehaviour
             if (stats[i].statID == 5)
             {
                 hp = stats[i].totalAmount;
+                break;
             }
         }
         for (int i = 0; i < stats.Count; i += 1)
@@ -139,6 +181,7 @@ public class PlayerStats : MonoBehaviour
             {
 
                 stats[i].statAmount = hp;
+                break;
             }
         }
     }
@@ -150,6 +193,7 @@ public class PlayerStats : MonoBehaviour
             if (stats[i].statID == 7)
             {
                 mp = stats[i].totalAmount;
+                break;
             }
         }
         for (int i = 0; i < stats.Count; i += 1)
@@ -158,6 +202,7 @@ public class PlayerStats : MonoBehaviour
             {
 
                 stats[i].statAmount = mp;
+                break;
             }
         }
     }
