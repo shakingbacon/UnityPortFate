@@ -7,6 +7,8 @@ public class ItemDatabase : MonoBehaviour {
     // Use this for initialization
     void Start() {
         // int bstr, int bint, int bagi, int bluk, int bhp, int bmp, int batk, int bmatk, int bdef, int bresist, int bhit, int bdodge, int bcrit, int bcritmulti, int cost
+        // Mage #1000, Rouge #2000, Warrior #3000, Consumables 9000, Accessories 9100
+        // Weapons 0-49/50-99, Head 100, Body 200, Bottom 300, Hands 400, Boots 500, Shield 600
         //// Weapons
         // Swords
         items.Add(new Item("Inner", 0, "Strong base but weak tip", 3,0,0,0, 15,0, 0,0, 0,0, -12,0,0,0, 200, Item.ItemType.Weapon, Item.WeaponType.Sword));
@@ -31,16 +33,6 @@ public class ItemDatabase : MonoBehaviour {
         items.Add(new Item("Bamboo Shuriken", 151, "Harder but still lightweight", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 200, Item.ItemType.Weapon, Item.WeaponType.Shuriken));
         items.Add(new Item("Metal Shuriken", 152, "Stronger but heavier", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 200, Item.ItemType.Weapon, Item.WeaponType.Shuriken));
         items.Add(new Item("Jade Shuriken", 153, "Crafted with Jade Dragon Stone. Posseses magical powers", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1500, Item.ItemType.Weapon, Item.WeaponType.Shuriken));
-        // Wands
-        items.Add(new Item("Wooden Wand", 200, "Wand made from wood", 0, 3, 0, 0, 0, 75, 15, 40, 0, 0, 0, 0, 0, 0, 200, Item.ItemType.Weapon, Item.WeaponType.Wand));
-        items.Add(new Item("Magic Wand", 201, "A wand powered up by magic", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 200, Item.ItemType.Weapon, Item.WeaponType.Wand));
-        items.Add(new Item("Star Wand", 202, "A wand blessed by the stars", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 200, Item.ItemType.Weapon, Item.WeaponType.Wand));
-        items.Add(new Item("Elemental Wand", 203, "Imbued with all elemenets", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 200, Item.ItemType.Weapon, Item.WeaponType.Wand));
-        // Staffs
-        items.Add(new Item("Wooden Staff", 250, "A staff made from wood", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 200, Item.ItemType.Weapon, Item.WeaponType.Staff));
-        items.Add(new Item("Magic Staff", 251, "Magic powered staff", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 200, Item.ItemType.Weapon, Item.WeaponType.Staff));
-        items.Add(new Item("Star Staff", 252, "Stronger staff with powers of the stars", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 200, Item.ItemType.Weapon, Item.WeaponType.Staff));
-        items.Add(new Item("Elemental Staff", 253, "Strong, magical staff with powers of all elemenets", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 200, Item.ItemType.Weapon, Item.WeaponType.Staff));
         ////// Armors
         // Body
         items.Add(new Item("Bronze Armor", 300, "Basic armor for warriors", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 200, Item.ItemType.Armor, Item.ArmorType.Body));
@@ -48,12 +40,38 @@ public class ItemDatabase : MonoBehaviour {
         items.Add(new Item("Steel Armor", 302, "Advance armor that is very durable", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 200, Item.ItemType.Armor, Item.ArmorType.Body));
         items.Add(new Item("Diamond Armor", 303, "The strongest armor made from diamonds", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 200, Item.ItemType.Armor, Item.ArmorType.Body));
         items.Add(new Item("Leather Robe", 304, "A simple robe made from cloth", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 200, Item.ItemType.Armor, Item.ArmorType.Body));
-        // Consumables
-        items.Add(new Item("Health Potion", 1000, "Restore 100 HP", 25, Item.ItemType.Consumable));
-        items.Add(new Item("Mana Potion", 1001, "Restore some MP", 25, Item.ItemType.Consumable));
-        items.Add(new Item("Purple Potion", 1002, "Restore a little bit of HP and MP", 40, Item.ItemType.Consumable));
-        // Accessories
-        items.Add(new Item("Power Necklace", 2100, "A necklace that stregthens your power", 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 200, Item.ItemType.Accessory));
+        //// Mage
+        // Wands
+        items.Add(new Item("Wooden Wand", 1000, "Wand made from wood", 0, 3, 0, 0, 0, 75, 15, 40, 0, 0, 0, 0, 0, 0, 200, Item.ItemType.Weapon, Item.WeaponType.Wand));
+        items.Add(new Item("Magic Wand", 1001, "A wand powered up by magic", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 200, Item.ItemType.Weapon, Item.WeaponType.Wand));
+        items.Add(new Item("Star Wand", 1002, "A wand blessed by the stars", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 200, Item.ItemType.Weapon, Item.WeaponType.Wand));
+        items.Add(new Item("Elemental Wand", 1003, "Imbued with all elemenets", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 200, Item.ItemType.Weapon, Item.WeaponType.Wand));
+        // Staffs
+        items.Add(new Item("Wooden Staff", 1050, "A staff made from wood", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 200, Item.ItemType.Weapon, Item.WeaponType.Staff));
+        items.Add(new Item("Magic Staff", 1051, "Magic powered staff", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 200, Item.ItemType.Weapon, Item.WeaponType.Staff));
+        items.Add(new Item("Star Staff", 1052, "Stronger staff with powers of the stars", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 200, Item.ItemType.Weapon, Item.WeaponType.Staff));
+        items.Add(new Item("Elemental Staff", 1053, "Strong, magical staff with powers of all elemenets", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 200, Item.ItemType.Weapon, Item.WeaponType.Staff));
+        // Head
+        items.Add(new Item("Mage Hat", 1100, "A blue, mage hat", 0, 5, 0, 2, 0, 120, 0, 0, 10, 25, 0, 0, 0, 0, 350, Item.ItemType.Armor, Item.ArmorType.Head));
+        // Body
+        items.Add(new Item("Mage Robe", 1200, "A comfortable rob with mage", 0, 2, 0, 3, 0, 200, 0, 10, 15, 15, 0, 0, 0, 0, 450, Item.ItemType.Armor, Item.ArmorType.Body));
+        // Bottom
+        items.Add(new Item("Mage Longskirt", 1300, "Feel the power of magic arise", 0, 3, 4, 0, 0, 80, 0, 0, 16, 20, 0, 0, 0, 0, 300, Item.ItemType.Armor, Item.ArmorType.Bottom));
+        // Hands
+        items.Add(new Item("Mana Gloves", 1400, "Carry mana in the palm of your hands", 0, 1, 0, 1, 0, 400, 0, 0, 8, 10, 0, 0, 0, 0, 500, Item.ItemType.Armor, Item.ArmorType.Hands));
+        // Boots
+        items.Add(new Item("Mana Boots", 1500, "Mana while running", 0, 1, 0, 1, 0, 400, 0, 0, 8, 10, 0, 0, 0, 0, 500, Item.ItemType.Armor, Item.ArmorType.Boots));
+        // Shield
+        items.Add(new Item("Mana Shield", 1600, "A shield powered by mana", 0, 2, -2, -1, 0, 400, 0, 0, 25, 35, -5, -5, 0, 0, 750, Item.ItemType.Armor, Item.ArmorType.Shield));
 
+        // Consumables
+        items.Add(new Item("Health Potion", 9000, "Restore 100 HP", 25, Item.ItemType.Consumable));
+        items.Add(new Item("Mana Potion", 9001, "Restore 150 MP", 25, Item.ItemType.Consumable));
+        items.Add(new Item("Purple Potion", 9002, "Restore a little bit of HP and MP", 40, Item.ItemType.Consumable));
+        // Accessories
+        items.Add(new Item("Strength Necklace", 9100, "A necklace that increases your STR", 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1000, Item.ItemType.Accessory));
+        items.Add(new Item("Intelligence Necklace", 9101, "A necklace that increases your INT", 0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1000, Item.ItemType.Accessory));
+        items.Add(new Item("Agility Necklace", 9102, "A necklace that increases your AGI", 0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1000, Item.ItemType.Accessory));
+        items.Add(new Item("Luck Necklace", 9103, "A necklace that increases your LUK", 0, 0, 0, 12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1000, Item.ItemType.Accessory));
     }
 }

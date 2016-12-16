@@ -32,17 +32,19 @@ public class Inventory : MonoBehaviour
         database = GameObject.FindGameObjectWithTag("Item Database").GetComponent<ItemDatabase>();
         equipment = equipment.GetComponent<Equipment>();
         //equipment.equipment[0] = database.items[2];
-        AddItem(0);
-        AddItem(1);
-        AddItem(51);
-        AddItem(102);
         AddItem(1000);
-        AddItem(2100);
-        AddItem(300);
-        AddItem(250);
-        AddItem(200);
-        AddItem(151);
-        
+        AddItem(1100);
+        AddItem(1200);
+        AddItem(1300);
+        AddItem(1400);
+        AddItem(1500);
+        AddItem(1600);
+        AddItem(9100);
+        AddItem(9101);
+        AddItem(9102);
+        AddItem(9103);
+
+
         //bool test = inventory.Exists(Item => Item == getItem(200));
         //print(test);
     }
@@ -74,25 +76,31 @@ public class Inventory : MonoBehaviour
         if (slotButton.showTooltip && !equipment.showingEquipTool)
         {
             showingInvTool = true;
-            if (Event.current.mousePosition.x + 290 > Screen.width && Event.current.mousePosition.y + 110 + slotButton.tooltip.Length * 0.46f > Screen.height)
+            float toolX = Event.current.mousePosition.x;
+            float toolY = Event.current.mousePosition.y;
+            float toolW = 290;
+            float toolH = 115 + slotButton.tooltip.Length * 0.61f;
+            // goes past bottom and right
+            if (toolX + toolW > Screen.width && toolY + toolH > Screen.height)
+            {   
+                GUI.Box(new Rect(Screen.width - toolW, Screen.height - toolH, toolW, toolH), slotButton.tooltip, skin.GetStyle("Tooltip"));
+            }
+            // goes past right
+            else if(toolX + toolW  > Screen.width)
+            {   
+                GUI.Box(new Rect(Screen.width - toolW, toolY, toolW, toolH), slotButton.tooltip, skin.GetStyle("Tooltip"));
+            }
+            // goes past bottom
+            else if (toolY + toolH > Screen.height)
             {
-                GUI.Box(new Rect(Screen.width - 290, Screen.height - 110 - slotButton.tooltip.Length * 0.46f,
-                    290, 110 + slotButton.tooltip.Length * 0.46f), slotButton.tooltip, skin.GetStyle("Tooltip"));
-            } else if(Event.current.mousePosition.x + 290 > Screen.width)
-            {
-                GUI.Box(new Rect(Screen.width - 290, Event.current.mousePosition.y,
-                290, 110 + slotButton.tooltip.Length * 0.46f), slotButton.tooltip, skin.GetStyle("Tooltip"));
-            } else if (Event.current.mousePosition.y + 110 + slotButton.tooltip.Length * 0.46f > Screen.height)
-            {
-                GUI.Box(new Rect(Event.current.mousePosition.x, Screen.height - 110 - slotButton.tooltip.Length * 0.46f,
-                290, 110 + slotButton.tooltip.Length * 0.46f), slotButton.tooltip, skin.GetStyle("Tooltip"));
+                GUI.Box(new Rect(toolX, Screen.height - toolH, toolW, toolH), slotButton.tooltip, skin.GetStyle("Tooltip"));
             }
             else
             {
-                GUI.Box(new Rect(Event.current.mousePosition.x, Event.current.mousePosition.y,
-                    290, 110 + slotButton.tooltip.Length * 0.46f), slotButton.tooltip, skin.GetStyle("Tooltip"));
+                GUI.Box(new Rect(toolX, toolY, toolW, toolH), slotButton.tooltip, skin.GetStyle("Tooltip"));
             }
-        }else
+        }
+        else
         {
             showingInvTool = false;
         }
@@ -123,7 +131,6 @@ public class Inventory : MonoBehaviour
         GUI.Box(new Rect(boxX, boxY, boxW, titleH), "", skin.GetStyle("Button Long Brown"));
         // Inventory Slots
         slotButton.MatrixSlot(slotsX, slotsY, slots, inventory, boxX + 32, boxY + 65, 67, 67);
-
     }
 
 

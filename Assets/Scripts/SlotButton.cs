@@ -105,6 +105,42 @@ public class SlotButton : MonoBehaviour {
                             {
                                 allowedToDrop = true;
                             }
+                            else if (index == 1 && draggedItem.armorType == Item.ArmorType.Hands) // index 1 is Hands slot
+                            {
+                                allowedToDrop = true;
+                            }
+                            else if (index == 2 && draggedItem.armorType == Item.ArmorType.Shield) // index 2 is shield slot
+                            {
+                                allowedToDrop = true;
+                            }
+                            else if (index == 3 && draggedItem.itemType == Item.ItemType.Accessory) // index 3 is acc slot
+                            {
+                                allowedToDrop = true;
+                            }
+                            else if (index == 4 && draggedItem.itemType == Item.ItemType.Accessory) // index 4 is acc slot
+                            {
+                                allowedToDrop = true;
+                            }
+                            else if (index == 5 && draggedItem.armorType == Item.ArmorType.Head) // index 5 is Head slot
+                            {
+                                allowedToDrop = true;
+                            }
+                            else if (index == 6 && draggedItem.armorType == Item.ArmorType.Body) // index 6 is Body slot
+                            {
+                                allowedToDrop = true;
+                            }
+                            else if (index == 7 && draggedItem.armorType == Item.ArmorType.Bottom) // index 7 is Bottom slot
+                            {
+                                allowedToDrop = true;
+                            }
+                            else if (index == 8 && draggedItem.armorType == Item.ArmorType.Boots) // index 8 is Boots slot
+                            {
+                                allowedToDrop = true;
+                            }
+                            else if (index == 9 && draggedItem.itemType == Item.ItemType.Accessory) // index 9 is Acc slot
+                            {
+                                allowedToDrop = true;
+                            }
                         }
                         if (allowedToDrop)
                         {
@@ -164,9 +200,17 @@ public class SlotButton : MonoBehaviour {
             {
                 tooltip += "(<color=#F78F34>" + item.armorType.ToString() + "</color>)\n";
             }
-            else if (item.armorType == Item.ArmorType.Left)
+            else if (item.armorType == Item.ArmorType.Shield)
             {
-                tooltip += "(<color=#55B600>" + item.armorType.ToString() + "</color>)\n";
+                tooltip += "(<color=#E57E18>" + item.armorType.ToString() + "</color>)\n";
+            }
+            else if (item.armorType == Item.ArmorType.Boots)
+            {
+                tooltip += "(<color=#FF8000>" + item.armorType.ToString() + "</color>)\n";
+            }
+            else if (item.armorType == Item.ArmorType.Hands)
+            {
+                tooltip += "(<color=#18E418>" + item.armorType.ToString() + "</color>)\n";
             }
         }
         else if (item.itemType == Item.ItemType.Weapon)

@@ -48,8 +48,10 @@ public class Item {
     {
         Head,
         Body,
-        Left,
+        Shield,
+        Hands,
         Bottom,
+        Boots,
         None
     }
 

@@ -96,10 +96,11 @@ public class Equipment : MonoBehaviour {
         GUI.Box(new Rect(boxX, boxY, boxW, titleH), "", skin.GetStyle("Button Long Brown"));
         // Character 
         GUI.Box(new Rect(boxX, boxY+60, 150, boxH), Resources.Load<Texture2D>("Equip Char"));
+        /*
         if (equipment[7].itemID != -1)
         {
             GUI.DrawTexture(new Rect(boxX + 60, boxY + 190, 67, 67), Resources.Load<Texture2D>("Item Icons/" + equipment[7].itemName));
-        }
+        }*/
         // Slot
         slotButton.MatrixSlot(equipSlotX, equipSlotY, equipmentSlots, equipment, boxX + 160, boxY + 65, 67, 67);
         
