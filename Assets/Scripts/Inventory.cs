@@ -7,15 +7,15 @@ public class Inventory : MonoBehaviour
     public float slotsX, slotsY, boxX, boxY, boxW, boxH, titleH;
     public GUISkin skin;
     public List<Item> inventory = new List<Item>();
-    public List<Item> slots = new List<Item>();
     //
     public PlayerStats playerStats;
     private ItemDatabase database;
     public SlotButton slotButton;
     public Equipment equipment;
+    public Tooltip tooltip;
+    public Shop shop;
     //
     private bool showInventory;
-    private bool mouseIsDown = false;
     public bool draggingInv;
     public bool showingInvTool;
     // Use this for initialization
@@ -23,7 +23,6 @@ public class Inventory : MonoBehaviour
     {
         for (int i = 0; i < (slotsX * slotsY); i += 1)
         {
-            slots.Add(new Item());
             inventory.Add(new Item());
         }
 
@@ -31,10 +30,13 @@ public class Inventory : MonoBehaviour
         slotButton = slotButton.GetComponent<SlotButton>();
         database = GameObject.FindGameObjectWithTag("Item Database").GetComponent<ItemDatabase>();
         equipment = equipment.GetComponent<Equipment>();
+        tooltip = tooltip.GetComponent<Tooltip>();
+        shop = shop.GetComponent<Shop>();
         //equipment.equipment[0] = database.items[2];
         AddItem(1000);
+        AddItem(1001);
         AddItem(1100);
-        AddItem(1200);
+        AddItem(1201);
         AddItem(1300);
         AddItem(1400);
         AddItem(1500);
@@ -64,6 +66,7 @@ public class Inventory : MonoBehaviour
         if (showInventory)
         {
             DrawInventory();
+            /*
             if (GUI.Button(new Rect(40, 400, 100, 40), "Save"))
             {
                 SaveInventory();
@@ -71,34 +74,12 @@ public class Inventory : MonoBehaviour
             if (GUI.Button(new Rect(150, 400, 100, 40), "Load"))
             {
                 LoadInventory();
-            }
+            }*/
         }
-        if (slotButton.showTooltip && !equipment.showingEquipTool)
+        if (slotButton.showTooltip && !equipment.showingEquipTool && !shop.showingShopTool)
         {
             showingInvTool = true;
-            float toolX = Event.current.mousePosition.x;
-            float toolY = Event.current.mousePosition.y;
-            float toolW = 290;
-            float toolH = 115 + slotButton.tooltip.Length * 0.61f;
-            // goes past bottom and right
-            if (toolX + toolW > Screen.width && toolY + toolH > Screen.height)
-            {   
-                GUI.Box(new Rect(Screen.width - toolW, Screen.height - toolH, toolW, toolH), slotButton.tooltip, skin.GetStyle("Tooltip"));
-            }
-            // goes past right
-            else if(toolX + toolW  > Screen.width)
-            {   
-                GUI.Box(new Rect(Screen.width - toolW, toolY, toolW, toolH), slotButton.tooltip, skin.GetStyle("Tooltip"));
-            }
-            // goes past bottom
-            else if (toolY + toolH > Screen.height)
-            {
-                GUI.Box(new Rect(toolX, Screen.height - toolH, toolW, toolH), slotButton.tooltip, skin.GetStyle("Tooltip"));
-            }
-            else
-            {
-                GUI.Box(new Rect(toolX, toolY, toolW, toolH), slotButton.tooltip, skin.GetStyle("Tooltip"));
-            }
+            tooltip.DrawTooltip();
         }
         else
         {
@@ -115,7 +96,7 @@ public class Inventory : MonoBehaviour
     {
         Event e = Event.current;
         // title drag
-        if (!equipment.draggingEquip && e.button == 0 && new Rect(boxX, boxY, boxW, titleH).Contains(Event.current.mousePosition) && e.type == EventType.mouseDrag) // title drag
+        if (!equipment.draggingEquip && !slotButton.draggingItem && new Rect(boxX, boxY, boxW, titleH).Contains(Event.current.mousePosition) && e.type == EventType.mouseDrag) // title drag
         {
             draggingInv = true;
             boxX = Event.current.mousePosition.x - boxW/2;
@@ -128,9 +109,9 @@ public class Inventory : MonoBehaviour
         // Background
         GUI.Box(new Rect(boxX, boxY, boxW, boxH), "", skin.GetStyle("Panel Brown"));
         // Title
-        GUI.Box(new Rect(boxX, boxY, boxW, titleH), "", skin.GetStyle("Button Long Brown"));
+        GUI.Box(new Rect(boxX, boxY, boxW, titleH), "Inventory", skin.GetStyle("Button Long Brown"));
         // Inventory Slots
-        slotButton.MatrixSlot(slotsX, slotsY, slots, inventory, boxX + 32, boxY + 65, 67, 67);
+        slotButton.MatrixSlot(slotsX, slotsY, inventory, boxX + 32, boxY + 65, 67, 67);
     }
 
 

@@ -9,7 +9,6 @@ public class PlayerStats : MonoBehaviour
     public List<Stat> stats = new List<Stat>();
 
 
-
     void Start()
     {
         stats.Add(new Stat("Str", 0, 3));
@@ -34,8 +33,6 @@ public class PlayerStats : MonoBehaviour
         stats.Add(new Stat("EXP", 19));
         stats.Add(new Stat("Max EXP", 20));
         stats.Add(new Stat("Cash", 21, 100));
-
-            
 
         jobDatabase = GameObject.FindGameObjectWithTag("Job Database").GetComponent<JobDatabase>();
         for (int i = 0; i < jobDatabase.jobs.Count; i += 1)
@@ -271,4 +268,41 @@ public class PlayerStats : MonoBehaviour
                 }
         }
     }
+    public string makeStatsPage()
+    {
+        string text = "";
+        string lv = "LV: " + FindStat(16).totalAmount;
+        string strength = string.Format("<color=#C40D0D>Strength: {0} + {1} = {2}</color>\n", FindStat(0).statAmount, FindStat(0).buffedAmount, FindStat(0).totalAmount);
+        text += strength;
+        string intel = string.Format("<color=#0000FF>Intelligence: {0} + {1} = {2}</color>\n", FindStat(1).statAmount, FindStat(1).buffedAmount, FindStat(1).totalAmount);
+        text += intel;
+        string agi = string.Format("<color=#00FF00>Agility: {0} + {1} = {2}</color>\n", FindStat(2).statAmount, FindStat(2).buffedAmount, FindStat(2).totalAmount);
+        text += agi;
+        string luk = string.Format("<color=#F3F335>Luck: {0} + {1} = {2}</color>\n", FindStat(3).statAmount, FindStat(3).buffedAmount, FindStat(3).totalAmount);
+        text += luk;
+        string hp = string.Format("<color=#F00000>Max HP: {0} + {1} = {2}</color>\n", FindStat(5).statAmount, FindStat(5).buffedAmount, FindStat(5).totalAmount);
+        text += hp;
+        string mp = string.Format("<color=#2BF2F2>Max MP: {0} + {1} = {2}</color>\n", FindStat(7).statAmount, FindStat(7).buffedAmount, FindStat(7).totalAmount);
+        text += mp;
+        string atk = string.Format("<color=#EC2E2F>Physical Atk: {0} + {1} = {2}</color>\n", FindStat(8).statAmount, FindStat(8).buffedAmount, FindStat(8).totalAmount);
+        text += atk;
+        string matk = string.Format("<color=#2200FF>Magical Atk: {0} + {1} = {2}</color>\n", FindStat(9).statAmount, FindStat(9).buffedAmount, FindStat(9).totalAmount);
+        text += matk;
+        string def = string.Format("<color=#FFB811>Defense: {0} + {1} = {2}</color>\n", FindStat(10).statAmount, FindStat(10).buffedAmount, FindStat(10).totalAmount);
+        text += def;
+        string res = string.Format("<color=#04007F>Resist: {0} + {1} = {2}</color>\n", FindStat(11).statAmount, FindStat(11).buffedAmount, FindStat(11).totalAmount);
+        text += res;
+        string hit = string.Format("<color=#2EEC61>Hit Chance: {0} + {1} = {2}</color>\n", FindStat(12).statAmount, FindStat(12).buffedAmount, FindStat(12).totalAmount);
+        text += hit;
+        string dodge = string.Format("<color=#2EED8E>Dodge Chance: {0} + {1} = {2}</color>\n", FindStat(13).statAmount, FindStat(13).buffedAmount, FindStat(13).totalAmount);
+        text += dodge;
+        string crit = string.Format("<color=#2EEDED>Crit Chance: {0} + {1} = {2}</color>\n", FindStat(14).statAmount, FindStat(14).buffedAmount, FindStat(14).totalAmount);
+        text += crit;
+        string multi = string.Format("<color=#DEAB71>Crit Multi: {0} + {1} = {2}</color>\n", FindStat(15).statAmount, FindStat(15).buffedAmount, FindStat(15).totalAmount);
+        text += multi;
+        string exp = string.Format("<color=#F3F335>Experience: {0} / {1}</color>\n", FindStat(19).totalAmount, FindStat(20).totalAmount);
+        text += exp;
+        return text;
+    }
 }
+

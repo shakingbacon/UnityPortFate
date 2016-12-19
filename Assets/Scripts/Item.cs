@@ -32,7 +32,8 @@ public class Item {
         Weapon,
         Armor,
         Accessory,
-        Consumable
+        Consumable,
+        None
     }
     public enum WeaponType
     {
@@ -57,8 +58,8 @@ public class Item {
 
     // Weapon Item
     public Item(string name, int id, string desc,
-        int bstr, int bint, int bagi, int bluk, int bhp, int bmp, int batk, int bmatk, int bdef, int bresist, int bhit, int bdodge, int bcrit, int bcritmulti, int cost,
-        ItemType type, WeaponType weapon)
+        int bstr, int bint, int bagi, int bluk, int bhp, int bmp, int batk, int bmatk, int bdef, int bresist, int bhit, int bdodge, int bcrit, int bcritmulti, int cost, 
+        WeaponType weapon)
     {
         itemName = name;
         itemID = id;
@@ -79,7 +80,7 @@ public class Item {
         itemBonusCrit = bcrit;
         itemBonusCritMulti = bcritmulti;
         itemCost = cost;
-        itemType = type;
+        itemType = ItemType.Weapon;
         weaponType = weapon;
         armorType = ArmorType.None;
 
@@ -87,8 +88,7 @@ public class Item {
     }
     // Armor Item
     public Item(string name, int id, string desc,
-        int bstr, int bint, int bagi, int bluk, int bhp, int bmp, int batk, int bmatk, int bdef, int bresist, int bhit, int bdodge, int bcrit, int bcritmulti, int cost,
-        ItemType type, ArmorType armor)
+        int bstr, int bint, int bagi, int bluk, int bhp, int bmp, int batk, int bmatk, int bdef, int bresist, int bhit, int bdodge, int bcrit, int bcritmulti, int cost, ArmorType armor)
     {
         itemName = name;
         itemID = id;
@@ -109,14 +109,15 @@ public class Item {
         itemBonusCrit = bcrit;
         itemBonusCritMulti = bcritmulti;
         itemCost = cost;
-        itemType = type;
+        itemType = ItemType.Armor;
         weaponType = WeaponType.None;
         armorType = armor;
     }
 
     // Accessories
     public Item(string name, int id, string desc, 
-                int bstr, int bint, int bagi, int bluk, int bhp, int bmp, int batk, int bmatk, int bdef, int bresist, int bhit, int bdodge, int bcrit, int bcritmulti, int cost, ItemType type)
+                int bstr, int bint, int bagi, int bluk, int bhp, int bmp, int batk, int bmatk, int bdef, int bresist, int bhit, int bdodge, int bcrit, int bcritmulti, 
+                int cost, ItemType type)
     {
         itemName = name;
         itemID = id;
@@ -157,5 +158,9 @@ public class Item {
     public Item()
     {
         itemID = -1;
+        itemType = ItemType.None;
+        weaponType = WeaponType.None;
+        armorType = ArmorType.None;
+        
     }
 }

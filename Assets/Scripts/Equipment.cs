@@ -3,28 +3,43 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class Equipment : MonoBehaviour {
-    public float boxX, boxY, boxW,boxH, equipSlotX, equipSlotY, titleH;
+    public float boxX, boxY, boxW,boxH, equipSlotX, equipSlotY, titleH, statButtonW, statButtonH,
+        statBoxW, statBoxH;
     public GUISkin skin;
     public List<Item> equipment = new List<Item>();
-    public List<Item> equipmentSlots = new List<Item>();
+    public List<Texture2D> defaultImage = new List<Texture2D>();
     //
     public PlayerStats playerStats;
     public SlotButton slotButton;
-    private ItemDatabase database;
+    public Tooltip tooltip;
+    //private ItemDatabase database;
     public Inventory inventory;
     // 
     public bool draggingEquip;
     public bool showingEquipTool;
     private bool showEquipment;
+    private bool showStats;
     void Start () {
         for (int i = 0; i < (equipSlotX * equipSlotY); i += 1)
         {
-            equipmentSlots.Add(new Item());
             equipment.Add(new Item());
         }
+        // show the picture that shows where to equip
+        defaultImage.Add(Resources.Load<Texture2D>("Default Equip/Weapon"));
+        defaultImage.Add(Resources.Load<Texture2D>("Default Equip/Hands"));
+        defaultImage.Add(Resources.Load<Texture2D>("Default Equip/Shield"));
+        defaultImage.Add(Resources.Load<Texture2D>("Default Equip/Accessory"));
+        defaultImage.Add(Resources.Load<Texture2D>("Default Equip/Accessory"));
+        defaultImage.Add(Resources.Load<Texture2D>("Default Equip/Head"));
+        defaultImage.Add(Resources.Load<Texture2D>("Default Equip/Body"));
+        defaultImage.Add(Resources.Load<Texture2D>("Default Equip/Bottom"));
+        defaultImage.Add(Resources.Load<Texture2D>("Default Equip/Boots"));
+        defaultImage.Add(Resources.Load<Texture2D>("Default Equip/Accessory"));
+        //
         playerStats = playerStats.GetComponent<PlayerStats>();
         slotButton = slotButton.GetComponent<SlotButton>();
-        database = GameObject.FindGameObjectWithTag("Item Database").GetComponent<ItemDatabase>();
+        tooltip = tooltip.GetComponent<Tooltip>();
+        //database = GameObject.FindGameObjectWithTag("Item Database").GetComponent<ItemDatabase>();
         inventory = inventory.GetComponent<Inventory>();
     }
     void Update()
@@ -47,31 +62,9 @@ public class Equipment : MonoBehaviour {
         if (slotButton.showTooltip && !inventory.showingInvTool)
         {
             showingEquipTool = true;
-            if (Event.current.mousePosition.x + 290 > Screen.width && Event.current.mousePosition.y + 110 + slotButton.tooltip.Length * 0.46f > Screen.height)
-            {
-                GUI.Box(new Rect(Screen.width - 290, Screen.height - 110 - slotButton.tooltip.Length * 0.46f,
-                    290, 110 + slotButton.tooltip.Length * 0.46f), slotButton.tooltip, skin.GetStyle("Tooltip"));
-            }
-            else if (Event.current.mousePosition.x + 290 > Screen.width)
-            {
-                GUI.Box(new Rect(Screen.width - 290, Event.current.mousePosition.y,
-                290, 110 + slotButton.tooltip.Length * 0.46f), slotButton.tooltip, skin.GetStyle("Tooltip"));
-            }
-            else if (Event.current.mousePosition.y + 110 + slotButton.tooltip.Length * 0.46f > Screen.height)
-            {
-                GUI.Box(new Rect(Event.current.mousePosition.x, Screen.height - 110 - slotButton.tooltip.Length * 0.46f,
-                290, 110 + slotButton.tooltip.Length * 0.46f), slotButton.tooltip, skin.GetStyle("Tooltip"));
-            }
-            else
-            {
-                GUI.Box(new Rect(Event.current.mousePosition.x, Event.current.mousePosition.y,
-                    290, 110 + slotButton.tooltip.Length * 0.46f), slotButton.tooltip, skin.GetStyle("Tooltip"));
-            }
-            if (slotButton.draggingItem)
-            {
-                GUI.DrawTexture(new Rect(Event.current.mousePosition.x, Event.current.mousePosition.y - 100, 100, 100), slotButton.draggedItem.itemImg);
-            }
-        }else
+            tooltip.DrawTooltip();
+        }
+        else
         {
             showingEquipTool = false;
         }
@@ -80,7 +73,7 @@ public class Equipment : MonoBehaviour {
     {
         Event e = Event.current;
         // title drag
-        if (!inventory.draggingInv && e.button == 0 && new Rect(boxX, boxY, boxW, titleH).Contains(Event.current.mousePosition) && e.type == EventType.mouseDrag) // title drag
+        if (!inventory.draggingInv && !slotButton.draggingItem && new Rect(boxX, boxY, boxW, titleH).Contains(Event.current.mousePosition) && e.type == EventType.mouseDrag) // title drag
         {
             draggingEquip = true;
             boxX = Event.current.mousePosition.x - boxW / 2;
@@ -93,17 +86,36 @@ public class Equipment : MonoBehaviour {
         // Background
         GUI.Box(new Rect(boxX, boxY, boxW, boxH), "", skin.GetStyle("Panel Brown"));
         // Title
-        GUI.Box(new Rect(boxX, boxY, boxW, titleH), "", skin.GetStyle("Button Long Brown"));
+        GUI.Box(new Rect(boxX, boxY, boxW, titleH), "Equipment", skin.GetStyle("Button Long Brown"));
         // Character 
-        GUI.Box(new Rect(boxX, boxY+60, 150, boxH), Resources.Load<Texture2D>("Equip Char"));
+        GUI.Box(new Rect(boxX, boxY+60, 150, boxH), Resources.Load<Texture2D>("Default Equip/Equip Char"));
         /*
         if (equipment[7].itemID != -1)
         {
             GUI.DrawTexture(new Rect(boxX + 60, boxY + 190, 67, 67), Resources.Load<Texture2D>("Item Icons/" + equipment[7].itemName));
         }*/
         // Slot
-        slotButton.MatrixSlot(equipSlotX, equipSlotY, equipmentSlots, equipment, boxX + 160, boxY + 65, 67, 67);
-        
+        slotButton.MatrixSlot(equipSlotX, equipSlotY, equipment, boxX + 160, boxY + 65, 67, 67);
+        if (!showStats && slotButton.Button(boxX+boxW - statButtonW - 20, boxY+boxH - statButtonH - 20, statButtonW, statButtonH, "Arrow Right"))
+        {
+            showStats = true;
+        }
+        else if (showStats && slotButton.Button(boxX + boxW - statButtonW - 20, boxY + boxH - statButtonH - 20, statButtonW, statButtonH, "Arrow Left"))
+        {
+            {
+                showStats = false;
+            }
+        }
+        if (showStats)
+        {
+            GUI.Box(new Rect(boxX + boxW, boxY, statBoxW, statBoxH), "", skin.GetStyle("Panel Brown"));
+            GUI.Box(new Rect(boxX + boxW, boxY, statBoxW, statBoxH), playerStats.makeStatsPage(), skin.GetStyle("Stats Page"));
+
+        }
+
+
+
+
     }
 
 }
