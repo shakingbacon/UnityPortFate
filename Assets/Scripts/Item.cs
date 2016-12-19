@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 [System.Serializable]
 public class Item {
@@ -25,6 +26,7 @@ public class Item {
     public ItemType itemType;
     public WeaponType weaponType;
     public ArmorType armorType;
+    public string itemTooltip = "";
 
 
     public enum ItemType
@@ -49,6 +51,7 @@ public class Item {
     {
         Head,
         Body,
+        Neck,
         Shield,
         Hands,
         Bottom,

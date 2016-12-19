@@ -271,7 +271,8 @@ public class PlayerStats : MonoBehaviour
     public string makeStatsPage()
     {
         string text = "";
-        string lv = "LV: " + FindStat(16).totalAmount;
+        //string lv = "<color=#FFFFFF>LV: " + FindStat(16).totalAmount + "</color>\n";
+        //text += lv;
         string strength = string.Format("<color=#C40D0D>Strength: {0} + {1} = {2}</color>\n", FindStat(0).statAmount, FindStat(0).buffedAmount, FindStat(0).totalAmount);
         text += strength;
         string intel = string.Format("<color=#0000FF>Intelligence: {0} + {1} = {2}</color>\n", FindStat(1).statAmount, FindStat(1).buffedAmount, FindStat(1).totalAmount);

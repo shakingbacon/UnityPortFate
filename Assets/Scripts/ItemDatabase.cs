@@ -9,7 +9,7 @@ public class ItemDatabase : MonoBehaviour {
     void Start() {
         // int bstr, int bint, int bagi, int bluk, int bhp, int bmp, int batk, int bmatk, int bdef, int bresist, int bhit, int bdodge, int bcrit, int bcritmulti, int cost
         // Mage #1000, Rouge #2000, Warrior #3000, Consumables 9000, Accessories 9100
-        // Weapons 0-49/50-99, Head 100, Body 200, Bottom 300, Hands 400, Boots 500, Shield 600
+        // Weapons 0-49/50-99, Head 100, Body 200, Bottom 300, Hands 400, Boots 500, Shield 600, Neck 700
         ///////////////////////////////
         //// Mage
         // Wands
@@ -23,18 +23,24 @@ public class ItemDatabase : MonoBehaviour {
         items.Add(new Item("Star Staff", 1052, "Stronger staff with powers of the stars", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2000, Item.WeaponType.Staff));
         items.Add(new Item("Elemental Staff", 1053, "Strong, magical staff with powers of all elemenets", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3600, Item.WeaponType.Staff));
         // Head
-        items.Add(new Item("Mage Hat", 1100, "A blue, mage hat", 0, 5, 0, 2, 0, 120, 0, 0, 10, 25, 0, 0, 0, 0, 350, Item.ArmorType.Head));
+        items.Add(new Item("Leather Hat", 1100, "A basic hat for mages", 0, 2, 0, 1, 0, 100, 0, 0, 10, 20, 0, 0, 0, 0, 225, Item.ArmorType.Head));
+        items.Add(new Item("Mage Hat", 1101, "A blue, magical hat", 0, 5, 0, 2, 0, 120, 0, 0, 10, 25, 0, 0, 0, 0, 350, Item.ArmorType.Head));
         // Body
-        items.Add(new Item("Leather Robe", 1200, "A simple robe made from cloth", 0, 1, 0, 1, 0, 125, 0, 6, 8, 10, 0, 0, 0, 0, 200, Item.ArmorType.Body));
-        items.Add(new Item("Mage Robe", 1201, "A comfortable rob with mage", 0, 2, 0, 3, 0, 200, 0, 10, 12, 15, 0, 0, 0, 0, 450, Item.ArmorType.Body));
+        items.Add(new Item("White Blouse", 1200, "A fashionable shirt that looks good", 0, 0, 0, 0, 0, 50, 0, 0, 7, 10, 0, 0, 0, 0, 150, Item.ArmorType.Body));
         // Bottom
-        items.Add(new Item("Mage Longskirt", 1300, "Feel the power of magic arise", 0, 3, 4, 0, 0, 80, 0, 0, 16, 20, 0, 0, 0, 0, 300, Item.ArmorType.Bottom));
+        items.Add(new Item("Leather Skirt", 1300, "Comfortable but fashionable", 0, 0, 1, 0, 0, 0, 0, 0, 9, 12, 0, 0, 0, 0, 125, Item.ArmorType.Bottom));
+        items.Add(new Item("Mage Longskirt", 1301, "Feel the power of magic arise", 0, 3, 4, 0, 0, 80, 0, 0, 16, 20, 0, 0, 0, 0, 300, Item.ArmorType.Bottom));
         // Hands
-        items.Add(new Item("Mana Gloves", 1400, "Carry mana in the palm of your hands", 0, 1, 0, 1, 0, 400, 0, 0, 8, 10, 0, 0, 0, 0, 500, Item.ArmorType.Hands));
+        items.Add(new Item("Leather Gloves", 1400, "Useful for handling objects", 0, 0, 0, 1, 0, 0, 0, 0, 6, 6, 0, 0, 0, 0, 50, Item.ArmorType.Hands));
+        items.Add(new Item("Mana Gloves", 1401, "Carry mana in the palm of your hands", 0, 1, 0, 1, 0, 400, 0, 0, 8, 10, 0, 0, 0, 0, 500, Item.ArmorType.Hands));
         // Boots
-        items.Add(new Item("Mana Boots", 1500, "Mana while running", 0, 1, 0, 1, 0, 400, 0, 0, 8, 10, 0, 0, 0, 0, 500, Item.ArmorType.Boots));
+        items.Add(new Item("Leather Boots", 1500, "Durable shoes to walk in", 0, 0, 1, 0, 0, 0, 0, 0, 6, 8, 0, 0, 0, 0, 75, Item.ArmorType.Boots));
+        items.Add(new Item("Mana Boots", 1501, "Mana while running", 0, 1, 0, 1, 0, 400, 0, 0, 8, 10, 0, 0, 0, 0, 500, Item.ArmorType.Boots));
         // Shield
         items.Add(new Item("Mana Shield", 1600, "A shield powered by mana", 0, 2, -2, -1, 0, 400, 0, 0, 25, 35, -5, -5, 0, 0, 750, Item.ArmorType.Shield));
+        // Neck
+        items.Add(new Item("Leather Cape", 1700, "A simple robe made from cloth", 0, 1, 0, 1, 0, 125, 0, 6, 8, 10, 0, 0, 0, 0, 200, Item.ArmorType.Neck));
+        items.Add(new Item("Mage Cape", 1701, "A comfortable rob with mage", 0, 2, 0, 3, 0, 200, 0, 10, 12, 15, 0, 0, 0, 0, 450, Item.ArmorType.Neck));
         //////////////////////////////////////
         //// Rouge
         // Daggers
@@ -81,7 +87,15 @@ public class ItemDatabase : MonoBehaviour {
         items.Add(new Item("Agility Necklace", 9102, "A necklace that increases your AGI", 0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1000, Item.ItemType.Accessory));
         items.Add(new Item("Luck Necklace", 9103, "A necklace that increases your LUK", 0, 0, 0, 12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1000, Item.ItemType.Accessory));
         List<int> shop1Items = new List<int>(new int[] {1000,1001,1002,1003,1050,1051,1052,1053,
-                               1100,1200,1201,1300,1400,1500,1600,9100,9101,9102,9103, 3203});
+                               1100,1200,1201,1300,1400,1500,1600,1700,9100,9101,9102,9103, 3203});
+        
+        // ADD ITEM TOOLTIPS
+        for (int index = 0; index < items.Count; index += 1)
+        {
+            items[index].itemTooltip = CreateTooltip(items[index]);
+        }
+
+
         AddItems(shop1, shop1Items);
 
     }
@@ -98,5 +112,135 @@ public class ItemDatabase : MonoBehaviour {
                 }
             }
         }
-    } 
+    }
+    private string CreateTooltip(Item item)
+    {
+        string tooltip;
+        // NAME
+        tooltip = "<size=26><color=#000000>" + item.itemName + "</color></size>\n";
+        // ITEM TYPE
+        if (item.itemType == Item.ItemType.Accessory)
+        {
+            tooltip += "(<color=#FFABAB>" + item.itemType.ToString() + "</color>)\n";
+        }
+        else if (item.itemType == Item.ItemType.Armor)
+        {
+            if (item.armorType == Item.ArmorType.Head)
+            {
+                tooltip += "(<color=#3BCD58>" + item.armorType.ToString() + "</color>)\n";
+            }
+            else if (item.armorType == Item.ArmorType.Neck)
+            {
+                tooltip += "(<color=#C40D0D>" + item.armorType.ToString() + "</color>)\n";
+            }
+            else if (item.armorType == Item.ArmorType.Body)
+            {
+                tooltip += "(<color=#F7CA34>" + item.armorType.ToString() + "</color>)\n";
+            }
+            else if (item.armorType == Item.ArmorType.Bottom)
+            {
+                tooltip += "(<color=#F78F34>" + item.armorType.ToString() + "</color>)\n";
+            }
+            else if (item.armorType == Item.ArmorType.Shield)
+            {
+                tooltip += "(<color=#E57E18>" + item.armorType.ToString() + "</color>)\n";
+            }
+            else if (item.armorType == Item.ArmorType.Boots)
+            {
+                tooltip += "(<color=#FF8000>" + item.armorType.ToString() + "</color>)\n";
+            }
+            else if (item.armorType == Item.ArmorType.Hands)
+            {
+                tooltip += "(<color=#18E418>" + item.armorType.ToString() + "</color>)\n";
+            }
+        }
+        else if (item.itemType == Item.ItemType.Weapon)
+        {
+            if (item.weaponType == Item.WeaponType.Sword)
+            {
+                tooltip += "(<color=#FF0000>" + item.weaponType.ToString() + "</color>)\n";
+            }
+            else if (item.weaponType == Item.WeaponType.Axe)
+            {
+                tooltip += "(<color=#0000CB>" + item.weaponType.ToString() + "</color>)\n";
+            }
+            else if (item.weaponType == Item.WeaponType.Dagger)
+            {
+                tooltip += "(<color=#8B00A1>" + item.weaponType.ToString() + "</color>)\n";
+            }
+            else if (item.weaponType == Item.WeaponType.Shuriken)
+            {
+                tooltip += "(<color=#900000>" + item.weaponType.ToString() + "</color>)\n";
+            }
+            else if (item.weaponType == Item.WeaponType.Wand)
+            {
+                tooltip += "(<color=#914800>" + item.weaponType.ToString() + "</color>)\n";
+            }
+            else if (item.weaponType == Item.WeaponType.Staff)
+            {
+                tooltip += "(<color=#463811>" + item.weaponType.ToString() + "</color>)\n";
+
+            }
+        }
+        else if (item.itemType == Item.ItemType.Consumable)
+        {
+            tooltip += "(<color=#81CAE1>" + item.itemType.ToString() + "</color>)\n";
+        }
+        // COST
+        tooltip += "<color=#ECF32A>COST: $" + item.itemCost.ToString() + "</color>\n";
+        // DESCRIPTION
+        tooltip += item.itemDesc + "\n";
+        // BONUS STATS
+        List<int> values = new List<int>
+            (new int[] {item.itemBonusStr, item.itemBonusInt, item.itemBonusAgi, item.itemBonusLuk,
+            item.itemBonusHP, item.itemBonusMP, item.itemBonusAtk, item.itemBonusMAtk,
+            item.itemBonusDef, item.itemBonusResist,
+            item.itemBonusHit, item.itemBonusDodge, item.itemBonusCrit, item.itemBonusCritMulti });
+        List<string> desc = new List<string>
+            (new string[] {"<color=#C40D0D>STR: " , "<color=#0000FF>INT: ", "<color=#00FF00>AGI: ",
+                "<color=#F3F335>LUK: ", "<color=#F00000>HP: ", "<color=#2BF2F2>MP: ",
+                "<color=#EC2E2F>ATK: ", "<color=#2200FF>MATK: ", "<color=#FFB811>DEF: ",
+            "<color=#04007F>RES: ", "<color=#2EEC61>HIT: ", "<color=#2EED8E>DODGE: ",
+                "<color=#2EEDED>CRIT: ", "<color=#DEAB71>CRITMULTI: "});
+        for (int i = 0; i < values.Count; i += 2)
+        {
+            string string1 = "";
+            string string2 = "";
+            if (values[i] != 0)
+            {
+                if (values[i] > 0)
+                {
+                    string1 = desc[i] + "+" + values[i].ToString() + "</color>    ";
+                }
+                else
+                {
+                    string1 = desc[i] + values[i].ToString() + "</color>    ";
+                }
+            }
+            if (values[i + 1] != 0)
+            {
+                if (values[i + 1] > 0)
+                {
+                    string2 = desc[i + 1] + "+" + values[i + 1].ToString() + "</color>";
+                }
+                else
+                {
+                    string2 = desc[i + 1] + values[i + 1].ToString() + "</color>";
+                }
+            }
+            if (string1 != "" && string2 != "")
+            {
+                tooltip += string1 + string2 + "\n";
+            }
+            else if (string1 != "" && string2 == "")
+            {
+                tooltip += string1 + "\n";
+            }
+            else if (string1 == "" && string2 != "")
+            {
+                tooltip += string2 + "\n";
+            }
+        }
+        return tooltip;
+    }
 }

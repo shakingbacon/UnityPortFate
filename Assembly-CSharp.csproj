@@ -47,6 +47,7 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\CameraFollow.cs" />
      <Compile Include="Assets\Scripts\Equipment.cs" />
+     <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\Instructions.cs" />
      <Compile Include="Assets\Scripts\Intro.cs" />
      <Compile Include="Assets\Scripts\Inventory.cs" />
@@ -64,6 +65,7 @@
      <Compile Include="Assets\Scripts\Stats.cs" />
      <Compile Include="Assets\Scripts\Tooltip.cs" />
      <Compile Include="Assets\Scripts\Warp.cs" />
+     <Compile Include="Assets\sprite.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
