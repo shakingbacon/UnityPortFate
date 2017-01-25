@@ -4,14 +4,16 @@ using System.Collections.Generic;
 
 public class ItemDatabase : MonoBehaviour {
     public List<Item> items = new List<Item>();
-    public List<Item> shop1 = new List<Item>();
+    public List<List<Item>> shop = new List<List<Item>>();
     // Use this for initialization
-    void Start() {
+    void Start()
+    {
         // int bstr, int bint, int bagi, int bluk, int bhp, int bmp, int batk, int bmatk, int bdef, int bresist, int bhit, int bdodge, int bcrit, int bcritmulti, int cost
         // Mage #1000, Rouge #2000, Warrior #3000, Consumables 9000, Accessories 9100
         // Weapons 0-49/50-99, Head 100, Body 200, Bottom 300, Hands 400, Boots 500, Shield 600, Neck 700
         ///////////////////////////////
         //// Mage
+        items.Add(new Item());
         // Wands
         items.Add(new Item("Wooden Wand", 1000, "Wand made from wood", 0, 3, 0, 0, 0, 75, 15, 40, 0, 0, 0, 0, 0, 0, 200, Item.WeaponType.Wand));
         items.Add(new Item("Magic Wand", 1001, "A wand powered up by magic", 0, 5, 0, 0, 0, 100, 25, 70, 0, 0, 0, 0, 0, 0, 800, Item.WeaponType.Wand));
@@ -27,6 +29,7 @@ public class ItemDatabase : MonoBehaviour {
         items.Add(new Item("Mage Hat", 1101, "A blue, magical hat", 0, 5, 0, 2, 0, 120, 0, 0, 10, 25, 0, 0, 0, 0, 350, Item.ArmorType.Head));
         // Body
         items.Add(new Item("White Blouse", 1200, "A fashionable shirt that looks good", 0, 0, 0, 0, 0, 50, 0, 0, 7, 10, 0, 0, 0, 0, 150, Item.ArmorType.Body));
+        items.Add(new Item("Blue Blouse", 1201, "A fashionable shirt that looks good", 0, 0, 0, 0, 0, 100, 0, 0, 5, 7, 0, 0, 0, 0, 150, Item.ArmorType.Body));
         // Bottom
         items.Add(new Item("Leather Skirt", 1300, "Comfortable but fashionable", 0, 0, 1, 0, 0, 0, 0, 0, 9, 12, 0, 0, 0, 0, 125, Item.ArmorType.Bottom));
         items.Add(new Item("Mage Longskirt", 1301, "Feel the power of magic arise", 0, 3, 4, 0, 0, 80, 0, 0, 16, 20, 0, 0, 0, 0, 300, Item.ArmorType.Bottom));
@@ -66,15 +69,13 @@ public class ItemDatabase : MonoBehaviour {
         items.Add(new Item("Defense Sword", 3006, "A big, broad sword that can block attacks", 6, 0, 0, 0, 50, 0, 75, 60, 15, 15, 0, -8, -5, 0, 1750, Item.WeaponType.Sword));
         // Axes
         items.Add(new Item("Hachet", 3050, "A small axe that can chop trees", 7, 0, -2, 0, 0, 0, 25, 3, 0, 0, -10, 0, -5, 25, 200, Item.WeaponType.Axe));
-        items.Add(new Item("Battleaxe", 3051, "A big, double-sided axe", 10, 0, -5, 0, 0, 0, 50, 10, 0, 0, -15, 0, -10, 40, 1000,  Item.WeaponType.Axe));
+        items.Add(new Item("Battleaxe", 3051, "A big, double-sided axe", 10, 0, -5, 0, 0, 0, 50, 10, 0, 0, -15, 0, -10, 40, 1000, Item.WeaponType.Axe));
         items.Add(new Item("Big Axe", 3052, "An huge, big axe", 13, 0, 0, 0, 0, 0, 100, 20, 0, 0, -25, 0, -15, 80, 2500, Item.WeaponType.Axe));
         // Body
         items.Add(new Item("Bronze Armor", 3200, "Basic armor for warriors", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 200, Item.ArmorType.Body));
         items.Add(new Item("Iron Armor", 3201, "Armor stronger bronze", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 200, Item.ArmorType.Body));
         items.Add(new Item("Steel Armor", 3202, "Advance armor that is very durable", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 200, Item.ArmorType.Body));
         items.Add(new Item("Diamond Armor", 3203, "The strongest armor made from diamonds", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 200, Item.ArmorType.Body));
-
-
 
         ///////////////////////
         // Consumables
@@ -86,29 +87,42 @@ public class ItemDatabase : MonoBehaviour {
         items.Add(new Item("Intelligence Necklace", 9101, "A necklace that increases your INT", 0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1000, Item.ItemType.Accessory));
         items.Add(new Item("Agility Necklace", 9102, "A necklace that increases your AGI", 0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1000, Item.ItemType.Accessory));
         items.Add(new Item("Luck Necklace", 9103, "A necklace that increases your LUK", 0, 0, 0, 12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1000, Item.ItemType.Accessory));
-        List<int> shop1Items = new List<int>(new int[] {1000,1001,1002,1003,1050,1051,1052,1053,
-                               1100,1200,1201,1300,1400,1500,1600,1700,9100,9101,9102,9103, 3203});
-        
+
+        shop.Add(new List<Item>());
+        shop.Add(new List<Item>());
+        shop.Add(new List<Item>());
+
+        List<List<int>> shopItems =
+            new List<List<int>>(new[]{
+            new List<int>(new []{1000, 1001, 1002, 1003, 1050, 1051, 1052, 1053, 1100, 1200, 1201,1300, 1400, 1500, 1600, 1700}),
+            new List<int>(new []{9100,9101, 9102, 9103}),
+            new List<int>(new []{1, 2, 3, 4, 5, 6, 7})});
         // ADD ITEM TOOLTIPS
         for (int index = 0; index < items.Count; index += 1)
         {
             items[index].itemTooltip = CreateTooltip(items[index]);
         }
-
-
-        AddItems(shop1, shop1Items);
-
+        AddItems(shop, shopItems);
     }
-    private void AddItems(List<Item> listToAdd, List<int> listOfItems)
+
+    
+    private void AddItems(List<List<Item>> listToAdd, List<List<int>> listOfItems)
     {
-        for (int index = 0; index < listOfItems.Count; index += 1)
-        {   
-            for (int j = 0; j < items.Count; j += 1)
+        for (int k = 0; k < listOfItems.Count; k += 1)
+        {
+            while (shop[k].Count < 20)
             {
-                if (items[j].itemID == listOfItems[index])
+                shop[k].Add(new Item());
+            }
+            for (int l = 0; l < listOfItems[k].Count; l += 1)
+            {
+                for (int j = 0; j < items.Count; j += 1)
                 {
-                    listToAdd.Add(items[j]);
-                    break;
+                    if (items[j].itemID == listOfItems[k][l])
+                    {
+                        listToAdd[k][l] = items[j];
+                        break;
+                    }
                 }
             }
         }

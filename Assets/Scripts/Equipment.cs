@@ -3,11 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class Equipment : MonoBehaviour {
-    public Page page = new Page();
-    public float boxX, boxY, boxW,boxH, equipSlotX, equipSlotY, titleH, statButtonW, statButtonH,
+    private Page page = new Page(1, 460, 100, 400, 450, 50);
+    public float equipSlotX, equipSlotY, statButtonW, statButtonH,
         statBoxW, statBoxH;
     public GUISkin skin;
-    public int id = 1;
     public List<Item> equipment = new List<Item>();
     public List<Texture2D> defaultImage = new List<Texture2D>();
     //
@@ -19,9 +18,6 @@ public class Equipment : MonoBehaviour {
     //private ItemDatabase database;
     public Inventory inventory;
     // 
-    public bool draggingEquip;
-    public bool showingEquipTool;
-    private bool showEquipment;
     private bool showStats;
 
     void Start () {
@@ -29,7 +25,6 @@ public class Equipment : MonoBehaviour {
         {
             equipment.Add(new Item());
         }
-        page.id = 1;
         // show the picture that shows where to equip
         defaultImage.Add(Resources.Load<Texture2D>("Default Equip/Weapon"));
         defaultImage.Add(Resources.Load<Texture2D>("Default Equip/Weapon&Shield"));
@@ -52,9 +47,9 @@ public class Equipment : MonoBehaviour {
     }
     void Update()
     {
-        if (Input.GetButtonDown("Equipment"))
+        if (Input.GetButtonDown("Equipment")) 
         {
-            showEquipment = !showEquipment;
+            page.showPage = !page.showPage;
             slotButton.showTooltip = false;
         }
         // PLAYER CLOTHES INGAME
@@ -65,15 +60,23 @@ public class Equipment : MonoBehaviour {
             if (equipment[i].itemID != -1)
             {
                 gameObject.transform.GetChild(i).transform.position = new Vector2(gameObject.transform.parent.transform.position.x, gameObject.transform.parent.transform.position.y);
+                // if weapon in shield slot
                 if (i == 1 && equipment[i].itemType == Item.ItemType.Weapon)
                 {
                     spriteRenderer.sprite = Resources.Load<Sprite>("Player/" + equipment[i].itemName + "2");
-                    spriteRenderer.flipX = gameObject.GetComponentInParent<SpriteRenderer>().flipX;
+
                 }
                 else
                 {
                     spriteRenderer.sprite = Resources.Load<Sprite>("Player/" + equipment[i].itemName);
-                    spriteRenderer.flipX = gameObject.GetComponentInParent<SpriteRenderer>().flipX;
+                }
+                if (gameObject.GetComponentInParent<Animator>().GetFloat("input_x") > 0)
+                {
+                    spriteRenderer.flipX = false;
+                }
+                else if (gameObject.GetComponentInParent<Animator>().GetFloat("input_x") < 0)
+                {
+                    spriteRenderer.flipX = true;
                 }
 
             }
@@ -83,7 +86,14 @@ public class Equipment : MonoBehaviour {
                 {
                     gameObject.transform.GetChild(i).transform.position = new Vector2(gameObject.transform.parent.transform.position.x, gameObject.transform.parent.transform.position.y);
                     spriteRenderer.sprite = Resources.Load<Sprite>("Player/Mage Arm");
-                    spriteRenderer.flipX = gameObject.GetComponentInParent<SpriteRenderer>().flipX;
+                    if (gameObject.GetComponentInParent<Animator>().GetFloat("input_x") > 0)
+                    {
+                        spriteRenderer.flipX = false;
+                    }
+                    else if (gameObject.GetComponentInParent<Animator>().GetFloat("input_x") < 0)
+                    {
+                        spriteRenderer.flipX = true;
+                    }
                 }
                 else
                 {
@@ -97,11 +107,18 @@ public class Equipment : MonoBehaviour {
 
     void OnGUI()
     {
-        if (showEquipment)
+        if (page.showPage)
         {
             slotButton.hoveringCurrentItem = new Item();
             DrawEquipment();
-            tooltip.DrawTooltip(slotButton.hoveringCurrentItem);
+            if (tooltip.DrawTooltip(slotButton.hoveringCurrentItem) && (manager.showingPageTooltipID == -1 || manager.showingPageTooltipID == page.id))
+            {
+                manager.showingPageTooltipID = page.id;
+            }
+            else
+            {
+                manager.showingPageTooltipID = -1;
+            }
             if (slotButton.draggingItem)
             {
                 GUI.DrawTexture(new Rect(Event.current.mousePosition.x, Event.current.mousePosition.y - 100, 100, 100), slotButton.draggedItem.itemImg);
@@ -114,23 +131,23 @@ public class Equipment : MonoBehaviour {
         Event e = Event.current;
         // title drag
         if ((manager.draggingPageID == -1 || manager.draggingPageID == page.id) &&
-            !slotButton.draggingItem && new Rect(boxX, boxY, boxW, titleH).Contains(Event.current.mousePosition) && e.type == EventType.mouseDrag) // title drag
+            !slotButton.draggingItem && new Rect(page.x, page.y, page.w, page.titleh).Contains(Event.current.mousePosition) && e.type == EventType.mouseDrag) // title drag
         {
             manager.draggingPageID = page.id;
-            boxX = Event.current.mousePosition.x - boxW / 2;
-            boxY = Event.current.mousePosition.y - titleH / 2;
+            page.x = Event.current.mousePosition.x - page.w / 2;
+            page.y = Event.current.mousePosition.y - page.titleh / 2;
         }
         if (e.type == EventType.mouseUp)
         {
             manager.draggingPageID = -1;
         }
         // Background
-        GUI.Box(new Rect(boxX, boxY, boxW, boxH), "", skin.GetStyle("Panel Brown"));
+        GUI.Box(new Rect(page.x, page.y, page.w, page.h), "", skin.GetStyle("Panel Brown"));
         // Title
-        GUI.Box(new Rect(boxX, boxY, boxW, titleH), "Equipment", skin.GetStyle("Button Long Brown"));
+        GUI.Box(new Rect(page.x, page.y, page.w, page.titleh), "Equipment", skin.GetStyle("Button Long Brown"));
         // Character 
-        float characterX = boxX + 22;
-        float characterY = boxY + 45;
+        float characterX = page.x + 22;
+        float characterY = page.y + 45;
         Rect charRect = new Rect(characterX, characterY, 200, 400);
         if (playerStats.job.jobID == 0)
         {
@@ -141,7 +158,7 @@ public class Equipment : MonoBehaviour {
         {
             if (equipment[i].itemID != -1)
             {
-                if (i != 3 && i != 0 && i != 1 && i != 7)
+                if (i != 3 && i != 0 && i != 1 && i != 7 && i != 4 && i != 9)
                 {
                     GUI.DrawTexture(charRect, Resources.Load<Texture2D>("Player/" + equipment[i].itemName));
                 }
@@ -174,29 +191,34 @@ public class Equipment : MonoBehaviour {
         {
             GUI.DrawTexture(charRect, Resources.Load<Texture2D>("Player/Mage Arm"));
         }
-
-        // Slot
-        slotButton.MatrixSlot(equipSlotX, equipSlotY, equipment, boxX + 235, boxY + 65, 67, 67);
         // show stats
-        if (!showStats && slotButton.Button(boxX+boxW - statButtonW - 20, boxY+boxH - statButtonH - 20, statButtonW, statButtonH, "Arrow Right"))
+        if (showStats == false)
         {
-            showStats = true;
+            if (GUI.Button(new Rect(page.x + page.w - statButtonW - 20, page.y + page.h - statButtonH - 20, statButtonW, statButtonH), 
+            Resources.Load<Texture2D>("GUI/Arrow Right")))
+            {
+                showStats = true;
+            }
         }
-        else if (showStats && slotButton.Button(boxX + boxW - statButtonW - 20, boxY + boxH - statButtonH - 20, statButtonW, statButtonH, "Arrow Left"))
+        else
         {
+            if (GUI.Button(new Rect(page.x + page.w - statButtonW - 20, page.y + page.h - statButtonH - 20, statButtonW, statButtonH),
+            Resources.Load<Texture2D>("GUI/Arrow Left")))
             {
                 showStats = false;
             }
         }
         // Close button
-        if (slotButton.Button(boxX + boxW - 45, boxY + 5, 35, 35, "Cross Brown"))
+        if (GUI.Button(new Rect(page.x + page.w - 45, page.y + 5, 35, 35), Resources.Load<Texture2D>("GUI/Cross Brown")))
         {
-            showEquipment = false;
+            page.showPage = false;
         }
+        // Slot
+        slotButton.MatrixSlot(equipSlotX, equipSlotY, equipment, page.x + 235, page.y + 65, 67, 67);
         if (showStats)
         {
-            GUI.Box(new Rect(boxX + boxW, boxY, statBoxW, statBoxH), "", skin.GetStyle("Panel Brown"));
-            GUI.Box(new Rect(boxX + boxW, boxY, statBoxW, statBoxH), playerStats.makeStatsPage(), skin.GetStyle("Stats Page"));
+            GUI.Box(new Rect(page.x + page.w, page.y, statBoxW, statBoxH), "", skin.GetStyle("Panel Brown"));
+            GUI.Box(new Rect(page.x + page.w, page.y, statBoxW, statBoxH), playerStats.makeStatsPage(), skin.GetStyle("Stats Page"));
         }
 
 

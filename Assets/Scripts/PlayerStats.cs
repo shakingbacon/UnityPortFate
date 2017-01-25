@@ -7,7 +7,8 @@ public class PlayerStats : MonoBehaviour
     public Job job;
     private JobDatabase jobDatabase;
     public List<Stat> stats = new List<Stat>();
-
+    public GUISkin skin;
+    float someValue;
 
     void Start()
     {
@@ -53,6 +54,35 @@ public class PlayerStats : MonoBehaviour
     }
     void Update()
     {
+        if (Input.GetButtonDown("Test"))
+        {
+            someValue += 1;
+        }
+    }
+    void OnGUI()
+    {
+        StatusBar();
+    }
+
+    void StatusBar()
+    {
+        GUI.skin = skin;
+        Texture2D hpBarOutline = Resources.Load<Texture2D>("GUI/HP Bar");
+        Texture2D hpBar = Resources.Load<Texture2D>("GUI/HP In Bar");
+        Texture2D mpBarOutline = Resources.Load<Texture2D>("GUI/MP Bar");
+        Texture2D mpBar = Resources.Load<Texture2D>("GUI/MP In Bar");
+        Rect hpBarRect = new Rect(Screen.width * 0.5f - hpBar.width, Screen.height * 0.9f, hpBar.width, hpBar.height);
+        Rect mpBarRect = new Rect(Screen.width * 0.5f, Screen.height * 0.9f, hpBar.width, hpBar.height);
+        someValue = hpBarRect.width/2 + hpBarRect.width/2 * (FindStatTotal(4)*1f/FindStatTotal(5)*1f);
+        GUI.BeginGroup(new Rect(hpBarRect.x - hpBarRect.width + someValue, hpBarRect.y, someValue, hpBar.height)); //this group crops the following image
+        GUI.DrawTexture(new Rect(hpBar.width - someValue, 0, hpBar.width, hpBar.height), hpBar);//draw the top image
+        GUI.EndGroup();
+        GUI.DrawTexture(hpBarRect, hpBarOutline);
+        someValue = mpBarRect.width / 2 + mpBarRect.width / 2 * (FindStatTotal(6) * 1f / FindStatTotal(7) * 1f);
+        GUI.BeginGroup(new Rect(mpBarRect.x - mpBarRect.width + someValue, mpBarRect.y, someValue, mpBar.height)); //this group crops the following image
+        GUI.DrawTexture(new Rect(mpBar.width - someValue, 0, mpBar.width, mpBar.height), mpBar);//draw the top image
+        GUI.EndGroup();
+        GUI.DrawTexture(mpBarRect, mpBarOutline);
     }
 
     public Stat FindStat(int id)
@@ -293,13 +323,13 @@ public class PlayerStats : MonoBehaviour
         text += def;
         string res = string.Format("<color=#04007F>Resist: {0} + {1} = {2}</color>\n", FindStat(11).statAmount, FindStat(11).buffedAmount, FindStat(11).totalAmount);
         text += res;
-        string hit = string.Format("<color=#2EEC61>Hit Chance: {0} + {1} = {2}</color>\n", FindStat(12).statAmount, FindStat(12).buffedAmount, FindStat(12).totalAmount);
+        string hit = string.Format("<color=#2EEC61>Hit%: {0}% + {1}% = {2}%</color>\n", FindStat(12).statAmount, FindStat(12).buffedAmount, FindStat(12).totalAmount);
         text += hit;
-        string dodge = string.Format("<color=#2EED8E>Dodge Chance: {0} + {1} = {2}</color>\n", FindStat(13).statAmount, FindStat(13).buffedAmount, FindStat(13).totalAmount);
+        string dodge = string.Format("<color=#2EED8E>Dodge%: {0}% + {1}% = {2}%</color>\n", FindStat(13).statAmount, FindStat(13).buffedAmount, FindStat(13).totalAmount);
         text += dodge;
-        string crit = string.Format("<color=#2EEDED>Crit Chance: {0} + {1} = {2}</color>\n", FindStat(14).statAmount, FindStat(14).buffedAmount, FindStat(14).totalAmount);
+        string crit = string.Format("<color=#2EEDED>Crit% : {0}% + {1}% = {2}%</color>\n", FindStat(14).statAmount, FindStat(14).buffedAmount, FindStat(14).totalAmount);
         text += crit;
-        string multi = string.Format("<color=#DEAB71>Crit Multi: {0} + {1} = {2}</color>\n", FindStat(15).statAmount, FindStat(15).buffedAmount, FindStat(15).totalAmount);
+        string multi = string.Format("<color=#DEAB71>Crit Multi: {0}% + {1}% = {2}%</color>\n", FindStat(15).statAmount, FindStat(15).buffedAmount, FindStat(15).totalAmount);
         text += multi;
         string exp = string.Format("<color=#F3F335>Experience: {0} / {1}</color>\n", FindStat(19).totalAmount, FindStat(20).totalAmount);
         text += exp;

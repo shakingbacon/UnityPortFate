@@ -9,16 +9,22 @@ public class SlotButton : MonoBehaviour {
     public Item hoveringCurrentItem;
     public Item draggedItem;
     private int prevIndex;
+
+    ScaleMode scale;
     private List<Item> prevList;
     public GUISkin skin;
     public PlayerStats playerStats;
+    public Shop shop;
     public Inventory inventory;
     public Equipment equipment;
+    private ItemDatabase database;
 
     void Start()
     {
         inventory = inventory.GetComponent<Inventory>();
         equipment = equipment.GetComponent<Equipment>();
+        shop = shop.GetComponent<Shop>();
+        database = GameObject.FindGameObjectWithTag("Item Database").GetComponent<ItemDatabase>();
     }
 
     public void MatrixSlot(float col, float row, List<Item> items, float x, float y, float xdis, float ydis)
@@ -72,11 +78,20 @@ public class SlotButton : MonoBehaviour {
                     if (e.type == EventType.MouseUp)
                     {
                         mouseIsDown = false;
+                        // FIND A CLICK IN SLOT IS HERE
+                        if (items[index].itemID != -1)
+                        {
+                            if (items == database.shop[shop.pageIndex])
+                            {
+                                shop.buyingItem = true;
+                                shop.itemToBuy = items[index];
+                            }
+                        }
                     }
                 }
                 if (items[index].itemID != -1)
                 {
-                    GUI.DrawTexture(slotRect, items[index].itemImg);
+                    GUI.DrawTexture(slotRect, items[index].itemImg); 
                     if (slotRect.Contains(Event.current.mousePosition))
                     {
                         hoveringCurrentItem = items[index];
@@ -84,16 +99,21 @@ public class SlotButton : MonoBehaviour {
                         // lift up an item and drag
                         if (mouseIsDown && e.type == EventType.mouseDrag && !draggingItem)
                         {
-                            if (items == equipment.equipment)
+                            // you cant drag shop items
+                            if (items != database.shop[shop.pageIndex])
                             {
-                                DequipItem(items[index]);
+                                if (items == equipment.equipment)
+                                {
+                                    DequipItem(items[index]);
+                                }
+                                draggingItem = true;
+                                prevList = items;
+                                prevIndex = index;
+                                draggedItem = items[index];
+                                items[index] = new Item();
                             }
-                            draggingItem = true;
-                            prevList = items;
-                            prevIndex = index;
-                            draggedItem = items[index];
-                            items[index] = new Item();
                         }
+                        
                         // right click in inventory
                         if (e.isMouse && e.type == EventType.mouseDown && e.button == 1)
                         {
@@ -111,12 +131,13 @@ public class SlotButton : MonoBehaviour {
                         showTooltip = false;
                     }
                 }
-                //}
+                //
                 // Let go of item
                 bool allowedToDrop = true;
                 bool equipItem = false;
                 bool inventoryToEquipDrop = false;
                 bool equipmentToInventoryDrop = false;
+
                 if (slotRect.Contains(Event.current.mousePosition))
                 {
                     if (e.type == EventType.mouseUp && draggingItem)
@@ -138,7 +159,7 @@ public class SlotButton : MonoBehaviour {
                                 allowedToDrop = true;
                                 equipItem = true;
                             }
-                            else if (index == 1 && (draggedItem.armorType == Item.ArmorType.Shield 
+                            else if (index == 1 && (draggedItem.armorType == Item.ArmorType.Shield
                                 || draggedItem.itemType == Item.ItemType.Weapon)) // index 1 is shield/second weapon slot
                             {
                                 allowedToDrop = true;
@@ -194,7 +215,7 @@ public class SlotButton : MonoBehaviour {
                                 allowedToDrop = true;
                                 equipmentToInventoryDrop = true;
                             }
-                            else if (prevIndex == 1 && ((items[index].armorType == Item.ArmorType.Shield||
+                            else if (prevIndex == 1 && ((items[index].armorType == Item.ArmorType.Shield ||
                                 items[index].itemType == Item.ItemType.Weapon) || items[index].itemID == -1))
                             {
                                 allowedToDrop = true;
@@ -240,6 +261,10 @@ public class SlotButton : MonoBehaviour {
                                 allowedToDrop = true;
                                 equipmentToInventoryDrop = true;
                             }
+                        }
+                        else if (database.shop.Contains(items))
+                        {
+                            allowedToDrop = false;
                         }
                         if (equipItem)
                         {

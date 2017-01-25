@@ -8,7 +8,7 @@ public class Tooltip : MonoBehaviour {
     {
         slotButton = slotButton.GetComponent<SlotButton>();
     }
-    public void DrawTooltip(Item item)
+    public bool DrawTooltip(Item item)
     {
         float toolX = Event.current.mousePosition.x;
         float toolY = Event.current.mousePosition.y;
@@ -35,6 +35,11 @@ public class Tooltip : MonoBehaviour {
             {
                 GUI.Box(new Rect(toolX, toolY, toolW, toolH), item.itemTooltip, skin.GetStyle("Tooltip"));
             }
+            return true;
+        }
+        else
+        {
+            return false;
         }
 
     }

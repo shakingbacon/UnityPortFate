@@ -4,9 +4,8 @@ using System.Collections.Generic;
 
 public class Inventory : MonoBehaviour
 {
-    public Page page = new Page();
-    public float slotsX, slotsY, boxX, boxY, boxW, boxH, titleH;
-    public int id = 0;
+    private Page page = new Page(0, 100, 100, 325, 460, 50);
+    public float slotsX, slotsY;
     public GUISkin skin;
     public List<Item> inventory = new List<Item>();
     //
@@ -18,7 +17,6 @@ public class Inventory : MonoBehaviour
     public Shop shop;
     public GameManager manager;
     //
-    private bool showInventory;
     public bool draggingInv;
     public bool showingInvTool;
     // Use this for initialization
@@ -28,7 +26,6 @@ public class Inventory : MonoBehaviour
         {
             inventory.Add(new Item());
         }
-        page.id = 0;
         playerStats = playerStats.GetComponent<PlayerStats>();
         slotButton = slotButton.GetComponent<SlotButton>();
         database = GameObject.FindGameObjectWithTag("Item Database").GetComponent<ItemDatabase>();
@@ -50,6 +47,8 @@ public class Inventory : MonoBehaviour
         AddItem(9101);
         AddItem(9102);
         AddItem(9103);
+        AddItem(1201);
+
 
 
         //bool test = inventory.Exists(Item => Item == getItem(200));
@@ -61,12 +60,12 @@ public class Inventory : MonoBehaviour
     {
         if (Input.GetButtonDown("Inventory"))
         {
-            showInventory = !showInventory;
+            page.showPage = !page.showPage;
             slotButton.showTooltip = false;
         }
     }
     void OnGUI() {
-        if (showInventory)
+        if (page.showPage)
         {
             slotButton.hoveringCurrentItem = new Item();
             DrawInventory();
@@ -79,13 +78,19 @@ public class Inventory : MonoBehaviour
             {
                 LoadInventory();
             }*/
-            tooltip.DrawTooltip(slotButton.hoveringCurrentItem);
+            if (tooltip.DrawTooltip(slotButton.hoveringCurrentItem) && (manager.showingPageTooltipID == -1 || manager.showingPageTooltipID == page.id))
+            {
+                manager.showingPageTooltipID = page.id;
+            }
+            else
+            {
+                manager.showingPageTooltipID = -1;
+            }
             if (slotButton.draggingItem)
             {
                 GUI.DrawTexture(new Rect(Event.current.mousePosition.x, Event.current.mousePosition.y - 100, 100, 100), slotButton.draggedItem.itemImg);
             }
         }
-
     }
 
 
@@ -94,31 +99,33 @@ public class Inventory : MonoBehaviour
         Event e = Event.current;
         // title drag
         if ((manager.draggingPageID == -1 || manager.draggingPageID == page.id) &&
-            !slotButton.draggingItem && new Rect(boxX, boxY, boxW, titleH).Contains(Event.current.mousePosition) && e.type == EventType.mouseDrag) // title drag
+            !slotButton.draggingItem && new Rect(page.x, page.y, page.w, page.titleh).Contains(Event.current.mousePosition) && e.type == EventType.mouseDrag) // title drag
         {
             manager.draggingPageID = page.id;
-            boxX = Event.current.mousePosition.x - boxW/2;
-            boxY = Event.current.mousePosition.y - titleH/2;
+            page.x = Event.current.mousePosition.x - page.w/2;
+            page.y = Event.current.mousePosition.y - page.titleh/2;
         }
         if (e.type == EventType.mouseUp)
         {
             manager.draggingPageID = -1;
         }
         // Background
-        GUI.Box(new Rect(boxX, boxY, boxW, boxH), "", skin.GetStyle("Panel Brown"));
+        GUI.Box(new Rect(page.x, page.y, page.w, page.h), "", skin.GetStyle("Panel Brown"));
         // Title
-        GUI.Box(new Rect(boxX, boxY, boxW, titleH), "Inventory", skin.GetStyle("Button Long Brown"));
+        GUI.Box(new Rect(page.x, page.y, page.w, page.titleh), "Inventory", skin.GetStyle("Button Long Brown"));
         // Close button
-        if (slotButton.Button(boxX + boxW - 45, boxY + 5, 35, 35, "Cross Brown"))
+        if (GUI.Button(new Rect(page.x + page.w - 45, page.y + 5, 35, 35), Resources.Load<Texture2D>("GUI/Cross Brown")))
         {
-            showInventory = false;
+            page.showPage = false;
         }
         // Inventory Slots
-        slotButton.MatrixSlot(slotsX, slotsY, inventory, boxX + 32, boxY + 65, 67, 67);
+        slotButton.MatrixSlot(slotsX, slotsY, inventory, page.x+ 32, page.y+ 65, 67, 67);
+        // Cash
+        GUI.Box(new Rect(page.x, page.y + 385, page.w, 100), "<color=#ECF32A>Cash: $" + playerStats.FindStatTotal(21) + "</color>", skin.GetStyle("Cash"));
     }
 
 
-    Item getItem(int id)
+    Item GetItem(int id)
     {
         Item returnItem = new Item();
         for (int j = 0; j < database.items.Count; j += 1)
@@ -143,10 +150,38 @@ public class Inventory : MonoBehaviour
                     if (database.items[j].itemID == id)
                     {
                         inventory[i] = database.items[j];
+                        break;
                     }
                 }
                 break;
             }
+        }
+    }
+    public string BuyItem(int id)
+    {
+        bool fullInv = true;
+        for (int i = 0; i < inventory.Count; i += 1)
+        {
+            if (inventory[i].itemID == -1)
+            {
+                fullInv = false;
+                break;
+            }
+        }
+        if (fullInv)
+        {
+            return "Inventory is full!";
+        }
+        else if (playerStats.FindStatTotal(21) - GetItem(id).itemCost < 0)
+        {
+            return "Not enough cash!";
+        }
+        else
+        {
+            AddItem(id);
+            playerStats.DecreaseStat(21, GetItem(id).itemCost);
+            playerStats.StatsUpdate();
+            return "";
         }
     }
     void RemoveItem(int id)
@@ -157,7 +192,6 @@ public class Inventory : MonoBehaviour
             {
                 inventory[i] = new Item();
                 break;
-
             }
         }
     }
