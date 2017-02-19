@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class PlayerStats : MonoBehaviour
 {
@@ -9,6 +10,12 @@ public class PlayerStats : MonoBehaviour
     public List<Stat> stats = new List<Stat>();
     public GUISkin skin;
     float someValue;
+
+    GameObject canvas;
+    public Slider healthBar;
+    public Slider manaBar;
+    public Slider expBar;
+
 
     void Start()
     {
@@ -34,7 +41,7 @@ public class PlayerStats : MonoBehaviour
         stats.Add(new Stat("EXP", 19));
         stats.Add(new Stat("Max EXP", 20));
         stats.Add(new Stat("Cash", 21, 100));
-
+        canvas = GameObject.FindGameObjectWithTag("Canvas");
         jobDatabase = GameObject.FindGameObjectWithTag("Job Database").GetComponent<JobDatabase>();
         for (int i = 0; i < jobDatabase.jobs.Count; i += 1)
         {
@@ -48,7 +55,9 @@ public class PlayerStats : MonoBehaviour
         StatsUpdate();
         HealHPFull();
         HealMPFull();
+        FindStat(20).statAmount = 25;
         StatsUpdate();
+        
         //BuffStat(8, 30);
         //StatsUpdate();
     }
@@ -56,8 +65,9 @@ public class PlayerStats : MonoBehaviour
     {
         if (Input.GetButtonDown("Test"))
         {
-            someValue += 1;
+          
         }
+        StatsUpdate();
     }
     void OnGUI()
     {
@@ -66,24 +76,39 @@ public class PlayerStats : MonoBehaviour
 
     void StatusBar()
     {
-        GUI.skin = skin;
-        Texture2D hpBarOutline = Resources.Load<Texture2D>("GUI/HP Bar");
-        Texture2D hpBar = Resources.Load<Texture2D>("GUI/HP In Bar");
-        Texture2D mpBarOutline = Resources.Load<Texture2D>("GUI/MP Bar");
-        Texture2D mpBar = Resources.Load<Texture2D>("GUI/MP In Bar");
-        Rect hpBarRect = new Rect(Screen.width * 0.5f - hpBar.width, Screen.height * 0.9f, hpBar.width, hpBar.height);
-        Rect mpBarRect = new Rect(Screen.width * 0.5f, Screen.height * 0.9f, hpBar.width, hpBar.height);
-        someValue = hpBarRect.width/2 + hpBarRect.width/2 * (FindStatTotal(4)*1f/FindStatTotal(5)*1f);
-        GUI.BeginGroup(new Rect(hpBarRect.x - hpBarRect.width + someValue, hpBarRect.y, someValue, hpBar.height)); //this group crops the following image
-        GUI.DrawTexture(new Rect(hpBar.width - someValue, 0, hpBar.width, hpBar.height), hpBar);//draw the top image
-        GUI.EndGroup();
-        GUI.DrawTexture(hpBarRect, hpBarOutline);
-        someValue = mpBarRect.width / 2 + mpBarRect.width / 2 * (FindStatTotal(6) * 1f / FindStatTotal(7) * 1f);
-        GUI.BeginGroup(new Rect(mpBarRect.x - mpBarRect.width + someValue, mpBarRect.y, someValue, mpBar.height)); //this group crops the following image
-        GUI.DrawTexture(new Rect(mpBar.width - someValue, 0, mpBar.width, mpBar.height), mpBar);//draw the top image
-        GUI.EndGroup();
-        GUI.DrawTexture(mpBarRect, mpBarOutline);
+        // HP BAR
+
+        string hpBarText = (FindStatTotal(4) * 1f).ToString() + " / " + (FindStatTotal(5) * 1f).ToString();
+        float healthValue = FindStatTotal(4) * 1f / FindStatTotal(5) * 1f;
+        UpdateSliderFillWithText(healthBar, healthValue, "HP Amount", hpBarText);
+        // MP BAR
+        string mpBarText = (FindStatTotal(6) * 1f).ToString() + " / " + (FindStatTotal(7) * 1f).ToString();
+        float manaValue = FindStatTotal(6) * 1f / FindStatTotal(7) * 1f;
+        UpdateSliderFillWithText(manaBar, manaValue, "MP Amount", mpBarText);
+        // EXP bar
+        string expBarText = (FindStatTotal(19) * 1f).ToString() + " / " + (FindStatTotal(20) * 1f).ToString();
+        float expValue = FindStatTotal(19) * 1f / FindStatTotal(20) * 1f;
+        UpdateSliderFillWithText(expBar, expValue, "EXP Amount", expBarText);
     }
+
+    void UpdateSliderFillWithText(Slider slider, float percentage, string textname, string text)
+    {
+        slider.value = percentage;
+        slider.transform.FindChild(textname).GetComponent<Text>().text = text;
+    }
+
+    //void SliderWithText(Slider slider, Vector3 localPos, /*Vector2 size*/ string textname, int stat1, int stat2, string text)
+    //{
+    //    slider.value = FindStatTotal(stat1) * 1f / FindStatTotal(stat2) * 1f;
+    //    slider.GetComponentInParent<RectTransform>().localPosition = localPos;
+    //    //slider.GetComponent<RectTransform>().sizeDelta = size;
+    //    Vector2 size = slider.GetComponent<RectTransform>().sizeDelta;
+    //    Transform bartext = slider.transform.FindChild(textname);
+    //    bartext.GetComponent<RectTransform>().localPosition = new Vector3(localPos.x, localPos.y - size.y / 4);
+    //    bartext.GetComponent<RectTransform>().sizeDelta = size;
+    //    bartext.GetComponent<Text>().text = text;
+    //    bartext.GetComponent<Text>().fontSize = (int)(size.y * 0.4f);
+    //}
 
     public Stat FindStat(int id)
     {
