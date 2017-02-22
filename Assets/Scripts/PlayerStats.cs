@@ -9,7 +9,6 @@ public class PlayerStats : MonoBehaviour
     private JobDatabase jobDatabase;
     public List<Stat> stats = new List<Stat>();
     public GUISkin skin;
-    float someValue;
 
     GameObject canvas;
     public Slider healthBar;
@@ -19,6 +18,8 @@ public class PlayerStats : MonoBehaviour
 
     void Start()
     {
+
+        // any stat id will always be the same eg. id = 0 is always str
         stats.Add(new Stat("Str", 0, 3));
         stats.Add(new Stat("Int", 1, 3));
         stats.Add(new Stat("Agi", 2, 3));

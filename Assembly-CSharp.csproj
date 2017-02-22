@@ -71,10 +71,10 @@
      <Compile Include="Assets\Scripts\SkillDatabase.cs" />
      <Compile Include="Assets\Scripts\SlotButton.cs" />
      <Compile Include="Assets\Scripts\Stat.cs" />
-     <Compile Include="Assets\Scripts\Stats.cs" />
      <Compile Include="Assets\Scripts\TextureScale.cs" />
      <Compile Include="Assets\Scripts\Tooltip.cs" />
      <Compile Include="Assets\Scripts\Warp.cs" />
+     <Compile Include="Assets\Scripts\garbage stats.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

@@ -61,15 +61,16 @@ public class Battle : MonoBehaviour {
             enemy.transform.position = enemyPos;
             cameraFollow.transform.position = new Vector3(gameObject.transform.FindChild("Background").position.x, gameObject.transform.FindChild("Background").position.y, -10);
             Enemy newEnemy = enemyStats.enemy;
+            enemyStats.enemy.StatsUpdate();
             // Enemy Texts
-            canvas.transform.FindChild("Enemy HP").GetComponent<Text>().text = "HP: " + enemy.GetComponent<EnemyStats>().enemy.enemyHP.ToString();
-            canvas.transform.FindChild("Enemy MP").GetComponent<Text>().text = "MP: " + enemy.GetComponent<EnemyStats>().enemy.enemyMP.ToString();
+            canvas.transform.FindChild("Enemy HP").GetComponent<Text>().text = "HP: " + enemy.GetComponent<EnemyStats>().enemy.FindStatTotal(4).ToString();
+            canvas.transform.FindChild("Enemy MP").GetComponent<Text>().text = "MP: " + enemy.GetComponent<EnemyStats>().enemy.FindStatTotal(6).ToString();
             
         }
     }
     void OnGUI() {
         // Buttons
-        if (GUI.Button(new Rect(middle.x - cameraW / 2.5f, middle.y + cameraH / 3, 50, 50), "Attack"))
+        if (GUI.Button(new Rect(middle.x - cameraW/4, middle.y + cameraH / 3, 50, 50), "Attack"))
         {
 
         }
