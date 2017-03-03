@@ -4,11 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class Battle : MonoBehaviour {
-    RectTransform rect;
     CameraFollow cameraFollow;
     GameManager manager;
     GameObject player;
-    GameObject playerClone = null;
     Vector3 playerPos, cameraPos, enemyPos;
     EnemyDatabase enemyDatabase;
     Transform enemy;
@@ -23,7 +21,6 @@ public class Battle : MonoBehaviour {
     void Start ()
     {
         middle = gameObject.transform.FindChild("Background").position;
-        rect = gameObject.GetComponent<RectTransform>();
         enemyStats = GetComponentInChildren<EnemyStats>();
         enemy = gameObject.transform.FindChild("Enemy");
         manager = GameObject.FindGameObjectWithTag("Manager").GetComponent<GameManager>();
@@ -31,6 +28,11 @@ public class Battle : MonoBehaviour {
         enemyDatabase = GameObject.FindGameObjectWithTag("Enemy Database").GetComponent<EnemyDatabase>();
         cameraFollow = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraFollow>();
         canvas = GameObject.FindGameObjectWithTag("Canvas");
+        // Buttons
+        canvas.transform.FindChild("Attack").GetComponent<Button>().onClick.AddListener(
+            () =>  DamageCalc.skillAttack(player.transform.FindChild("Player Stats").GetComponent<PlayerStats>().stats, 
+            enemyStats.enemy.stats, 
+            player.transform.FindChild("Player Skills").GetComponent<PlayerSkills>().FindSkill(0)));
     }
 
     // Update is called once per frame
@@ -48,6 +50,7 @@ public class Battle : MonoBehaviour {
             enemyStats.enemy = enemyDatabase.enemies[Random.Range(0, enemyDatabase.enemies.Count)];
             enemy.GetComponent<SpriteRenderer>().sprite = enemyStats.enemy.enemyIMG;
             EnemyTextOn(true);
+            ButtonsOn(true);
             manager.setupBattle = false;
         }
         if (manager.inBattle)
@@ -60,25 +63,41 @@ public class Battle : MonoBehaviour {
             enemyPos = new Vector3(middle.x + cameraW / 3.5f, playerPos.y);
             enemy.transform.position = enemyPos;
             cameraFollow.transform.position = new Vector3(gameObject.transform.FindChild("Background").position.x, gameObject.transform.FindChild("Background").position.y, -10);
-            Enemy newEnemy = enemyStats.enemy;
-            enemyStats.enemy.StatsUpdate();
+            //Enemy newEnemy = enemyStats.enemy;
+            StatUtilities.StatsUpdate(enemyStats.enemy.stats);
             // Enemy Texts
-            canvas.transform.FindChild("Enemy HP").GetComponent<Text>().text = "HP: " + enemy.GetComponent<EnemyStats>().enemy.FindStatTotal(4).ToString();
-            canvas.transform.FindChild("Enemy MP").GetComponent<Text>().text = "MP: " + enemy.GetComponent<EnemyStats>().enemy.FindStatTotal(6).ToString();
-            
-        }
-    }
-    void OnGUI() {
-        // Buttons
-        if (GUI.Button(new Rect(middle.x - cameraW/4, middle.y + cameraH / 3, 50, 50), "Attack"))
-        {
+            canvas.transform.FindChild("Enemy HP").GetComponent<Text>().text = "HP: " + StatUtilities.FindStatTotal(enemy.GetComponent<EnemyStats>().enemy.stats, 4).ToString();
+            canvas.transform.FindChild("Enemy MP").GetComponent<Text>().text = "MP: " + StatUtilities.FindStatTotal(enemy.GetComponent<EnemyStats>().enemy.stats, 6).ToString();
 
         }
     }
+    void OnGUI() {
+        
+    }
+
+    //public void skillAttack(List<Stat> user, List<Stat> victim, Skill skill)
+    //{
+    //    // Mana Cost
+    //    StatUtilities.IncreaseStat(user, 6, -(skill.skillManaCost));
+    //    // Damage
+
+    //    // Crit Chance
+
+    //    // Hit Chance
+    //    bool ifHit = StatUtilities.
+    //}
+
+
     public void EnemyTextOn(bool bol)
     {
-        GameObject.FindGameObjectWithTag("Canvas").transform.FindChild("Enemy HP").GetComponent<Text>().enabled = bol;
-        GameObject.FindGameObjectWithTag("Canvas").transform.FindChild("Enemy MP").GetComponent<Text>().enabled = bol;
+        canvas.transform.FindChild("Enemy HP").GetComponent<Text>().enabled = bol;
+        canvas.transform.FindChild("Enemy MP").GetComponent<Text>().enabled = bol;
+    }
+    public void ButtonsOn(bool bol)
+    {
+        canvas.transform.FindChild("Attack").gameObject.SetActive(bol);
+        canvas.transform.FindChild("Skills").gameObject.SetActive(bol);
+        canvas.transform.FindChild("Run").gameObject.SetActive(bol);
     }
 
     void EndBattle()

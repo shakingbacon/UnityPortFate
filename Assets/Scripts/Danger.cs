@@ -5,7 +5,6 @@ public class Danger : MonoBehaviour {
     CameraFollow cameraFollow;
     GameManager manager;
     GameObject player;
-    GameObject playerClone = null;
     Vector3 playerPos, cameraPos;
     
 

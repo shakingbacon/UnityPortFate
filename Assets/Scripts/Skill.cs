@@ -6,7 +6,7 @@ using UnityEngine;
 public class Skill {
     public string skillName;
     public int skillID;
-    public Texture2D skillIMG;
+    public Sprite skillIMG;
     //public AudioSource skillSound;
     public string skillDesc;
     public string skillRequire;
@@ -14,6 +14,9 @@ public class Skill {
     public int skillMaxRank;
     public int skillDamage;
     public int skillManaCost;
+    public int skillHitChance;
+    public int skillCritChance;
+    public int skillCritMulti;
     public SkillType skillType;
 
     public enum SkillType
@@ -24,14 +27,18 @@ public class Skill {
         Passive
     }
 
-    public Skill(string name, int id, Texture2D img, string desc, string req, int maxrank, SkillType type)
+    public Skill(string name, int id, string desc, string req, int maxrank, SkillType type)
     {
         skillName = name;
         skillID = id;
-        skillIMG = img;
+        skillIMG = Resources.Load<Sprite>("Skills/" + name);
         skillDesc = desc;
         skillRequire = req;
         skillMaxRank = maxrank;
         skillType = type;
+    }
+    public Skill()
+    {
+        skillID = -1;
     }
 }

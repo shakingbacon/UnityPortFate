@@ -21,3 +21,9 @@ C:\Users\Camer\Desktop\Unity Projects\Booga's Welcome of Fate\Temp\bin\Debug\Uni
 C:\Users\Camer\Desktop\Unity Projects\Booga's Welcome of Fate\Temp\bin\Debug\UnityEngine.Analytics.xml
 C:\Users\Camer\Desktop\Unity Projects\Booga's Welcome of Fate\obj\Debug\Assembly-CSharp.dll
 C:\Users\Camer\Desktop\Unity Projects\Booga's Welcome of Fate\obj\Debug\Assembly-CSharp.pdb
+C:\Users\Camer\Desktop\Unity Projects\Booga's Welcome of Fate\Temp\bin\Debug\UnityEngine.HoloLens.dll
+C:\Users\Camer\Desktop\Unity Projects\Booga's Welcome of Fate\Temp\bin\Debug\UnityEngine.PlaymodeTestsRunner.dll
+C:\Users\Camer\Desktop\Unity Projects\Booga's Welcome of Fate\Temp\bin\Debug\UnityEngine.VR.dll
+C:\Users\Camer\Desktop\Unity Projects\Booga's Welcome of Fate\Temp\bin\Debug\UnityEngine.PlaymodeTestsRunner.xml
+C:\Users\Camer\Desktop\Unity Projects\Booga's Welcome of Fate\Temp\bin\Debug\UnityEngine.HoloLens.xml
+C:\Users\Camer\Desktop\Unity Projects\Booga's Welcome of Fate\Temp\bin\Debug\UnityEngine.VR.xml

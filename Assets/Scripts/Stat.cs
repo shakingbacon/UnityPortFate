@@ -20,6 +20,4 @@ public class Stat {
         statID = id;
         statAmount = start;
     }
-
-	
 }

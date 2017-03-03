@@ -121,7 +121,7 @@ public class Inventory : MonoBehaviour
         // Inventory Slots
         slotButton.MatrixSlot(slotsX, slotsY, inventory, page.x+ 32, page.y+ 65, 67, 67);
         // Cash
-        GUI.Box(new Rect(page.x, page.y + 385, page.w, 100), "<color=#ECF32A>Cash: $" + playerStats.FindStatTotal(21) + "</color>", skin.GetStyle("Cash"));
+        GUI.Box(new Rect(page.x, page.y + 385, page.w, 100), "<color=#ECF32A>Cash: $" + StatUtilities.FindStatTotal(playerStats.stats, 21) + "</color>", skin.GetStyle("Cash"));
     }
 
 
@@ -172,14 +172,14 @@ public class Inventory : MonoBehaviour
         {
             return "Inventory is full!";
         }
-        else if (playerStats.FindStatTotal(21) - GetItem(id).itemCost < 0)
+        else if (StatUtilities.FindStatTotal(playerStats.stats, 21) - GetItem(id).itemCost < 0)
         {
             return "Not enough cash!";
         }
         else
         {
             AddItem(id);
-            playerStats.DecreaseStat(21, GetItem(id).itemCost);
+            StatUtilities.BuffStat(playerStats.stats, 21, -(GetItem(id).itemCost));
             playerStats.StatsUpdate();
             return "";
         }

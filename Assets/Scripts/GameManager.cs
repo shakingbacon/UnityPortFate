@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour {
         //Screen.SetResolution(1024, 768, true);
         // Set beginning game values here
         battle.EnemyTextOn(false);
+        battle.ButtonsOn(false);
     }
 
     void Update()
