@@ -1,0 +1,39 @@
+Mono path[0] = 'C:/Users/Camer/Desktop/Unity Projects/Booga's Welcome of Fate/Builds/dev.v4.0/dev.v4.0 test3_Data/Managed'
+Mono path[1] = 'C:/Users/Camer/Desktop/Unity Projects/Booga's Welcome of Fate/Builds/dev.v4.0/dev.v4.0 test3_Data/Mono'
+Mono config path = 'C:/Users/Camer/Desktop/Unity Projects/Booga's Welcome of Fate/Builds/dev.v4.0/dev.v4.0 test3_Data/Mono/etc'
+PlayerConnection initialized from C:/Users/Camer/Desktop/Unity Projects/Booga's Welcome of Fate/Builds/dev.v4.0/dev.v4.0 test3_Data (debug = 0)
+PlayerConnection initialized network socket : 0.0.0.0 55455
+Multi-casting "[IP] 25.20.148.60 [Port] 55455 [Flags] 2 [Guid] 483151200 [EditorId] 2236870426 [Version] 1048832 [Id] WindowsPlayer(DESKTOP-CSHQQLO) [Debug] 0" to [225.0.0.222:54997]...
+Started listening to [0.0.0.0:55455]
+PlayerConnection already initialized - listening to [0.0.0.0:55455]
+Initialize engine version: 5.5.1f1 (88d00a7498cd)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.1]
+    Renderer: Intel(R) HD Graphics 5500 (ID=0x1616)
+    Vendor:   Intel
+    VRAM:     2111 MB
+    Driver:   20.19.15.4531
+Begin MonoManager ReloadAssembly
+Platform assembly: C:\Users\Camer\Desktop\Unity Projects\Booga's Welcome of Fate\Builds\dev.v4.0\dev.v4.0 test3_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Users\Camer\Desktop\Unity Projects\Booga's Welcome of Fate\Builds\dev.v4.0\dev.v4.0 test3_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Users\Camer\Desktop\Unity Projects\Booga's Welcome of Fate\Builds\dev.v4.0\dev.v4.0 test3_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Users\Camer\Desktop\Unity Projects\Booga's Welcome of Fate\Builds\dev.v4.0\dev.v4.0 test3_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\Users\Camer\Desktop\Unity Projects\Booga's Welcome of Fate\Builds\dev.v4.0\dev.v4.0 test3_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\Users\Camer\Desktop\Unity Projects\Booga's Welcome of Fate\Builds\dev.v4.0\dev.v4.0 test3_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: C:\Users\Camer\Desktop\Unity Projects\Booga's Welcome of Fate\Builds\dev.v4.0\dev.v4.0 test3_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading C:\Users\Camer\Desktop\Unity Projects\Booga's Welcome of Fate\Builds\dev.v4.0\dev.v4.0 test3_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+Platform assembly: C:\Users\Camer\Desktop\Unity Projects\Booga's Welcome of Fate\Builds\dev.v4.0\dev.v4.0 test3_Data\Managed\UnityEngine.PlaymodeTestsRunner.dll (this message is harmless)
+Loading C:\Users\Camer\Desktop\Unity Projects\Booga's Welcome of Fate\Builds\dev.v4.0\dev.v4.0 test3_Data\Managed\UnityEngine.PlaymodeTestsRunner.dll into Unity Child Domain
+Platform assembly: C:\Users\Camer\Desktop\Unity Projects\Booga's Welcome of Fate\Builds\dev.v4.0\dev.v4.0 test3_Data\Managed\UnityEngine.Analytics.dll (this message is harmless)
+Loading C:\Users\Camer\Desktop\Unity Projects\Booga's Welcome of Fate\Builds\dev.v4.0\dev.v4.0 test3_Data\Managed\UnityEngine.Analytics.dll into Unity Child Domain
+- Completed reload, in  0.069 seconds
+Platform assembly: C:\Users\Camer\Desktop\Unity Projects\Booga's Welcome of Fate\Builds\dev.v4.0\dev.v4.0 test3_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: C:\Users\Camer\Desktop\Unity Projects\Booga's Welcome of Fate\Builds\dev.v4.0\dev.v4.0 test3_Data\Managed\System.dll (this message is harmless)
+desktop: 1366x768 60Hz; virtual: 2732x768 at -1366,0
+<RI> Initializing input.
+<RI> Input initialized.
+<RI> Initialized touch support.
+UnloadTime: 3.394018 ms
+Setting up 1 worker threads for Enlighten.
+  Thread -> id: a40 -> priority: 1 

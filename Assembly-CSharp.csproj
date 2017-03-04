@@ -69,6 +69,7 @@
      <Compile Include="Assets\Scripts\PlayerStats.cs" />
      <Compile Include="Assets\Scripts\Shop.cs" />
      <Compile Include="Assets\Scripts\Skill.cs" />
+     <Compile Include="Assets\Scripts\SkillButton.cs" />
      <Compile Include="Assets\Scripts\SkillDatabase.cs" />
      <Compile Include="Assets\Scripts\SkillHolder.cs" />
      <Compile Include="Assets\Scripts\SkillPage.cs" />

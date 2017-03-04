@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class PlayerStats : MonoBehaviour
 {
+    public string name;
     public Job job;
     private JobDatabase jobDatabase;
     public List<Stat> stats = new List<Stat>();
@@ -54,7 +55,9 @@ public class PlayerStats : MonoBehaviour
         StatUtilities.HealMPFull(stats);
         StatUtilities.FindStat(stats, 20).statAmount = 25;
         StatsUpdate();
-        
+        GameObject.FindGameObjectWithTag("Canvas").transform.FindChild("Status Bar").transform.FindChild("Player Description").transform.FindChild("Name").GetComponent<Text>().text = name;
+        GameObject.FindGameObjectWithTag("Canvas").transform.FindChild("Status Bar").transform.FindChild("Player Description").transform.FindChild("Job").GetComponent<Text>().text = job.jobName;
+
         //BuffStat(8, 30);
         //StatsUpdate();
     }

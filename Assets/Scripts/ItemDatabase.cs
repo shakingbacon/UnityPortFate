@@ -105,7 +105,6 @@ public class ItemDatabase : MonoBehaviour {
         AddItems(shop, shopItems);
     }
 
-    
     private void AddItems(List<List<Item>> listToAdd, List<List<int>> listOfItems)
     {
         for (int k = 0; k < listOfItems.Count; k += 1)
@@ -127,6 +126,7 @@ public class ItemDatabase : MonoBehaviour {
             }
         }
     }
+
     private string CreateTooltip(Item item)
     {
         string tooltip;

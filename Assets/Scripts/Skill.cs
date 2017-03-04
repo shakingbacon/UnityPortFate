@@ -9,6 +9,7 @@ public class Skill {
     public Sprite skillIMG;
     //public AudioSource skillSound;
     public string skillDesc;
+    public string skillEffDesc;
     public string skillRequire;
     public int skillRank;
     public int skillMaxRank;
@@ -17,6 +18,13 @@ public class Skill {
     public int skillHitChance;
     public int skillCritChance;
     public int skillCritMulti;
+    public int skillBurnChance;
+    public int skillParaChance;
+    public int skillBleedChance;
+    public int skillPoisonChance;
+    public int skillCripChance;
+    public int skillBlindChance;
+    public int skillConfChance;
     public SkillType skillType;
 
     public enum SkillType
@@ -27,15 +35,23 @@ public class Skill {
         Passive
     }
 
-    public Skill(string name, int id, string desc, string req, int maxrank, SkillType type)
+    public Skill(string name, int id, string desc, int maxrank, SkillType type)
     {
         skillName = name;
         skillID = id;
         skillIMG = Resources.Load<Sprite>("Skills/" + name);
         skillDesc = desc;
-        skillRequire = req;
         skillMaxRank = maxrank;
         skillType = type;
+    }
+    public Skill(Skill skill)
+    {
+        skillName = skill.skillName;
+        skillID = skill.skillID;
+        skillIMG = Resources.Load<Sprite>("Skills/" + skill.skillName);
+        skillDesc = skill.skillDesc;
+        skillMaxRank = skill.skillMaxRank;
+        skillType = skill.skillType;
     }
     public Skill()
     {
