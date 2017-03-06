@@ -7,20 +7,87 @@ public class SkillHolder : MonoBehaviour {
 
     public Skill skill;
     bool isMouseHover;
+    GameManager manager;
+    PlayerStats playerStats;
+    PlayerSkills playerSkills;
 
 
-    void Update()
+    void Start()
     {
-
-
+        playerSkills = GameObject.FindGameObjectWithTag("Player Skills").GetComponent<PlayerSkills>();
+        playerStats = GameObject.FindGameObjectWithTag("Player Stats").GetComponent<PlayerStats>();
+        manager = GameObject.FindGameObjectWithTag("Manager").GetComponent<GameManager>();
+        gameObject.GetComponent<Button>().onClick.AddListener(ButtonClick);
     }
 
+    void ButtonClick()
+    {
+        if (!manager.inBattle)
+        {
+            if (StatUtilities.FindStatTotal(playerStats.stats, 18) > 0)
+            {
+                // if skill require
+                // learn new skill
+                if (skill.skillRank == 0)
+                {
+                    // put in learned skill
+                    for (int k = 0; k < playerSkills.learnedSkills.Count; k += 1)
+                    {
+                        for (int i = 0; i < playerSkills.learnedSkills[k].Count; i += 1)
+                        {
+                            if (playerSkills.learnedSkills[k][i].skillID == -1)
+                            {
+                                playerSkills.learnedSkills[k][i] = skill;
+                                k = 5;
+                                break;
+                            }
+                        }
+                    }
+                }
+                if (!(skill.skillRank == skill.skillMaxRank))
+                {
+
+                    skill.skillRank += 1;
+                    StatUtilities.IncreaseStat(playerStats.stats, 18, -1);
+                    MouseEnter();// reset desc
+                    playerStats.StatsUpdate();
+                    // if passive give stats
+                }
+                else
+                {
+                    StartCoroutine(showTextForTime("Skill at max rank!", 1));
+                }
+                // else requirements not met
+            }
+            else
+            {
+                StartCoroutine(showTextForTime("Not enough SP!", 1));
+            }
+        }
+    }
+
+    IEnumerator showTextForTime(string text, float time)
+    {
+        GameObject.FindGameObjectWithTag("Skill Page").transform.FindChild("Skill Desc").FindChild("Notifier Text").GetComponent<Text>().text = text;
+        yield return new WaitForSeconds(time);
+        GameObject.FindGameObjectWithTag("Skill Page").transform.FindChild("Skill Desc").FindChild("Notifier Text").GetComponent<Text>().text = "";
+    }
+
+    // mouseEnter usage is in inspector
     public void MouseEnter()
     {
         Text desc = GameObject.FindGameObjectWithTag("Skill Page").transform.FindChild("Skill Desc").GetComponentInChildren<Text>();
         //isMouseHover = true;
         if (gameObject.GetComponent<Button>().interactable)
         {
+            if (gameObject.tag == "Holder Right")
+            {
+                GameObject.FindGameObjectWithTag("Skill Page").transform.FindChild("Skill Desc").GetComponent<RectTransform>().localPosition = new Vector3(-200, 0);
+            }
+            else
+            {
+                GameObject.FindGameObjectWithTag("Skill Page").transform.FindChild("Skill Desc").GetComponent<RectTransform>().localPosition = new Vector3(200, 0);
+            }
             GameObject.FindGameObjectWithTag("Skill Page").transform.FindChild("Skill Desc").gameObject.SetActive(true);
             desc.text
                 = "<size=50>" + skill.skillName + "</size>\n"
@@ -46,5 +113,7 @@ public class SkillHolder : MonoBehaviour {
     {
         //isMouseHover = false;
         GameObject.FindGameObjectWithTag("Skill Page").transform.FindChild("Skill Desc").gameObject.SetActive(false);
+        GameObject.FindGameObjectWithTag("Skill Page").transform.FindChild("Skill Desc").FindChild("Notifier Text").GetComponent<Text>().text = "";
     }
+
 }

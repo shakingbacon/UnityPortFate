@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour {
         // Set beginning game values here
         battle.EnemyTextOn(false);
         battle.ButtonsOn(false);
+        GameObject.FindGameObjectWithTag("Skill Page").transform.FindChild("Skill Desc").gameObject.SetActive(false);
         GameObject.FindGameObjectWithTag("Skill Page").SetActive(false);
     }
 
@@ -24,9 +25,14 @@ public class GameManager : MonoBehaviour {
     {
         if (Input.GetButtonDown("Skill"))
         {
-            GameObject.FindGameObjectWithTag("Canvas").transform.FindChild("Skill Page").gameObject.SetActive(
-                !(GameObject.FindGameObjectWithTag("Canvas").transform.FindChild("Skill Page").gameObject.activeInHierarchy));
+            OpenCloseSkillPage();
         }
+    }
+
+    public static void OpenCloseSkillPage()
+    {
+        GameObject.FindGameObjectWithTag("Canvas").transform.FindChild("Skill Page").gameObject.SetActive(
+            !(GameObject.FindGameObjectWithTag("Canvas").transform.FindChild("Skill Page").gameObject.activeInHierarchy));
     }
 
     public void BuyItem()

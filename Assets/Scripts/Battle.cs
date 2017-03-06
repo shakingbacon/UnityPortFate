@@ -33,6 +33,9 @@ public class Battle : MonoBehaviour {
             () =>  DamageCalc.skillAttack(player.transform.FindChild("Player Stats").GetComponent<PlayerStats>().stats, 
             enemyStats.enemy.stats, 
             player.transform.FindChild("Player Skills").GetComponent<PlayerSkills>().FindSkill(0)));
+        canvas.transform.FindChild("Skills").GetComponent<Button>().onClick.AddListener(GameManager.OpenCloseSkillPage);
+        canvas.transform.FindChild("Run").GetComponent<Button>().onClick.AddListener(EndBattle);
+
     }
 
     // Update is called once per frame
@@ -44,14 +47,14 @@ public class Battle : MonoBehaviour {
         }
         if (manager.setupBattle)
         {
-            // setup enemy
             playerOldPosition = player.transform.position;
             playerOldPosition = new Vector3(playerOldPosition.x - 1, playerOldPosition.y);
             enemyStats.enemy = enemyDatabase.enemies[Random.Range(0, enemyDatabase.enemies.Count)];
             enemy.GetComponent<SpriteRenderer>().sprite = enemyStats.enemy.enemyIMG;
             EnemyTextOn(true);
             ButtonsOn(true);
-            manager.setupBattle = false;
+            manager.setupBattle = false; // setup enemy
+           
         }
         if (manager.inBattle)
         {

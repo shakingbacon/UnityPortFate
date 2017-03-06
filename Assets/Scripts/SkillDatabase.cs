@@ -33,29 +33,38 @@ public class SkillDatabase : MonoBehaviour {
         skills.Add(new Skill("Glass Cannon", 21, "All in", 3, Skill.SkillType.Passive));
         skills.Add(new Skill("Soaked Shock", 22, "Careful", 3, Skill.SkillType.Passive));
         skills.Add(new Skill("Plasma Fusion", 23, "Feel the power", 3, Skill.SkillType.Passive));
-        //skills.Add(new Skill("", 24, "", , Skill.SkillType.));
-        //skills.Add(new Skill("", 25, "", , Skill.SkillType.));
-        //skills.Add(new Skill("", 26, "", , Skill.SkillType.));
-        //skills.Add(new Skill("", 27, "", , Skill.SkillType.));
-        //skills.Add(new Skill("", 28, "", , Skill.SkillType.));
-        //skills.Add(new Skill("", 29, "", , Skill.SkillType.));
-        //skills.Add(new Skill("", 30, "", , Skill.SkillType.));
-
-
-
-
+        skills.Add(new Skill("Magical Attack", 24, "Basic magical attack", 1, Skill.SkillType.Magical));
+        skills.Add(new Skill("", 25, "", , Skill.SkillType.));
+        skills.Add(new Skill("", 26, "", , Skill.SkillType.));
+        skills.Add(new Skill("", 27, "", , Skill.SkillType.));
+        skills.Add(new Skill("", 28, "", , Skill.SkillType.));
+        skills.Add(new Skill("", 29, "", , Skill.SkillType.));
+        skills.Add(new Skill("", 30, "", , Skill.SkillType.));
         //// Mage Skills
         // add pages
         AddPage(mageSkills, 2);
+
+        //-1, -1, -1, -1, -1, -1, -1, -1,
+        //-1, -1, -1, -1, -1, -1, -1, -1,
+        //-1, -1, -1, -1, -1, -1, -1, -1,
+        //-1, -1, -1, -1, -1, -1, -1, -1,
+        //-1, -1, -1, -1, -1, -1, -1, -1
+
         List<List<int>> mage =
             new List<List<int>>(new[]{
-            new List<int>(new []{
                 // A 8 x 5 matrix, what is seen here will be the same on screen
-             1, 2, 3, 4, -1, -1, -1, -1,
+            new List<int>(new []{
+             1, 2, 3, 4, -1, -1, -1, 8,
             15, 16, 17, 18, -1, -1, -1, -1,
-            -1, -1, -1, -1, -1, -1, -1, -1,
             23, 20, 21, 22, -1, -1, -1, -1,
-            -1, 14, 19, -1, -1, -1, -1, -1})
+            -1, -1, -1, -1, -1, -1, -1, -1,
+            0, 24, 14, 19, -1, -1, -1, -1}),
+            new List<int>(new []{
+            5, 9, 10, 12, -1, -1, -1, -1,
+            6, 7, 11, 13, -1, -1, -1, -1,
+            -1, -1, -1, -1, -1, -1, -1, -1,
+            -1, -1, -1, -1, -1, -1, -1, -1,
+            -1, -1, -1, -1, -1, -1, -1, -1})
             });
         AddSkills(mageSkills, mage);
     }

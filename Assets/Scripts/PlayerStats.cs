@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class PlayerStats : MonoBehaviour
 {
-    public string name;
+    public string playerName;
     public Job job;
     private JobDatabase jobDatabase;
     public List<Stat> stats = new List<Stat>();
@@ -55,7 +55,7 @@ public class PlayerStats : MonoBehaviour
         StatUtilities.HealMPFull(stats);
         StatUtilities.FindStat(stats, 20).statAmount = 25;
         StatsUpdate();
-        GameObject.FindGameObjectWithTag("Canvas").transform.FindChild("Status Bar").transform.FindChild("Player Description").transform.FindChild("Name").GetComponent<Text>().text = name;
+        GameObject.FindGameObjectWithTag("Canvas").transform.FindChild("Status Bar").transform.FindChild("Player Description").transform.FindChild("Name").GetComponent<Text>().text = playerName;
         GameObject.FindGameObjectWithTag("Canvas").transform.FindChild("Status Bar").transform.FindChild("Player Description").transform.FindChild("Job").GetComponent<Text>().text = job.jobName;
 
         //BuffStat(8, 30);
@@ -67,17 +67,13 @@ public class PlayerStats : MonoBehaviour
         {
           
         }
-        StatsUpdate();
-    }
-    void OnGUI()
-    {
         StatusBar();
+        //StatsUpdate();
     }
 
     void StatusBar()
     {
         // HP BAR
-
         string hpBarText = (StatUtilities.FindStatTotal(stats, 4) * 1f).ToString() + " / " + (StatUtilities.FindStatTotal(stats, 5) * 1f).ToString();
         float healthValue = StatUtilities.FindStatTotal(stats, 4) * 1f / StatUtilities.FindStatTotal(stats, 5) * 1f;
         UpdateSliderFillWithText(healthBar, healthValue, "HP Amount", hpBarText);
@@ -96,19 +92,6 @@ public class PlayerStats : MonoBehaviour
         slider.value = percentage;
         slider.transform.FindChild(textname).GetComponent<Text>().text = text;
     }
-
-    //void SliderWithText(Slider slider, Vector3 localPos, /*Vector2 size*/ string textname, int stat1, int stat2, string text)
-    //{
-    //    slider.value = FindStatTotal(stat1) * 1f / StatUtilities.FindStatTotal(stat2) * 1f;
-    //    slider.GetComponentInParent<RectTransform>().localPosition = localPos;
-    //    //slider.GetComponent<RectTransform>().sizeDelta = size;
-    //    Vector2 size = slider.GetComponent<RectTransform>().sizeDelta;
-    //    Transform bartext = slider.transform.FindChild(textname);
-    //    bartext.GetComponent<RectTransform>().localPosition = new Vector3(localPos.x, localPos.y - size.y / 4);
-    //    bartext.GetComponent<RectTransform>().sizeDelta = size;
-    //    bartext.GetComponent<Text>().text = text;
-    //    bartext.GetComponent<Text>().fontSize = (int)(size.y * 0.4f);
-    //}
 
     public void StatsUpdate()
     {
