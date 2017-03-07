@@ -10,21 +10,19 @@ public class Skill {
     //public AudioSource skillSound;
     public string skillDesc;
     public string skillEffDesc;
-    public string skillRequire;
+    public string skillRequireDesc;
+    public bool skillRequire;
     public int skillRank;
     public int skillMaxRank;
     public int skillDamage;
     public int skillManaCost;
+    // for actives hit,crit, and critmulti can be used for other values not just hit crit and multi
     public int skillHitChance;
     public int skillCritChance;
     public int skillCritMulti;
-    public int skillBurnChance;
-    public int skillParaChance;
-    public int skillBleedChance;
-    public int skillPoisonChance;
-    public int skillCripChance;
-    public int skillBlindChance;
-    public int skillConfChance;
+    public int skillCooldown;
+    public int skillTurnEnd;
+    public StatusEffects skillStatusEff = new StatusEffects();
     public SkillType skillType;
 
     public enum SkillType

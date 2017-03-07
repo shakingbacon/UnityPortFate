@@ -24,45 +24,57 @@ public class SkillHolder : MonoBehaviour {
     {
         if (!manager.inBattle)
         {
+            // rank up
             if (StatUtilities.FindStatTotal(playerStats.stats, 18) > 0)
-            {
-                // if skill require
-                // learn new skill
-                if (skill.skillRank == 0)
+            {   
+                // update skills to check requirement
+                playerSkills.SkillUpdate();
+                if (skill.skillRequire)
                 {
-                    // put in learned skill
-                    for (int k = 0; k < playerSkills.learnedSkills.Count; k += 1)
+                    // learn new skill
+                    if (skill.skillRank == 0)
                     {
-                        for (int i = 0; i < playerSkills.learnedSkills[k].Count; i += 1)
+                        // put in learned skill
+                        for (int k = 0; k < playerSkills.learnedSkills.Count; k += 1)
                         {
-                            if (playerSkills.learnedSkills[k][i].skillID == -1)
+                            for (int i = 0; i < playerSkills.learnedSkills[k].Count; i += 1)
                             {
-                                playerSkills.learnedSkills[k][i] = skill;
-                                k = 5;
-                                break;
+                                if (playerSkills.learnedSkills[k][i].skillID == -1)
+                                {
+                                    playerSkills.learnedSkills[k][i] = skill;
+                                    k = 5;
+                                    break;
+                                }
                             }
                         }
                     }
-                }
-                if (!(skill.skillRank == skill.skillMaxRank))
-                {
+                    if (!(skill.skillRank == skill.skillMaxRank))
+                    {
 
-                    skill.skillRank += 1;
-                    StatUtilities.IncreaseStat(playerStats.stats, 18, -1);
-                    MouseEnter();// reset desc
-                    playerStats.StatsUpdate();
-                    // if passive give stats
+                        skill.skillRank += 1;
+                        StatUtilities.IncreaseStat(playerStats.stats, 18, -1);
+                        playerSkills.SkillUpdate();
+                        playerStats.StatsUpdate();
+                        playerSkills.SkillUpdate();
+                        MouseEnter();// reset desc
+                                     // if passive give stats
+                    }
+                    else
+                    {
+                        StartCoroutine(showTextForTime("Skill at max rank!", 1));
+                    }
+                    // else requirements not met
                 }
                 else
                 {
-                    StartCoroutine(showTextForTime("Skill at max rank!", 1));
+                    StartCoroutine(showTextForTime("Requirements not met!", 1));
                 }
-                // else requirements not met
             }
             else
             {
                 StartCoroutine(showTextForTime("Not enough SP!", 1));
             }
+
         }
     }
 
@@ -92,11 +104,16 @@ public class SkillHolder : MonoBehaviour {
             desc.text
                 = "<size=50>" + skill.skillName + "</size>\n"
                 + "<size=32>" + skill.skillDesc + "</size>\n";
-            if (skill.skillRequire != null)
+
+            desc.text += "<size=35>Rank: " + skill.skillRank + "/" + skill.skillMaxRank + " (" + skill.skillType.ToString() + ")" + "</size>\n";
+            if (skill.skillRequireDesc != null && skill.skillRank != skill.skillMaxRank)
             {
-                desc.text += "<size=30>Requirement(s): " + skill.skillRequire + "</size>\n";
+                desc.text += "<size=15>Requirement(s): (" + skill.skillRequireDesc + ")</size>\n";
             }
-            desc.text += "<size=35>Rank: " + skill.skillRank + "/" + skill.skillMaxRank + " (" + skill.skillType.ToString() + ")" + "</size>\n\n";
+            else
+            {
+                desc.text += "\n";
+            }
             if (skill.skillType == Skill.SkillType.Magical || skill.skillType == Skill.SkillType.Physical)
             {
                 desc.text += "<size=30>" + skill.skillType.ToString() + " Damage: " + skill.skillDamage + "</size>";
@@ -105,7 +122,7 @@ public class SkillHolder : MonoBehaviour {
             {
                 desc.text += "\n<size=30>Mana Cost: " + skill.skillManaCost + "</size>\n\n";
             }
-            desc.text += "<size=25>" + skill.skillEffDesc + "</size>\n";
+            desc.text += "<size=22>" + skill.skillEffDesc + "</size>\n";
         }
     }
 
