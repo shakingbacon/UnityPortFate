@@ -122,6 +122,10 @@ public class SkillHolder : MonoBehaviour {
             {
                 desc.text += "\n<size=30>Mana Cost: " + skill.skillManaCost + "</size>\n\n";
             }
+            else
+            {
+                desc.text += "\n\n\n";
+            }
             desc.text += "<size=22>" + skill.skillEffDesc + "</size>\n";
         }
     }

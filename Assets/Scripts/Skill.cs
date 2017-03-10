@@ -11,7 +11,7 @@ public class Skill {
     public string skillDesc;
     public string skillEffDesc;
     public string skillRequireDesc;
-    public bool skillRequire;
+    public bool skillRequire = true;
     public int skillRank;
     public int skillMaxRank;
     public int skillDamage;

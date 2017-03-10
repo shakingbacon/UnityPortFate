@@ -14,7 +14,7 @@ public class SkillDatabase : MonoBehaviour {
         skills.Add(new Skill("Tsunami", 2, "Wash away and drown", 10, Skill.SkillType.Magical));
         skills.Add(new Skill("Tornado", 3, "Things around you fly", 10, Skill.SkillType.Magical));
         skills.Add(new Skill("Thunderstorm", 4, "Call thunder", 10, Skill.SkillType.Magical));
-        skills.Add(new Skill("Mana Gaurd", 5, "Mana gaurds your health", 6, Skill.SkillType.Active));
+        skills.Add(new Skill("Mana Gaurd", 5, "Mana gaurds your health", 5, Skill.SkillType.Active));
         skills.Add(new Skill("Restore", 6, "Restore Health", 6, Skill.SkillType.Active));
         skills.Add(new Skill("Meditate", 7, "Focus your mind", 6, Skill.SkillType.Active));
         skills.Add(new Skill("Corpse Drain", 8, "Gain more when killing", 8, Skill.SkillType.Passive));

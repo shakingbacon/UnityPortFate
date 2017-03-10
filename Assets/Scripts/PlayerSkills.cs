@@ -79,7 +79,7 @@ public class PlayerSkills : MonoBehaviour {
         {
             Skill skill = skills[k][i];
             switch (skill.skillID)
-            {
+            { 
 
                     case 0:
                         {
@@ -103,6 +103,9 @@ public class PlayerSkills : MonoBehaviour {
                             skill.skillManaCost = (int)(45 + skill.skillDamage / (20 - skill.skillRank) + skill.skillRank * 25);
                             skill.skillHitChance = (int)(20 + 4.5 * skill.skillRank);
                             skill.skillEffDesc = "Hit Chance: +" + skill.skillHitChance+"%";
+                            int req = skill.skillRank * 3;
+                            skill.skillRequire = StatUtilities.FindStatTotal(stats, 16) >= req;
+                            skill.skillRequireDesc = string.Format("Level: {0}", req);
                             break;
                         }
                     case 3:
@@ -114,6 +117,9 @@ public class PlayerSkills : MonoBehaviour {
                             skill.skillCritMulti = (int)(10 + 5 * skill.skillRank);
                             skill.skillEffDesc = "Crit Chance: +" + skill.skillCritChance + "%, " +
                                 "Crit Multi: +" + skill.skillCritMulti + "%\n" + "Hit Chance: " + skill.skillHitChance + "%";
+                            int req = skill.skillRank * 3;
+                            skill.skillRequire = StatUtilities.FindStatTotal(stats, 16) >= req;
+                            skill.skillRequireDesc = string.Format("Level: {0}", req);
                             break;
                         }
                     case 4:
@@ -123,15 +129,21 @@ public class PlayerSkills : MonoBehaviour {
                             skill.skillStatusEff.paraChance = (int)(20 + 3 * skill.skillRank + StatUtilities.FindStatTotal(stats, 9)/(25 + StatUtilities.FindStatTotal(stats, 9)/4));
                             skill.skillCritChance = (int)(14 + 4 * skill.skillRank);
                             skill.skillEffDesc = "Chance to Paralyze: +" + skill.skillStatusEff.paraChance + "%\nCrit Chance: +" + skill.skillCritChance + "%";
+                            int req = skill.skillRank * 3;
+                            skill.skillRequire = StatUtilities.FindStatTotal(stats, 16) >= req;
+                            skill.skillRequireDesc = string.Format("Level: {0}", req);
                             break;
                         }
                     case 5:
                         {
                             skill.skillManaCost = (int)(75 * skill.skillRank + (StatUtilities.FindStatTotal(stats, 6) * 0.195) / (skill.skillRank + 1));
                             skill.skillCooldown = 6;
-                            skill.skillTurnEnd = 6;
+                            skill.skillTurnEnd = 6 + 1 * skill.skillRank;
                             skill.skillEffDesc = string.Format("For {0} turns, when recieving damage from an enemy, your Current Mana takes damage instead of your HP. When no MP is available, damage is applied normally.",
                                 skill.skillTurnEnd) + string.Format("\nCooldown: {0} Turns", skill.skillCooldown);
+                            int req = skill.skillRank * 4;
+                            skill.skillRequire = StatUtilities.FindStatTotal(stats, 16) >= 3 + req;
+                            skill.skillRequireDesc = string.Format("Level: {0}", req);
                             break;
                         }
                     case 6:
@@ -140,16 +152,66 @@ public class PlayerSkills : MonoBehaviour {
                             skill.skillManaCost = (int)(60 + StatUtilities.FindStatTotal(stats, 9) * 0.6 * (1 - skill.skillRank / 20));
                             skill.skillCooldown = 3;
                             skill.skillEffDesc = string.Format("Restore HP: +{0}\nCooldown: {1} Turns", skill.skillDamage, skill.skillCooldown);
+                            int req = skill.skillRank * 3;
+                            skill.skillRequire = StatUtilities.FindStatTotal(stats, 16) >= 3 + req;
+                            skill.skillRequireDesc = string.Format("Level: {0}", req);
                             break;
+                        }
+                    case 7:
+                        {
+                            skill.skillDamage = (215 + (skill.skillRank - 1) * 15);
+                            skill.skillCooldown = 5;
+                            skill.skillTurnEnd = 3;
+                            skill.skillEffDesc = string.Format("After using this skill, within {0} turns, the next Magical Damage Skill you cast will deal {1}% of its damage.", skill.skillTurnEnd, skill.skillDamage)
+                                + string.Format("\nCooldown: {0} Turns", skill.skillCooldown);
+                            int req = skill.skillRank * 6;
+                            skill.skillRequire = StatUtilities.FindStatTotal(stats, 16) >= 5 + req;
+                            skill.skillRequireDesc = string.Format("Level: {0}", req);
+                            break;
+                        }
+                    case 8:
+                        {
+                            skill.skillDamage = 19 + StatUtilities.FindStatTotal(stats, 16) / 5 + 6 * skill.skillRank;
+                            skill.skillManaCost = 8 + StatUtilities.FindStatTotal(stats, 16) / 3 + 4 * skill.skillRank;
+                            skill.skillHitChance = 30 + 3 * skill.skillRank;
+                            skill.skillCritChance = 35 + 4 * skill.skillRank;
+                            skill.skillEffDesc = string.Format("Whenever you defeat an enemy, you have a {0}% chance to gain {1}% of your Maximum MP as MP.\nAlso, whenever you cast a Damaging Skill, you have a {2}% chance to gain {3}% of its Mana Cost as MP",
+                                skill.skillDamage, skill.skillHitChance, skill.skillManaCost, skill.skillCritChance);
+                            int req = 5 + skill.skillRank * 5;
+                            skill.skillRequire = StatUtilities.FindStatTotal(stats, 16) >= req;
+                            skill.skillRequireDesc = string.Format("Level: {0}", req);
+                            break;
+                        }
+                    case 9:
+                        {
+                            skill.skillDamage = (320 + 245 * skill.skillRank) * (1 + skill.skillRank / 65);
+                            skill.skillEffDesc = "Whenever you Rank Up this skill, gain a set amount of Max MP permanantly.\n" + string.Format("Gain Max MP: +{0}", skill.skillDamage);
+                            int req = skill.skillRank * 5;
+                            skill.skillRequire = StatUtilities.FindStatTotal(stats, 16) >= req;
+                            skill.skillRequireDesc = string.Format("Level: {0}", req);
+                            break;
+                        }
+                    case 10:
+                        {
+                            skill.skillDamage = 6;
+                            skill.skillEffDesc = string.Format("While wielding a Staff or a Wand,\nLuck/Hit/Crit: +{0}. Next rank: +{1}", skill.skillDamage * skill.skillRank, skill.skillDamage * (1 + skill.skillRank));
+                            int req = skill.skillRank * 3;
+                            skill.skillRequire = StatUtilities.FindStatTotal(stats, 16) >= req;
+                            skill.skillRequireDesc = string.Format("Level: {0}", req);
+                            break;
+                        }
+                    case 11:
+                        {
+                            skill.skillDamage = StatUtilities.FindStatTotal(stats, 7) / 40;
+                            skill.skillEffDesc
                         }
                     case 15:
                         {
                             skill.skillDamage = (int)(25 + skill.skillRank * 90 + StatUtilities.FindStatTotal(stats, 9)*0.666 / (8 - skill.skillRank));
                             skill.skillManaCost = (int)(150 + skill.skillRank * 60 + StatUtilities.FindStatTotal(stats, 9) * 1.3 * (1 + skill.skillRank));
-                            skill.skillHitChance = (int)(22 + skill.skillRank * 6 + StatUtilities.FindStatTotal(stats, 9) * 0.1 / (1 + skill.skillRank));
+                            skill.skillHitChance = (int)(22 + skill.skillRank * 6 + StatUtilities.FindStatTotal(stats, 9) * 0.1 / (1 + skill.skillRank)); // explosion chance;
                             skill.skillCritChance = 75 + 50 * skill.skillRank; // armor/res bonus
                             skill.skillStatusEff.burnChance = (int)(17 + skill.skillRank * 10 + StatUtilities.FindStatTotal(stats, 9) * 0.1 / (1 + skill.skillRank));
-                            
                             skill.skillCooldown = 5;
                             skill.skillTurnEnd = 4;
                             skill.skillEffDesc = string.Format("For {0} turns, gain Armor/Resist: +{1}.", skill.skillTurnEnd, skill.skillCritChance) + 
@@ -160,9 +222,6 @@ public class PlayerSkills : MonoBehaviour {
                             skill.skillRequireDesc = string.Format("Inferno - Rank: {0}", req);
                             break;
                         }
-
-
-
             }
         }
     }
