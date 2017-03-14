@@ -38,8 +38,28 @@ public class SkillDatabase : MonoBehaviour {
         skills.Add(new Skill("Lunar Blade", 26, "Power of the moon", 10, Skill.SkillType.Magical));
         skills.Add(new Skill("Elemental Strike", 27, "Strike with elements", 10, Skill.SkillType.Physical));
         skills.Add(new Skill("Shining Rays", 28, "Call upon the light", 5, Skill.SkillType.Magical));
-        //skills.Add(new Skill("", 29, "", , Skill.SkillType.));
-        //skills.Add(new Skill("", 30, "", , Skill.SkillType.));
+        // need pics
+        skills.Add(new Skill("Razor Leaf", 29, "Sharp leaves", 10, Skill.SkillType.Physical));
+        skills.Add(new Skill("Spirit Strike", 30, "Attack the soul", 10, Skill.SkillType.Magical));
+        skills.Add(new Skill("Adaptation", 31, "Easy yourself", 3, Skill.SkillType.Active));
+        skills.Add(new Skill("Heat Wave", 32, "Hot stuff", 3, Skill.SkillType.Active));
+        skills.Add(new Skill("Lunar Eclipse", 33, "Moon?", 3, Skill.SkillType.Active));
+        skills.Add(new Skill("Dark Veil", 34, "So dark", 3, Skill.SkillType.Active));
+        skills.Add(new Skill("Respiration", 35, "Breathe", 3, Skill.SkillType.Passive));
+        skills.Add(new Skill("Scorched Touch", 36, "Sizzle", 3, Skill.SkillType.Passive));
+        skills.Add(new Skill("Lunatic", 37, "Crazy", 3, Skill.SkillType.Passive));
+        skills.Add(new Skill("Photosynthesis", 38, "Absorb sun", 3, Skill.SkillType.Passive));
+        skills.Add(new Skill("升天", 39, "Ascend", 3, Skill.SkillType.Passive));
+        skills.Add(new Skill("Gravity", 40, "Heavy", 3, Skill.SkillType.Magical));
+        skills.Add(new Skill("Night's Shadow", 41, "Darkness", 3, Skill.SkillType.Passive));
+        skills.Add(new Skill("Rising Tide", 42, "High tide", 3, Skill.SkillType.Passive));
+        //skills.Add(new Skill("", 43, "", , Skill.SkillType.));
+        //skills.Add(new Skill("", 44, "", , Skill.SkillType.));
+        //skills.Add(new Skill("", 45, "", , Skill.SkillType.));
+        //skills.Add(new Skill("", 46, "", , Skill.SkillType.));
+        //skills.Add(new Skill("", 47, "", , Skill.SkillType.));
+        //skills.Add(new Skill("", 48, "", , Skill.SkillType.));
+        //skills.Add(new Skill("", 49, "", , Skill.SkillType.));
         //// Mage Skills
         // add pages
         AddPage(mageSkills, 2);
@@ -54,11 +74,11 @@ public class SkillDatabase : MonoBehaviour {
             new List<List<int>>(new[]{
                 // A 8 x 5 matrix, what is seen here will be the same on screen
             new List<int>(new []{
-             1, 2, 3, 4, -1, -1, -1, 8,
-            15, 16, 17, 18, -1, -1, -1, -1,
-            23, 20, 21, 22, 28, 25, 26, -1,
-            27, 19, 14, -1, -1, -1, -1, -1,
-            0, 24, -1, -1, -1, -1, -1, -1}),
+             1, 2, 3, 4, 29, 25, 26, 30,
+            15, 16, 17, 18, 31, 32, 33, 34,
+            23, 20, 21, 22, 35, 36, 37, 8,
+            27, 19, 14, -1, 38, 39, 40, 41,
+            0, 24, -1, -1, -1, -1, 42, -1}),
             new List<int>(new []{
             5, 9, 10, 12, -1, -1, -1, -1,
             6, 7, 11, 13, -1, -1, -1, -1,

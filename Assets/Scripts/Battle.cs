@@ -29,12 +29,12 @@ public class Battle : MonoBehaviour {
         cameraFollow = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraFollow>();
         canvas = GameObject.FindGameObjectWithTag("Canvas");
         // Buttons
-        canvas.transform.FindChild("Attack").GetComponent<Button>().onClick.AddListener(
+        canvas.transform.FindChild("Battle UI").transform.FindChild("Attack").GetComponent<Button>().onClick.AddListener(
             () =>  DamageCalc.skillAttack(player.transform.FindChild("Player Stats").GetComponent<PlayerStats>().stats, 
             enemyStats.enemy.stats, 
             player.transform.FindChild("Player Skills").GetComponent<PlayerSkills>().FindSkill(0)));
-        canvas.transform.FindChild("Skills").GetComponent<Button>().onClick.AddListener(GameManager.OpenCloseSkillPage);
-        canvas.transform.FindChild("Run").GetComponent<Button>().onClick.AddListener(EndBattle);
+        canvas.transform.FindChild("Battle UI").transform.FindChild("Skills").GetComponent<Button>().onClick.AddListener(GameManager.OpenCloseSkillPage);
+        canvas.transform.FindChild("Battle UI").transform.FindChild("Run").GetComponent<Button>().onClick.AddListener(EndBattle);
 
     }
 
@@ -51,8 +51,7 @@ public class Battle : MonoBehaviour {
             playerOldPosition = new Vector3(playerOldPosition.x - 1, playerOldPosition.y);
             enemyStats.enemy = enemyDatabase.enemies[Random.Range(0, enemyDatabase.enemies.Count)];
             enemy.GetComponent<SpriteRenderer>().sprite = enemyStats.enemy.enemyIMG;
-            EnemyTextOn(true);
-            ButtonsOn(true);
+            BattleUIOn(true);
             manager.setupBattle = false; // setup enemy
            
         }
@@ -69,8 +68,8 @@ public class Battle : MonoBehaviour {
             //Enemy newEnemy = enemyStats.enemy;
             StatUtilities.StatsUpdate(enemyStats.enemy.stats);
             // Enemy Texts
-            canvas.transform.FindChild("Enemy HP").GetComponent<Text>().text = "HP: " + StatUtilities.FindStatTotal(enemy.GetComponent<EnemyStats>().enemy.stats, 4).ToString();
-            canvas.transform.FindChild("Enemy MP").GetComponent<Text>().text = "MP: " + StatUtilities.FindStatTotal(enemy.GetComponent<EnemyStats>().enemy.stats, 6).ToString();
+            canvas.transform.FindChild("Battle UI").transform.FindChild("Enemy HP").GetComponent<Text>().text = "HP: " + StatUtilities.FindStatTotal(enemy.GetComponent<EnemyStats>().enemy.stats, 4).ToString();
+            canvas.transform.FindChild("Battle UI").transform.FindChild("Enemy MP").GetComponent<Text>().text = "MP: " + StatUtilities.FindStatTotal(enemy.GetComponent<EnemyStats>().enemy.stats, 6).ToString();
 
         }
     }
@@ -90,22 +89,14 @@ public class Battle : MonoBehaviour {
     //    bool ifHit = StatUtilities.
     //}
 
-
-    public void EnemyTextOn(bool bol)
+    public void BattleUIOn(bool bol)
     {
-        canvas.transform.FindChild("Enemy HP").GetComponent<Text>().enabled = bol;
-        canvas.transform.FindChild("Enemy MP").GetComponent<Text>().enabled = bol;
-    }
-    public void ButtonsOn(bool bol)
-    {
-        canvas.transform.FindChild("Attack").gameObject.SetActive(bol);
-        canvas.transform.FindChild("Skills").gameObject.SetActive(bol);
-        canvas.transform.FindChild("Run").gameObject.SetActive(bol);
+        canvas.transform.FindChild("Battle UI").gameObject.SetActive(bol);
     }
 
     void EndBattle()
     {
-        EnemyTextOn(false);
+        BattleUIOn(false);
         manager.inBattle = false;
         player.transform.position = playerOldPosition;
         Camera.main.transform.position = playerOldPosition;

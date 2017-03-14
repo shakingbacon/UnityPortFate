@@ -164,8 +164,8 @@ public class PlayerSkills : MonoBehaviour {
                             skill.skillTurnEnd = 3;
                             skill.skillEffDesc = string.Format("After using this skill, within {0} turns, the next Magical Damage Skill you cast will deal {1}% of its damage.", skill.skillTurnEnd, skill.skillDamage)
                                 + string.Format("\nCooldown: {0} Turns", skill.skillCooldown);
-                            int req = skill.skillRank * 6;
-                            skill.skillRequire = StatUtilities.FindStatTotal(stats, 16) >= 5 + req;
+                            int req = 5 + skill.skillRank * 6;
+                            skill.skillRequire = StatUtilities.FindStatTotal(stats, 16) >= req;
                             skill.skillRequireDesc = string.Format("Level: {0}", req);
                             break;
                         }
@@ -203,7 +203,18 @@ public class PlayerSkills : MonoBehaviour {
                     case 11:
                         {
                             skill.skillDamage = StatUtilities.FindStatTotal(stats, 7) / 40;
-                            skill.skillEffDesc
+                            // Mana cost is amount gained
+                            skill.skillEffDesc = string.Format("When this skill is ranked up, gain {0} Armor/Resist instantly. This skill is based off your Current Max MP.\nAmount Gained: {1} Armor/Resist", skill.skillDamage, skill.skillManaCost);
+                            int req = 10 + skill.skillRank * 8;
+                            skill.skillRequire = StatUtilities.FindStatTotal(stats, 16) >= req;
+                            skill.skillRequireDesc = string.Format("Level: {0}", req);
+                            break;
+                        }
+                    case 12:
+                        {
+                            skill.skillDamage = (StatUtilities.FindStatTotal(stats, 0) * 2 + StatUtilities.FindStatTotal(stats, 5)) * 3;
+                            skill.skillEffDesc = string.Format("Permamantly set your Str and HP to 1 to increase your Max MP by {0}.\nThis skill is based off your current Strength and max HP.\n", skill.skillDamage);
+                            break;
                         }
                     case 15:
                         {

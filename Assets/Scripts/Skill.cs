@@ -16,7 +16,7 @@ public class Skill {
     public int skillMaxRank;
     public int skillDamage;
     public int skillManaCost;
-    // for actives hit,crit, and critmulti can be used for other values not just hit crit and multi
+    // for actives/passives dmg, hit,crit, and critmulti can be used for other values not just hit crit and multi
     public int skillHitChance;
     public int skillCritChance;
     public int skillCritMulti;

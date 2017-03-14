@@ -9,14 +9,15 @@ public class GameManager : MonoBehaviour {
     public bool inBattle;
     public bool setupBattle;
     Battle battle;
+    PlayerSkills playerSkills;
 
     void Start()
     {
+        playerSkills = GameObject.FindGameObjectWithTag("Player Skills").GetComponent<PlayerSkills>();
         battle = GameObject.Find("Battlefield").GetComponent<Battle>();
         //Screen.SetResolution(1024, 768, true);
         // Set beginning game values here
-        battle.EnemyTextOn(false);
-        battle.ButtonsOn(false);
+        battle.BattleUIOn(false);
         GameObject.FindGameObjectWithTag("Skill Page").transform.FindChild("Skill Desc").gameObject.SetActive(false);
         GameObject.FindGameObjectWithTag("Skill Page").SetActive(false);
     }
@@ -25,14 +26,17 @@ public class GameManager : MonoBehaviour {
     {
         if (Input.GetButtonDown("Skill"))
         {
+            playerSkills.SkillUpdate();
             OpenCloseSkillPage();
         }
     }
 
     public static void OpenCloseSkillPage()
     {
+       
         GameObject.FindGameObjectWithTag("Canvas").transform.FindChild("Skill Page").gameObject.SetActive(
             !(GameObject.FindGameObjectWithTag("Canvas").transform.FindChild("Skill Page").gameObject.activeInHierarchy));
+        
     }
 
     public void BuyItem()

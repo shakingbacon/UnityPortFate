@@ -17,6 +17,7 @@ public class SkillPage : MonoBehaviour {
         gameObject.transform.FindChild("Left Button").GetComponent<Button>().onClick.AddListener(prevPage);
         gameObject.transform.FindChild("Right Button").GetComponent<Button>().onClick.AddListener(nextPage);
         gameObject.transform.FindChild("Learned Skills Button").GetComponent<Button>().onClick.AddListener(LearnedSkillButtonPress);
+        gameObject.transform.FindChild("Close Button").GetComponent<Button>().onClick.AddListener(GameManager.OpenCloseSkillPage);
     }
 
     void Update()
