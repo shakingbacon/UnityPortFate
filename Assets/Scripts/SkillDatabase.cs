@@ -50,7 +50,7 @@ public class SkillDatabase : MonoBehaviour {
         skills.Add(new Skill("Lunatic", 37, "Crazy", 3, Skill.SkillType.Passive));
         skills.Add(new Skill("Photosynthesis", 38, "Absorb sun", 3, Skill.SkillType.Passive));
         skills.Add(new Skill("升天", 39, "Ascend", 3, Skill.SkillType.Passive));
-        skills.Add(new Skill("Gravity", 40, "Heavy", 3, Skill.SkillType.Magical));
+         skills.Add(new Skill("Gravity", 40, "Heavy", 3, Skill.SkillType.Magical));
         skills.Add(new Skill("Night's Shadow", 41, "Darkness", 3, Skill.SkillType.Passive));
         skills.Add(new Skill("Rising Tide", 42, "High tide", 3, Skill.SkillType.Passive));
         //skills.Add(new Skill("", 43, "", , Skill.SkillType.));
@@ -60,31 +60,30 @@ public class SkillDatabase : MonoBehaviour {
         //skills.Add(new Skill("", 47, "", , Skill.SkillType.));
         //skills.Add(new Skill("", 48, "", , Skill.SkillType.));
         //skills.Add(new Skill("", 49, "", , Skill.SkillType.));
+
         //// Mage Skills
         // add pages
         AddPage(mageSkills, 2);
-
         //-1, -1, -1, -1, -1, -1, -1, -1,
         //-1, -1, -1, -1, -1, -1, -1, -1,
         //-1, -1, -1, -1, -1, -1, -1, -1,
         //-1, -1, -1, -1, -1, -1, -1, -1,
         //-1, -1, -1, -1, -1, -1, -1, -1
-
         List<List<int>> mage =
             new List<List<int>>(new[]{
-                // A 8 x 5 matrix, what is seen here will be the same on screen
+                // A 8 x 5 matrix, what is seen here will be the same on screen 
             new List<int>(new []{
              1, 2, 3, 4, 29, 25, 26, 30,
             15, 16, 17, 18, 31, 32, 33, 34,
-            23, 20, 21, 22, 35, 36, 37, 8,
-            27, 19, 14, -1, 38, 39, 40, 41,
-            0, 24, -1, -1, -1, -1, 42, -1}),
+            -1, -1, -1, -1, 35, 36, 37, 8,
+            23, 20, 21, 22, 38, 39, 40, 41,
+            27, 19, 14, -1, -1, -1, 42, -1}),
             new List<int>(new []{
             5, 9, 10, 12, -1, -1, -1, -1,
             6, 7, 11, 13, -1, -1, -1, -1,
             -1, -1, -1, -1, -1, -1, -1, -1,
             -1, -1, -1, -1, -1, -1, -1, -1,
-            -1, -1, -1, -1, -1, -1, -1, -1})
+            -1, -1, -1, -1, -1, -1, 0, 24})
             });
         AddSkills(mageSkills, mage);
     }

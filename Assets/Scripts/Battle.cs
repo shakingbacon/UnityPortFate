@@ -30,7 +30,7 @@ public class Battle : MonoBehaviour {
         canvas = GameObject.FindGameObjectWithTag("Canvas");
         // Buttons
         canvas.transform.FindChild("Battle UI").transform.FindChild("Attack").GetComponent<Button>().onClick.AddListener(
-            () =>  DamageCalc.skillAttack(player.transform.FindChild("Player Stats").GetComponent<PlayerStats>().stats, 
+            () =>  DamageCalc.SkillAttack(player.transform.FindChild("Player Stats").GetComponent<PlayerStats>().stats, 
             enemyStats.enemy.stats, 
             player.transform.FindChild("Player Skills").GetComponent<PlayerSkills>().FindSkill(0)));
         canvas.transform.FindChild("Battle UI").transform.FindChild("Skills").GetComponent<Button>().onClick.AddListener(GameManager.OpenCloseSkillPage);
@@ -70,24 +70,8 @@ public class Battle : MonoBehaviour {
             // Enemy Texts
             canvas.transform.FindChild("Battle UI").transform.FindChild("Enemy HP").GetComponent<Text>().text = "HP: " + StatUtilities.FindStatTotal(enemy.GetComponent<EnemyStats>().enemy.stats, 4).ToString();
             canvas.transform.FindChild("Battle UI").transform.FindChild("Enemy MP").GetComponent<Text>().text = "MP: " + StatUtilities.FindStatTotal(enemy.GetComponent<EnemyStats>().enemy.stats, 6).ToString();
-
         }
     }
-    void OnGUI() {
-        
-    }
-
-    //public void skillAttack(List<Stat> user, List<Stat> victim, Skill skill)
-    //{
-    //    // Mana Cost
-    //    StatUtilities.IncreaseStat(user, 6, -(skill.skillManaCost));
-    //    // Damage
-
-    //    // Crit Chance
-
-    //    // Hit Chance
-    //    bool ifHit = StatUtilities.
-    //}
 
     public void BattleUIOn(bool bol)
     {

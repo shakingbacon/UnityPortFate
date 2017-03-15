@@ -9,11 +9,13 @@ public class SkillHolder : MonoBehaviour {
     bool isMouseHover;
     GameManager manager;
     PlayerStats playerStats;
+    EnemyStats enemyStats;
     PlayerSkills playerSkills;
 
 
     void Start()
     {
+        enemyStats = GameObject.FindGameObjectWithTag("Enemy").GetComponent<EnemyStats>();
         playerSkills = GameObject.FindGameObjectWithTag("Player Skills").GetComponent<PlayerSkills>();
         playerStats = GameObject.FindGameObjectWithTag("Player Stats").GetComponent<PlayerStats>();
         manager = GameObject.FindGameObjectWithTag("Manager").GetComponent<GameManager>();
@@ -74,7 +76,11 @@ public class SkillHolder : MonoBehaviour {
             {
                 StartCoroutine(showTextForTime("Not enough SP!", 1));
             }
-
+        }
+        else // in battle
+        {
+            DamageCalc.SkillAttack(playerStats.stats, enemyStats.enemy.stats, skill);
+            GameManager.OpenCloseSkillPage();
         }
     }
 
@@ -108,7 +114,7 @@ public class SkillHolder : MonoBehaviour {
             desc.text += "<size=35>Rank: " + skill.skillRank + "/" + skill.skillMaxRank + " (" + skill.skillType.ToString() + ")" + "</size>\n";
             if (skill.skillRequireDesc != null && skill.skillRank != skill.skillMaxRank)
             {
-                desc.text += "<size=15>Requirement(s): (" + skill.skillRequireDesc + ")</size>\n";
+                desc.text += "<size=13>Req: (" + skill.skillRequireDesc + ")</size>\n";
             }
             else
             {
