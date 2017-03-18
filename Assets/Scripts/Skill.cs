@@ -7,7 +7,7 @@ public class Skill {
     public string skillName;
     public int skillID;
     public Sprite skillIMG;
-    //public AudioSource skillSound;
+    public int skillSoundID = -1;// from sounds list , -1 id means random basic atk sound
     public string skillDesc;
     public string skillEffDesc;
     public string skillRequireDesc;
@@ -33,11 +33,23 @@ public class Skill {
         Passive
     }
 
+    public Skill(string name, int id, int soundid, string desc, int maxrank, SkillType type)
+    {
+        skillName = name;
+        skillID = id;
+        skillIMG = Resources.Load<Sprite>("Skills/" + name);
+        skillSoundID = soundid;
+        skillDesc = desc;
+        skillMaxRank = maxrank;
+        skillType = type;
+    }
+
     public Skill(string name, int id, string desc, int maxrank, SkillType type)
     {
         skillName = name;
         skillID = id;
         skillIMG = Resources.Load<Sprite>("Skills/" + name);
+        skillSoundID = -1;
         skillDesc = desc;
         skillMaxRank = maxrank;
         skillType = type;
@@ -46,6 +58,7 @@ public class Skill {
     {
         skillName = skill.skillName;
         skillID = skill.skillID;
+        skillSoundID = skill.skillSoundID;
         skillIMG = Resources.Load<Sprite>("Skills/" + skill.skillName);
         skillDesc = skill.skillDesc;
         skillMaxRank = skill.skillMaxRank;

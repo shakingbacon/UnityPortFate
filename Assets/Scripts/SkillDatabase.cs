@@ -10,10 +10,10 @@ public class SkillDatabase : MonoBehaviour {
     {
         skills.Add(new Skill());
         skills.Add(new Skill("Basic Attack", 0, "Attack with your weapon", 1, Skill.SkillType.Physical));
-        skills.Add(new Skill("Inferno", 1, "Fire burns, set ablaze", 10, Skill.SkillType.Magical));
-        skills.Add(new Skill("Tsunami", 2, "Wash away and drown", 10, Skill.SkillType.Magical));
-        skills.Add(new Skill("Tornado", 3, "Things around you fly", 10, Skill.SkillType.Magical));
-        skills.Add(new Skill("Thunderstorm", 4, "Call thunder", 10, Skill.SkillType.Magical));
+        skills.Add(new Skill("Inferno", 1, 12, "Fire burns, set ablaze", 10, Skill.SkillType.Magical));
+        skills.Add(new Skill("Tsunami", 2, 27, "Wash away and drown", 10, Skill.SkillType.Magical));
+        skills.Add(new Skill("Tornado", 3, 29, "Things around you fly", 10, Skill.SkillType.Magical));
+        skills.Add(new Skill("Thunderstorm", 4, 26, "Call thunder", 10, Skill.SkillType.Magical));
         skills.Add(new Skill("Mana Gaurd", 5, "Mana gaurds your health", 5, Skill.SkillType.Active));
         skills.Add(new Skill("Restore", 6, "Restore Health", 6, Skill.SkillType.Active));
         skills.Add(new Skill("Meditate", 7, "Focus your mind", 6, Skill.SkillType.Active));
@@ -38,7 +38,6 @@ public class SkillDatabase : MonoBehaviour {
         skills.Add(new Skill("Lunar Blade", 26, "Power of the moon", 10, Skill.SkillType.Magical));
         skills.Add(new Skill("Elemental Strike", 27, "Strike with elements", 10, Skill.SkillType.Physical));
         skills.Add(new Skill("Shining Rays", 28, "Call upon the light", 5, Skill.SkillType.Magical));
-        // need pics
         skills.Add(new Skill("Razor Leaf", 29, "Sharp leaves", 10, Skill.SkillType.Physical));
         skills.Add(new Skill("Spirit Strike", 30, "Attack the soul", 10, Skill.SkillType.Magical));
         skills.Add(new Skill("Adaptation", 31, "Easy yourself", 3, Skill.SkillType.Active));

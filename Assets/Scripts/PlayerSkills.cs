@@ -71,6 +71,8 @@ public class PlayerSkills : MonoBehaviour {
         return skill;
     }
 
+
+    // all skill updates
     public void SkillUpdate()
     {
         for (int k = 0; k < skills.Count; k += 1)
@@ -173,7 +175,7 @@ public class PlayerSkills : MonoBehaviour {
                             skill.skillManaCost = 8 + StatUtilities.FindStatTotal(stats, 16) / 3 + 4 * skill.skillRank;
                             skill.skillHitChance = 30 + 3 * skill.skillRank;
                             skill.skillCritChance = 35 + 4 * skill.skillRank;
-                            skill.skillEffDesc = string.Format("Whenever you defeat an enemy, you have a {0}% chance to gain {1}% of your Maximum MP as MP.\nAlso, whenever you cast a Damaging Skill, you have a {2}% chance to gain {3}% of its Mana Cost as MP",
+                            skill.skillEffDesc = string.Format("Whenever you defeat an enemy, you have a {0}% chance to gain {1}% of your Maximum MP as MP. Also, whenever you cast a Damaging Skill, you have a {2}% chance to gain {3}% of its Mana Cost as MP\n",
                                 skill.skillDamage, skill.skillHitChance, skill.skillManaCost, skill.skillCritChance);
                             int req = 5 + skill.skillRank * 5;
                             skill.skillRequire = StatUtilities.FindStatTotal(stats, 16) >= req;
@@ -233,8 +235,8 @@ public class PlayerSkills : MonoBehaviour {
                     case 14:
                         {
                             skill.skillDamage = 10 + 5 * skill.skillRank;
-                            skill.skillEffDesc = string.Format("By {0}%, decrease the mana cost, increase the damage, and increase bonuses of Inferno, Tsunami, Tornado, and Thunderstorm.\n", skill.skillDamage);
-                            int req = 3 + skill.skillRank * 4;
+                            skill.skillEffDesc = string.Format("By {0}%, decrease the mana cost, increase the damage, and increase bonuses of Inferno, Tsunami, Tornado, Thunderstorm, and Elemental Burst.\n", skill.skillDamage);
+                            int req = 2 + skill.skillRank * 4;
                             skill.skillRequire = false;
                             if ((FindSkill(1).skillRank >= req && FindSkill(2).skillRank >= req) || (FindSkill(1).skillRank >= req && FindSkill(3).skillRank >= req) ||
                                 (FindSkill(1).skillRank >= req && FindSkill(4).skillRank >= req) || (FindSkill(2).skillRank >= req && FindSkill(3).skillRank >= req) ||
@@ -255,7 +257,7 @@ public class PlayerSkills : MonoBehaviour {
                             skill.skillCooldown = 5;
                             skill.skillTurnEnd = 4;
                             skill.skillEffDesc = string.Format("For {0} turns, gain Armor/Resist: +{1}.", skill.skillTurnEnd, skill.skillCritChance) + 
-                               string.Format("While this skill is active, there's a {0}% chance where the shield explodes, dealing {1} Phyical Damage with Burn chance: {2}%.", skill.skillHitChance, skill.skillDamage, skill.skillStatusEff.burnChance)
+                               string.Format("At the end of each turn, there's a {0}% chance where the shield explodes, dealing {1} Phyical Damage with Burn chance: {2}%.", skill.skillHitChance, skill.skillDamage, skill.skillStatusEff.burnChance)
                                 + string.Format("\nCooldown: {0} Turns", skill.skillCooldown);
                             int req = 2 + skill.skillRank * 4;
                             Skill reqSkill = FindSkill(1);
@@ -312,6 +314,75 @@ public class PlayerSkills : MonoBehaviour {
                             Skill reqSkill = FindSkill(4);
                             skill.skillRequire = reqSkill.skillRank >= req;
                             skill.skillRequireDesc = string.Format("{0} - Rank: {1}", reqSkill.skillName, req);
+                            break;
+                        }
+                    case 19:
+                        {
+                            skill.skillDamage = (75 + (175 * skill.skillRank) * (FindSkill(1).skillRank + FindSkill(2).skillRank + FindSkill(3).skillRank + FindSkill(4).skillRank))*(StatUtilities.FindStatTotal(stats, 6)/ StatUtilities.FindStatTotal(stats, 7));
+                            skill.skillManaCost = StatUtilities.FindStatTotal(stats, 6);
+                            skill.skillStatusEff.burnChance = 3 * (skill.skillRank) + FindSkill(1).skillStatusEff.burnChance;
+                            skill.skillStatusEff.paraChance = 3 * skill.skillRank + FindSkill(4).skillStatusEff.paraChance;
+                            skill.skillHitChance = 3 + (skill.skillRank) + FindSkill(2).skillHitChance + FindSkill(3).skillHitChance;
+                            skill.skillCritChance = FindSkill(3).skillCritChance + FindSkill(4).skillCritChance;
+                            skill.skillCritMulti = FindSkill(3).skillCritMulti;
+                            skill.skillEffDesc = string.Format("Consume all your current Mana to deal massive damage. This skill deals more damage based on the rank of each Elemental damaging skill.\n");
+                            int req = 3 + skill.skillRank * 3;
+                            skill.skillRequire = false;
+                            if ((FindSkill(1).skillRank >= req && FindSkill(2).skillRank >= req) || (FindSkill(1).skillRank >= req && FindSkill(3).skillRank >= req) ||
+                                (FindSkill(1).skillRank >= req && FindSkill(4).skillRank >= req) || (FindSkill(2).skillRank >= req && FindSkill(3).skillRank >= req) ||
+                                (FindSkill(2).skillRank >= req && FindSkill(4).skillRank >= req) || (FindSkill(3).skillRank >= req && FindSkill(4).skillRank >= req))
+                            {
+                                skill.skillRequire = true;
+                            }
+                            skill.skillRequireDesc = string.Format("2 of Inferno, Tsunami, Tornado, OR Thunderstorm - Rank: {0}", req);
+                            break;
+                        }
+                    case 20:
+                        {
+                            skill.skillDamage = 9 + 7 * skill.skillRank;
+                            skill.skillEffDesc = string.Format("Luck: +{0}",skill.skillDamage);
+                            int req = 2 + skill.skillRank * 4;
+                            Skill reqSkill = FindSkill(2);
+                            Skill reqSkill2 = FindSkill(3);
+                            skill.skillRequire = reqSkill.skillRank >= req && reqSkill2.skillRank >= req;
+                            skill.skillRequireDesc = string.Format("{0} AND {1} - Rank: {2}", reqSkill.skillName, reqSkill2.skillName, req);
+                            break;
+                        }
+                    case 21:
+                        {
+                            skill.skillDamage = (StatUtilities.FindStatTotal(stats, 5)/4 - 100 - 100*skill.skillMaxRank);
+                            skill.skillHitChance = -15 - 55 * skill.skillRank;
+                            skill.skillCritChance = 25 + 85 * skill.skillRank;
+                            skill.skillEffDesc = string.Format("Max HP: {0}\nArmor/Resist: {1}\nGain: {2} Phys/Magic Attack\n", skill.skillDamage, skill.skillHitChance, skill.skillCritChance);
+                            int req = 2 + skill.skillRank * 4;
+                            Skill reqSkill = FindSkill(3);
+                            Skill reqSkill2 = FindSkill(1);
+                            skill.skillRequire = reqSkill.skillRank >= req && reqSkill2.skillRank >= req;
+                            skill.skillRequireDesc = string.Format("{0} AND {1} - Rank: {2}", reqSkill.skillName, reqSkill2.skillName, req);
+                            break;
+                        }
+                    case 22:
+                        {
+                            skill.skillDamage = 25 + 15 * skill.skillRank;
+                            skill.skillHitChance = 15 + 25 * skill.skillRank;
+                            skill.skillEffDesc = string.Format("When using a Water damaging skill, {0}% chance to apply a debuff. This debuff does nothing, but using an Electric damaging skill consumes this debuff, dealing {1}% more damage.\n",
+                                skill.skillDamage, skill.skillHitChance);
+                            int req = 2 + skill.skillRank * 4;
+                            Skill reqSkill = FindSkill(2);
+                            Skill reqSkill2 = FindSkill(4);
+                            skill.skillRequire = reqSkill.skillRank >= req && reqSkill2.skillRank >= req;
+                            skill.skillRequireDesc = string.Format("{0} AND {1} - Rank: {2}", reqSkill.skillName, reqSkill2.skillName, req);
+                            break;
+                        }
+                    case 23:
+                        {
+                            skill.skillEffDesc = string.Format("Fire damaging skills obtain Crit Chance, and Chance to Paralyze bonuses, Electric damaging skills obtain Chance to Burn bonus.\n");
+                            int req = 2 + skill.skillRank * 4;
+                            Skill reqSkill = FindSkill(1);
+                            Skill reqSkill2 = FindSkill(4);
+                            skill.skillRequire = reqSkill.skillRank >= req && reqSkill2.skillRank >= req;
+                            skill.skillRequireDesc = string.Format("{0} AND {1} - Rank: {2}", reqSkill.skillName, reqSkill2.skillName, req);
+                            break;
                             break;
                         }
             }

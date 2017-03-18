@@ -90,6 +90,45 @@ public class StatUtilities : MonoBehaviour {
         }
     }
 
+    static IEnumerator Fade(int max, int min)
+    {
+        for (int i = max ; min < i; i -= 1)
+        {
+            yield return i;
+        }
+    }
+
+    public static void HealMP(List<Stat> stats, int amount)
+    {
+        for (int i = 0; i < stats.Count; i += 1)
+        {
+            if (stats[i].statID == 6)
+            {
+                for (int j = 0; j < stats.Count; j += 1)
+                {
+                    if (stats[j].statID == 7)
+                    {
+                        if (stats[i].statAmount + amount > stats[j].totalAmount)
+                        {
+                            stats[i].statAmount = stats[j].totalAmount;
+                        }
+                        if (stats[i].statAmount + amount < 0)
+                        {
+                            stats[i].statAmount = 0;
+                        }
+                        else
+                        {
+                            stats[i].statAmount += amount;
+                        }
+                        break;
+                    }
+
+                }
+                break;
+            }
+        }
+    }
+
     public static void HealHPFull(List<Stat> stats)
     {
         int hp = 0;

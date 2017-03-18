@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DamageCalc : MonoBehaviour {
+public class DamageCalc : MonoBehaviour
+{
 
     public static int DmgModifier(List<Stat> user, List<Stat> victim, Skill skill)
     {
@@ -23,7 +24,7 @@ public class DamageCalc : MonoBehaviour {
         int hit = StatUtilities.FindStatTotal(user, 12) + skill.skillHitChance - StatUtilities.FindStatTotal(victim, 13);
         return hit;
     }
-    
+
     public static int CritChanceModifier(List<Stat> user, List<Stat> victim, Skill skill)
     {
         int crit = StatUtilities.FindStatTotal(user, 14) + skill.skillCritChance;
@@ -33,7 +34,8 @@ public class DamageCalc : MonoBehaviour {
     public static void SkillAttack(List<Stat> user, List<Stat> victim, Skill skill)
     {
         // Mana Cost
-        StatUtilities.IncreaseStat(user, 6, -(skill.skillManaCost));
+        StatUtilities.FindStatTotal(user, 6) =  StaticCoroutine.DoCoroutine()StatUtilities;
+        
         // Hit Chance
         int hitChance = HitChanceModifier(user, victim, skill);
         bool ifHit = hitChance >= Random.Range(0, 101);
@@ -72,11 +74,14 @@ public class DamageCalc : MonoBehaviour {
 
             // Regular Damage Calculation
             StatUtilities.IncreaseStat(victim, 4, -(damage));
-
-
+            // End
+            SoundDatabase.PlaySound(skill.skillSoundID);
+            StatUtilities.StatsUpdate(user);
+            StatUtilities.StatsUpdate(victim);
         }
 
         // Crit Chance
 
         //bool ifHit = StatUtilities.
     }
+}

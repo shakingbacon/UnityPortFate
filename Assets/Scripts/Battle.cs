@@ -47,6 +47,7 @@ public class Battle : MonoBehaviour {
         }
         if (manager.setupBattle)
         {
+            SoundDatabase.PlayMusic(Random.Range(1, 8));
             playerOldPosition = player.transform.position;
             playerOldPosition = new Vector3(playerOldPosition.x - 1, playerOldPosition.y);
             enemyStats.enemy = enemyDatabase.enemies[Random.Range(0, enemyDatabase.enemies.Count)];
@@ -84,6 +85,7 @@ public class Battle : MonoBehaviour {
         manager.inBattle = false;
         player.transform.position = playerOldPosition;
         Camera.main.transform.position = playerOldPosition;
+        SoundDatabase.PlayMusic(8);
     }
 
 }
