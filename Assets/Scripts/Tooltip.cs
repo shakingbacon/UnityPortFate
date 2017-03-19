@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Tooltip : MonoBehaviour {
     public GUISkin skin;
-    public SlotButton slotButton;
+    //public SlotButton slotButton;
     void Start()
     {
         slotButton = slotButton.GetComponent<SlotButton>();

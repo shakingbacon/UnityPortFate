@@ -78,6 +78,7 @@
      <Compile Include="Assets\Scripts\Stat.cs" />
      <Compile Include="Assets\Scripts\StatUtilities.cs" />
      <Compile Include="Assets\Scripts\StaticCoroutine.cs" />
+     <Compile Include="Assets\Scripts\Stats.cs" />
      <Compile Include="Assets\Scripts\StatusEffects.cs" />
      <Compile Include="Assets\Scripts\TextureScale.cs" />
      <Compile Include="Assets\Scripts\Tooltip.cs" />

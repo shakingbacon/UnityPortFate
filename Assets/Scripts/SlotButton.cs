@@ -348,43 +348,43 @@ public class SlotButton : MonoBehaviour {
         return pressed;
     }
 
-    private void EquipItem(Item item)
-    {
-        StatUtilities.BuffStat(playerStats.stats, 0, item.itemBonusStr);
-        StatUtilities.BuffStat(playerStats.stats, 1, item.itemBonusInt);
-        StatUtilities.BuffStat(playerStats.stats, 2, item.itemBonusAgi);
-        StatUtilities.BuffStat(playerStats.stats, 3, item.itemBonusLuk);
-        StatUtilities.BuffStat(playerStats.stats, 5, item.itemBonusHP);
-        StatUtilities.BuffStat(playerStats.stats, 7, item.itemBonusMP);
-        StatUtilities.BuffStat(playerStats.stats, 8, item.itemBonusAtk);
-        StatUtilities.BuffStat(playerStats.stats, 9, item.itemBonusMAtk);
-        StatUtilities.BuffStat(playerStats.stats, 10, item.itemBonusDef);
-        StatUtilities.BuffStat(playerStats.stats, 11, item.itemBonusResist);
-        StatUtilities.BuffStat(playerStats.stats, 12, item.itemBonusHit);
-        StatUtilities.BuffStat(playerStats.stats, 13, item.itemBonusDodge);
-        StatUtilities.BuffStat(playerStats.stats, 14, item.itemBonusCrit);
-        StatUtilities.BuffStat(playerStats.stats, 15, item.itemBonusCritMulti);
-        StatUtilities.StatsUpdate(playerStats.stats);
-    }
-    private void DequipItem(Item item)
-    {
-        StatUtilities.BuffStat(playerStats.stats, 0, item.itemBonusStr * -1);
-        StatUtilities.BuffStat(playerStats.stats, 1, item.itemBonusInt * -1);
-        StatUtilities.BuffStat(playerStats.stats, 2, item.itemBonusAgi * -1);
-        StatUtilities.BuffStat(playerStats.stats, 3, item.itemBonusLuk * -1);
-        StatUtilities.BuffStat(playerStats.stats, 5, item.itemBonusHP * -1);
-        StatUtilities.BuffStat(playerStats.stats, 7, item.itemBonusMP * -1);
-        StatUtilities.BuffStat(playerStats.stats, 8, item.itemBonusAtk * -1);
-        StatUtilities.BuffStat(playerStats.stats, 9, item.itemBonusMAtk * -1);
-        StatUtilities.BuffStat(playerStats.stats, 10, item.itemBonusDef * -1);
-        StatUtilities.BuffStat(playerStats.stats, 11, item.itemBonusResist * -1);
-        StatUtilities.BuffStat(playerStats.stats, 12, item.itemBonusHit * -1);
-        StatUtilities.BuffStat(playerStats.stats, 13, item.itemBonusDodge * -1);
-        StatUtilities.BuffStat(playerStats.stats, 14, item.itemBonusCrit * -1);
-        StatUtilities.BuffStat(playerStats.stats, 15, item.itemBonusCritMulti * -1);
-        StatUtilities.StatsUpdate(playerStats.stats);
+    //private void EquipItem(Item item)
+    //{
+    //    StatUtilities.BuffStat(playerStats.stats, 0, item.itemBonusStr);
+    //    StatUtilities.BuffStat(playerStats.stats, 1, item.itemBonusInt);
+    //    StatUtilities.BuffStat(playerStats.stats, 2, item.itemBonusAgi);
+    //    StatUtilities.BuffStat(playerStats.stats, 3, item.itemBonusLuk);
+    //    StatUtilities.BuffStat(playerStats.stats, 5, item.itemBonusHP);
+    //    StatUtilities.BuffStat(playerStats.stats, 7, item.itemBonusMP);
+    //    StatUtilities.BuffStat(playerStats.stats, 8, item.itemBonusAtk);
+    //    StatUtilities.BuffStat(playerStats.stats, 9, item.itemBonusMAtk);
+    //    StatUtilities.BuffStat(playerStats.stats, 10, item.itemBonusDef);
+    //    StatUtilities.BuffStat(playerStats.stats, 11, item.itemBonusResist);
+    //    StatUtilities.BuffStat(playerStats.stats, 12, item.itemBonusHit);
+    //    StatUtilities.BuffStat(playerStats.stats, 13, item.itemBonusDodge);
+    //    StatUtilities.BuffStat(playerStats.stats, 14, item.itemBonusCrit);
+    //    StatUtilities.BuffStat(playerStats.stats, 15, item.itemBonusCritMulti);
+    //    StatUtilities.StatsUpdate(playerStats.stats);
+    //}
+    //private void DequipItem(Item item)
+    //{
+    //    StatUtilities.BuffStat(playerStats.stats, 0, item.itemBonusStr * -1);
+    //    StatUtilities.BuffStat(playerStats.stats, 1, item.itemBonusInt * -1);
+    //    StatUtilities.BuffStat(playerStats.stats, 2, item.itemBonusAgi * -1);
+    //    StatUtilities.BuffStat(playerStats.stats, 3, item.itemBonusLuk * -1);
+    //    StatUtilities.BuffStat(playerStats.stats, 5, item.itemBonusHP * -1);
+    //    StatUtilities.BuffStat(playerStats.stats, 7, item.itemBonusMP * -1);
+    //    StatUtilities.BuffStat(playerStats.stats, 8, item.itemBonusAtk * -1);
+    //    StatUtilities.BuffStat(playerStats.stats, 9, item.itemBonusMAtk * -1);
+    //    StatUtilities.BuffStat(playerStats.stats, 10, item.itemBonusDef * -1);
+    //    StatUtilities.BuffStat(playerStats.stats, 11, item.itemBonusResist * -1);
+    //    StatUtilities.BuffStat(playerStats.stats, 12, item.itemBonusHit * -1);
+    //    StatUtilities.BuffStat(playerStats.stats, 13, item.itemBonusDodge * -1);
+    //    StatUtilities.BuffStat(playerStats.stats, 14, item.itemBonusCrit * -1);
+    //    StatUtilities.BuffStat(playerStats.stats, 15, item.itemBonusCritMulti * -1);
+    //    StatUtilities.StatsUpdate(playerStats.stats);
 
-    }
+    //}
 
     private void UseConsumable(Item item, int slot, bool deleteItem)
     {

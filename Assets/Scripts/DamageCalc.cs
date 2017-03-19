@@ -5,36 +5,36 @@ using UnityEngine;
 public class DamageCalc : MonoBehaviour
 {
 
-    public static int DmgModifier(List<Stat> user, List<Stat> victim, Skill skill)
+    public static int DmgModifier(Stats user, Stats victim, Skill skill)
     {
         int dmg;
         if (skill.skillType == Skill.SkillType.Physical)
         {
-            dmg = skill.skillDamage - StatUtilities.FindStatTotal(victim, 10);
+            dmg = skill.skillDamage - Stats.FindStatTotal(victim.armor);
         }
         else
         {
-            dmg = skill.skillDamage - StatUtilities.FindStatTotal(victim, 11);
+            dmg = skill.skillDamage - Stats.FindStatTotal(victim.resist);
         }
         return dmg;
     }
 
-    public static int HitChanceModifier(List<Stat> user, List<Stat> victim, Skill skill)
+    public static int HitChanceModifier(Stats user, Stats victim, Skill skill)
     {
-        int hit = StatUtilities.FindStatTotal(user, 12) + skill.skillHitChance - StatUtilities.FindStatTotal(victim, 13);
+        int hit = Stats.FindStatTotal(user.hitChance) + skill.skillHitChance - Stats.FindStatTotal(victim.dodgeChance);
         return hit;
     }
 
-    public static int CritChanceModifier(List<Stat> user, List<Stat> victim, Skill skill)
+    public static int CritChanceModifier(Stats user, Stats victim, Skill skill)
     {
-        int crit = StatUtilities.FindStatTotal(user, 14) + skill.skillCritChance;
+        int crit = Stats.FindStatTotal(user.critChance) + skill.skillCritChance;
         return crit;
     }
 
-    public static void SkillAttack(List<Stat> user, List<Stat> victim, Skill skill)
+    public static void SkillAttack(Stats user, Stats victim, Skill skill)
     {
         // Mana Cost
-        StatUtilities.FindStatTotal(user, 6) =  StaticCoroutine.DoCoroutine()StatUtilities;
+        //StatUtilities.FindStatTotal(user, 6) =  StaticCoroutine.DoCoroutine()StatUtilities;
         
         // Hit Chance
         int hitChance = HitChanceModifier(user, victim, skill);
@@ -44,16 +44,16 @@ public class DamageCalc : MonoBehaviour
         {
             ////// Damage
             int damage = DmgModifier(user, victim, skill);
-            int userLuck = StatUtilities.FindStatTotal(user, 3);
-            // bonus damage
-            if (userLuck != -1)
-            {
-                damage += Random.Range(0, 11 + userLuck * 2);
-            }
-            else
-            {   // enemy's bonus dmg, we know enemy does not have luck so we use exp instead
-                damage += Random.Range(0, 11 + StatUtilities.FindStatTotal(user, 19));
-            }
+            //int userLuck = StatUtilities.FindStatTotal(user, 3);
+            //// bonus damage
+            //if (userLuck != -1)
+            //{
+            //    damage += Random.Range(0, 11 + userLuck * 2);
+            //}
+            //else
+            //{   // enemy's bonus dmg, we know enemy does not have luck so we use exp instead
+            //    damage += Random.Range(0, 11 + StatUtilities.FindStatTotal(user, 19));
+            //}
             // On Hit Effects
 
             // Crit Chance
@@ -62,7 +62,7 @@ public class DamageCalc : MonoBehaviour
             if (critChance >= Random.Range(0, 101))
             {
                 //// Crit Multiplier
-                damage *= (StatUtilities.FindStatTotal(user, 15) + skill.skillCritMulti) / 100;
+                damage *= (Stats.FindStatTotal(user.critMulti) + skill.skillCritMulti) / 100;
             }
 
             // if damage less than 0, damage = 0 so no heal
@@ -73,11 +73,11 @@ public class DamageCalc : MonoBehaviour
             ////// Damage Calculation
 
             // Regular Damage Calculation
-            StatUtilities.IncreaseStat(victim, 4, -(damage));
+            //StatUtilities.IncreaseStat(victim, 4, -(damage));
             // End
             SoundDatabase.PlaySound(skill.skillSoundID);
-            StatUtilities.StatsUpdate(user);
-            StatUtilities.StatsUpdate(victim);
+            //StatUtilities.StatsUpdate(user);
+            //StatUtilities.StatsUpdate(victim);
         }
 
         // Crit Chance

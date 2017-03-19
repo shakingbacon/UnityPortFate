@@ -8,7 +8,7 @@ public class Shop : MonoBehaviour
     public GUISkin skin;
     public GameManager manager;
     private ItemDatabase database;
-    public SlotButton slotButton;
+    //public SlotButton slotButton;
     public Inventory inventory;
     public Equipment equipment;
     public Tooltip tooltip;

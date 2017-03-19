@@ -29,10 +29,10 @@ public class Battle : MonoBehaviour {
         cameraFollow = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraFollow>();
         canvas = GameObject.FindGameObjectWithTag("Canvas");
         // Buttons
-        canvas.transform.FindChild("Battle UI").transform.FindChild("Attack").GetComponent<Button>().onClick.AddListener(
-            () =>  DamageCalc.SkillAttack(player.transform.FindChild("Player Stats").GetComponent<PlayerStats>().stats, 
-            enemyStats.enemy.stats, 
-            player.transform.FindChild("Player Skills").GetComponent<PlayerSkills>().FindSkill(0)));
+        //canvas.transform.FindChild("Battle UI").transform.FindChild("Attack").GetComponent<Button>().onClick.AddListener(
+        //    () =>  DamageCalc.SkillAttack(player.transform.FindChild("Player Stats").GetComponent<PlayerStats>().stats, 
+        //    enemyStats.enemy.stats, 
+        //    player.transform.FindChild("Player Skills").GetComponent<PlayerSkills>().FindSkill(0)));
         canvas.transform.FindChild("Battle UI").transform.FindChild("Skills").GetComponent<Button>().onClick.AddListener(GameManager.OpenCloseSkillPage);
         canvas.transform.FindChild("Battle UI").transform.FindChild("Run").GetComponent<Button>().onClick.AddListener(EndBattle);
 
@@ -67,10 +67,10 @@ public class Battle : MonoBehaviour {
             enemy.transform.position = enemyPos;
             cameraFollow.transform.position = new Vector3(gameObject.transform.FindChild("Background").position.x, gameObject.transform.FindChild("Background").position.y, -10);
             //Enemy newEnemy = enemyStats.enemy;
-            StatUtilities.StatsUpdate(enemyStats.enemy.stats);
+            //StatUtilities.StatsUpdate(enemyStats.enemy.stats);
             // Enemy Texts
-            canvas.transform.FindChild("Battle UI").transform.FindChild("Enemy HP").GetComponent<Text>().text = "HP: " + StatUtilities.FindStatTotal(enemy.GetComponent<EnemyStats>().enemy.stats, 4).ToString();
-            canvas.transform.FindChild("Battle UI").transform.FindChild("Enemy MP").GetComponent<Text>().text = "MP: " + StatUtilities.FindStatTotal(enemy.GetComponent<EnemyStats>().enemy.stats, 6).ToString();
+            //canvas.transform.FindChild("Battle UI").transform.FindChild("Enemy HP").GetComponent<Text>().text = "HP: " + StatUtilities.FindStatTotal(enemy.GetComponent<EnemyStats>().enemy.stats, 4).ToString();
+            //canvas.transform.FindChild("Battle UI").transform.FindChild("Enemy MP").GetComponent<Text>().text = "MP: " + StatUtilities.FindStatTotal(enemy.GetComponent<EnemyStats>().enemy.stats, 6).ToString();
         }
     }
 

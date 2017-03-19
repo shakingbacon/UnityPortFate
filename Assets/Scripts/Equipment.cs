@@ -149,11 +149,11 @@ public class Equipment : MonoBehaviour {
         float characterX = page.x + 22;
         float characterY = page.y + 45;
         Rect charRect = new Rect(characterX, characterY, 200, 400);
-        if (playerStats.job.jobID == 0)
-        {
-            GUI.DrawTexture(charRect, Resources.Load<Texture2D>("Player/Mage Body"));
-            GUI.DrawTexture(charRect, Resources.Load<Texture2D>("Player/Mage Hair"));
-        }
+        //if (playerStats.job.jobID == 0)
+        //{
+        //    GUI.DrawTexture(charRect, Resources.Load<Texture2D>("Player/Mage Body"));
+        //    GUI.DrawTexture(charRect, Resources.Load<Texture2D>("Player/Mage Hair"));
+        //}
         for (int i = 0; i < equipment.Count; i += 1)
         {
             if (equipment[i].itemID != -1)
@@ -218,7 +218,7 @@ public class Equipment : MonoBehaviour {
         if (showStats)
         {
             GUI.Box(new Rect(page.x + page.w, page.y, statBoxW, statBoxH), "", skin.GetStyle("Panel Brown"));
-            GUI.Box(new Rect(page.x + page.w, page.y, statBoxW, statBoxH), playerStats.makeStatsPage(), skin.GetStyle("Stats Page"));
+            //GUI.Box(new Rect(page.x + page.w, page.y, statBoxW, statBoxH), playerStats.makeStatsPage(), skin.GetStyle("Stats Page"));
         }
 
 
