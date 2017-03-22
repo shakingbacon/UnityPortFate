@@ -3,15 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
-public class PlayerStats : MonoBehaviour
+public class PlayerStats: MonoBehaviour
 {
-    public static Stats playerStats;
+    public static Stats playerStats = new Stats();
 
-    void Awake()
+    void Start()
     {
         playerStats.job = JobDatabase.GetJob(0);
     }
-
     //void StatsUpdate()
     //{
     //    playerStats.

@@ -8,16 +8,10 @@ public class SkillHolder : MonoBehaviour {
     public Skill skill;
     bool isMouseHover;
     GameManager manager;
-    PlayerStats playerStats;
-    EnemyStats enemyStats;
-    PlayerSkills playerSkills;
 
 
     void Start()
     {
-        enemyStats = GameObject.FindGameObjectWithTag("Enemy").GetComponent<EnemyStats>();
-        playerSkills = GameObject.FindGameObjectWithTag("Player Skills").GetComponent<PlayerSkills>();
-        playerStats = GameObject.FindGameObjectWithTag("Player Stats").GetComponent<PlayerStats>();
         manager = GameObject.FindGameObjectWithTag("Manager").GetComponent<GameManager>();
         gameObject.GetComponent<Button>().onClick.AddListener(ButtonClick);
     }
@@ -27,23 +21,23 @@ public class SkillHolder : MonoBehaviour {
         if (!manager.inBattle)
         {
             // rank up
-            if (PlayerStats.playerStats.skillPoints.totalAmount > 0)
+            if (PlayerStats.playerStats.skillPoints > 0)
             {   
                 // update skills to check requirement
-                playerSkills.SkillUpdate();
+                PlayerSkills.SkillUpdate();
                 if (skill.skillRequire)
                 {
                     // learn new skill
                     if (skill.skillRank == 0)
                     {
                         // put in learned skill
-                        for (int k = 0; k < playerSkills.learnedSkills.Count; k += 1)
+                        for (int k = 0; k < PlayerSkills.learnedSkills.Count; k += 1)
                         {
-                            for (int i = 0; i < playerSkills.learnedSkills[k].Count; i += 1)
+                            for (int i = 0; i < PlayerSkills.learnedSkills[k].Count; i += 1)
                             {
-                                if (playerSkills.learnedSkills[k][i].skillID == -1)
+                                if (PlayerSkills.learnedSkills[k][i].skillID == -1)
                                 {
-                                    playerSkills.learnedSkills[k][i] = skill;
+                                    PlayerSkills.learnedSkills[k][i] = skill;
                                     k = 5;
                                     break;
                                 }
@@ -54,10 +48,10 @@ public class SkillHolder : MonoBehaviour {
                     {
 
                         skill.skillRank += 1;
-                        PlayerStats.playerStats.skillPoints.totalAmount -= 1;
-                        playerSkills.SkillUpdate();
+                        PlayerStats.playerStats.skillPoints -= 1;
+                        PlayerSkills.SkillUpdate();
                         //playerStats.StatsUpdate();
-                        playerSkills.SkillUpdate();
+                        PlayerSkills.SkillUpdate();
                         MouseEnter();// reset desc
                                      // if passive give stats
                     }

@@ -12,7 +12,7 @@ public class SkillPage : MonoBehaviour {
     void Start()
     {
         skillDatabase = GameObject.FindGameObjectWithTag("Skill Database").GetComponent<SkillDatabase>();
-        currentPage = GameObject.FindGameObjectWithTag("Player Skills").GetComponent<PlayerSkills>().skills;
+        currentPage = PlayerSkills.skills;
         UpdateSkillPage(0);
         gameObject.transform.FindChild("Left Button").GetComponent<Button>().onClick.AddListener(prevPage);
         gameObject.transform.FindChild("Right Button").GetComponent<Button>().onClick.AddListener(nextPage);
@@ -29,7 +29,7 @@ public class SkillPage : MonoBehaviour {
     
     void LearnedSkillButtonPress()
     {
-        currentPage = GameObject.FindGameObjectWithTag("Player Skills").GetComponent<PlayerSkills>().learnedSkills;
+        currentPage = PlayerSkills.learnedSkills;
         pageNum = 0;
         UpdateSkillPage(pageNum);
         gameObject.transform.FindChild("Learned Skills Button").GetComponent<Button>().onClick.RemoveAllListeners();
@@ -39,7 +39,7 @@ public class SkillPage : MonoBehaviour {
 
     void AfterLearnedSkillButtonPress()
     {
-        currentPage = GameObject.FindGameObjectWithTag("Player Skills").GetComponent<PlayerSkills>().skills;
+        currentPage = PlayerSkills.skills;
         pageNum = 0;
         UpdateSkillPage(pageNum);
         gameObject.transform.FindChild("Learned Skills Button").GetComponent<Button>().onClick.RemoveAllListeners();

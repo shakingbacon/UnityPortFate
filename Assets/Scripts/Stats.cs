@@ -5,32 +5,32 @@ using UnityEngine;
 [System.Serializable]
 public class Stats {
     public string mingZi;
-    public Job job;
-    public Stat strength;
-    public Stat intelligence;
-    public Stat agility;
-    public Stat luck;
-    public Stat health;
-    public Stat maxHealth;
-    public Stat mana;
-    public Stat maxMana;
-    public Stat physAtk;
-    public Stat magicAtk;
-    public Stat manaComs;
-    public Stat dmgOutput;
-    public Stat dmgTaken;
-    public Stat armor;
-    public Stat resist;
-    public Stat hitChance;
-    public Stat dodgeChance;
-    public Stat critChance;
-    public Stat critMulti;
-    public Stat level;
-    public Stat abilityPoints;
-    public Stat skillPoints;
-    public Stat experience;
-    public Stat maxExperience;
-    public Stat cash;
+    public Job job = new Job();
+    public Stat strength = new Stat();
+    public Stat intelligence = new Stat();
+    public Stat agility = new Stat();
+    public Stat luck = new Stat();
+    public Stat health = new Stat();
+    public Stat maxHealth = new Stat();
+    public Stat mana = new Stat();
+    public Stat maxMana = new Stat();
+    public Stat physAtk = new Stat();
+    public Stat magicAtk = new Stat();
+    public Stat manaComs = new Stat();
+    public Stat dmgOutput = new Stat();
+    public Stat dmgTaken = new Stat();
+    public Stat armor = new Stat();
+    public Stat resist = new Stat();
+    public Stat hitChance = new Stat();
+    public Stat dodgeChance = new Stat();
+    public Stat critChance = new Stat();
+    public Stat critMulti = new Stat();
+    public int level;
+    public int abilityPoints;
+    public int skillPoints;
+    public int experience;
+    public int maxExperience;
+    public int cash;
     public List<Stat> statsList = new List<Stat>();
 
     void Start()
@@ -54,17 +54,5 @@ public class Stats {
         statsList.Add(dodgeChance);
         statsList.Add(critChance);
         statsList.Add(critMulti);
-        statsList.Add(level);
-        statsList.Add(abilityPoints);
-        statsList.Add(skillPoints);
-        statsList.Add(experience);
-        statsList.Add(maxExperience);
-        statsList.Add(cash);
     }
-
-    public static int GetStatTotal(Stat stat)
-    {
-        return stat.totalAmount;
-    }
-
 }

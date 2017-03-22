@@ -15,14 +15,14 @@ public class JobDatabase : MonoBehaviour {
         jobs.Add(new Job("Warrior", 2));
         //jobs.Add(new Job("Freelancer", 3));
     }
-	
+
     public static Job GetJob(int id)
     {
         for (int i = 0; i < jobs.Count; i += 1)
         {
-            if (jobs[i].jobID == 0)
+            if (jobs[i].jobID == id)
             {
-                return jobs[i];
+                return new Job(jobs[i]);
             }
         }
         return jobs[0];

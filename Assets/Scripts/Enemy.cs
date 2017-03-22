@@ -5,33 +5,48 @@ using UnityEngine;
 [System.Serializable]
 public class Enemy
 {
-    public string enemyName;
     public int enemyID;
     public Sprite enemyIMG;
-    //public string enemyDesc;
-    public List<Stat> stats = new List<Stat>();
+    public Stats enemyStats;
 
-    //public Enemy(string name, int id, int hp, int mp, int phys, int mag, int armor, int resist, int hit, int dodge, int crit, int multi, int exp, int loot)
-    //{
-    //    stats.Add(new Stat("HP", 4, hp));
-    //    stats.Add(new Stat("MP", 6, mp));
-    //    stats.Add(new Stat("Phys Atk", 8, phys));
-    //    stats.Add(new Stat("Magic Atk", 9, mag));
-    //    stats.Add(new Stat("Armor", 10, armor));
-    //    stats.Add(new Stat("Resist", 11, resist));
-    //    stats.Add(new Stat("Hit Rate", 12, hit));
-    //    stats.Add(new Stat("Dodge Rate", 13, dodge));
-    //    stats.Add(new Stat("Crit Rate", 14, crit));
-    //    stats.Add(new Stat("Crit Multiplier", 15, multi));
-    //    //stats.Add(new Stat("LV", 16, 1));
-    //    stats.Add(new Stat("EXP", 19, exp));
-    //    stats.Add(new Stat("Cash", 21, loot));
-    //    /////////////
-    //    enemyName = name;
-    //    enemyID = id;
-    //    enemyIMG = Resources.Load<Sprite>("Enemy Icons/" + name);
-    //    //enemyDesc = desc;
-    //}
+    public Enemy(string name, int id, int hp, int mp, int phys, int mag, int armor, int resist, int hit, int dodge, int crit, int multi, int exp, int loot)
+    {
+        enemyStats = new Stats();
+        enemyID = id;
+        enemyIMG = Resources.Load<Sprite>("Enemy Icons/" + name);
+        enemyStats.mingZi = name;
+        enemyStats.health.totalAmount = hp;
+        enemyStats.mana.totalAmount = mp;
+        enemyStats.physAtk.totalAmount = phys;
+        enemyStats.magicAtk.totalAmount = mag;
+        enemyStats.armor.totalAmount = armor;
+        enemyStats.resist.totalAmount = resist;
+        enemyStats.hitChance.totalAmount = hit;
+        enemyStats.dodgeChance.totalAmount = dodge;
+        enemyStats.critChance.totalAmount = crit;
+        enemyStats.critMulti.totalAmount = multi;
+        enemyStats.experience = exp;
+        enemyStats.cash = loot;
+    }
+
+    public Enemy(Enemy enemy)
+    {
+        enemyID = enemy.enemyID;
+        enemyIMG = Resources.Load<Sprite>("Enemy Icons/" + enemy.enemyStats.mingZi);
+        enemyStats.mingZi = enemy.enemyStats.mingZi;
+        enemyStats.health.totalAmount = enemy.enemyStats.health.totalAmount;
+        enemyStats.mana.totalAmount = enemy.enemyStats.mana.totalAmount;
+        enemyStats.physAtk.totalAmount = enemy.enemyStats.physAtk.totalAmount;
+        enemyStats.magicAtk.totalAmount = enemy.enemyStats.magicAtk.totalAmount;
+        enemyStats.armor.totalAmount = enemy.enemyStats.armor.totalAmount;
+        enemyStats.resist.totalAmount = enemy.enemyStats.resist.totalAmount;
+        enemyStats.hitChance.totalAmount = enemy.enemyStats.hitChance.totalAmount;
+        enemyStats.dodgeChance.totalAmount = enemy.enemyStats.dodgeChance.totalAmount;
+        enemyStats.critChance.totalAmount = enemy.enemyStats.critChance.totalAmount;
+        enemyStats.critMulti.totalAmount = enemy.enemyStats.critMulti.totalAmount;
+        enemyStats.experience = enemy.enemyStats.experience;
+        enemyStats.cash = enemy.enemyStats.cash;
+    }
 
     public Enemy()
     {

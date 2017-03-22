@@ -8,9 +8,7 @@ public class Battle : MonoBehaviour {
     GameManager manager;
     GameObject player;
     Vector3 playerPos, cameraPos, enemyPos;
-    EnemyDatabase enemyDatabase;
     Transform enemy;
-    EnemyStats enemyStats;
     RectTransform enemyRect;
     float cameraH;
     float cameraW;
@@ -21,11 +19,9 @@ public class Battle : MonoBehaviour {
     void Start ()
     {
         middle = gameObject.transform.FindChild("Background").position;
-        enemyStats = GetComponentInChildren<EnemyStats>();
         enemy = gameObject.transform.FindChild("Enemy");
         manager = GameObject.FindGameObjectWithTag("Manager").GetComponent<GameManager>();
         player = GameObject.FindGameObjectWithTag("Player");
-        enemyDatabase = GameObject.FindGameObjectWithTag("Enemy Database").GetComponent<EnemyDatabase>();
         cameraFollow = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraFollow>();
         canvas = GameObject.FindGameObjectWithTag("Canvas");
         // Buttons
@@ -50,8 +46,8 @@ public class Battle : MonoBehaviour {
             SoundDatabase.PlayMusic(Random.Range(1, 8));
             playerOldPosition = player.transform.position;
             playerOldPosition = new Vector3(playerOldPosition.x - 1, playerOldPosition.y);
-            enemyStats.enemy = enemyDatabase.enemies[Random.Range(0, enemyDatabase.enemies.Count)];
-            enemy.GetComponent<SpriteRenderer>().sprite = enemyStats.enemy.enemyIMG;
+            EnemyHolder.enemy = new Enemy(EnemyDatabase.enemies[(Random.Range(0, EnemyDatabase.enemies.Count))]);
+            enemy.GetComponent<SpriteRenderer>().sprite = EnemyHolder.enemy.enemyIMG;
             BattleUIOn(true);
             manager.setupBattle = false; // setup enemy
            

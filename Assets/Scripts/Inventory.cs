@@ -10,12 +10,22 @@ public class Inventory : MonoBehaviour
     {
         inventory = gameObject.transform;
         // reset inventory
-        for (int i = 0; i < gameObject.transform.childCount; i += 1)
+        for (int i = 0; i < inventory.childCount; i += 1)
         {
             CleanSlot(i);
         }
         InsertItem(0, 1101);
         InsertItem(1, 9104);
+        AddItem(1101);
+        AddItem(1500);
+    }
+
+    public static void AddItem(int itemindex)
+    {
+        for (int i = 0; i < inventory.childCount; i += 1)
+        {
+            InsertItem(i, itemindex);
+        }
     }
 
     public static void InsertItem(int slotindex, int itemindex)

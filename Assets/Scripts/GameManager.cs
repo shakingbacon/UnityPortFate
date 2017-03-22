@@ -9,17 +9,15 @@ public class GameManager : MonoBehaviour {
     public bool inBattle;
     public bool setupBattle;
     Battle battle;
-    PlayerSkills playerSkills;
 
     void Start()
     {
-        playerSkills = GameObject.FindGameObjectWithTag("Player Skills").GetComponent<PlayerSkills>();
         battle = GameObject.Find("Battlefield").GetComponent<Battle>();
         //Screen.SetResolution(1024, 768, true);
         // Set beginning game values here
         battle.BattleUIOn(false);
-        GameObject.FindGameObjectWithTag("Skill Page").transform.FindChild("Skill Desc").gameObject.SetActive(false);
-        GameObject.FindGameObjectWithTag("Skill Page").SetActive(false);
+        //GameObject.FindGameObjectWithTag("Skill Page").transform.FindChild("Skill Desc").gameObject.SetActive(false);
+        //GameObject.FindGameObjectWithTag("Skill Page").SetActive(false);
     }
 
     void Update()
