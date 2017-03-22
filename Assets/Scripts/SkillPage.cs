@@ -18,29 +18,12 @@ public class SkillPage : MonoBehaviour {
         gameObject.transform.FindChild("Right Button").GetComponent<Button>().onClick.AddListener(nextPage);
         gameObject.transform.FindChild("Learned Skills Button").GetComponent<Button>().onClick.AddListener(LearnedSkillButtonPress);
         gameObject.transform.FindChild("Close Button").GetComponent<Button>().onClick.AddListener(GameManager.OpenCloseSkillPage);
+        gameObject.transform.FindChild("Page Num").GetComponent<Text>().text = (pageNum + 1).ToString();
+
     }
 
     void Update()
     {
-        gameObject.transform.FindChild("SP").GetComponent<Text>().text = "SP: " +
-            StatUtilities.FindStatTotal(GameObject.FindGameObjectWithTag("Player Stats").GetComponent<PlayerStats>().stats, 18);
-        gameObject.transform.FindChild("Page Num").GetComponent<Text>().text = (pageNum + 1).ToString();
-        if (pageNum == 0)
-        {
-            gameObject.transform.FindChild("Left Button").GetComponent<Button>().interactable = false;
-        }
-        else
-        {
-            gameObject.transform.FindChild("Left Button").GetComponent<Button>().interactable = true;
-        }
-        if (pageNum + 1 < currentPage.Count)
-        {
-            gameObject.transform.FindChild("Right Button").GetComponent<Button>().interactable = true;
-        }
-        else
-        {
-            gameObject.transform.FindChild("Right Button").GetComponent<Button>().interactable = false;
-        }
     }
 
     
@@ -66,15 +49,37 @@ public class SkillPage : MonoBehaviour {
     void prevPage()
     {
         pageNum -= 1;
+        gameObject.transform.FindChild("Page Num").GetComponent<Text>().text = (pageNum + 1).ToString();
         UpdateSkillPage(pageNum);
+        checkPages();
     }
 
     void nextPage()
     {
         pageNum += 1;
+        gameObject.transform.FindChild("Page Num").GetComponent<Text>().text = (pageNum + 1).ToString();
         UpdateSkillPage(pageNum);
+        checkPages();
     }
-   // 
+    void checkPages()
+    {
+        if (pageNum == 0)
+        {
+            gameObject.transform.FindChild("Left Button").GetComponent<Button>().interactable = false;
+        }
+        else
+        {
+            gameObject.transform.FindChild("Left Button").GetComponent<Button>().interactable = true;
+        }
+        if (pageNum + 1 < currentPage.Count)
+        {
+            gameObject.transform.FindChild("Right Button").GetComponent<Button>().interactable = true;
+        }
+        else
+        {
+            gameObject.transform.FindChild("Right Button").GetComponent<Button>().interactable = false;
+        }
+    }
 
     void UpdateSkillPage(int pagenum)
     {

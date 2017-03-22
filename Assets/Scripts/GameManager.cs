@@ -26,8 +26,12 @@ public class GameManager : MonoBehaviour {
     {
         if (Input.GetButtonDown("Skill"))
         {
-            playerSkills.SkillUpdate();
+            //playerSkills.SkillUpdate();
             OpenCloseSkillPage();
+        }
+        if (Input.GetButtonDown("Inventory"))
+        {
+            OpenCloseInventoryPage();
         }
     }
 
@@ -36,7 +40,12 @@ public class GameManager : MonoBehaviour {
        
         GameObject.FindGameObjectWithTag("Canvas").transform.FindChild("Skill Page").gameObject.SetActive(
             !(GameObject.FindGameObjectWithTag("Canvas").transform.FindChild("Skill Page").gameObject.activeInHierarchy));
-        
+    }
+
+    public static void OpenCloseInventoryPage()
+    {
+        GameObject.FindGameObjectWithTag("Canvas").transform.FindChild("InventoryEquipment").gameObject.SetActive(
+            !(GameObject.FindGameObjectWithTag("Canvas").transform.FindChild("InventoryEquipment").gameObject.activeInHierarchy));
     }
 
     public void BuyItem()

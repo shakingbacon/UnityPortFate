@@ -27,7 +27,7 @@ public class SkillHolder : MonoBehaviour {
         if (!manager.inBattle)
         {
             // rank up
-            if (StatUtilities.FindStatTotal(playerStats.stats, 18) > 0)
+            if (PlayerStats.playerStats.skillPoints.totalAmount > 0)
             {   
                 // update skills to check requirement
                 playerSkills.SkillUpdate();
@@ -54,9 +54,9 @@ public class SkillHolder : MonoBehaviour {
                     {
 
                         skill.skillRank += 1;
-                        StatUtilities.IncreaseStat(playerStats.stats, 18, -1);
+                        PlayerStats.playerStats.skillPoints.totalAmount -= 1;
                         playerSkills.SkillUpdate();
-                        playerStats.StatsUpdate();
+                        //playerStats.StatsUpdate();
                         playerSkills.SkillUpdate();
                         MouseEnter();// reset desc
                                      // if passive give stats
@@ -79,7 +79,7 @@ public class SkillHolder : MonoBehaviour {
         }
         else // in battle
         {
-            DamageCalc.SkillAttack(playerStats.stats, enemyStats.enemy.stats, skill);
+            //DamageCalc.SkillAttack(PlayerStats.playerStats, enemyStats.enemy.stats, skill);
             GameManager.OpenCloseSkillPage();
         }
     }

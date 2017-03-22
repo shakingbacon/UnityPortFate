@@ -6,7 +6,7 @@ using System.Collections.Generic;
 public class Item {
     public string itemName;
     public int itemID;
-    public Texture2D itemImg;
+    public Sprite itemImg;
     public string itemDesc;
     public int itemBonusStr;
     public int itemBonusInt;
@@ -66,7 +66,7 @@ public class Item {
     {
         itemName = name;
         itemID = id;
-        itemImg = Resources.Load<Texture2D>("Item Icons/" + name);
+        itemImg = Resources.Load<Sprite>("Item Icons/" + name);
         itemDesc = desc;
         itemBonusStr = bstr;
         itemBonusInt = bint;
@@ -95,7 +95,7 @@ public class Item {
     {
         itemName = name;
         itemID = id;
-        itemImg = Resources.Load<Texture2D>("Item Icons/" + name);
+        itemImg = Resources.Load<Sprite>("Item Icons/" + name);
         itemDesc = desc;
         itemBonusStr = bstr;
         itemBonusInt = bint;
@@ -124,7 +124,7 @@ public class Item {
     {
         itemName = name;
         itemID = id;
-        itemImg = Resources.Load<Texture2D>("Item Icons/" + name);
+        itemImg = Resources.Load<Sprite>("Item Icons/" + name);
         itemDesc = desc;
         itemBonusStr = bstr;
         itemBonusInt = bint;
@@ -150,7 +150,7 @@ public class Item {
     {
         itemName = name;
         itemID = id;
-        itemImg = Resources.Load<Texture2D>("Item Icons/" + name);
+        itemImg = Resources.Load<Sprite>("Item Icons/" + name);
         itemDesc = desc; 
         itemCost = cost;
         itemType = type;

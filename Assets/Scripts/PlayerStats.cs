@@ -12,11 +12,6 @@ public class PlayerStats : MonoBehaviour
         playerStats.job = JobDatabase.GetJob(0);
     }
 
-    void Update()
-    {
-        
-    }
-
     //void StatsUpdate()
     //{
     //    playerStats.

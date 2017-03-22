@@ -3,8 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class ItemDatabase : MonoBehaviour {
-    public List<Item> items = new List<Item>();
-    public List<List<Item>> shop = new List<List<Item>>();
+    public static List<Item> items = new List<Item>();
+    public static List<List<Item>> shop = new List<List<Item>>();
     // Use this for initialization
     void Start()
     {
@@ -87,6 +87,7 @@ public class ItemDatabase : MonoBehaviour {
         items.Add(new Item("Intelligence Necklace", 9101, "A necklace that increases your INT", 0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1000, Item.ItemType.Accessory));
         items.Add(new Item("Agility Necklace", 9102, "A necklace that increases your AGI", 0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1000, Item.ItemType.Accessory));
         items.Add(new Item("Luck Necklace", 9103, "A necklace that increases your LUK", 0, 0, 0, 12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1000, Item.ItemType.Accessory));
+        items.Add(new Item("Luck Necklace", 9104, "A necklace that increases your LUK", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 50, 100, 1000, Item.ItemType.Accessory));
 
         shop.Add(new List<Item>());
         shop.Add(new List<Item>());
@@ -103,6 +104,20 @@ public class ItemDatabase : MonoBehaviour {
             items[index].itemTooltip = CreateTooltip(items[index]);
         }
         AddItems(shop, shopItems);
+    }
+
+    public static Item GetItem(int id)
+    {
+        Item returnItem = new Item();
+        for (int j = 0; j < items.Count; j += 1)
+        {
+            if (items[j].itemID == id)
+            {
+                returnItem = items[j];
+                break;
+            }
+        }
+        return returnItem;
     }
 
     private void AddItems(List<List<Item>> listToAdd, List<List<int>> listOfItems)
@@ -131,8 +146,9 @@ public class ItemDatabase : MonoBehaviour {
     {
         string tooltip;
         // NAME
-        tooltip = "<size=26><color=#000000>" + item.itemName + "</color></size>\n";
+        tooltip = "<size=45><color=#000000>" + item.itemName + "</color></size>\n";
         // ITEM TYPE
+        tooltip += "<size=35>";
         if (item.itemType == Item.ItemType.Accessory)
         {
             tooltip += "(<color=#FFABAB>" + item.itemType.ToString() + "</color>)\n";
@@ -200,10 +216,11 @@ public class ItemDatabase : MonoBehaviour {
         {
             tooltip += "(<color=#81CAE1>" + item.itemType.ToString() + "</color>)\n";
         }
+        tooltip += "</size>";
         // COST
-        tooltip += "<color=#ECF32A>COST: $" + item.itemCost.ToString() + "</color>\n";
+        tooltip += "<size=22><color=#ECF32A>COST: $" + item.itemCost.ToString() + "</color></size>\n";
         // DESCRIPTION
-        tooltip += item.itemDesc + "\n";
+        tooltip += "<size=17>" + item.itemDesc + "</size>\n";
         // BONUS STATS
         List<int> values = new List<int>
             (new int[] {item.itemBonusStr, item.itemBonusInt, item.itemBonusAgi, item.itemBonusLuk,
@@ -224,22 +241,22 @@ public class ItemDatabase : MonoBehaviour {
             {
                 if (values[i] > 0)
                 {
-                    string1 = desc[i] + "+" + values[i].ToString() + "</color>    ";
+                    string1 = "<size=25>" + desc[i] + "+" + values[i].ToString() + "</color></size>     ";
                 }
                 else
                 {
-                    string1 = desc[i] + values[i].ToString() + "</color>    ";
+                    string1 = "<size=25>" + desc[i] + values[i].ToString() + "</color></size>     ";
                 }
             }
             if (values[i + 1] != 0)
             {
                 if (values[i + 1] > 0)
                 {
-                    string2 = desc[i + 1] + "+" + values[i + 1].ToString() + "</color>";
+                    string2 = "<size=25>" + desc[i + 1] + "+" + values[i + 1].ToString() + "</color></size>";
                 }
                 else
                 {
-                    string2 = desc[i + 1] + values[i + 1].ToString() + "</color>";
+                    string2 = "<size=25>" + desc[i + 1] + values[i + 1].ToString() + "</color></size>";
                 }
             }
             if (string1 != "" && string2 != "")
