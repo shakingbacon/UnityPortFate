@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SkillDatabase : MonoBehaviour {
-    public List<Skill> skills = new List<Skill>();
-    public List<List<Skill>> mageSkills = new List<List<Skill>>();
+    public static List<Skill> skills = new List<Skill>();
+    public static List<List<Skill>> mageSkills = new List<List<Skill>>();
     // Mage skills #1-100, Rouge skills #101-200, Warrior skills #201-300
     void Start()
     {

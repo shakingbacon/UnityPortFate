@@ -5,16 +5,16 @@ using UnityEngine.UI;
 
 public class PlayerStats : MonoBehaviour
 {
-    public Stats playerStats;
+    public static Stats playerStats;
 
     void Awake()
     {
-        //playerStats.job = JobDatabase.GetJob(0);
+        playerStats.job = JobDatabase.GetJob(0);
     }
 
     void Update()
     {
-        print("wtf");
+        
     }
 
     //void StatsUpdate()

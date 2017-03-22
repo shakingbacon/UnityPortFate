@@ -16,6 +16,9 @@ public class Stats {
     public Stat maxMana;
     public Stat physAtk;
     public Stat magicAtk;
+    public Stat manaComs;
+    public Stat dmgOutput;
+    public Stat dmgTaken;
     public Stat armor;
     public Stat resist;
     public Stat hitChance;
@@ -37,25 +40,31 @@ public class Stats {
         statsList.Add(agility);
         statsList.Add(luck);
         statsList.Add(health);
-        //statsList.Add(strength);
-        //statsList.Add(strength);
-        //statsList.Add(strength);
-        //statsList.Add(strength);
-        //statsList.Add(strength);
-        //statsList.Add(strength);
-        //statsList.Add(strength);
-        //statsList.Add(strength);
-        //statsList.Add(strength);
-        //statsList.Add(strength);
-        //statsList.Add(strength);
-        //statsList.Add(strength);
-        //statsList.Add(strength);
+        statsList.Add(maxHealth);
+        statsList.Add(mana);
+        statsList.Add(maxMana);
+        statsList.Add(physAtk);
+        statsList.Add(magicAtk);
+        statsList.Add(manaComs);
+        statsList.Add(dmgOutput);
+        statsList.Add(dmgTaken);
+        statsList.Add(armor);
+        statsList.Add(resist);
+        statsList.Add(hitChance);
+        statsList.Add(dodgeChance);
+        statsList.Add(critChance);
+        statsList.Add(critMulti);
+        statsList.Add(level);
+        statsList.Add(abilityPoints);
+        statsList.Add(skillPoints);
+        statsList.Add(experience);
+        statsList.Add(maxExperience);
+        statsList.Add(cash);
     }
 
-    public static int FindStatTotal(Stat stat)
+    public static int GetStatTotal(Stat stat)
     {
         return stat.totalAmount;
     }
-
 
 }

@@ -10,24 +10,24 @@ public class DamageCalc : MonoBehaviour
         int dmg;
         if (skill.skillType == Skill.SkillType.Physical)
         {
-            dmg = skill.skillDamage - Stats.FindStatTotal(victim.armor);
+            dmg = skill.skillDamage - victim.armor.totalAmount;
         }
         else
         {
-            dmg = skill.skillDamage - Stats.FindStatTotal(victim.resist);
+            dmg = skill.skillDamage - victim.resist.totalAmount;
         }
         return dmg;
     }
 
     public static int HitChanceModifier(Stats user, Stats victim, Skill skill)
     {
-        int hit = Stats.FindStatTotal(user.hitChance) + skill.skillHitChance - Stats.FindStatTotal(victim.dodgeChance);
+        int hit = user.hitChance.totalAmount + skill.skillHitChance - victim.dodgeChance.totalAmount;
         return hit;
     }
 
     public static int CritChanceModifier(Stats user, Stats victim, Skill skill)
     {
-        int crit = Stats.FindStatTotal(user.critChance) + skill.skillCritChance;
+        int crit = user.critChance.totalAmount + skill.skillCritChance;
         return crit;
     }
 
@@ -62,7 +62,7 @@ public class DamageCalc : MonoBehaviour
             if (critChance >= Random.Range(0, 101))
             {
                 //// Crit Multiplier
-                damage *= (Stats.FindStatTotal(user.critMulti) + skill.skillCritMulti) / 100;
+                damage *= (user.critMulti.totalAmount + skill.skillCritMulti) / 100;
             }
 
             // if damage less than 0, damage = 0 so no heal
