@@ -3,28 +3,58 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class Equipment : MonoBehaviour {
-    static Transform equipment;
+    public static Transform equipment;
+
+    public static List<Texture2D> defaultImage = new List<Texture2D>();
 
     void Start()
     {
         equipment = gameObject.transform;
     }
 
-    public static void EquipItem(int slotindex)
+    public static void AddItemStats(Item item)
     {
-
+        PlayerStats.stats.strength.buffedAmount += item.itemBonusStr;
+        PlayerStats.stats.intelligence.buffedAmount += item.itemBonusInt;
+        PlayerStats.stats.agility.buffedAmount += item.itemBonusAgi;
+        PlayerStats.stats.luck.buffedAmount += item.itemBonusLuk;
+        PlayerStats.stats.maxHealth.buffedAmount += item.itemBonusHP;
+        PlayerStats.stats.maxMana.buffedAmount += item.itemBonusMP;
+        PlayerStats.stats.physAtk.buffedAmount += item.itemBonusAtk;
+        PlayerStats.stats.magicAtk.buffedAmount += item.itemBonusMAtk;
+        PlayerStats.stats.armor.buffedAmount += item.itemBonusArmor;
+        PlayerStats.stats.resist.buffedAmount += item.itemBonusResist;
+        PlayerStats.stats.hitChance.buffedAmount += item.itemBonusHit;
+        PlayerStats.stats.dodgeChance.buffedAmount += item.itemBonusDodge;
+        PlayerStats.stats.critChance.buffedAmount += item.itemBonusCrit;
+        PlayerStats.stats.critMulti.buffedAmount += item.itemBonusCritMulti;
     }
 
-    public static void DequipItem(int slotindex)
+    public static void RemoveItemStats(Item item)
     {
-
+        PlayerStats.stats.strength.buffedAmount -= item.itemBonusStr;
+        PlayerStats.stats.intelligence.buffedAmount -= item.itemBonusInt;
+        PlayerStats.stats.agility.buffedAmount -= item.itemBonusAgi;
+        PlayerStats.stats.luck.buffedAmount -= item.itemBonusLuk;
+        PlayerStats.stats.maxHealth.buffedAmount -= item.itemBonusHP;
+        PlayerStats.stats.maxMana.buffedAmount -= item.itemBonusMP;
+        PlayerStats.stats.physAtk.buffedAmount -= item.itemBonusAtk;
+        PlayerStats.stats.magicAtk.buffedAmount -= item.itemBonusMAtk;
+        PlayerStats.stats.manaComs.buffedAmount -= item.itemBonusMAtk;
+        PlayerStats.stats.dmgOutput.buffedAmount -= item.itemBonusMAtk;
+        PlayerStats.stats.dmgTaken.buffedAmount -= item.itemBonusMAtk;
+        PlayerStats.stats.armor.buffedAmount -= item.itemBonusArmor;
+        PlayerStats.stats.resist.buffedAmount -= item.itemBonusResist;
+        PlayerStats.stats.hitChance.buffedAmount -= item.itemBonusHit;
+        PlayerStats.stats.dodgeChance.buffedAmount -= item.itemBonusDodge;
+        PlayerStats.stats.critChance.buffedAmount -= item.itemBonusCrit;
+        PlayerStats.stats.critMulti.buffedAmount -= item.itemBonusCritMulti;
     }
     //private Page page = new Page(1, 460, 100, 400, 450, 50);
     //public float equipSlotX, equipSlotY, statButtonW, statButtonH,
     //    statBoxW, statBoxH;
     //public GUISkin skin;
     //public List<Item> equipment = new List<Item>();
-    //public List<Texture2D> defaultImage = new List<Texture2D>();
     ////
     //public PlayerStats playerStats;
     //public SlotButton slotButton;
@@ -42,16 +72,7 @@ public class Equipment : MonoBehaviour {
     //        equipment.Add(new Item());
     //    }
     //    // show the picture that shows where to equip
-    //    defaultImage.Add(Resources.Load<Texture2D>("Default Equip/Weapon"));
-    //    defaultImage.Add(Resources.Load<Texture2D>("Default Equip/Weapon&Shield"));
-    //    defaultImage.Add(Resources.Load<Texture2D>("Default Equip/Neck"));
-    //    defaultImage.Add(Resources.Load<Texture2D>("Default Equip/Hands"));
-    //    defaultImage.Add(Resources.Load<Texture2D>("Default Equip/Accessory"));
-    //    defaultImage.Add(Resources.Load<Texture2D>("Default Equip/Head"));
-    //    defaultImage.Add(Resources.Load<Texture2D>("Default Equip/Body"));
-    //    defaultImage.Add(Resources.Load<Texture2D>("Default Equip/Bottom"));
-    //    defaultImage.Add(Resources.Load<Texture2D>("Default Equip/Boots"));
-    //    defaultImage.Add(Resources.Load<Texture2D>("Default Equip/Accessory"));
+
     //    //
     //    shop = shop.GetComponent<Shop>();
     //    manager = manager.GetComponent<GameManager>();

@@ -19,7 +19,7 @@ public class JobSelect : MonoBehaviour {
         {
             //player.job = "Mage";
             //print(player.job);
-            Application.LoadLevel("Stats");
+            //Application.LoadLevel("Stats");
         }
         if (GUI.Button(new Rect(Screen.width / 2.6f, 275, 250, 250), "Rouge", skin.GetStyle("Yes")))
         {

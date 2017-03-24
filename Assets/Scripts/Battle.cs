@@ -29,7 +29,7 @@ public class Battle : MonoBehaviour {
         //    () =>  DamageCalc.SkillAttack(player.transform.FindChild("Player Stats").GetComponent<PlayerStats>().stats, 
         //    enemyStats.enemy.stats, 
         //    player.transform.FindChild("Player Skills").GetComponent<PlayerSkills>().FindSkill(0)));
-        canvas.transform.FindChild("Battle UI").transform.FindChild("Skills").GetComponent<Button>().onClick.AddListener(GameManager.OpenCloseSkillPage);
+        canvas.transform.FindChild("Battle UI").transform.FindChild("Skills").GetComponent<Button>().onClick.AddListener(() => GameManager.OpenClosePage("Skill Page"));
         canvas.transform.FindChild("Battle UI").transform.FindChild("Run").GetComponent<Button>().onClick.AddListener(EndBattle);
 
     }

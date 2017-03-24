@@ -10,7 +10,7 @@ public class Instructions : MonoBehaviour {
         GUI.skin = skin;
         if (GUI.Button(new Rect(Screen.width / 2, Screen.height / 2, 100, 100), "NEXT", skin.GetStyle("Yes")))
         {
-            Application.LoadLevel("JobSelect");
+            //Application.LoadLevel("JobSelect");
         }
 
     }

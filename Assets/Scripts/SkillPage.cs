@@ -5,19 +5,17 @@ using UnityEngine;
 
 public class SkillPage : MonoBehaviour {
 
-    SkillDatabase skillDatabase;
     public int pageNum;
     public List<List<Skill>> currentPage;
 
     void Start()
     {
-        skillDatabase = GameObject.FindGameObjectWithTag("Skill Database").GetComponent<SkillDatabase>();
         currentPage = PlayerSkills.skills;
         UpdateSkillPage(0);
         gameObject.transform.FindChild("Left Button").GetComponent<Button>().onClick.AddListener(prevPage);
         gameObject.transform.FindChild("Right Button").GetComponent<Button>().onClick.AddListener(nextPage);
         gameObject.transform.FindChild("Learned Skills Button").GetComponent<Button>().onClick.AddListener(LearnedSkillButtonPress);
-        gameObject.transform.FindChild("Close Button").GetComponent<Button>().onClick.AddListener(GameManager.OpenCloseSkillPage);
+        gameObject.transform.FindChild("Close Button").GetComponent<Button>().onClick.AddListener(() => GameManager.OpenClosePage("Skill Page"));
         gameObject.transform.FindChild("Page Num").GetComponent<Text>().text = (pageNum + 1).ToString();
 
     }

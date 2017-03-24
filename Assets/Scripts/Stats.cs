@@ -55,4 +55,5 @@ public class Stats {
         statsList.Add(critChance);
         statsList.Add(critMulti);
     }
+
 }

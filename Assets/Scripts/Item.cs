@@ -16,7 +16,10 @@ public class Item {
     public int itemBonusMP;
     public int itemBonusAtk;
     public int itemBonusMAtk;
-    public int itemBonusDef;
+    public int itemBonusManaComs;
+    public int itemBonusDmgOutput;
+    public int itemBonusDmgTaken;
+    public int itemBonusArmor;
     public int itemBonusResist;
     public int itemBonusHit;
     public int itemBonusDodge;
@@ -33,7 +36,6 @@ public class Item {
     {
         Weapon,
         Armor,
-        Accessory,
         Consumable,
         None
     }
@@ -56,102 +58,41 @@ public class Item {
         Hands,
         Bottom,
         Boots,
+        Accessory,
         None
     }
-
-    // Weapon Item
-    public Item(string name, int id, string desc,
-        int bstr, int bint, int bagi, int bluk, int bhp, int bmp, int batk, int bmatk, int bdef, int bresist, int bhit, int bdodge, int bcrit, int bcritmulti, int cost, 
-        WeaponType weapon)
+    // Weapon
+    public Item(string name, int id, string desc, int cost, WeaponType type)
     {
         itemName = name;
         itemID = id;
         itemImg = Resources.Load<Sprite>("Item Icons/" + name);
         itemDesc = desc;
-        itemBonusStr = bstr;
-        itemBonusInt = bint;
-        itemBonusAgi = bagi;
-        itemBonusLuk = bluk;
-        itemBonusHP = bhp;
-        itemBonusMP = bmp;
-        itemBonusAtk = batk;
-        itemBonusMAtk = bmatk;
-        itemBonusDef = bdef;
-        itemBonusResist = bresist;
-        itemBonusHit = bhit;
-        itemBonusDodge = bdodge;
-        itemBonusCrit = bcrit;
-        itemBonusCritMulti = bcritmulti;
         itemCost = cost;
         itemType = ItemType.Weapon;
-        weaponType = weapon;
+        weaponType = type;
         armorType = ArmorType.None;
-
-
     }
-    // Armor Item
-    public Item(string name, int id, string desc,
-        int bstr, int bint, int bagi, int bluk, int bhp, int bmp, int batk, int bmatk, int bdef, int bresist, int bhit, int bdodge, int bcrit, int bcritmulti, int cost, ArmorType armor)
+    // Armor
+    public Item(string name, int id, string desc, int cost, ArmorType type)
     {
         itemName = name;
         itemID = id;
         itemImg = Resources.Load<Sprite>("Item Icons/" + name);
         itemDesc = desc;
-        itemBonusStr = bstr;
-        itemBonusInt = bint;
-        itemBonusAgi = bagi;
-        itemBonusLuk = bluk;
-        itemBonusHP = bhp;
-        itemBonusMP = bmp;
-        itemBonusAtk = batk;
-        itemBonusMAtk = bmatk;
-        itemBonusDef = bdef;
-        itemBonusResist = bresist;
-        itemBonusHit = bhit;
-        itemBonusDodge = bdodge;
-        itemBonusCrit = bcrit;
-        itemBonusCritMulti = bcritmulti;
         itemCost = cost;
         itemType = ItemType.Armor;
         weaponType = WeaponType.None;
-        armorType = armor;
+        armorType = type;
     }
 
-    // Accessories
-    public Item(string name, int id, string desc, 
-                int bstr, int bint, int bagi, int bluk, int bhp, int bmp, int batk, int bmatk, int bdef, int bresist, int bhit, int bdodge, int bcrit, int bcritmulti, 
-                int cost, ItemType type)
-    {
-        itemName = name;
-        itemID = id;
-        itemImg = Resources.Load<Sprite>("Item Icons/" + name);
-        itemDesc = desc;
-        itemBonusStr = bstr;
-        itemBonusInt = bint;
-        itemBonusAgi = bagi;
-        itemBonusLuk = bluk;
-        itemBonusHP = bhp;
-        itemBonusMP = bmp;
-        itemBonusAtk = batk;
-        itemBonusMAtk = bmatk;
-        itemBonusDef = bdef;
-        itemBonusResist = bresist;
-        itemBonusHit = bhit;
-        itemBonusDodge = bdodge;
-        itemBonusCrit = bcrit;
-        itemBonusCritMulti = bcritmulti;
-        itemCost = cost;
-        itemType = type;
-        weaponType = WeaponType.None;
-        armorType = ArmorType.None;
-    }
     // Consumable Item
     public Item(string name, int id, string desc, int cost, ItemType type)
     {
         itemName = name;
         itemID = id;
         itemImg = Resources.Load<Sprite>("Item Icons/" + name);
-        itemDesc = desc; 
+        itemDesc = desc;
         itemCost = cost;
         itemType = type;
         weaponType = WeaponType.None;
@@ -164,6 +105,92 @@ public class Item {
         itemType = ItemType.None;
         weaponType = WeaponType.None;
         armorType = ArmorType.None;
-        
     }
+    // Weapon Item
+    //public Item(string name, int id, string desc,
+    //    int bstr, int bint, int bagi, int bluk, int bhp, int bmp, int batk, int bmatk, int bdef, int bresist, int bhit, int bdodge, int bcrit, int bcritmulti, int cost, 
+    //    WeaponType weapon)
+    //{
+    //    itemName = name;
+    //    itemID = id;
+    //    itemImg = Resources.Load<Sprite>("Item Icons/" + name);
+    //    itemDesc = desc;
+    //    itemBonusStr = bstr;
+    //    itemBonusInt = bint;
+    //    itemBonusAgi = bagi;
+    //    itemBonusLuk = bluk;
+    //    itemBonusHP = bhp;
+    //    itemBonusMP = bmp;
+    //    itemBonusAtk = batk;
+    //    itemBonusMAtk = bmatk;
+    //    itemBonusArmor = bdef;
+    //    itemBonusResist = bresist;
+    //    itemBonusHit = bhit;
+    //    itemBonusDodge = bdodge;
+    //    itemBonusCrit = bcrit;
+    //    itemBonusCritMulti = bcritmulti;
+    //    itemCost = cost;
+    //    itemType = ItemType.Weapon;
+    //    weaponType = weapon;
+    //    armorType = ArmorType.None;
+
+
+    //}
+    //// Armor Item
+    //public Item(string name, int id, string desc,
+    //    int bstr, int bint, int bagi, int bluk, int bhp, int bmp, int batk, int bmatk, int bdef, int bresist, int bhit, int bdodge, int bcrit, int bcritmulti, int cost, ArmorType armor)
+    //{
+    //    itemName = name;
+    //    itemID = id;
+    //    itemImg = Resources.Load<Sprite>("Item Icons/" + name);
+    //    itemDesc = desc;
+    //    itemBonusStr = bstr;
+    //    itemBonusInt = bint;
+    //    itemBonusAgi = bagi;
+    //    itemBonusLuk = bluk;
+    //    itemBonusHP = bhp;
+    //    itemBonusMP = bmp;
+    //    itemBonusAtk = batk;
+    //    itemBonusMAtk = bmatk;
+    //    itemBonusArmor = bdef;
+    //    itemBonusResist = bresist;
+    //    itemBonusHit = bhit;
+    //    itemBonusDodge = bdodge;
+    //    itemBonusCrit = bcrit;
+    //    itemBonusCritMulti = bcritmulti;
+    //    itemCost = cost;
+    //    itemType = ItemType.Armor;
+    //    weaponType = WeaponType.None;
+    //    armorType = armor;
+    //}
+
+    //// Accessories
+    //public Item(string name, int id, string desc, 
+    //            int bstr, int bint, int bagi, int bluk, int bhp, int bmp, int batk, int bmatk, int bdef, int bresist, int bhit, int bdodge, int bcrit, int bcritmulti, 
+    //            int cost, ItemType type)
+    //{
+    //    itemName = name;
+    //    itemID = id;
+    //    itemImg = Resources.Load<Sprite>("Item Icons/" + name);
+    //    itemDesc = desc;
+    //    itemBonusStr = bstr;
+    //    itemBonusInt = bint;
+    //    itemBonusAgi = bagi;
+    //    itemBonusLuk = bluk;
+    //    itemBonusHP = bhp;
+    //    itemBonusMP = bmp;
+    //    itemBonusAtk = batk;
+    //    itemBonusMAtk = bmatk;
+    //    itemBonusArmor = bdef;
+    //    itemBonusResist = bresist;
+    //    itemBonusHit = bhit;
+    //    itemBonusDodge = bdodge;
+    //    itemBonusCrit = bcrit;
+    //    itemBonusCritMulti = bcritmulti;
+    //    itemCost = cost;
+    //    itemType = type;
+    //    weaponType = WeaponType.None;
+    //    armorType = ArmorType.None;
+    //}
+
 }

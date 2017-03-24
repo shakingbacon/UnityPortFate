@@ -57,8 +57,8 @@
      <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\Instructions.cs" />
      <Compile Include="Assets\Scripts\Intro.cs" />
+     <Compile Include="Assets\Scripts\InvEq.cs" />
      <Compile Include="Assets\Scripts\Inventory.cs" />
-     <Compile Include="Assets\Scripts\InventoryEquipment.cs" />
      <Compile Include="Assets\Scripts\Item.cs" />
      <Compile Include="Assets\Scripts\ItemDatabase.cs" />
      <Compile Include="Assets\Scripts\ItemHolder.cs" />

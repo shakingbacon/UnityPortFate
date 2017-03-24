@@ -7,7 +7,7 @@ public class Enemy
 {
     public int enemyID;
     public Sprite enemyIMG;
-    public Stats enemyStats;
+    public Stats enemyStats = new Stats();
 
     public Enemy(string name, int id, int hp, int mp, int phys, int mag, int armor, int resist, int hit, int dodge, int crit, int multi, int exp, int loot)
     {

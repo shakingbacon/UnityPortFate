@@ -21,7 +21,7 @@ public class SkillHolder : MonoBehaviour {
         if (!manager.inBattle)
         {
             // rank up
-            if (PlayerStats.playerStats.skillPoints > 0)
+            if (PlayerStats.stats.skillPoints > 0)
             {   
                 // update skills to check requirement
                 PlayerSkills.SkillUpdate();
@@ -48,7 +48,7 @@ public class SkillHolder : MonoBehaviour {
                     {
 
                         skill.skillRank += 1;
-                        PlayerStats.playerStats.skillPoints -= 1;
+                        PlayerStats.stats.skillPoints -= 1;
                         PlayerSkills.SkillUpdate();
                         //playerStats.StatsUpdate();
                         PlayerSkills.SkillUpdate();
@@ -74,7 +74,7 @@ public class SkillHolder : MonoBehaviour {
         else // in battle
         {
             //DamageCalc.SkillAttack(PlayerStats.playerStats, enemyStats.enemy.stats, skill);
-            GameManager.OpenCloseSkillPage();
+            GameManager.OpenClosePage("Skill Page");
         }
     }
 

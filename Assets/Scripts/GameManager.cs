@@ -4,8 +4,7 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
 
-    public int draggingPageID;
-    public int showingPageTooltipID = -1;
+    static string showingPage;
     public bool inBattle;
     public bool setupBattle;
     Battle battle;
@@ -25,25 +24,18 @@ public class GameManager : MonoBehaviour {
         if (Input.GetButtonDown("Skill"))
         {
             //playerSkills.SkillUpdate();
-            OpenCloseSkillPage();
+            OpenClosePage("Skill Page");
         }
         if (Input.GetButtonDown("Inventory"))
         {
-            OpenCloseInventoryPage();
+            OpenClosePage("InventoryEquipment");
         }
     }
 
-    public static void OpenCloseSkillPage()
+    public static void OpenClosePage(string name)
     {
-       
-        GameObject.FindGameObjectWithTag("Canvas").transform.FindChild("Skill Page").gameObject.SetActive(
-            !(GameObject.FindGameObjectWithTag("Canvas").transform.FindChild("Skill Page").gameObject.activeInHierarchy));
-    }
-
-    public static void OpenCloseInventoryPage()
-    {
-        GameObject.FindGameObjectWithTag("Canvas").transform.FindChild("InventoryEquipment").gameObject.SetActive(
-            !(GameObject.FindGameObjectWithTag("Canvas").transform.FindChild("InventoryEquipment").gameObject.activeInHierarchy));
+        GameObject.FindGameObjectWithTag("Canvas").transform.FindChild(name).gameObject.SetActive(
+            !(GameObject.FindGameObjectWithTag("Canvas").transform.FindChild(name).gameObject.activeInHierarchy));
     }
 
     public void BuyItem()

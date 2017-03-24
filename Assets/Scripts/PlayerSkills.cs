@@ -12,7 +12,7 @@ public class PlayerSkills : MonoBehaviour {
         AddPage(learnedSkills, 3);
         AddSkillSlots(learnedSkills, 40);
         // Basically a copy of the database page list but all skills are new not referenced
-        switch (PlayerStats.playerStats.job.jobID)
+        switch (PlayerStats.stats.job.jobID)
         {
             case 0:
                 {
@@ -73,7 +73,7 @@ public class PlayerSkills : MonoBehaviour {
         for (int i = 0; i < skills[k].Count; i += 1)
         {
             Skill skill = skills[k][i];
-            Stats stats = PlayerStats.playerStats;
+            Stats stats = PlayerStats.stats;
             switch (skill.skillID)
             {
                     
@@ -84,7 +84,7 @@ public class PlayerSkills : MonoBehaviour {
                         }
                     case 1:
                         {
-                            skill.skillDamage = (int)(80 + (PlayerStats.playerStats.magicAtk.totalAmount / 1.8) * (1.8 * (1 + skill.skillRank)));
+                            skill.skillDamage = (int)(80 + (stats.magicAtk.totalAmount / 1.8) * (1.8 * (1 + skill.skillRank)));
                             skill.skillManaCost = (int)(50 + skill.skillDamage / (17 - skill.skillRank) + skill.skillRank * 35);
                             skill.skillStatusEff.burnChance = (int)(15 + 3 * skill.skillRank + stats.magicAtk.totalAmount / (25 + stats.magicAtk.totalAmount) / 4);
                             skill.skillEffDesc = "Chance to inflict Burn: " + skill.skillStatusEff.burnChance.ToString() + "%";

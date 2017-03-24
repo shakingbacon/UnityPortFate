@@ -118,7 +118,7 @@ public class SkillDatabase : MonoBehaviour {
         }
     }
 
-    public Skill FindSkill(int id)
+    public static Skill GetSkill(int id)
     {
         Skill stat = skills[0];
         for (int i = 0; i < skills.Count; i += 1)

@@ -5,43 +5,33 @@ using UnityEngine.UI;
 
 public class Inventory : MonoBehaviour
 {
-    static Transform inventory;
+    public static Transform inventory;
     void Start()
     {
         inventory = gameObject.transform;
         // reset inventory
         for (int i = 0; i < inventory.childCount; i += 1)
         {
-            CleanSlot(i);
+            InvEq.CleanSlot(inventory, i);
         }
-        InsertItem(0, 1101);
-        InsertItem(1, 9104);
-        AddItem(1101);
-        AddItem(1500);
+        AddItem(1000);
+        AddItem(1001);
     }
 
     public static void AddItem(int itemindex)
     {
         for (int i = 0; i < inventory.childCount; i += 1)
         {
-            InsertItem(i, itemindex);
+            if (InvEq.GetItem(inventory, i).itemID == -1)
+            {
+                InvEq.InsertItem(inventory, i, itemindex);
+                break;
+            }
         }
     }
 
-    public static void InsertItem(int slotindex, int itemindex)
-    {
-        inventory.GetChild(slotindex).GetChild(0).GetComponent<ItemHolder>().item = ItemDatabase.GetItem(itemindex);
-        inventory.GetChild(slotindex).GetChild(0).GetComponent<Image>().sprite = inventory.GetChild(slotindex).GetChild(0).GetComponent<ItemHolder>().item.itemImg;
-        inventory.GetChild(slotindex).GetChild(0).GetComponent<Image>().enabled = true;
-    }
+    
 
-    public static void CleanSlot(int slotindex)
-    {
-        inventory.GetChild(slotindex).GetChild(0).GetComponent<ItemHolder>().item = new Item();
-        inventory.GetChild(slotindex).GetChild(0).GetComponent<Image>().sprite = inventory.GetChild(slotindex).GetChild(0).GetComponent<ItemHolder>().item.itemImg;
-        inventory.GetChild(slotindex).GetChild(0).GetComponent<Image>().enabled = false;
-    }
-        
     //private Page page = new Page(0, 100, 100, 325, 460, 50);
     //public float slotsX, slotsY;
     //public GUISkin skin;
