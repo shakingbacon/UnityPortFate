@@ -15,8 +15,8 @@ public class Enemy
         enemyID = id;
         enemyIMG = Resources.Load<Sprite>("Enemy Icons/" + name);
         enemyStats.mingZi = name;
-        enemyStats.health.totalAmount = hp;
-        enemyStats.mana.totalAmount = mp;
+        enemyStats.maxHealth.totalAmount = hp;
+        enemyStats.maxMana.totalAmount = mp;
         enemyStats.physAtk.totalAmount = phys;
         enemyStats.magicAtk.totalAmount = mag;
         enemyStats.armor.totalAmount = armor;
@@ -34,8 +34,8 @@ public class Enemy
         enemyID = enemy.enemyID;
         enemyIMG = Resources.Load<Sprite>("Enemy Icons/" + enemy.enemyStats.mingZi);
         enemyStats.mingZi = enemy.enemyStats.mingZi;
-        enemyStats.health.totalAmount = enemy.enemyStats.health.totalAmount;
-        enemyStats.mana.totalAmount = enemy.enemyStats.mana.totalAmount;
+        enemyStats.maxHealth.totalAmount = enemy.enemyStats.maxHealth.totalAmount;
+        enemyStats.maxMana.totalAmount = enemy.enemyStats.maxMana.totalAmount;
         enemyStats.physAtk.totalAmount = enemy.enemyStats.physAtk.totalAmount;
         enemyStats.magicAtk.totalAmount = enemy.enemyStats.magicAtk.totalAmount;
         enemyStats.armor.totalAmount = enemy.enemyStats.armor.totalAmount;

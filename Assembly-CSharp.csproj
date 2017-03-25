@@ -66,6 +66,7 @@
      <Compile Include="Assets\Scripts\JobDatabase.cs" />
      <Compile Include="Assets\Scripts\JobSelect.cs" />
      <Compile Include="Assets\Scripts\Page.cs" />
+     <Compile Include="Assets\Scripts\PlayerImage.cs" />
      <Compile Include="Assets\Scripts\PlayerMovement.cs" />
      <Compile Include="Assets\Scripts\PlayerSkills.cs" />
      <Compile Include="Assets\Scripts\PlayerStats.cs" />

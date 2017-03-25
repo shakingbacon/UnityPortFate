@@ -10,9 +10,9 @@ public class Stats {
     public Stat intelligence = new Stat();
     public Stat agility = new Stat();
     public Stat luck = new Stat();
-    public Stat health = new Stat();
+    public int health;
     public Stat maxHealth = new Stat();
-    public Stat mana = new Stat();
+    public int mana;
     public Stat maxMana = new Stat();
     public Stat physAtk = new Stat();
     public Stat magicAtk = new Stat();
@@ -39,9 +39,7 @@ public class Stats {
         statsList.Add(intelligence);
         statsList.Add(agility);
         statsList.Add(luck);
-        statsList.Add(health);
         statsList.Add(maxHealth);
-        statsList.Add(mana);
         statsList.Add(maxMana);
         statsList.Add(physAtk);
         statsList.Add(magicAtk);

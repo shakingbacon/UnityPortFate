@@ -28,19 +28,21 @@ public class GameManager : MonoBehaviour {
         }
         if (Input.GetButtonDown("Inventory"))
         {
-            OpenClosePage("InventoryEquipment");
+            if (!OpenClosePage("InventoryEquipment"))
+            {
+                InvEq.ShowStats(false);
+                GameObject.FindGameObjectWithTag("InventoryEquipment").transform.FindChild("Item Desc").gameObject.SetActive(false);
+                Inventory.AddItem(InvEq.holdingItem.itemID);
+                InvEq.UpdateHoldingItem(new Item(), false);
+            }
         }
     }
 
-    public static void OpenClosePage(string name)
+    public static bool OpenClosePage(string name)
     {
         GameObject.FindGameObjectWithTag("Canvas").transform.FindChild(name).gameObject.SetActive(
             !(GameObject.FindGameObjectWithTag("Canvas").transform.FindChild(name).gameObject.activeInHierarchy));
-    }
-
-    public void BuyItem()
-    {
-
+        return !(GameObject.FindGameObjectWithTag("Canvas").transform.FindChild(name).gameObject.activeInHierarchy);
     }
 
 }

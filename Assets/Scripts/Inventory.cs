@@ -14,8 +14,16 @@ public class Inventory : MonoBehaviour
         {
             InvEq.CleanSlot(inventory, i);
         }
-        AddItem(1000);
+        //AddItem(1000);
         AddItem(1001);
+        AddItem(1100);
+        AddItem(1200);
+        AddItem(1201);
+        AddItem(1300);
+        AddItem(1400);
+        AddItem(1500);
+        AddItem(1600);
+        AddItem(1700);
     }
 
     public static void AddItem(int itemindex)

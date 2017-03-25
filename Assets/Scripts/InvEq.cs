@@ -19,6 +19,7 @@ public class InvEq : MonoBehaviour
         inventory = gameObject.transform.FindChild("Inventory");
         statsButton = gameObject.transform.FindChild("Stats Button");
         statsButton.GetComponent<Button>().onClick.AddListener(() => ShowStats(!showStats));
+        inventoryEquipment.FindChild("Close Button").GetComponent<Button>().onClick.AddListener(() => GameManager.OpenClosePage("InventoryEquipment"));
     }
 
     void Update()
@@ -26,7 +27,7 @@ public class InvEq : MonoBehaviour
         //print(Input.mousePosition.x);
         if (holdingItem.itemID != -1)
         {
-            inventoryEquipment.FindChild("Holding Item").transform.localPosition = new Vector3(Input.mousePosition.x - 360, Input.mousePosition.y - 260);
+            inventoryEquipment.FindChild("Holding Item").transform.localPosition = new Vector3(Input.mousePosition.x - 360, Input.mousePosition.y - 290);
         }
     }
 
@@ -67,8 +68,7 @@ public class InvEq : MonoBehaviour
     {
         showStats = show;
         GameObject.FindGameObjectWithTag("InventoryEquipment").transform.FindChild("Item Desc").gameObject.SetActive(show);
-        GameObject.FindGameObjectWithTag("InventoryEquipment").transform.FindChild("Item Desc").GetComponentInChildren<Text>().text 
-            = PlayerStats.makeStatsPage();
+        UpdateStatsDesc();
         if (!showStats)
         {
             statsButton.GetComponentInChildren<Text>().text = "Stats";
@@ -77,6 +77,11 @@ public class InvEq : MonoBehaviour
         {
             statsButton.GetComponentInChildren<Text>().text = "Close";
         }
+    }
+    public static void UpdateStatsDesc()
+    {
+        GameObject.FindGameObjectWithTag("InventoryEquipment").transform.FindChild("Item Desc").GetComponentInChildren<Text>().text
+    = PlayerStats.makeStatsPage();
     }
 
 }

@@ -2,7 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class ItemDatabase : MonoBehaviour {
+public class ItemDatabase : MonoBehaviour
+{
     public static List<Item> items = new List<Item>();
     public static List<List<Item>> shop = new List<List<Item>>();
     // Use this for initialization
@@ -25,24 +26,24 @@ public class ItemDatabase : MonoBehaviour {
         //items.Add(new Item("Star Staff", 1052, "Stronger staff with powers of the stars", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2000, Item.WeaponType.Staff));
         //items.Add(new Item("Elemental Staff", 1053, "Strong, magical staff with powers of all elemenets", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3600, Item.WeaponType.Staff));
         //// Head
-        //items.Add(new Item("Leather Hat", 1100, "A basic hat for mages", 0, 2, 0, 1, 0, 100, 0, 0, 10, 20, 0, 0, 0, 0, 225, Item.ArmorType.Head));
+        items.Add(new Item("Leather Hat", 1100, "A basic hat for mages", 225, Item.ArmorType.Head));
         //items.Add(new Item("Mage Hat", 1101, "A blue, magical hat", 0, 5, 0, 2, 0, 120, 0, 0, 10, 25, 0, 0, 0, 0, 350, Item.ArmorType.Head));
         //// Body
-        //items.Add(new Item("White Blouse", 1200, "A fashionable shirt that looks good", 0, 0, 0, 0, 0, 50, 0, 0, 7, 10, 0, 0, 0, 0, 150, Item.ArmorType.Body));
-        //items.Add(new Item("Blue Blouse", 1201, "A fashionable shirt that looks good", 0, 0, 0, 0, 0, 100, 0, 0, 5, 7, 0, 0, 0, 0, 150, Item.ArmorType.Body));
+        items.Add(new Item("White Blouse", 1200, "A fashionable shirt that looks good", 150, Item.ArmorType.Body));
+        items.Add(new Item("Blue Blouse", 1201, "A fashionable shirt that looks good", 150, Item.ArmorType.Body));
         //// Bottom
-        //items.Add(new Item("Leather Skirt", 1300, "Comfortable but fashionable", 0, 0, 1, 0, 0, 0, 0, 0, 9, 12, 0, 0, 0, 0, 125, Item.ArmorType.Bottom));
+        items.Add(new Item("Leather Skirt", 1300, "Comfortable but fashionable", 125, Item.ArmorType.Bottom));
         //items.Add(new Item("Mage Longskirt", 1301, "Feel the power of magic arise", 0, 3, 4, 0, 0, 80, 0, 0, 16, 20, 0, 0, 0, 0, 300, Item.ArmorType.Bottom));
         //// Hands
-        //items.Add(new Item("Leather Gloves", 1400, "Useful for handling objects", 0, 0, 0, 1, 0, 0, 0, 0, 6, 6, 0, 0, 0, 0, 50, Item.ArmorType.Hands));
+        items.Add(new Item("Leather Gloves", 1400, "Useful for handling objects", 50, Item.ArmorType.Hands));
         //items.Add(new Item("Mana Gloves", 1401, "Carry mana in the palm of your hands", 0, 1, 0, 1, 0, 400, 0, 0, 8, 10, 0, 0, 0, 0, 500, Item.ArmorType.Hands));
         //// Boots
-        //items.Add(new Item("Leather Boots", 1500, "Durable shoes to walk in", 0, 0, 1, 0, 0, 0, 0, 0, 6, 8, 0, 0, 0, 0, 75, Item.ArmorType.Boots));
+        items.Add(new Item("Leather Boots", 1500, "Durable shoes to walk in", 75, Item.ArmorType.Boots));
         //items.Add(new Item("Mana Boots", 1501, "Mana while running", 0, 1, 0, 1, 0, 400, 0, 0, 8, 10, 0, 0, 0, 0, 500, Item.ArmorType.Boots));
         //// Shield
-        //items.Add(new Item("Mana Shield", 1600, "A shield powered by mana", 0, 2, -2, -1, 0, 400, 0, 0, 25, 35, -5, -5, 0, 0, 750, Item.ArmorType.Shield));
+        items.Add(new Item("Mana Shield", 1600, "A shield powered by mana", 750, Item.ArmorType.Shield));
         //// Neck
-        //items.Add(new Item("Leather Cape", 1700, "A simple robe made from cloth", 0, 1, 0, 1, 0, 125, 0, 6, 8, 10, 0, 0, 0, 0, 200, Item.ArmorType.Neck));
+        items.Add(new Item("Leather Cape", 1700, "A simple robe made from cloth", 200, Item.ArmorType.Neck));
         //items.Add(new Item("Mage Cape", 1701, "A comfortable rob with mage", 0, 2, 0, 3, 0, 200, 0, 10, 12, 15, 0, 0, 0, 0, 450, Item.ArmorType.Neck));
         ////////////////////////////////////////
         ////// Rouge
@@ -88,6 +89,8 @@ public class ItemDatabase : MonoBehaviour {
         //items.Add(new Item("Agility Necklace", 9102, "A necklace that increases your AGI", 0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1000, Item.ItemType.Accessory));
         //items.Add(new Item("Luck Necklace", 9103, "A necklace that increases your LUK", 0, 0, 0, 12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1000, Item.ItemType.Accessory));
         //items.Add(new Item("Luck Necklace", 9104, "A necklace that increases your LUK", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 50, 100, 1000, Item.ItemType.Accessory));
+
+        AddBonusStatsToItems();
 
         shop.Add(new List<Item>());
         shop.Add(new List<Item>());
@@ -146,9 +149,9 @@ public class ItemDatabase : MonoBehaviour {
     {
         string tooltip;
         // NAME
-        tooltip = "<size=45><color=#000000>" + item.itemName + "</color></size>\n";
+        tooltip = "<size=30><color=#000000>" + item.itemName + "</color></size>\n";
         // ITEM TYPE
-        tooltip += "<size=35>";
+        tooltip += "<size=25>";
         if (item.itemType == Item.ItemType.Armor)
         {
             if (item.armorType == Item.ArmorType.Accessory)
@@ -220,7 +223,7 @@ public class ItemDatabase : MonoBehaviour {
         // COST
         tooltip += "<size=22><color=#ECF32A>COST: $" + item.itemCost.ToString() + "</color></size>\n";
         // DESCRIPTION
-        tooltip += "<size=17>" + item.itemDesc + "</size>\n";
+        tooltip += "<size=20>" + item.itemDesc + "</size>\n";
         // BONUS STATS
         List<int> values = new List<int>
             (new int[] {item.itemBonusStr, item.itemBonusInt, item.itemBonusAgi, item.itemBonusLuk,
@@ -241,22 +244,22 @@ public class ItemDatabase : MonoBehaviour {
             {
                 if (values[i] > 0)
                 {
-                    string1 = "<size=25>" + desc[i] + "+" + values[i].ToString() + "</color></size>     ";
+                    string1 = "<size=17>" + desc[i] + "+" + values[i].ToString() + "</color></size>     ";
                 }
                 else
                 {
-                    string1 = "<size=25>" + desc[i] + values[i].ToString() + "</color></size>     ";
+                    string1 = "<size=17>" + desc[i] + values[i].ToString() + "</color></size>     ";
                 }
             }
             if (values[i + 1] != 0)
             {
                 if (values[i + 1] > 0)
                 {
-                    string2 = "<size=25>" + desc[i + 1] + "+" + values[i + 1].ToString() + "</color></size>";
+                    string2 = "<size=17>" + desc[i + 1] + "+" + values[i + 1].ToString() + "</color></size>";
                 }
                 else
                 {
-                    string2 = "<size=25>" + desc[i + 1] + values[i + 1].ToString() + "</color></size>";
+                    string2 = "<size=17>" + desc[i + 1] + values[i + 1].ToString() + "</color></size>";
                 }
             }
             if (string1 != "" && string2 != "")
@@ -273,5 +276,30 @@ public class ItemDatabase : MonoBehaviour {
             }
         }
         return tooltip;
+    }
+
+    private void AddBonusStatsToItems()
+    {
+        for (int k = 0; k < items.Count; k += 1)
+        {
+            Item item = items[k];
+            switch (item.itemID)
+            {
+                case 1200:
+                    {
+                        item.itemBonusMP = 50;
+                        item.itemBonusArmor = 10;
+                        item.itemBonusResist = 15;
+                        break;
+                    }
+                case 1201:
+                    {
+                        item.itemBonusMP = 100;
+                        item.itemBonusArmor = 7;
+                        item.itemBonusResist = 11;
+                        break;
+                    }
+            }
+        }
     }
 }

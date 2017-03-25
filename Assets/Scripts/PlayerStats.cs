@@ -9,7 +9,20 @@ public class PlayerStats: MonoBehaviour
 
     void Start()
     {
+        stats.level = 1;
+        stats.skillPoints = 1;
         stats.job = JobDatabase.GetJob(0);
+        stats.strength.baseAmount = 3;
+        stats.intelligence.baseAmount = 3;
+        stats.agility.baseAmount = 3;
+        stats.luck.baseAmount = 3;
+        stats.maxExperience = 25;
+        stats.critMulti.baseAmount = 225;
+        stats.dmgOutput.baseAmount = 100;
+        stats.dmgTaken.baseAmount = 100;
+        stats.manaComs.baseAmount = 100;
+        stats.cash = 100;
+        StatsUpdate();
     }
     //void StatsUpdate()
     //{
@@ -42,7 +55,7 @@ public class PlayerStats: MonoBehaviour
     //        stats.Add(new Stat("Armor", 10));
     //        stats.Add(new Stat("Resist", 11));
     //        stats.Add(new Stat("Hit Rate", 12));
-    //        stats.Add(new Stat("Dodge Rate", 13));
+    //        stats.Add(new Stat("Dodge Rate", 17));
     //        stats.Add(new Stat("Crit Rate", 14));
     //        stats.Add(new Stat("Crit Multiplier", 15, 225));
     //        stats.Add(new Stat("LV", 16, 1));
@@ -103,111 +116,88 @@ public class PlayerStats: MonoBehaviour
     //        slider.transform.FindChild(textname).GetComponent<Text>().text = text;
     //    }
 
-    //    public void StatsUpdate()
-    //    {
-    //        for (int i = 0; i < stats.Count; i += 1)// need to update all stats so id doesnt matter
-    //        {
-    //            {
-    //                stats[i].totalAmount = stats[i].statAmount + stats[i].buffedAmount;
-    //            }
-    //        }
-    //        switch (job.jobID)
-    //        {
-    //            case 0:// Mage Stat Updates
-    //                {   // These are stats based off other stats
-    //                    for (int i = 0; i < stats.Count; i += 1)
-    //                    {
-    //                        if (stats[i].statID == 5)// max HP
-    //                        {
-    //                            stats[i].statAmount = 225 + StatUtilities.FindStatTotal(stats, 0) * 11 + StatUtilities.FindStatTotal(stats, 16) * 32;
-    //                            stats[i].totalAmount = stats[i].statAmount + stats[i].buffedAmount;
-    //                        }
-    //                        if (stats[i].statID == 7) // max MP
-    //                        {
-    //                            stats[i].statAmount = 325 + StatUtilities.FindStatTotal(stats, 1) * 26 + StatUtilities.FindStatTotal(stats, 16) * 60;
-    //                            stats[i].totalAmount = stats[i].statAmount + stats[i].buffedAmount;
-    //                        }
-    //                        if (stats[i].statID == 8) // Phys Atk
-    //                        {
-    //                            stats[i].statAmount = 35 + StatUtilities.FindStatTotal(stats, 0) * 3 + StatUtilities.FindStatTotal(stats, 16) * 3;
-    //                            stats[i].totalAmount = stats[i].statAmount + stats[i].buffedAmount;
-    //                        }
-    //                        if (stats[i].statID == 9) // Magic Atk
-    //                        {
-    //                            stats[i].statAmount = 60 + StatUtilities.FindStatTotal(stats, 1) * 6 + StatUtilities.FindStatTotal(stats, 16) * 8;
-    //                            stats[i].totalAmount = stats[i].statAmount + stats[i].buffedAmount;
-    //                        }
-    //                        if (stats[i].statID == 10) // Armor
-    //                        {
-    //                            stats[i].statAmount = 10 + StatUtilities.FindStatTotal(stats, 0) * 4 + StatUtilities.FindStatTotal(stats, 16) * 6;
-    //                            stats[i].totalAmount = stats[i].statAmount + stats[i].buffedAmount;
-    //                        }
-    //                        if (stats[i].statID == 11) // Resist
-    //                        {
-    //                            stats[i].statAmount = 15 + StatUtilities.FindStatTotal(stats, 1) * 9 + StatUtilities.FindStatTotal(stats, 16) * 10;
-    //                            stats[i].totalAmount = stats[i].statAmount + stats[i].buffedAmount;
-    //                        }
-    //                        if (stats[i].statID == 12) // Hit rate
-    //                        {
-    //                            stats[i].statAmount = 90 + StatUtilities.FindStatTotal(stats + StatUtilities.FindStatTotal(stats;
-    //                            stats[i].totalAmount = stats[i].statAmount + stats[i].buffedAmount;
-    //                        }
-    //                        if (stats[i].statID == 13) // Dodge rate
-    //                        {
-    //                            stats[i].statAmount = 1 + StatUtilities.FindStatTotal(stats + StatUtilities.FindStatTotal(stats;
-    //                            stats[i].totalAmount = stats[i].statAmount + stats[i].buffedAmount;
-    //                        }
-    //                        if (stats[i].statID == 14) // Crit rate
-    //                        {
-    //                            stats[i].statAmount = 3 + StatUtilities.FindStatTotal(stats + StatUtilities.FindStatTotal(stats;
-    //                            stats[i].totalAmount = stats[i].statAmount + stats[i].buffedAmount;
-    //                        }
-    //                    }
-    //                    break;
-    //                }
-    //        }
-    //    }
+    public static void StatsUpdate()
+    {
+        for (int i = 0; i < stats.statsList.Count; i += 1)// need to update all stats so id doesnt matter
+        {
+            {
+                stats.statsList[i].totalAmount = stats.statsList[i].baseAmount + stats.statsList[i].buffedAmount;
+            }
+        }
+        switch (stats.job.jobID)
+        {
+            case 0:// Mage Stat Updates
+                {   // These are stats based off other stats
+                    //
+                    stats.maxHealth.baseAmount = 225 + stats.strength.totalAmount * 11 + stats.level * 32;
+                    stats.maxHealth.totalAmount = stats.maxHealth.baseAmount + stats.maxHealth.buffedAmount;
+                    //
+                    stats.maxMana.baseAmount = 325 + stats.intelligence.totalAmount * 26 + stats.level * 60;
+                    stats.maxMana.totalAmount = stats.maxMana.baseAmount + stats.maxMana.buffedAmount;
+                    //
+                    stats.physAtk.baseAmount = 35 + stats.strength.totalAmount * 3 + stats.level * 3;
+                    stats.physAtk.totalAmount = stats.physAtk.baseAmount + stats.physAtk.buffedAmount;
+                    //
+                    stats.magicAtk.baseAmount = 60 + stats.intelligence.totalAmount * 6 + stats.level * 8;
+                    stats.magicAtk.totalAmount = stats.magicAtk.baseAmount + stats.magicAtk.buffedAmount;
+                    //
+                    stats.armor.baseAmount = 10 + stats.strength.totalAmount * 4 + stats.level * 6;
+                    stats.armor.totalAmount = stats.armor.baseAmount + stats.armor.buffedAmount;
+                    //
+                    stats.resist.baseAmount = 15 + stats.intelligence.totalAmount * 9 + stats.level * 10;
+                    stats.resist.totalAmount = stats.resist.baseAmount + stats.resist.buffedAmount;
+                    //
+                    stats.hitChance.baseAmount = 90 + stats.agility.totalAmount/6 + stats.luck.totalAmount/5;
+                    stats.hitChance.totalAmount = stats.hitChance.baseAmount + stats.hitChance.buffedAmount;
+                    //
+                    stats.dodgeChance.baseAmount = 1 + stats.agility.totalAmount/5 + stats.luck.totalAmount/4;
+                    stats.dodgeChance.totalAmount = stats.dodgeChance.baseAmount + stats.dodgeChance.buffedAmount;
+                    //
+                    stats.critChance.baseAmount = 3 + stats.agility.totalAmount/5 + stats.luck.totalAmount/4;
+                    stats.critChance.totalAmount = stats.critChance.baseAmount + stats.critChance.buffedAmount;
+                    break;
+                }
+        }
+    }
     public static string makeStatsPage()
     {
-        string text = "<size=20>";
-        //string lv = "<color=#FFFFFF>LV: " + FindStat(16).totalAmount + "</color>\n";
+        string text = "";
+        //string lv = "<color=#FFFFFF>LV: " + FindStat(16).totalAmount + "</color></size>\n";
         //text += lv;
-        string strength = string.Format("<color=#C40D0D>Strength: {0} + {1} = {2}</color>\n", stats.strength.statAmount, stats.strength.buffedAmount, stats.strength.totalAmount);
-        text += strength;
-        string intel = string.Format("<color=#0000FF>Intelligence: {0} + {1} = {2}</color>\n", stats.intelligence.statAmount, stats.intelligence.buffedAmount, stats.intelligence.totalAmount);
-        text += intel;
-        string agi = string.Format("<color=#00FF00>Agility: {0} + {1} = {2}</color>\n", stats.agility.statAmount, stats.agility.buffedAmount, stats.agility.totalAmount);
+        string strength = string.Format("<size=15><color=#C40D0D>Strength: {0} + {1} = {2}</color></size>", stats.strength.baseAmount, stats.strength.buffedAmount, stats.strength.totalAmount);
+        //text += strength;
+        string intel = string.Format("<size=15><color=#0000FF>  Intelligence: {0} + {1} = {2}</color></size>\n", stats.intelligence.baseAmount, stats.intelligence.buffedAmount, stats.intelligence.totalAmount);
+        text += strength + intel;
+        string agi = string.Format("<size=17><color=#00FF00>Agility: {0} + {1} = {2}</color></size>", stats.agility.baseAmount, stats.agility.buffedAmount, stats.agility.totalAmount);
         text += agi;
-        string luk = string.Format("<color=#F3F335>Luck: {0} + {1} = {2}</color>\n", stats.luck.statAmount, stats.luck.buffedAmount, stats.luck.totalAmount);
+        string luk = string.Format("<size=17><color=#F3F335>  Luck: {0} + {1} = {2}</color></size>\n", stats.luck.baseAmount, stats.luck.buffedAmount, stats.luck.totalAmount);
         text += luk;
-        string hp = string.Format("<color=#F00000>Max HP: {0} + {1} = {2}</color>\n", stats.maxHealth.statAmount, stats.maxHealth.buffedAmount, stats.maxHealth.totalAmount);
+        string hp = string.Format("<size=14><color=#F00000>Max HP: {0} + {1} = {2}</color></size>", stats.maxHealth.baseAmount, stats.maxHealth.buffedAmount, stats.maxHealth.totalAmount);
         text += hp;
-        string mp = string.Format("<color=#2BF2F2>Max MP: {0} + {1} = {2}</color>\n", stats.maxMana.statAmount, stats.maxMana.buffedAmount, stats.maxMana.totalAmount);
+        string mp = string.Format("<size=14><color=#2BF2F2>  Max MP: {0} + {1} = {2}</color></size>\n", stats.maxMana.baseAmount, stats.maxMana.buffedAmount, stats.maxMana.totalAmount);
         text += mp;
-        string atk = string.Format("<color=#EC2E2F>Physical Atk: {0} + {1} = {2}</color>\n", stats.physAtk.statAmount, stats.physAtk.buffedAmount, stats.physAtk.totalAmount);
+        string atk = string.Format("<size=14><color=#EC2E2F>Phys Atk: {0} + {1} = {2}</color></size>", stats.physAtk.baseAmount, stats.physAtk.buffedAmount, stats.physAtk.totalAmount);
         text += atk;
-        string matk = string.Format("<color=#2200FF>Magical Atk: {0} + {1} = {2}</color>\n", stats.magicAtk.statAmount, stats.magicAtk.buffedAmount, stats.magicAtk.totalAmount);
+        string matk = string.Format("<size=14><color=#2200FF>  Magic Atk: {0} + {1} = {2}</color></size>\n", stats.magicAtk.baseAmount, stats.magicAtk.buffedAmount, stats.magicAtk.totalAmount);
         text += matk;
-        string armor = string.Format("<color=#FFB811>Defense: {0} + {1} = {2}</color>\n", stats.armor.statAmount, stats.armor.buffedAmount, stats.armor.totalAmount);
+        string armor = string.Format("<size=16><color=#000000>Defense: {0} + {1} = {2}</color></size>", stats.armor.baseAmount, stats.armor.buffedAmount, stats.armor.totalAmount);
         text += armor;
-        string res = string.Format("<color=#04007f>Resist: {0} + {1} = {2}</color>\n", stats.resist.statAmount, stats.resist.buffedAmount, stats.resist.totalAmount);
+        string res = string.Format("<size=16><color=#04007f>  Resist: {0} + {1} = {2}</color></size>\n", stats.resist.baseAmount, stats.resist.buffedAmount, stats.resist.totalAmount);
         text += res;
-        string hit = string.Format("<color=#2EEC61>Hit%: {0}% + {1}% = {2}%</color>\n", stats.hitChance.statAmount, stats.hitChance.buffedAmount, stats.hitChance.totalAmount);
+        string hit = string.Format("<size=17><color=#2EEC61>Hit%: {0}% + {1}% = {2}%</color></size>\n", stats.hitChance.baseAmount, stats.hitChance.buffedAmount, stats.hitChance.totalAmount);
         text += hit;
-        string dodge = string.Format("<color=#2EED8E>Dodge%: {0}% + {1}% = {2}%</color>\n", stats.dodgeChance.statAmount, stats.dodgeChance.buffedAmount, stats.dodgeChance.totalAmount);
+        string dodge = string.Format("<size=17><color=#2EED8E>Dodge%: {0}% + {1}% = {2}%</color></size>\n", stats.dodgeChance.baseAmount, stats.dodgeChance.buffedAmount, stats.dodgeChance.totalAmount);
         text += dodge;
-        string crit = string.Format("<color=#2EEDED>Crit% : {0}% + {1}% = {2}%</color>\n", stats.critChance.statAmount, stats.critChance.buffedAmount, stats.critChance.totalAmount);
+        string crit = string.Format("<size=17><color=#2EEDED>Crit% : {0}% + {1}% = {2}%</color></size>\n", stats.critChance.baseAmount, stats.critChance.buffedAmount, stats.critChance.totalAmount);
         text += crit;
-        string multi = string.Format("<color=#DEAB71>Crit Multi: {0}% + {1}% = {2}%</color>\n", stats.critMulti.statAmount, stats.critMulti.buffedAmount, stats.critMulti.totalAmount);
+        string multi = string.Format("<size=17><color=#DEAB71>Crit Multi: {0}% + {1}% = {2}%</color></size>\n", stats.critMulti.baseAmount, stats.critMulti.buffedAmount, stats.critMulti.totalAmount);
         text += multi;
-        string dmgOut = string.Format("<color=#2EEC61>DMG Output: {0}% + {1}% = {2}%</color>\n", stats.dmgOutput.statAmount, stats.dmgOutput.buffedAmount, stats.dmgOutput.totalAmount);
+        string dmgOut = string.Format("<size=17><color=#2EEC61>DMG Output: {0}% + {1}% = {2}%</color></size>\n", stats.dmgOutput.baseAmount, stats.dmgOutput.buffedAmount, stats.dmgOutput.totalAmount);
         text += dmgOut;
-        string dmgTake = string.Format("<color=#2EEC61>DMG Taken: {0}% + {1}% = {2}%</color>\n", stats.dmgTaken.statAmount, stats.dmgTaken.buffedAmount, stats.dmgTaken.totalAmount);
+        string dmgTake = string.Format("<size=17><color=#2EEC61>DMG Taken: {0}% + {1}% = {2}%</color></size>\n", stats.dmgTaken.baseAmount, stats.dmgTaken.buffedAmount, stats.dmgTaken.totalAmount);
         text += dmgTake;
-        string manaComs = string.Format("<color=#2EEC61>Mana Coms.: {0}% + {1}% = {2}%</color>\n", stats.manaComs.statAmount, stats.manaComs.buffedAmount, stats.manaComs.totalAmount);
+        string manaComs = string.Format("<size=17><color=#2EEC61>Mana Coms: {0}% + {1}% = {2}%</color></size>\n", stats.manaComs.baseAmount, stats.manaComs.buffedAmount, stats.manaComs.totalAmount);
         text += manaComs;
-        string exp = string.Format("<color=#F3F335>Experience: {0} / {1}</color>\n", stats.experience, stats.maxExperience);
-        text += exp + "</size>";
 
 
         return text;

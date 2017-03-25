@@ -132,7 +132,7 @@ public class PlayerSkills : MonoBehaviour {
                         }
                     case 5:
                         {
-                            skill.skillManaCost = (int)(75 * skill.skillRank + (stats.mana.totalAmount * 0.195) / (skill.skillRank + 1));
+                            skill.skillManaCost = (int)(75 * skill.skillRank + (stats.mana * 0.195) / (skill.skillRank + 1));
                             skill.skillCooldown = 6;
                             skill.skillTurnEnd = 6 + 1 * skill.skillRank;
                             skill.skillEffDesc = string.Format("For {0} turns, when recieving damage from an enemy, your Current Mana takes damage instead of your HP. When no MP is available, damage is applied normally.",
@@ -314,8 +314,8 @@ public class PlayerSkills : MonoBehaviour {
                         }
                     case 19:
                         {
-                            skill.skillDamage = (75 + (175 * skill.skillRank) * (FindSkill(1).skillRank + FindSkill(2).skillRank + FindSkill(3).skillRank + FindSkill(4).skillRank))*(stats.mana.totalAmount/ (stats.maxMana.totalAmount + 1));
-                            skill.skillManaCost = stats.mana.totalAmount;
+                            skill.skillDamage = (75 + (175 * skill.skillRank) * (FindSkill(1).skillRank + FindSkill(2).skillRank + FindSkill(3).skillRank + FindSkill(4).skillRank))*(stats.mana/ (stats.maxMana.totalAmount + 1));
+                            skill.skillManaCost = stats.mana;
                             skill.skillStatusEff.burnChance = 3 * (skill.skillRank) + FindSkill(1).skillStatusEff.burnChance;
                             skill.skillStatusEff.paraChance = 3 * skill.skillRank + FindSkill(4).skillStatusEff.paraChance;
                             skill.skillHitChance = 3 + (skill.skillRank) + FindSkill(2).skillHitChance + FindSkill(3).skillHitChance;

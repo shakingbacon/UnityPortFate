@@ -4,12 +4,29 @@ using System.Collections.Generic;
 
 public class Equipment : MonoBehaviour {
     public static Transform equipment;
-
     public static List<Texture2D> defaultImage = new List<Texture2D>();
 
     void Start()
     {
         equipment = gameObject.transform;
+    }
+
+    public static bool CheckEquip(Transform parent) // check the slots
+    {
+        bool ableToEquip = false;
+        if (parent.name == "Weapon" && InvEq.holdingItem.itemType == Item.ItemType.Weapon ||
+            parent.name == "Head" && InvEq.holdingItem.armorType == Item.ArmorType.Head ||
+            (parent.name == "Weapon&Shield" && (InvEq.holdingItem.itemType == Item.ItemType.Weapon || InvEq.holdingItem.armorType == Item.ArmorType.Shield)) ||
+            parent.name == "Neck" && InvEq.holdingItem.armorType == Item.ArmorType.Neck ||
+            parent.name == "Hands" && InvEq.holdingItem.armorType == Item.ArmorType.Hands ||
+            parent.name == "Body" && InvEq.holdingItem.armorType == Item.ArmorType.Body ||
+            parent.name == "Boots" && InvEq.holdingItem.armorType == Item.ArmorType.Boots ||
+            parent.name == "Bottom" && InvEq.holdingItem.armorType == Item.ArmorType.Bottom ||
+            parent.name == "Accessory" && InvEq.holdingItem.armorType == Item.ArmorType.Accessory)
+        {
+            ableToEquip = true;
+        }
+        return ableToEquip;
     }
 
     public static void AddItemStats(Item item)
@@ -28,6 +45,7 @@ public class Equipment : MonoBehaviour {
         PlayerStats.stats.dodgeChance.buffedAmount += item.itemBonusDodge;
         PlayerStats.stats.critChance.buffedAmount += item.itemBonusCrit;
         PlayerStats.stats.critMulti.buffedAmount += item.itemBonusCritMulti;
+        PlayerStats.StatsUpdate();
     }
 
     public static void RemoveItemStats(Item item)
@@ -49,6 +67,8 @@ public class Equipment : MonoBehaviour {
         PlayerStats.stats.dodgeChance.buffedAmount -= item.itemBonusDodge;
         PlayerStats.stats.critChance.buffedAmount -= item.itemBonusCrit;
         PlayerStats.stats.critMulti.buffedAmount -= item.itemBonusCritMulti;
+        PlayerStats.StatsUpdate();
+
     }
     //private Page page = new Page(1, 460, 100, 400, 450, 50);
     //public float equipSlotX, equipSlotY, statButtonW, statButtonH,
