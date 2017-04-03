@@ -380,6 +380,11 @@ public class PlayerSkills : MonoBehaviour {
                             skill.skillRequireDesc = string.Format("{0} AND {1} - Rank: {2}", reqSkill.skillName, reqSkill2.skillName, req);
                             break;
                         }
+                    case 24:
+                        {
+                            skill.skillDamage = stats.magicAtk.totalAmount;
+                            break;
+                        }
             }
         }
     }

@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\Battle.cs" />
+     <Compile Include="Assets\Scripts\BattleUI.cs" />
      <Compile Include="Assets\Scripts\CameraFollow.cs" />
      <Compile Include="Assets\Scripts\DamageCalc.cs" />
      <Compile Include="Assets\Scripts\Danger.cs" />
@@ -76,12 +77,14 @@
      <Compile Include="Assets\Scripts\SkillDatabase.cs" />
      <Compile Include="Assets\Scripts\SkillHolder.cs" />
      <Compile Include="Assets\Scripts\SkillPage.cs" />
+     <Compile Include="Assets\Scripts\SliderUtilities.cs" />
      <Compile Include="Assets\Scripts\SlotButton.cs" />
      <Compile Include="Assets\Scripts\SoundDatabase.cs" />
      <Compile Include="Assets\Scripts\Stat.cs" />
      <Compile Include="Assets\Scripts\StatUtilities.cs" />
      <Compile Include="Assets\Scripts\StaticCoroutine.cs" />
      <Compile Include="Assets\Scripts\Stats.cs" />
+     <Compile Include="Assets\Scripts\StatusBar.cs" />
      <Compile Include="Assets\Scripts\StatusEffects.cs" />
      <Compile Include="Assets\Scripts\TextureScale.cs" />
      <Compile Include="Assets\Scripts\Tooltip.cs" />

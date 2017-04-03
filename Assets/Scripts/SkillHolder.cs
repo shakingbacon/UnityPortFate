@@ -18,7 +18,7 @@ public class SkillHolder : MonoBehaviour {
 
     void ButtonClick()
     {
-        if (!manager.inBattle)
+        if (!GameManager.inBattle)
         {
             // rank up
             if (PlayerStats.stats.skillPoints > 0)

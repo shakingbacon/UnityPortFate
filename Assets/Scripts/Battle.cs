@@ -4,81 +4,58 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class Battle : MonoBehaviour {
-    CameraFollow cameraFollow;
-    GameManager manager;
-    GameObject player;
-    Vector3 playerPos, cameraPos, enemyPos;
-    Transform enemy;
+    static CameraFollow cameraFollow;
+    static GameObject player;
+    static Vector3 playerPos, playerOldPosition;
     RectTransform enemyRect;
-    float cameraH;
-    float cameraW;
-    Vector3 playerOldPosition;
-    GameObject canvas;
-    Vector3 middle;
+    static Vector3 middle;
     // Use this for initialization
     void Start ()
     {
         middle = gameObject.transform.FindChild("Background").position;
-        enemy = gameObject.transform.FindChild("Enemy");
-        manager = GameObject.FindGameObjectWithTag("Manager").GetComponent<GameManager>();
         player = GameObject.FindGameObjectWithTag("Player");
         cameraFollow = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraFollow>();
-        canvas = GameObject.FindGameObjectWithTag("Canvas");
         // Buttons
         //canvas.transform.FindChild("Battle UI").transform.FindChild("Attack").GetComponent<Button>().onClick.AddListener(
         //    () =>  DamageCalc.SkillAttack(player.transform.FindChild("Player Stats").GetComponent<PlayerStats>().stats, 
         //    enemyStats.enemy.stats, 
         //    player.transform.FindChild("Player Skills").GetComponent<PlayerSkills>().FindSkill(0)));
-        canvas.transform.FindChild("Battle UI").transform.FindChild("Skills").GetComponent<Button>().onClick.AddListener(() => GameManager.OpenClosePage("Skill Page"));
-        canvas.transform.FindChild("Battle UI").transform.FindChild("Run").GetComponent<Button>().onClick.AddListener(EndBattle);
-
+        BattleUI.skills.onClick.AddListener(() => GameManager.OpenClosePage("Skill Page"));
+        BattleUI.run.onClick.AddListener(EndBattle);
     }
 
-    // Update is called once per frame
-    void Update()
+    public static void SetupBattle()
     {
-        if (Input.GetButtonDown("Test") && manager.inBattle)
-        {
-            EndBattle();
-        }
-        if (manager.setupBattle)
-        {
-            SoundDatabase.PlayMusic(Random.Range(1, 8));
-            playerOldPosition = player.transform.position;
-            playerOldPosition = new Vector3(playerOldPosition.x - 1, playerOldPosition.y);
-            EnemyHolder.enemy = new Enemy(EnemyDatabase.enemies[(Random.Range(0, EnemyDatabase.enemies.Count))]);
-            enemy.GetComponent<SpriteRenderer>().sprite = EnemyHolder.enemy.enemyIMG;
-            BattleUIOn(true);
-            manager.setupBattle = false; // setup enemy
-           
-        }
-        if (manager.inBattle)
-        {
-            // positions are scaled to screen size
-            cameraH = 2 * Camera.main.orthographicSize;
-            cameraW = cameraH * Camera.main.aspect;
-            playerPos = new Vector3 (middle.x - cameraW/4.5f, middle.y + cameraH /3.4f);
-            player.transform.position = playerPos;
-            enemyPos = new Vector3(middle.x + cameraW / 3.5f, playerPos.y);
-            enemy.transform.position = enemyPos;
-            cameraFollow.transform.position = new Vector3(gameObject.transform.FindChild("Background").position.x, gameObject.transform.FindChild("Background").position.y, -10);
-            //Enemy newEnemy = enemyStats.enemy;
-            //StatUtilities.StatsUpdate(enemyStats.enemy.stats);
-            // Enemy Texts
-            //canvas.transform.FindChild("Battle UI").transform.FindChild("Enemy HP").GetComponent<Text>().text = "HP: " + StatUtilities.FindStatTotal(enemy.GetComponent<EnemyStats>().enemy.stats, 4).ToString();
-            //canvas.transform.FindChild("Battle UI").transform.FindChild("Enemy MP").GetComponent<Text>().text = "MP: " + StatUtilities.FindStatTotal(enemy.GetComponent<EnemyStats>().enemy.stats, 6).ToString();
-        }
+        GameManager.inBattle = true;
+        SoundDatabase.PlayMusic(Random.Range(1, 8));
+        playerOldPosition = player.transform.position;
+        playerOldPosition = new Vector3(playerOldPosition.x - 1, playerOldPosition.y);
+        EnemyHolder.enemy = new Enemy(EnemyDatabase.enemies[(Random.Range(0, EnemyDatabase.enemies.Count))]);
+        EnemyHolder.enemy.stats.health = EnemyHolder.enemy.stats.maxHealth.totalAmount;
+        EnemyHolder.enemyHolder.GetComponent<SpriteRenderer>().sprite = EnemyHolder.enemy.enemyIMG;
+        BattleUIOn(true);
+        // positions are scaled to screen size
+        float cameraH = 2 * Camera.main.orthographicSize;
+        float cameraW = cameraH * Camera.main.aspect;
+        Vector3 playerPos = new Vector3(middle.x - cameraW / 4.5f, middle.y + cameraH / 3.4f);
+        player.transform.position = playerPos;
+        Vector3 enemyPos = new Vector3(middle.x + cameraW / 3.5f, playerPos.y);
+        EnemyHolder.enemyHolder.position = enemyPos;
+        cameraFollow.transform.position = new Vector3(middle.x, middle.y, -10);
+        //StatUtilities.StatsUpdate(enemyStats.enemy.stats);
+        // Enemy Texts
+        BattleUI.UpdateEnemySliders();
     }
 
-    public void BattleUIOn(bool bol)
+    public static void BattleUIOn(bool bol)
     {
-        canvas.transform.FindChild("Battle UI").gameObject.SetActive(bol);
+        BattleUI.battleUI.gameObject.SetActive(bol);
     }
 
-    void EndBattle()
+    public static void EndBattle()
     {
         BattleUIOn(false);
-        manager.inBattle = false;
+        GameManager.inBattle = false;
         player.transform.position = playerOldPosition;
         Camera.main.transform.position = playerOldPosition;
         SoundDatabase.PlayMusic(8);

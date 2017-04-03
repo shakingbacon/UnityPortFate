@@ -22,12 +22,14 @@ public class InvEq : MonoBehaviour
         inventoryEquipment.FindChild("Close Button").GetComponent<Button>().onClick.AddListener(() => GameManager.OpenClosePage("InventoryEquipment"));
     }
 
-    void Update()
+    void OnGUI()
     {
         //print(Input.mousePosition.x);
         if (holdingItem.itemID != -1)
         {
-            inventoryEquipment.FindChild("Holding Item").transform.localPosition = new Vector3(Input.mousePosition.x - 360, Input.mousePosition.y - 290);
+            float width = 80 * (Screen.width / 800f);
+            float height = 80 * (Screen.height / 600f);
+            GUI.DrawTexture(new Rect(Event.current.mousePosition.x, Event.current.mousePosition.y - height, width, height), Resources.Load<Texture2D>("Item Icons/" + holdingItem.itemName));
         }
     }
 
@@ -35,14 +37,11 @@ public class InvEq : MonoBehaviour
     {
         holdingItem = item;
         isHoldingitem = isholding;
-        inventoryEquipment.FindChild("Holding Item").GetComponent<Image>().sprite = item.itemImg;
-        inventoryEquipment.FindChild("Holding Item").GetComponent<Image>().enabled = isholding;
     }
 
     public static void UpdateHoldingItem(Item item)
     {
         holdingItem = item;
-        inventoryEquipment.FindChild("Holding Item").GetComponent<Image>().sprite = item.itemImg;
     }
     // slots are inventory or equipment
     public static void InsertItem(Transform slots, int slotindex, int itemindex)

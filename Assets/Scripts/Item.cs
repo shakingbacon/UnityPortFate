@@ -62,38 +62,35 @@ public class Item {
         None
     }
     // Weapon
-    public Item(string name, int id, string desc, int cost, WeaponType type)
+    public Item(string name, int id, string desc, WeaponType type)
     {
         itemName = name;
         itemID = id;
         itemImg = Resources.Load<Sprite>("Item Icons/" + name);
         itemDesc = desc;
-        itemCost = cost;
         itemType = ItemType.Weapon;
         weaponType = type;
         armorType = ArmorType.None;
     }
     // Armor
-    public Item(string name, int id, string desc, int cost, ArmorType type)
+    public Item(string name, int id, string desc, ArmorType type)
     {
         itemName = name;
         itemID = id;
         itemImg = Resources.Load<Sprite>("Item Icons/" + name);
         itemDesc = desc;
-        itemCost = cost;
         itemType = ItemType.Armor;
         weaponType = WeaponType.None;
         armorType = type;
     }
 
     // Consumable Item
-    public Item(string name, int id, string desc, int cost, ItemType type)
+    public Item(string name, int id, string desc, ItemType type)
     {
         itemName = name;
         itemID = id;
         itemImg = Resources.Load<Sprite>("Item Icons/" + name);
         itemDesc = desc;
-        itemCost = cost;
         itemType = type;
         weaponType = WeaponType.None;
         armorType = ArmorType.None;

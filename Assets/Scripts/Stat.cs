@@ -3,9 +3,9 @@ using System.Collections;
 
 [System.Serializable]
 public class Stat {
-    public int baseAmount; 
-    public int buffedAmount;
-    public int totalAmount;
+    public int baseAmount = 0; 
+    public int buffedAmount = 0;
+    public int totalAmount = 0;
 
     public Stat()
     {

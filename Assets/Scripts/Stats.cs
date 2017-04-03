@@ -10,9 +10,9 @@ public class Stats {
     public Stat intelligence = new Stat();
     public Stat agility = new Stat();
     public Stat luck = new Stat();
-    public int health;
+    public int health = 0;
     public Stat maxHealth = new Stat();
-    public int mana;
+    public int mana = 0;
     public Stat maxMana = new Stat();
     public Stat physAtk = new Stat();
     public Stat magicAtk = new Stat();
@@ -25,12 +25,12 @@ public class Stats {
     public Stat dodgeChance = new Stat();
     public Stat critChance = new Stat();
     public Stat critMulti = new Stat();
-    public int level;
-    public int abilityPoints;
-    public int skillPoints;
-    public int experience;
-    public int maxExperience;
-    public int cash;
+    public int level = 0;
+    public int abilityPoints = 0;
+    public int skillPoints = 0;
+    public int experience = 0;
+    public int maxExperience = 0;
+    public int cash = 0;
     public List<Stat> statsList = new List<Stat>();
 
     void Start()

@@ -4,5 +4,10 @@ using UnityEngine;
 
 public class EnemyHolder : MonoBehaviour
 {
+    public static Transform enemyHolder;
     public static Enemy enemy;
+    void Start()
+    {
+        enemyHolder = gameObject.transform;
+    }
 }

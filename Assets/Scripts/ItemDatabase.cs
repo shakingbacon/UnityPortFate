@@ -16,35 +16,35 @@ public class ItemDatabase : MonoBehaviour
         //// Mage
         items.Add(new Item());
         //// Wands
-        items.Add(new Item("Wooden Wand", 1000, "Wand made from wood", 200, Item.WeaponType.Wand));
-        items.Add(new Item("Magic Wand", 1001, "A wand powered up by magic", 800, Item.WeaponType.Wand));
-        items.Add(new Item("Star Wand", 1002, "A wand blessed by the stars", 1900, Item.WeaponType.Wand));
-        items.Add(new Item("Elemental Wand", 1003, "Imbued with all elemenets", 3500, Item.WeaponType.Wand));
+        items.Add(new Item("Wooden Wand", 1000, "Wand made from wood", Item.WeaponType.Wand));
+        items.Add(new Item("Magic Wand", 1001, "A wand powered up by magic", Item.WeaponType.Wand));
+        items.Add(new Item("Star Wand", 1002, "A wand blessed by the stars",  Item.WeaponType.Wand));
+        items.Add(new Item("Elemental Wand", 1003, "Imbued with all elemenets",  Item.WeaponType.Wand));
         //// Staffs
-        //items.Add(new Item("Wooden Staff", 1050, "A staff made from wood", 0, 5, 0, 0, 0, 100, 30, 70, 6, 6, 0, 0, 0, 0, 300, Item.WeaponType.Staff));
-        //items.Add(new Item("Magic Staff", 1051, "Magic powered staff", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 900, Item.WeaponType.Staff));
-        //items.Add(new Item("Star Staff", 1052, "Stronger staff with powers of the stars", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2000, Item.WeaponType.Staff));
-        //items.Add(new Item("Elemental Staff", 1053, "Strong, magical staff with powers of all elemenets", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3600, Item.WeaponType.Staff));
-        //// Head
-        items.Add(new Item("Leather Hat", 1100, "A basic hat for mages", 225, Item.ArmorType.Head));
-        //items.Add(new Item("Mage Hat", 1101, "A blue, magical hat", 0, 5, 0, 2, 0, 120, 0, 0, 10, 25, 0, 0, 0, 0, 350, Item.ArmorType.Head));
+        items.Add(new Item("Wooden Staff", 1050, "A staff made from wood", Item.WeaponType.Staff));
+        items.Add(new Item("Magic Staff", 1051, "Magic powered staff", Item.WeaponType.Staff));
+        items.Add(new Item("Star Staff", 1052, "Stronger staff with powers of the stars", Item.WeaponType.Staff));
+        items.Add(new Item("Elemental Staff", 1053, "Strong, magical staff with powers of all elemenets", Item.WeaponType.Staff));
+        // Head
+        items.Add(new Item("Leather Hat", 1100, "A basic hat for mages", Item.ArmorType.Head));
+        items.Add(new Item("Mage Hat", 1101, "A blue, magical hat", Item.ArmorType.Head));
         //// Body
-        items.Add(new Item("White Blouse", 1200, "A fashionable shirt that looks good", 150, Item.ArmorType.Body));
-        items.Add(new Item("Blue Blouse", 1201, "A fashionable shirt that looks good", 150, Item.ArmorType.Body));
+        items.Add(new Item("White Blouse", 1200, "A fashionable shirt that looks good", Item.ArmorType.Body));
+        items.Add(new Item("Blue Blouse", 1201, "A fashionable shirt that looks good", Item.ArmorType.Body));
         //// Bottom
-        items.Add(new Item("Leather Skirt", 1300, "Comfortable but fashionable", 125, Item.ArmorType.Bottom));
-        //items.Add(new Item("Mage Longskirt", 1301, "Feel the power of magic arise", 0, 3, 4, 0, 0, 80, 0, 0, 16, 20, 0, 0, 0, 0, 300, Item.ArmorType.Bottom));
+        items.Add(new Item("Leather Skirt", 1300, "Comfortable but fashionable", Item.ArmorType.Bottom));
+        items.Add(new Item("Mage Longskirt", 1301, "Feel the power of magic arise", Item.ArmorType.Bottom));
         //// Hands
-        items.Add(new Item("Leather Gloves", 1400, "Useful for handling objects", 50, Item.ArmorType.Hands));
-        //items.Add(new Item("Mana Gloves", 1401, "Carry mana in the palm of your hands", 0, 1, 0, 1, 0, 400, 0, 0, 8, 10, 0, 0, 0, 0, 500, Item.ArmorType.Hands));
+        items.Add(new Item("Leather Gloves", 1400, "Useful for handling objects", Item.ArmorType.Hands));
+        items.Add(new Item("Mana Gloves", 1401, "Carry mana in the palm of your hands", Item.ArmorType.Hands));
         //// Boots
-        items.Add(new Item("Leather Boots", 1500, "Durable shoes to walk in", 75, Item.ArmorType.Boots));
-        //items.Add(new Item("Mana Boots", 1501, "Mana while running", 0, 1, 0, 1, 0, 400, 0, 0, 8, 10, 0, 0, 0, 0, 500, Item.ArmorType.Boots));
+        items.Add(new Item("Leather Boots", 1500, "Durable shoes to walk in", Item.ArmorType.Boots));
+        items.Add(new Item("Mana Boots", 1501, "Mana while running", Item.ArmorType.Boots));
         //// Shield
-        items.Add(new Item("Mana Shield", 1600, "A shield powered by mana", 750, Item.ArmorType.Shield));
+        items.Add(new Item("Mana Shield", 1600, "A shield powered by mana", Item.ArmorType.Shield));
         //// Neck
-        items.Add(new Item("Leather Cape", 1700, "A simple robe made from cloth", 200, Item.ArmorType.Neck));
-        //items.Add(new Item("Mage Cape", 1701, "A comfortable rob with mage", 0, 2, 0, 3, 0, 200, 0, 10, 12, 15, 0, 0, 0, 0, 450, Item.ArmorType.Neck));
+        items.Add(new Item("Leather Cape", 1700, "A simple robe made from cloth", Item.ArmorType.Neck));
+        items.Add(new Item("Mage Cape", 1701, "A comfortable rob with mage", Item.ArmorType.Neck));
         ////////////////////////////////////////
         ////// Rouge
         //// Daggers
@@ -80,15 +80,14 @@ public class ItemDatabase : MonoBehaviour
 
         /////////////////////////
         //// Consumables
-        //items.Add(new Item("Health Potion", 9000, "Restore 100 HP", 25, Item.ItemType.Consumable));
-        //items.Add(new Item("Mana Potion", 9001, "Restore 150 MP", 25, Item.ItemType.Consumable));
-        //items.Add(new Item("Purple Potion", 9002, "Restore a little bit of HP and MP", 40, Item.ItemType.Consumable));
+        items.Add(new Item("Health Potion", 9000, "Restore 100 HP", Item.ItemType.Consumable));
+        items.Add(new Item("Mana Potion", 9001, "Restore 150 MP", Item.ItemType.Consumable));
+        items.Add(new Item("Purple Potion", 9002, "Restore a little bit of HP and MP", Item.ItemType.Consumable));
         //// Accessories
-        //items.Add(new Item("Strength Necklace", 9100, "A necklace that increases your STR", 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1000, Item.ItemType.Accessory));
-        //items.Add(new Item("Intelligence Necklace", 9101, "A necklace that increases your INT", 0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1000, Item.ItemType.Accessory));
-        //items.Add(new Item("Agility Necklace", 9102, "A necklace that increases your AGI", 0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1000, Item.ItemType.Accessory));
-        //items.Add(new Item("Luck Necklace", 9103, "A necklace that increases your LUK", 0, 0, 0, 12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1000, Item.ItemType.Accessory));
-        //items.Add(new Item("Luck Necklace", 9104, "A necklace that increases your LUK", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 50, 100, 1000, Item.ItemType.Accessory));
+        items.Add(new Item("Strength Necklace", 9100, "A necklace that increases your STR",Item.ArmorType.Accessory));
+        items.Add(new Item("Intelligence Necklace", 9101, "A necklace that increases your INT", Item.ArmorType.Accessory));
+        items.Add(new Item("Agility Necklace", 9102, "A necklace that increases your AGI", Item.ArmorType.Accessory));
+        items.Add(new Item("Luck Necklace", 9103, "A necklace that increases your LUK",  Item.ArmorType.Accessory));
 
         AddBonusStatsToItems();
 
@@ -244,22 +243,22 @@ public class ItemDatabase : MonoBehaviour
             {
                 if (values[i] > 0)
                 {
-                    string1 = "<size=17>" + desc[i] + "+" + values[i].ToString() + "</color></size>     ";
+                    string1 = "<size=20>" + desc[i] + "+" + values[i].ToString() + "</color></size>     ";
                 }
                 else
                 {
-                    string1 = "<size=17>" + desc[i] + values[i].ToString() + "</color></size>     ";
+                    string1 = "<size=20>" + desc[i] + values[i].ToString() + "</color></size>     ";
                 }
             }
             if (values[i + 1] != 0)
             {
                 if (values[i + 1] > 0)
                 {
-                    string2 = "<size=17>" + desc[i + 1] + "+" + values[i + 1].ToString() + "</color></size>";
+                    string2 = "<size=20>" + desc[i + 1] + "+" + values[i + 1].ToString() + "</color></size>";
                 }
                 else
                 {
-                    string2 = "<size=17>" + desc[i + 1] + values[i + 1].ToString() + "</color></size>";
+                    string2 = "<size=20>" + desc[i + 1] + values[i + 1].ToString() + "</color></size>";
                 }
             }
             if (string1 != "" && string2 != "")

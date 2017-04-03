@@ -97,5 +97,6 @@ public class SkillPage : MonoBehaviour {
                     = gameObject.transform.FindChild("Skills").transform.GetChild(i).GetComponent<SkillHolder>().skill.skillIMG;
             }
         }
+        checkPages();
     }
 }

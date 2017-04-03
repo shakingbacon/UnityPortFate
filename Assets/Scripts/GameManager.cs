@@ -5,16 +5,14 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour {
 
     static string showingPage;
-    public bool inBattle;
+    public static bool inBattle;
     public bool setupBattle;
-    Battle battle;
 
     void Start()
     {
-        battle = GameObject.Find("Battlefield").GetComponent<Battle>();
         //Screen.SetResolution(1024, 768, true);
         // Set beginning game values here
-        battle.BattleUIOn(false);
+        Battle.BattleUIOn(false);
         //GameObject.FindGameObjectWithTag("Skill Page").transform.FindChild("Skill Desc").gameObject.SetActive(false);
         //GameObject.FindGameObjectWithTag("Skill Page").SetActive(false);
     }

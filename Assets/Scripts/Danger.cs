@@ -24,8 +24,7 @@ public class Danger : MonoBehaviour {
     }
     void OnTriggerEnter2D()
     {
-        manager.inBattle = true;
-        manager.setupBattle = true;
+        Battle.SetupBattle();
         ///
       ///if (playerClone == null)
         ///{

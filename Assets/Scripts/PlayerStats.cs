@@ -7,6 +7,7 @@ public class PlayerStats: MonoBehaviour
 {
     public static Stats stats = new Stats();
 
+
     void Start()
     {
         stats.level = 1;
@@ -94,27 +95,7 @@ public class PlayerStats: MonoBehaviour
     //        //StatsUpdate();
     //    }
 
-    //    void StatusBar()
-    //    {
-    //        // HP BAR
-    //        string hpBarText = (StatUtilities.FindStatTotal(stats, 4) * 1f).ToString() + " / " + (StatUtilities.FindStatTotal(statsstats * 1f).ToString();
-    //        float healthValue = StatUtilities.FindStatTotal(stats, 4) * 1f / StatUtilities.FindStatTotal(statsstats * 1f;
-    //        UpdateSliderFillWithText(healthBar, healthValue, "HP Amount", hpBarText);
-    //        // MP BAR
-    //        string mpBarText = (StatUtilities.FindStatTotal(stats, 6) * 1f).ToString() + " / " + (StatUtilities.FindStatTotal(statsstats * 1f).ToString();
-    //        float manaValue = StatUtilities.FindStatTotal(stats, 6) * 1f / StatUtilities.FindStatTotal(statsstats * 1f;
-    //        UpdateSliderFillWithText(manaBar, manaValue, "MP Amount", mpBarText);
-    //        // EXP bar
-    //        string expBarText = (StatUtilities.FindStatTotal(stats, 19) * 1f).ToString() + " / " + (StatUtilities.FindStatTotal(stats, 20) * 1f).ToString();
-    //        float expValue = StatUtilities.FindStatTotal(stats, 19) * 1f / StatUtilities.FindStatTotal(stats, 20) * 1f;
-    //        UpdateSliderFillWithText(expBar, expValue, "EXP Amount", expBarText);
-    //    }
-
-    //    void UpdateSliderFillWithText(Slider slider, float percentage, string textname, string text)
-    //    {
-    //        slider.value = percentage;
-    //        slider.transform.FindChild(textname).GetComponent<Text>().text = text;
-    //    }
+    // Use this for initialization
 
     public static void StatsUpdate()
     {
