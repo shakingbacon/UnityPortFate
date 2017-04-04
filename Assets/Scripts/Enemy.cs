@@ -8,6 +8,7 @@ public class Enemy
     public int enemyID;
     public Sprite enemyIMG;
     public Stats stats = new Stats();
+    public List<Skill> skills = new List<Skill>();
 
     public Enemy(string name, int id, int hp, int mp, int phys, int mag, int armor, int resist, int hit, int dodge, int crit, int multi, int exp, int loot)
     {
@@ -47,10 +48,28 @@ public class Enemy
         stats.critMulti.totalAmount = enemy.stats.critMulti.totalAmount;
         stats.experience = enemy.stats.experience;
         stats.cash = enemy.stats.cash;
+        skills.Add(new Skill(SkillDatabase.GetSkill(0)));
+        UpdateSkills();
     }
 
     public Enemy()
     {
         enemyID = -1;
+    }
+
+    public void UpdateSkills()
+    {
+        for (int i = 0; i < skills.Count; i += 1)
+        {
+            Skill skill = skills[i];
+            switch (skill.skillID)
+            {
+                case 0:
+                    {
+                        skill.skillDamage = stats.physAtk.totalAmount;
+                        break;
+                    }
+            }
+        }
     }
 }

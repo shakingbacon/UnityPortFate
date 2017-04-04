@@ -33,8 +33,34 @@ public class Stats {
     public int cash = 0;
     public List<Stat> statsList = new List<Stat>();
 
-    void Start()
+    public Stats()
     {
+        job = new Job();
+        strength = new Stat();
+        intelligence = new Stat();
+        agility = new Stat();
+        luck = new Stat();
+        health = 0;
+        maxHealth = new Stat();
+        mana = 0;
+        maxMana = new Stat();
+        physAtk = new Stat();
+        magicAtk = new Stat();
+        manaComs = new Stat();
+        dmgOutput = new Stat();
+        dmgTaken = new Stat();
+        armor = new Stat();
+        resist = new Stat();
+        hitChance = new Stat();
+        dodgeChance = new Stat();
+        critChance = new Stat();
+        critMulti = new Stat();
+        level = 0;
+        abilityPoints = 0;
+        skillPoints = 0;
+        experience = 0;
+        maxExperience = 0;
+        cash = 0;
         statsList.Add(strength);
         statsList.Add(intelligence);
         statsList.Add(agility);
@@ -52,6 +78,16 @@ public class Stats {
         statsList.Add(dodgeChance);
         statsList.Add(critChance);
         statsList.Add(critMulti);
+    }
+
+    public void SimpleStatUpdate()
+    {
+        for (int i = 0; i < statsList.Count; i += 1)// need to update all stats so id doesnt matter
+        {
+            { 
+                statsList[i].totalAmount = statsList[i].baseAmount + statsList[i].buffedAmount;
+            }
+        }
     }
 
 }

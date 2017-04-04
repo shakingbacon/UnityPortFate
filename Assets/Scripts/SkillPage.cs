@@ -19,11 +19,6 @@ public class SkillPage : MonoBehaviour {
         gameObject.transform.FindChild("Page Num").GetComponent<Text>().text = (pageNum + 1).ToString();
 
     }
-
-    void Update()
-    {
-    }
-
     
     void LearnedSkillButtonPress()
     {

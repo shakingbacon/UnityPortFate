@@ -108,7 +108,7 @@ public class PlayerSkills : MonoBehaviour {
                         {
                             skill.skillDamage = (int)(95 + (stats.magicAtk.totalAmount / 1.7) * (1.85 * (1 + skill.skillRank)));
                             skill.skillManaCost = (int)(45 + skill.skillDamage / (20 - skill.skillRank) + skill.skillRank * 25);
-                            skill.skillCritChance = (int)(26 + 4 * skill.skillRank);
+                            skill.skillCritChance = (int)(100 + 4 * skill.skillRank);
                             skill.skillHitChance = (int)(-20 + 4.5 * skill.skillRank);
                             skill.skillCritMulti = (int)(10 + 5 * skill.skillRank);
                             skill.skillEffDesc = "Crit Chance: +" + skill.skillCritChance + "%, " +
@@ -335,7 +335,7 @@ public class PlayerSkills : MonoBehaviour {
                         }
                     case 20:
                         {
-                            skill.skillDamage = 9 + 7 * skill.skillRank;
+                            skill.skillDamage = 14 + 9 * skill.skillRank;
                             skill.skillEffDesc = string.Format("Luck: +{0}",skill.skillDamage);
                             int req = 2 + skill.skillRank * 4;
                             Skill reqSkill = FindSkill(2);
@@ -385,7 +385,98 @@ public class PlayerSkills : MonoBehaviour {
                             skill.skillDamage = stats.magicAtk.totalAmount;
                             break;
                         }
-            }
+                    case 25:
+                        {
+                            skill.skillDamage = (int)(15 + (stats.magicAtk.totalAmount / 2.2) * (2.1 * (1 + skill.skillRank)));
+                            skill.skillManaCost = (int)(50 + skill.skillDamage / (19 - skill.skillRank) + skill.skillRank * 55);
+                            skill.skillStatusEff.burnChance = (int)(19 + 5 * skill.skillRank + stats.magicAtk.totalAmount / (35 + stats.magicAtk.totalAmount) / 4);
+                            skill.skillStatusEff.blindChance = (int)(14 + 7 * skill.skillRank + stats.magicAtk.totalAmount / (35 + stats.magicAtk.totalAmount) / 4);
+                            break;
+                        }
+                    case 26:
+                        {
+                            skill.skillDamage = (int)(75 + (stats.magicAtk.totalAmount / 2) * (2.4 * (1 + skill.skillRank)));
+                            skill.skillManaCost = (int)(100 + skill.skillDamage / (17 - skill.skillRank) + skill.skillRank * 25);
+                            skill.skillStatusEff.confChance = (int)(24 + 4 * skill.skillRank + stats.magicAtk.totalAmount / (23 + stats.magicAtk.totalAmount) / 4);
+                            break;
+                        }
+                    case 27: // need to add effect
+                        {
+                            skill.skillDamage = (int)(100 + (stats.magicAtk.totalAmount / 2) * (2.4 * (1 + skill.skillRank)));
+                            skill.skillManaCost = (int)(70 + skill.skillDamage / (15 - skill.skillRank) + skill.skillRank * 40);
+                            break;
+                        }
+                    case 28:
+                        {
+
+                            break;
+                        }
+                    case 29:
+                        {
+                            break;
+                        }
+                    case 30:
+                        {
+                            break;
+                        }
+                    case 31:
+                        {
+                            break;
+                        }
+                    case 32:
+                        {
+                            break;
+                        }
+                    case 33:
+                        {
+                            break;
+                        }
+                    case 34:
+                        {
+                            break;
+                        }
+                    case 35:
+                        {
+                            break;
+                        }
+                    case 36:
+                        {
+                            break;
+                        }
+                    case 37:
+                        {
+                            break;
+                        }
+                    case 38:
+                        {
+                            break;
+                        }
+                    case 39:
+                        {
+                            break;
+                        }
+                    case 40:
+                        {
+                            break;
+                        }
+                    case 41:
+                        {
+                            break;
+                        }
+                    case 42:
+                        {
+                            break;
+                        }
+                    case 43:
+                        {
+                            break;
+                        }
+                    case 44:
+                        {
+                            break;
+                        }
+
+                }
         }
     }
 

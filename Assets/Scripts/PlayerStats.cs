@@ -23,6 +23,7 @@ public class PlayerStats: MonoBehaviour
         stats.dmgTaken.baseAmount = 100;
         stats.manaComs.baseAmount = 100;
         stats.cash = 100;
+        stats.SimpleStatUpdate();
         StatsUpdate();
     }
     //void StatsUpdate()
@@ -99,12 +100,7 @@ public class PlayerStats: MonoBehaviour
 
     public static void StatsUpdate()
     {
-        for (int i = 0; i < stats.statsList.Count; i += 1)// need to update all stats so id doesnt matter
-        {
-            {
-                stats.statsList[i].totalAmount = stats.statsList[i].baseAmount + stats.statsList[i].buffedAmount;
-            }
-        }
+        stats.SimpleStatUpdate();
         switch (stats.job.jobID)
         {
             case 0:// Mage Stat Updates

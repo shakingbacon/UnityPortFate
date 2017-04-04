@@ -9,6 +9,11 @@ public class Battle : MonoBehaviour {
     static Vector3 playerPos, playerOldPosition;
     RectTransform enemyRect;
     static Vector3 middle;
+
+
+    //
+    public static Skill playerUseSkill;
+    
     // Use this for initialization
     void Start ()
     {
@@ -16,8 +21,6 @@ public class Battle : MonoBehaviour {
         player = GameObject.FindGameObjectWithTag("Player");
         cameraFollow = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraFollow>();
         // Buttons
-        //canvas.transform.FindChild("Battle UI").transform.FindChild("Attack").GetComponent<Button>().onClick.AddListener(
-        //    () =>  DamageCalc.SkillAttack(player.transform.FindChild("Player Stats").GetComponent<PlayerStats>().stats, 
         //    enemyStats.enemy.stats, 
         //    player.transform.FindChild("Player Skills").GetComponent<PlayerSkills>().FindSkill(0)));
         BattleUI.skills.onClick.AddListener(() => GameManager.OpenClosePage("Skill Page"));

@@ -73,8 +73,8 @@ public class SkillHolder : MonoBehaviour {
         }
         else // in battle
         {
-            //DamageCalc.SkillAttack(PlayerStats.playerStats, enemyStats.enemy.stats, skill);
             GameManager.OpenClosePage("Skill Page");
+            DamageCalc.Battle(PlayerStats.stats, EnemyHolder.enemy.stats, skill);    
         }
     }
 

@@ -13,10 +13,10 @@ public class BattleUI : MonoBehaviour {
     void Start()
     {
         battleUI = gameObject.transform;
-        enemyHP = battleUI.FindChild("Enemy HP").GetComponent<Slider>();
-        enemyMP = battleUI.FindChild("Enemy MP").GetComponent<Slider>();
-        skills = battleUI.FindChild("Skills").GetComponent<Button>();
-        run = battleUI.FindChild("Run").GetComponent<Button>();
+        enemyHP = battleUI.FindChild("Buttons").FindChild("Enemy HP").GetComponent<Slider>();
+        enemyMP = battleUI.FindChild("Buttons").FindChild("Enemy MP").GetComponent<Slider>();
+        skills = battleUI.FindChild("Buttons").FindChild("Skills").GetComponent<Button>();
+        run = battleUI.FindChild("Buttons").FindChild("Run").GetComponent<Button>();
     }
 
     public static void UpdateEnemySliders()

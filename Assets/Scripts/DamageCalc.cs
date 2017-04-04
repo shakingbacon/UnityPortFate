@@ -39,7 +39,6 @@ public class DamageCalc : MonoBehaviour
         // Hit Chance
         int hitChance = HitChanceModifier(user, victim, skill);
         bool ifHit = hitChance >= Random.Range(0, 101);
-        ///
         if (ifHit)
         {
             ////// Damage
@@ -62,26 +61,45 @@ public class DamageCalc : MonoBehaviour
             if (critChance >= Random.Range(0, 101))
             {
                 //// Crit Multiplier
-                damage *= (user.critMulti.totalAmount + skill.skillCritMulti) / 100;
+                int bonus = (user.critMulti.totalAmount + skill.skillCritMulti);
+                float calcBonus = bonus / 100f;
+                float putBonus = damage * calcBonus;
+                damage = (int)(putBonus);
             }
-
             // if damage less than 0, damage = 0 so no heal
             if (damage < 0)
             {
                 damage = 0;
             }
             ////// Damage Calculation
-
             // Regular Damage Calculation
-            //StatUtilities.IncreaseStat(victim, 4, -(damage));
+            victim.health -= damage;
             // End
-            SoundDatabase.PlaySound(skill.skillSoundID);
-            //StatUtilities.StatsUpdate(user);
-            //StatUtilities.StatsUpdate(victim);
+            if (skill.skillSoundID != -1)
+            {
+                SoundDatabase.PlaySound(skill.skillSoundID);
+            }
+            else
+            {
+                int soundID = Random.Range(1, 8);
+                SoundDatabase.PlaySound(soundID);
+            }
+            //user.SimpleStatUpdate();
+            BattleUI.UpdateEnemySliders();
+            StatusBar.UpdateSliders();
         }
-
+        else // missed
+        {
+            SoundDatabase.PlaySound(0);
+        }
         // Crit Chance
-
         //bool ifHit = StatUtilities.
+    }
+    public static void Battle(Stats player, Stats enemy, Skill playeruseskill) // once we know what skill the player wants to use, we can start a battle.
+    {
+        // speed calculation goes here
+        //
+        SkillAttack(player, enemy, playeruseskill);
+        SkillAttack(enemy, player, EnemyHolder.enemy.skills[Random.Range(0, EnemyHolder.enemy.skills.Count)]);
     }
 }
