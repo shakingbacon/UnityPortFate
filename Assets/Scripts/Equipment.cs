@@ -46,6 +46,7 @@ public class Equipment : MonoBehaviour {
         PlayerStats.stats.critChance.buffedAmount += item.itemBonusCrit;
         PlayerStats.stats.critMulti.buffedAmount += item.itemBonusCritMulti;
         PlayerStats.StatsUpdate();
+        StatusBar.UpdateSliders();
     }
 
     public static void RemoveItemStats(Item item)
@@ -68,6 +69,7 @@ public class Equipment : MonoBehaviour {
         PlayerStats.stats.critChance.buffedAmount -= item.itemBonusCrit;
         PlayerStats.stats.critMulti.buffedAmount -= item.itemBonusCritMulti;
         PlayerStats.StatsUpdate();
+        StatusBar.UpdateSliders();
 
     }
     //private Page page = new Page(1, 460, 100, 400, 450, 50);

@@ -16,7 +16,6 @@ public class StatusBar : MonoBehaviour {
         manaBar = gameObject.transform.FindChild("MP Bar").GetComponent<Slider>();
         expBar = gameObject.transform.FindChild("EXP Bar").GetComponent<Slider>();
         playerDesc = gameObject.transform.FindChild("Player Description");
-        PlayerStats.stats.health = 150;
         UpdateStatusBar();
     }
 

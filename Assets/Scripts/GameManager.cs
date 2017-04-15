@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
 
+    public static bool invisibleWallOn = false;
     static string showingPage;
     public static bool inBattle;
     public bool setupBattle;
@@ -12,28 +13,44 @@ public class GameManager : MonoBehaviour {
     {
         //Screen.SetResolution(1024, 768, true);
         // Set beginning game values here
-        Battle.BattleUIOn(false);
+        //activate skill page
+        OpenClosePage("Skill Page");
+        OpenClosePage("Skill Page");
+        OpenClosePage("InventoryEquipment");
+        OpenClosePage("InventoryEquipment");
         //GameObject.FindGameObjectWithTag("Skill Page").transform.FindChild("Skill Desc").gameObject.SetActive(false);
         //GameObject.FindGameObjectWithTag("Skill Page").SetActive(false);
     }
 
     void Update()
     {
-        if (Input.GetButtonDown("Skill"))
+        if (!invisibleWallOn)
         {
-            //playerSkills.SkillUpdate();
-            OpenClosePage("Skill Page");
-        }
-        if (Input.GetButtonDown("Inventory"))
-        {
-            if (!OpenClosePage("InventoryEquipment"))
+            if (Input.GetButtonDown("Skill"))
             {
-                InvEq.ShowStats(false);
-                GameObject.FindGameObjectWithTag("InventoryEquipment").transform.FindChild("Item Desc").gameObject.SetActive(false);
-                Inventory.AddItem(InvEq.holdingItem.itemID);
-                InvEq.UpdateHoldingItem(new Item(), false);
+                //playerSkills.SkillUpdate();
+                OpenClosePage("Skill Page");
+            }
+            if (!inBattle)
+            {
+                if (Input.GetButtonDown("Inventory"))
+                {
+                    if (!OpenClosePage("InventoryEquipment"))
+                    {
+                        InvEq.ShowStats(false);
+                        GameObject.FindGameObjectWithTag("InventoryEquipment").transform.FindChild("Item Desc").gameObject.SetActive(false);
+                        Inventory.AddItem(InvEq.holdingItem.itemID);
+                        InvEq.UpdateHoldingItem(new Item(), false);
+                    }
+                }
             }
         }
+    }
+
+    public static void InvisibleWallOn(bool yes)
+    {
+        GameObject.FindGameObjectWithTag("Canvas").transform.FindChild("Invisible Wall").gameObject.SetActive(yes);
+        invisibleWallOn = yes;
     }
 
     public static bool OpenClosePage(string name)

@@ -25,6 +25,8 @@ public class PlayerStats: MonoBehaviour
         stats.cash = 100;
         stats.SimpleStatUpdate();
         StatsUpdate();
+        stats.HealFullHP();
+        stats.HealFullMP();
     }
     //void StatsUpdate()
     //{

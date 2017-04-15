@@ -8,6 +8,10 @@ public class SoundDatabase : MonoBehaviour {
     public static List<AudioClip> sounds = new List<AudioClip>();
     public static AudioSource bgmSource;
     public static AudioSource soundSource;
+    public static AudioSource soundSource2;
+    public static AudioSource soundSource3;
+    public static AudioSource soundSource4;
+    public static List<AudioSource> soundSourceList = new List<AudioSource>();
 
 
     void Start()
@@ -24,6 +28,14 @@ public class SoundDatabase : MonoBehaviour {
         {
             sounds.Add(file);
         }
+        soundSource2 = gameObject.transform.FindChild("Sound 2").GetComponent<AudioSource>();
+        soundSource3 = gameObject.transform.FindChild("Sound 3").GetComponent<AudioSource>();
+        soundSource4 = gameObject.transform.FindChild("Sound 4").GetComponent<AudioSource>();
+        soundSourceList.Add(soundSource);
+        soundSourceList.Add(soundSource2);
+        soundSourceList.Add(soundSource3);
+        soundSourceList.Add(soundSource4);
+
     }
 
 
@@ -36,9 +48,21 @@ public class SoundDatabase : MonoBehaviour {
 
     public static void PlaySound(int id)
     {
-        soundSource.clip = sounds[id];
-        soundSource.Play();
-        return;
+        bool didPlay = false;
+        foreach(AudioSource source in soundSourceList)
+        {
+            if (!source.isPlaying)
+            {
+                source.clip = sounds[id];
+                source.Play();
+                didPlay = true;
+                break;
+            }
+        }
+        if (!didPlay)
+        {
+            soundSource.Play();
+        }
     }
 
 }

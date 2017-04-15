@@ -5,17 +5,19 @@ using UnityEngine.UI;
 
 public class InvEq : MonoBehaviour
 {
-    static Transform inventoryEquipment;
+    public static Transform inventoryEquipment;
     public static Item holdingItem = new Item();
     public static bool isHoldingitem = false;
     public static bool showStats = false;
     public static Transform inventory;
     public static Transform statsButton;
+    public static GameObject playerImage;
 
 
     void Start()
     {
         inventoryEquipment = gameObject.transform;
+        playerImage = inventoryEquipment.FindChild("Player Image").gameObject;
         inventory = gameObject.transform.FindChild("Inventory");
         statsButton = gameObject.transform.FindChild("Stats Button");
         statsButton.GetComponent<Button>().onClick.AddListener(() => ShowStats(!showStats));

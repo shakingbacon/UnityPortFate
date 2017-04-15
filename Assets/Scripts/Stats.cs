@@ -90,4 +90,14 @@ public class Stats {
         }
     }
 
+    public void HealFullHP()
+    {
+        health = maxHealth.totalAmount;
+    }
+
+    public void HealFullMP()
+    {
+        mana = maxMana.totalAmount;
+    }
+
 }

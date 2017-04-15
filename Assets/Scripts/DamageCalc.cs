@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DamageCalc : MonoBehaviour
 {
@@ -34,8 +35,8 @@ public class DamageCalc : MonoBehaviour
     public static void SkillAttack(Stats user, Stats victim, Skill skill)
     {
         // Mana Cost
-        //StatUtilities.FindStatTotal(user, 6) =  StaticCoroutine.DoCoroutine()StatUtilities;
-        
+        user.mana -= skill.skillManaCost;
+
         // Hit Chance
         int hitChance = HitChanceModifier(user, victim, skill);
         bool ifHit = hitChance >= Random.Range(0, 101);
@@ -58,7 +59,8 @@ public class DamageCalc : MonoBehaviour
             // Crit Chance
             int critChance = CritChanceModifier(user, victim, skill);
             //// Check if Crit
-            if (critChance >= Random.Range(0, 101))
+            bool didCrit = critChance >= Random.Range(0, 101);
+            if (didCrit)
             {
                 //// Crit Multiplier
                 int bonus = (user.critMulti.totalAmount + skill.skillCritMulti);
@@ -77,6 +79,10 @@ public class DamageCalc : MonoBehaviour
             // End
             if (skill.skillSoundID != -1)
             {
+                if (didCrit)
+                {
+                    SoundDatabase.PlaySound(11);
+                }
                 SoundDatabase.PlaySound(skill.skillSoundID);
             }
             else
@@ -85,21 +91,47 @@ public class DamageCalc : MonoBehaviour
                 SoundDatabase.PlaySound(soundID);
             }
             //user.SimpleStatUpdate();
-            BattleUI.UpdateEnemySliders();
-            StatusBar.UpdateSliders();
         }
         else // missed
         {
             SoundDatabase.PlaySound(0);
         }
+        BattleUI.UpdateEnemySliders();
+        StatusBar.UpdateSliders();
         // Crit Chance
         //bool ifHit = StatUtilities.
     }
-    public static void Battle(Stats player, Stats enemy, Skill playeruseskill) // once we know what skill the player wants to use, we can start a battle.
+    public static IEnumerator Battle(Stats player, Stats enemy, Skill playeruseskill) // once we know what skill the player wants to use, we can start a battle.
     {
         // speed calculation goes here
         //
+        // disable all images as we need the skill page to be active
+        SkillPageImagesOn(false);
+        // disable all buttons (basically cant do anything
+        GameManager.InvisibleWallOn(true);
+        //
         SkillAttack(player, enemy, playeruseskill);
+        yield return new WaitForSeconds(1.1f);
         SkillAttack(enemy, player, EnemyHolder.enemy.skills[Random.Range(0, EnemyHolder.enemy.skills.Count)]);
+        SkillPageImagesOn(true);
+        // return to normals
+        GameManager.InvisibleWallOn(false);
+        GameManager.OpenClosePage("Skill Page");
+        //GameManager.OpenClosePage("Skill Page");
+    }
+
+    static void SkillPageImagesOn(bool yes)
+    {
+        for (int i = 0; i < SkillPage.skillPage.FindChild("Skills").transform.childCount; i += 1)
+        {
+            SkillPage.skillPage.FindChild("Skills").transform.GetChild(i).GetComponent<Image>().enabled = yes;
+        }
+        SkillPage.skillPage.GetComponent<Image>().enabled = yes;
+        SkillPage.learnedSkillsButton.gameObject.SetActive(yes);
+        //SkillPage.skillPoints.gameObject.SetActive(yes);
+        SkillPage.closeButton.gameObject.SetActive(yes);
+        SkillPage.leftButton.gameObject.SetActive(yes);
+        SkillPage.rightButton.gameObject.SetActive(yes);
+        SkillPage.pageNum.gameObject.SetActive(yes);
     }
 }

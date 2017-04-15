@@ -84,8 +84,11 @@
      <Compile Include="Assets\Scripts\StatUtilities.cs" />
      <Compile Include="Assets\Scripts\StaticCoroutine.cs" />
      <Compile Include="Assets\Scripts\Stats.cs" />
+     <Compile Include="Assets\Scripts\Status.cs" />
      <Compile Include="Assets\Scripts\StatusBar.cs" />
-     <Compile Include="Assets\Scripts\StatusEffects.cs" />
+     <Compile Include="Assets\Scripts\StatusDatabase.cs" />
+     <Compile Include="Assets\Scripts\StatusEffectChance.cs" />
+     <Compile Include="Assets\Scripts\StatusHolder.cs" />
      <Compile Include="Assets\Scripts\TextureScale.cs" />
      <Compile Include="Assets\Scripts\Tooltip.cs" />
      <Compile Include="Assets\Scripts\Warp.cs" />

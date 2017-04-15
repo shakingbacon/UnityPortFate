@@ -4,92 +4,111 @@ using UnityEngine.UI;
 using UnityEngine;
 
 public class SkillPage : MonoBehaviour {
+    public static Transform skillPage;
+    public static Transform skillPoints;
+    public static Transform leftButton;
+    public static Transform rightButton;
+    public static Transform pageNum;
+    public static Transform closeButton;
+    public static Transform learnedSkillsButton;
+    public static int pageInt;
+    public static List<List<Skill>> currentPage;
 
-    public int pageNum;
-    public List<List<Skill>> currentPage;
-
-    void Start()
+    void Awake()
     {
+        skillPage = gameObject.transform;
+        skillPoints = skillPage.FindChild("SP");
+        leftButton = skillPage.FindChild("Left Button");
+        rightButton = skillPage.FindChild("Right Button");
+        closeButton = skillPage.FindChild("Close Button");
+        learnedSkillsButton = skillPage.FindChild("Learned Skills Button");
+        pageNum = skillPage.FindChild("Page Num");
         currentPage = PlayerSkills.skills;
         UpdateSkillPage(0);
-        gameObject.transform.FindChild("Left Button").GetComponent<Button>().onClick.AddListener(prevPage);
-        gameObject.transform.FindChild("Right Button").GetComponent<Button>().onClick.AddListener(nextPage);
-        gameObject.transform.FindChild("Learned Skills Button").GetComponent<Button>().onClick.AddListener(LearnedSkillButtonPress);
-        gameObject.transform.FindChild("Close Button").GetComponent<Button>().onClick.AddListener(() => GameManager.OpenClosePage("Skill Page"));
-        gameObject.transform.FindChild("Page Num").GetComponent<Text>().text = (pageNum + 1).ToString();
+        leftButton.GetComponent<Button>().onClick.AddListener(prevPage);
+        rightButton.GetComponent<Button>().onClick.AddListener(nextPage);
+        learnedSkillsButton.GetComponent<Button>().onClick.AddListener(LearnedSkillButtonPress);
+        closeButton.GetComponent<Button>().onClick.AddListener(() => GameManager.OpenClosePage("Skill Page"));
+        pageNum.GetComponent<Text>().text = (pageInt + 1).ToString();
 
     }
     
-    void LearnedSkillButtonPress()
+    public static void InstantLearnedSkillPage()
     {
-        currentPage = PlayerSkills.learnedSkills;
-        pageNum = 0;
-        UpdateSkillPage(pageNum);
-        gameObject.transform.FindChild("Learned Skills Button").GetComponent<Button>().onClick.RemoveAllListeners();
-        gameObject.transform.FindChild("Learned Skills Button").GetComponent<Button>().onClick.AddListener(AfterLearnedSkillButtonPress);
-        gameObject.transform.FindChild("Learned Skills Button").GetComponentInChildren<Text>().text = "Back";
+        GameManager.OpenClosePage("Skill Page");
+        LearnedSkillButtonPress();
     }
 
-    void AfterLearnedSkillButtonPress()
+    static void LearnedSkillButtonPress()
+    {
+        currentPage = PlayerSkills.learnedSkills;
+        pageInt = 0;
+        UpdateSkillPage(pageInt);
+        skillPage.FindChild("Learned Skills Button").GetComponent<Button>().onClick.RemoveAllListeners();
+        skillPage.FindChild("Learned Skills Button").GetComponent<Button>().onClick.AddListener(AfterLearnedSkillButtonPress);
+        skillPage.FindChild("Learned Skills Button").GetComponentInChildren<Text>().text = "Back";
+    }
+
+    static void AfterLearnedSkillButtonPress()
     {
         currentPage = PlayerSkills.skills;
-        pageNum = 0;
-        UpdateSkillPage(pageNum);
-        gameObject.transform.FindChild("Learned Skills Button").GetComponent<Button>().onClick.RemoveAllListeners();
-        gameObject.transform.FindChild("Learned Skills Button").GetComponent<Button>().onClick.AddListener(LearnedSkillButtonPress);
-        gameObject.transform.FindChild("Learned Skills Button").GetComponentInChildren<Text>().text = "Learned Skills";
+        pageInt = 0;
+        UpdateSkillPage(pageInt);
+        skillPage.FindChild("Learned Skills Button").GetComponent<Button>().onClick.RemoveAllListeners();
+        skillPage.FindChild("Learned Skills Button").GetComponent<Button>().onClick.AddListener(LearnedSkillButtonPress);
+        skillPage.FindChild("Learned Skills Button").GetComponentInChildren<Text>().text = "Learned Skills";
     }
     void prevPage()
     {
-        pageNum -= 1;
-        gameObject.transform.FindChild("Page Num").GetComponent<Text>().text = (pageNum + 1).ToString();
-        UpdateSkillPage(pageNum);
+        pageInt -= 1;
+        skillPage.FindChild("Page Num").GetComponent<Text>().text = (pageInt + 1).ToString();
+        UpdateSkillPage(pageInt);
         checkPages();
     }
 
     void nextPage()
     {
-        pageNum += 1;
-        gameObject.transform.FindChild("Page Num").GetComponent<Text>().text = (pageNum + 1).ToString();
-        UpdateSkillPage(pageNum);
+        pageInt += 1;
+        skillPage.FindChild("Page Num").GetComponent<Text>().text = (pageInt + 1).ToString();
+        UpdateSkillPage(pageInt);
         checkPages();
     }
-    void checkPages()
+    static void checkPages()
     {
-        if (pageNum == 0)
+        if (pageInt == 0)
         {
-            gameObject.transform.FindChild("Left Button").GetComponent<Button>().interactable = false;
+            skillPage.FindChild("Left Button").GetComponent<Button>().interactable = false;
         }
         else
         {
-            gameObject.transform.FindChild("Left Button").GetComponent<Button>().interactable = true;
+            skillPage.FindChild("Left Button").GetComponent<Button>().interactable = true;
         }
-        if (pageNum + 1 < currentPage.Count)
+        if (pageInt + 1 < currentPage.Count)
         {
-            gameObject.transform.FindChild("Right Button").GetComponent<Button>().interactable = true;
+            skillPage.FindChild("Right Button").GetComponent<Button>().interactable = true;
         }
         else
         {
-            gameObject.transform.FindChild("Right Button").GetComponent<Button>().interactable = false;
+            skillPage.FindChild("Right Button").GetComponent<Button>().interactable = false;
         }
     }
 
-    void UpdateSkillPage(int pagenum)
+    public static void UpdateSkillPage(int pageInt)
     {
-        for (int i = 0; i < gameObject.transform.FindChild("Skills").transform.childCount; i += 1)
+        for (int i = 0; i < skillPage.FindChild("Skills").transform.childCount; i += 1)
         {
-            gameObject.transform.FindChild("Skills").transform.GetChild(i).GetComponent<SkillHolder>().skill
-                = currentPage[pagenum][i];
-            if (currentPage[pagenum][i].skillID == -1)
+            skillPage.FindChild("Skills").transform.GetChild(i).GetComponent<SkillHolder>().skill
+                = currentPage[pageInt][i];
+            if (currentPage[pageInt][i].skillID == -1)
             {
-                gameObject.transform.FindChild("Skills").transform.GetChild(i).GetComponent<Button>().interactable = false;
-                gameObject.transform.FindChild("Skills").transform.GetChild(i).GetComponent<Image>().sprite = Resources.Load<Sprite>("unity_builtin_extra/UISprite");
+                skillPage.FindChild("Skills").transform.GetChild(i).GetComponent<Button>().interactable = false;
+                skillPage.FindChild("Skills").transform.GetChild(i).GetComponent<Image>().sprite = Resources.Load<Sprite>("unity_builtin_extra/UISprite");
             }
             else
             {
-                gameObject.transform.FindChild("Skills").transform.GetChild(i).GetComponent<Button>().interactable = true;
-                gameObject.transform.FindChild("Skills").transform.GetChild(i).GetComponent<Image>().sprite
-                    = gameObject.transform.FindChild("Skills").transform.GetChild(i).GetComponent<SkillHolder>().skill.skillIMG;
+                skillPage.FindChild("Skills").transform.GetChild(i).GetComponent<Button>().interactable = true;
+                skillPage.FindChild("Skills").transform.GetChild(i).GetComponent<Image>().sprite
+                    = skillPage.FindChild("Skills").transform.GetChild(i).GetComponent<SkillHolder>().skill.skillIMG;
             }
         }
         checkPages();

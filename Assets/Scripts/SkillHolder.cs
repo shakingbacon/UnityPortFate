@@ -22,7 +22,7 @@ public class SkillHolder : MonoBehaviour {
         {
             // rank up
             if (PlayerStats.stats.skillPoints > 0)
-            {   
+            {
                 // update skills to check requirement
                 PlayerSkills.SkillUpdate();
                 if (skill.skillRequire)
@@ -46,7 +46,7 @@ public class SkillHolder : MonoBehaviour {
                     }
                     if (!(skill.skillRank == skill.skillMaxRank))
                     {
-
+                        SoundDatabase.PlaySound(20);
                         skill.skillRank += 1;
                         PlayerStats.stats.skillPoints -= 1;
                         PlayerSkills.SkillUpdate();
@@ -73,8 +73,20 @@ public class SkillHolder : MonoBehaviour {
         }
         else // in battle
         {
-            GameManager.OpenClosePage("Skill Page");
-            DamageCalc.Battle(PlayerStats.stats, EnemyHolder.enemy.stats, skill);    
+            if (skill.skillRank == 0)
+            {
+                StartCoroutine(showTextForTime("Skill not learned!", 1));
+            }
+            else if (PlayerStats.stats.mana - skill.skillManaCost < 0)
+            {
+                StartCoroutine(showTextForTime("Not enough MP!", 1));
+            }
+            else
+            {
+                StartCoroutine(DamageCalc.Battle(PlayerStats.stats, EnemyHolder.enemy.stats, skill));
+            }
+            
+            //GameManager.OpenClosePage("Skill Page");
         }
     }
 

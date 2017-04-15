@@ -33,7 +33,7 @@ public class SkillDatabase : MonoBehaviour {
         skills.Add(new Skill("Glass Cannon", 21, "All in", 3, Skill.SkillType.Passive));
         skills.Add(new Skill("Soaked Shock", 22, "Careful", 3, Skill.SkillType.Passive));
         skills.Add(new Skill("Plasma Fusion", 23, "Feel the power", 3, Skill.SkillType.Passive));
-        skills.Add(new Skill("Magical Attack", 24, "Basic magical attack", 1, Skill.SkillType.Magical));
+        skills.Add(new Skill("Magical Attack", 24, 31, "Basic magical attack", 1, Skill.SkillType.Magical));
         //////////////
         skills.Add(new Skill("Solar Flare", 25, "Power of the sun", 10, Skill.SkillType.Magical));
         skills.Add(new Skill("Lunar Blade", 26, "Power of the moon", 10, Skill.SkillType.Magical));

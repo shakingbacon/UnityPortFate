@@ -6,9 +6,7 @@ using UnityEngine.UI;
 public class Battle : MonoBehaviour {
     static CameraFollow cameraFollow;
     static GameObject player;
-    static Vector3 playerPos, playerOldPosition;
     RectTransform enemyRect;
-    static Vector3 middle;
 
 
     //
@@ -17,50 +15,60 @@ public class Battle : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
-        middle = gameObject.transform.FindChild("Background").position;
         player = GameObject.FindGameObjectWithTag("Player");
         cameraFollow = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraFollow>();
         // Buttons
         //    enemyStats.enemy.stats, 
         //    player.transform.FindChild("Player Skills").GetComponent<PlayerSkills>().FindSkill(0)));
-        BattleUI.skills.onClick.AddListener(() => GameManager.OpenClosePage("Skill Page"));
+        BattleUI.skills.onClick.AddListener(SkillPage.InstantLearnedSkillPage);
         BattleUI.run.onClick.AddListener(EndBattle);
     }
 
     public static void SetupBattle()
     {
         GameManager.inBattle = true;
+        UpdatePlayerStatus();
+        UpdateEnemyStatus();
         SoundDatabase.PlayMusic(Random.Range(1, 8));
-        playerOldPosition = player.transform.position;
-        playerOldPosition = new Vector3(playerOldPosition.x - 1, playerOldPosition.y);
         EnemyHolder.enemy = new Enemy(EnemyDatabase.enemies[(Random.Range(0, EnemyDatabase.enemies.Count))]);
-        EnemyHolder.enemy.stats.health = EnemyHolder.enemy.stats.maxHealth.totalAmount;
-        EnemyHolder.enemyHolder.GetComponent<SpriteRenderer>().sprite = EnemyHolder.enemy.enemyIMG;
-        BattleUIOn(true);
+        EnemyHolder.enemy.stats.HealFullHP();
+        EnemyHolder.enemy.stats.HealFullMP();
+        print(EnemyHolder.enemy.enemyID);
+        EnemyHolder.enemyHolder.GetComponent<Image>().sprite = EnemyHolder.enemy.enemyIMG;
+        GameManager.OpenClosePage("Battle UI");
         // positions are scaled to screen size
-        float cameraH = 2 * Camera.main.orthographicSize;
-        float cameraW = cameraH * Camera.main.aspect;
-        Vector3 playerPos = new Vector3(middle.x - cameraW / 4.5f, middle.y + cameraH / 3.4f);
-        player.transform.position = playerPos;
-        Vector3 enemyPos = new Vector3(middle.x + cameraW / 3.5f, playerPos.y);
-        EnemyHolder.enemyHolder.position = enemyPos;
-        cameraFollow.transform.position = new Vector3(middle.x, middle.y, -10);
-        //StatUtilities.StatsUpdate(enemyStats.enemy.stats);
+        Camera.main.GetComponent<CameraFollow>().enabled = false;
+        BattleUI.CopyPlayer();
+        //player.transform.position = BattleUI.playerPosition;
         // Enemy Texts
+        SkillPage.skillPoints.gameObject.SetActive(false);
         BattleUI.UpdateEnemySliders();
     }
 
-    public static void BattleUIOn(bool bol)
+    public static void UpdatePlayerStatus()
     {
-        BattleUI.battleUI.gameObject.SetActive(bol);
+        for (int i = 0; i < BattleUI.playerStatus.childCount; i++)
+        {
+            BattleUI.playerStatus.GetChild(i).GetComponent<StatusHolder>().UpdateStatus();
+        }
+    }
+    public static void UpdateEnemyStatus()
+    {
+        for (int i = 0; i < BattleUI.enemyStatus.childCount; i++)
+        {
+            BattleUI.enemyStatus.GetChild(i).GetComponent<StatusHolder>().UpdateStatus();
+        }
     }
 
     public static void EndBattle()
     {
-        BattleUIOn(false);
+        GameManager.OpenClosePage("Battle UI");
+        DestroyImmediate(BattleUI.playerCopy);
         GameManager.inBattle = false;
-        player.transform.position = playerOldPosition;
-        Camera.main.transform.position = playerOldPosition;
+        SkillPage.skillPoints.gameObject.SetActive(true);
+        player.transform.position = new Vector3(player.transform.position.x - 0.55f, player.transform.position.y);
+        Camera.main.transform.position = player.transform.position;
+        Camera.main.GetComponent<CameraFollow>().enabled = true;
         SoundDatabase.PlayMusic(8);
     }
 

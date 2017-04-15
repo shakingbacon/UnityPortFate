@@ -4,19 +4,39 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class BattleUI : MonoBehaviour {
+    public static GameObject playerCopy;
     public static Transform battleUI;
     public static Button run;
     public static Button skills;
     public static Slider enemyHP;
     public static Slider enemyMP;
+    public static Transform playerStatus;
+    public static Transform enemyStatus;
+    //public static GameObject playerCopy;
 
     void Start()
     {
         battleUI = gameObject.transform;
-        enemyHP = battleUI.FindChild("Buttons").FindChild("Enemy HP").GetComponent<Slider>();
-        enemyMP = battleUI.FindChild("Buttons").FindChild("Enemy MP").GetComponent<Slider>();
-        skills = battleUI.FindChild("Buttons").FindChild("Skills").GetComponent<Button>();
-        run = battleUI.FindChild("Buttons").FindChild("Run").GetComponent<Button>();
+        //playerCopy = battleUI.FindChild("Player Copy").gameObject;
+        enemyHP = battleUI.FindChild("Enemy HP").GetComponent<Slider>();
+        enemyMP = battleUI.FindChild("Enemy MP").GetComponent<Slider>();
+        skills = battleUI.FindChild("Skills").GetComponent<Button>();
+        run = battleUI.FindChild("Run").GetComponent<Button>();
+        playerStatus = battleUI.FindChild("Player Status");
+        enemyStatus = battleUI.FindChild("Enemy Status");
+        GameManager.OpenClosePage("Battle UI");
+    }
+
+    public static void CopyPlayer()
+    {
+        if (GameManager.OpenClosePage("InventoryEquipment"))
+        {
+            GameManager.OpenClosePage("InventoryEquipment");
+        }
+        playerCopy = Instantiate(GameObject.FindGameObjectWithTag("Player Image"), battleUI);
+        playerCopy.GetComponent<Image>().SetNativeSize();
+        playerCopy.transform.localPosition = new Vector3(-185, 150);
+        GameManager.OpenClosePage("InventoryEquipment");
     }
 
     public static void UpdateEnemySliders()
