@@ -86,7 +86,6 @@
      <Compile Include="Assets\Scripts\Stats.cs" />
      <Compile Include="Assets\Scripts\Status.cs" />
      <Compile Include="Assets\Scripts\StatusBar.cs" />
-     <Compile Include="Assets\Scripts\StatusDatabase.cs" />
      <Compile Include="Assets\Scripts\StatusEffectChance.cs" />
      <Compile Include="Assets\Scripts\StatusHolder.cs" />
      <Compile Include="Assets\Scripts\TextureScale.cs" />

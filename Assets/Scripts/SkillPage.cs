@@ -13,6 +13,9 @@ public class SkillPage : MonoBehaviour {
     public static Transform learnedSkillsButton;
     public static int pageInt;
     public static List<List<Skill>> currentPage;
+    public static Transform quickSkillsButton;
+    public static List<Skill> quickSkills = new List<Skill>();
+    public static bool quickSkillsPressed;
 
     void Awake()
     {
@@ -22,6 +25,7 @@ public class SkillPage : MonoBehaviour {
         rightButton = skillPage.FindChild("Right Button");
         closeButton = skillPage.FindChild("Close Button");
         learnedSkillsButton = skillPage.FindChild("Learned Skills Button");
+        quickSkillsButton = skillPage.FindChild("Quick Skills Button");
         pageNum = skillPage.FindChild("Page Num");
         currentPage = PlayerSkills.skills;
         UpdateSkillPage(0);
@@ -29,37 +33,79 @@ public class SkillPage : MonoBehaviour {
         rightButton.GetComponent<Button>().onClick.AddListener(nextPage);
         learnedSkillsButton.GetComponent<Button>().onClick.AddListener(LearnedSkillButtonPress);
         closeButton.GetComponent<Button>().onClick.AddListener(() => GameManager.OpenClosePage("Skill Page"));
+        quickSkillsButton.GetComponent<Button>().onClick.AddListener(QuickSkillButtonPress);
+        quickSkillsButton.gameObject.SetActive(false);
+        for(int i = 0; i < 8; i++)
+        quickSkills.Add(new Skill());
         pageNum.GetComponent<Text>().text = (pageInt + 1).ToString();
 
     }
     
+    public static void UpdateSkillPoints()
+    {
+        skillPoints.GetComponent<Text>().text = "SP: " + PlayerStats.stats.skillPoints.ToString();
+    }
+
     public static void InstantLearnedSkillPage()
     {
         GameManager.OpenClosePage("Skill Page");
         LearnedSkillButtonPress();
     }
 
-    static void LearnedSkillButtonPress()
+    static void QuickSkillButtonPress()
     {
-        currentPage = PlayerSkills.learnedSkills;
-        pageInt = 0;
-        UpdateSkillPage(pageInt);
-        skillPage.FindChild("Learned Skills Button").GetComponent<Button>().onClick.RemoveAllListeners();
-        skillPage.FindChild("Learned Skills Button").GetComponent<Button>().onClick.AddListener(AfterLearnedSkillButtonPress);
-        skillPage.FindChild("Learned Skills Button").GetComponentInChildren<Text>().text = "Back";
+        quickSkills = new List<Skill>();
+        quickSkillsPressed = true;
+        learnedSkillsButton.gameObject.SetActive(false);
+        quickSkillsButton.GetComponent<Button>().onClick.RemoveAllListeners();
+        quickSkillsButton.GetComponent<Button>().onClick.AddListener(AfterQuickSkillButonPress);
+        quickSkillsButton.GetComponentInChildren<Text>().text = "Finish";
+        SoundDatabase.PlaySound(21);
     }
 
-    static void AfterLearnedSkillButtonPress()
+    public static void AfterQuickSkillButonPress()
     {
+        while (quickSkills.Count != 8)
+        {
+            quickSkills.Add(new Skill());
+        }
+        quickSkillsPressed = false;
+        learnedSkillsButton.gameObject.SetActive(true);
+        quickSkillsButton.GetComponent<Button>().onClick.RemoveAllListeners();
+        quickSkillsButton.GetComponent<Button>().onClick.AddListener(QuickSkillButtonPress);
+        SoundDatabase.PlaySound(32);
+        quickSkillsButton.GetComponentInChildren<Text>().text = "Quick Skills";
+    }
+
+    static void LearnedSkillButtonPress()
+    {
+        SoundDatabase.PlaySound(18);
+        currentPage = PlayerSkills.learnedSkills;
+        if (!GameManager.inBattle)
+        { 
+            quickSkillsButton.gameObject.SetActive(true);
+        }
+        pageInt = 0;
+        UpdateSkillPage(pageInt);
+        learnedSkillsButton.GetComponent<Button>().onClick.RemoveAllListeners();
+        learnedSkillsButton.GetComponent<Button>().onClick.AddListener(AfterLearnedSkillButtonPress);
+        learnedSkillsButton.GetComponentInChildren<Text>().text = "Back";
+    }
+
+    public static void AfterLearnedSkillButtonPress()
+    {
+        SoundDatabase.PlaySound(18);
         currentPage = PlayerSkills.skills;
         pageInt = 0;
         UpdateSkillPage(pageInt);
-        skillPage.FindChild("Learned Skills Button").GetComponent<Button>().onClick.RemoveAllListeners();
-        skillPage.FindChild("Learned Skills Button").GetComponent<Button>().onClick.AddListener(LearnedSkillButtonPress);
-        skillPage.FindChild("Learned Skills Button").GetComponentInChildren<Text>().text = "Learned Skills";
+        learnedSkillsButton.GetComponent<Button>().onClick.RemoveAllListeners();
+        learnedSkillsButton.GetComponent<Button>().onClick.AddListener(LearnedSkillButtonPress);
+        learnedSkillsButton.GetComponentInChildren<Text>().text = "Learned Skills";
+        quickSkillsButton.gameObject.SetActive(false);
     }
     void prevPage()
     {
+        SoundDatabase.PlaySound(18);
         pageInt -= 1;
         skillPage.FindChild("Page Num").GetComponent<Text>().text = (pageInt + 1).ToString();
         UpdateSkillPage(pageInt);
@@ -68,6 +114,7 @@ public class SkillPage : MonoBehaviour {
 
     void nextPage()
     {
+        SoundDatabase.PlaySound(18);
         pageInt += 1;
         skillPage.FindChild("Page Num").GetComponent<Text>().text = (pageInt + 1).ToString();
         UpdateSkillPage(pageInt);
@@ -112,5 +159,26 @@ public class SkillPage : MonoBehaviour {
             }
         }
         checkPages();
+    }
+    
+    public static void UpdateQuickSkills()
+    {
+        int i = 0;
+        foreach(Transform skill in BattleUI.quickSkills)
+        {
+            skill.GetComponent<SkillHolder>().skill = quickSkills[i];
+            if (quickSkills[i].skillID == -1)
+            {
+                BattleUI.quickSkills.GetChild(i).GetComponent<Button>().interactable = false;
+                BattleUI.quickSkills.GetChild(i).GetComponent<Image>().sprite = Resources.Load<Sprite>("unity_builtin_extra/UISprite");
+            }
+            else
+            {
+                BattleUI.quickSkills.GetChild(i).GetComponent<Button>().interactable = true;
+                BattleUI.quickSkills.GetChild(i).GetComponent<Image>().sprite
+                    = BattleUI.quickSkills.GetChild(i).GetComponent<SkillHolder>().skill.skillIMG;
+            }
+            i += 1;
+        }
     }
 }

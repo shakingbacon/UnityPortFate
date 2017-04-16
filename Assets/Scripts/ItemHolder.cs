@@ -20,6 +20,7 @@ public class ItemHolder : MonoBehaviour {
         // inventory/Equipment click
         if (!InvEq.isHoldingitem && item.itemID != -1)
         {
+            SoundDatabase.PlaySound(18);
             //print("lift");
             if (secondParent.name == "Equipment")
             {
@@ -40,20 +41,27 @@ public class ItemHolder : MonoBehaviour {
         }
         else if (InvEq.isHoldingitem && item.itemID == -1)
         {
+            
             //print("put down");
             if (secondParent.name == "Equipment")
             {
                 if (Equipment.CheckEquip(parent))
                 {
+                    SoundDatabase.PlaySound(0);
                     //print("equip");
                     InvEq.InsertItem(secondParent, index, InvEq.holdingItem.itemID);
                     InvEq.UpdateHoldingItem(new Item(), false);
                     Equipment.AddItemStats(item);
                     PlayerImage.UpdateImage(parent.name, item.itemName + CheckIsSecondHandWeapon(parent), true);
                 }
+                else
+                {
+                    SoundDatabase.PlaySound(33);
+                }
             }
             else
             {
+                SoundDatabase.PlaySound(0);
                 //print("regular");
                 InvEq.InsertItem(secondParent, index, InvEq.holdingItem.itemID);
                 InvEq.UpdateHoldingItem(new Item(), false);
@@ -69,15 +77,23 @@ public class ItemHolder : MonoBehaviour {
             {
                 if (Equipment.CheckEquip(parent))
                 {
+                    SoundDatabase.PlaySound(0);
                     InvEq.InsertItem(secondParent, index, InvEq.holdingItem.itemID);
+                    PlayerImage.UpdateImage(parent.name, item.itemName + CheckIsSecondHandWeapon(parent), true);
+
                     Equipment.AddItemStats(item);
                     InvEq.UpdateHoldingItem(willBeReplaceItem);
                     Equipment.RemoveItemStats(willBeReplaceItem);
-                    PlayerImage.UpdateImage(parent.name, item.itemName + CheckIsSecondHandWeapon(parent), true);
+                    
+                }
+                else
+                {
+                    SoundDatabase.PlaySound(33);
                 }
             }
             else
             {
+                SoundDatabase.PlaySound(0);
                 InvEq.InsertItem(secondParent, index, InvEq.holdingItem.itemID);
                 InvEq.UpdateHoldingItem(willBeReplaceItem);
             }

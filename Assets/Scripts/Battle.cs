@@ -7,6 +7,7 @@ public class Battle : MonoBehaviour {
     static CameraFollow cameraFollow;
     static GameObject player;
     RectTransform enemyRect;
+    public static int turnCount;
 
 
     //
@@ -27,38 +28,34 @@ public class Battle : MonoBehaviour {
     public static void SetupBattle()
     {
         GameManager.inBattle = true;
-        UpdatePlayerStatus();
-        UpdateEnemyStatus();
+        GameManager.OpenClosePage("Battle UI");
+        turnCount = -1;
+        BattleUI.NextTurn();
+        BattleUI.TextReset();
+        BattleUI.ResetAllStatus();
+        if (SkillPage.quickSkillsPressed)
+        {
+            SkillPage.AfterQuickSkillButonPress();
+        }
+        PlayerStats.stats.ResetStatus();
         SoundDatabase.PlayMusic(Random.Range(1, 8));
         EnemyHolder.enemy = new Enemy(EnemyDatabase.enemies[(Random.Range(0, EnemyDatabase.enemies.Count))]);
+        BattleUI.enemyName.text = EnemyHolder.enemy.stats.mingZi;
         EnemyHolder.enemy.stats.HealFullHP();
         EnemyHolder.enemy.stats.HealFullMP();
-        print(EnemyHolder.enemy.enemyID);
         EnemyHolder.enemyHolder.GetComponent<Image>().sprite = EnemyHolder.enemy.enemyIMG;
-        GameManager.OpenClosePage("Battle UI");
+        
+        SkillPage.UpdateQuickSkills();
         // positions are scaled to screen size
         Camera.main.GetComponent<CameraFollow>().enabled = false;
         BattleUI.CopyPlayer();
         //player.transform.position = BattleUI.playerPosition;
         // Enemy Texts
         SkillPage.skillPoints.gameObject.SetActive(false);
+        SkillPage.quickSkillsButton.gameObject.SetActive(false);
         BattleUI.UpdateEnemySliders();
     }
 
-    public static void UpdatePlayerStatus()
-    {
-        for (int i = 0; i < BattleUI.playerStatus.childCount; i++)
-        {
-            BattleUI.playerStatus.GetChild(i).GetComponent<StatusHolder>().UpdateStatus();
-        }
-    }
-    public static void UpdateEnemyStatus()
-    {
-        for (int i = 0; i < BattleUI.enemyStatus.childCount; i++)
-        {
-            BattleUI.enemyStatus.GetChild(i).GetComponent<StatusHolder>().UpdateStatus();
-        }
-    }
 
     public static void EndBattle()
     {
@@ -66,9 +63,11 @@ public class Battle : MonoBehaviour {
         DestroyImmediate(BattleUI.playerCopy);
         GameManager.inBattle = false;
         SkillPage.skillPoints.gameObject.SetActive(true);
+        SkillPage.quickSkillsButton.gameObject.SetActive(true);
         player.transform.position = new Vector3(player.transform.position.x - 0.55f, player.transform.position.y);
         Camera.main.transform.position = player.transform.position;
         Camera.main.GetComponent<CameraFollow>().enabled = true;
+        SkillPage.AfterLearnedSkillButtonPress();
         SoundDatabase.PlayMusic(8);
     }
 

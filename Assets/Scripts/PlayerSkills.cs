@@ -85,9 +85,9 @@ public class PlayerSkills : MonoBehaviour {
                     case 1:
                         {
                             skill.skillDamage = (int)(80 + (stats.magicAtk.totalAmount / 1.8) * (1.8 * (1 + skill.skillRank)));
-                            skill.skillManaCost = (int)(50 + skill.skillDamage / (17 - skill.skillRank) + skill.skillRank * 35);
-                            skill.skillStatusEff.burnChance = (int)(15 + 3 * skill.skillRank + stats.magicAtk.totalAmount / (25 + stats.magicAtk.totalAmount) / 4);
-                            skill.skillEffDesc = "Chance to inflict Burn: " + skill.skillStatusEff.burnChance.ToString() + "%";
+                            skill.skillManaCost = 0;//(int)(50 + skill.skillDamage / (17 - skill.skillRank) + skill.skillRank * 35);
+                            skill.skillStatusEff.burn.statusChance = (int)(115 + 3 * skill.skillRank + stats.magicAtk.totalAmount / (25 + stats.magicAtk.totalAmount) / 4);
+                            skill.skillEffDesc = "Chance to inflict Burn: " + skill.skillStatusEff.burn.statusChance.ToString() + "%";
                             int req = skill.skillRank * 3;
                             skill.skillRequire = stats.level >= req;
                             skill.skillRequireDesc = string.Format("Level: {0}", req);
@@ -122,9 +122,9 @@ public class PlayerSkills : MonoBehaviour {
                         {
                             skill.skillDamage = (int)(115 + (stats.magicAtk.totalAmount / 1.7) * (1.9 * (1 + skill.skillRank)));
                             skill.skillManaCost = (int)(60 + skill.skillDamage / (14 - skill.skillRank) + skill.skillRank * 55);
-                            skill.skillStatusEff.paraChance = (int)(20 + 3 * skill.skillRank + stats.magicAtk.totalAmount/(25 + stats.magicAtk.totalAmount/4));
+                            skill.skillStatusEff.paralyze.statusChance = (int)(120 + 3 * skill.skillRank + stats.magicAtk.totalAmount/(25 + stats.magicAtk.totalAmount/4));
                             skill.skillCritChance = (int)(14 + 4 * skill.skillRank);
-                            skill.skillEffDesc = "Chance to Paralyze: +" + skill.skillStatusEff.paraChance + "%\nCrit Chance: +" + skill.skillCritChance + "%";
+                            skill.skillEffDesc = "Chance to Paralyze: +" + skill.skillStatusEff.paralyze.statusChance + "%\nCrit Chance: +" + skill.skillCritChance + "%";
                             int req = skill.skillRank * 3;
                             skill.skillRequire = stats.level >= req;
                             skill.skillRequireDesc = string.Format("Level: {0}", req);
@@ -249,11 +249,11 @@ public class PlayerSkills : MonoBehaviour {
                             skill.skillManaCost = (int)(150 + skill.skillRank * 60 + stats.magicAtk.totalAmount * 1.3 * (1 + skill.skillRank));
                             skill.skillHitChance = (int)(22 + skill.skillRank * 6 + stats.magicAtk.totalAmount * 0.1 / (1 + skill.skillRank)); // explosion chance;
                             skill.skillCritChance = 75 + 50 * skill.skillRank; // armor/res bonus
-                            skill.skillStatusEff.burnChance = (int)(17 + skill.skillRank * 10 + stats.magicAtk.totalAmount * 0.1 / (1 + skill.skillRank));
+                            skill.skillStatusEff.burn.statusChance = (int)(17 + skill.skillRank * 10 + stats.magicAtk.totalAmount * 0.1 / (1 + skill.skillRank));
                             skill.skillCooldown = 5;
                             skill.skillTurnEnd = 4;
                             skill.skillEffDesc = string.Format("For {0} turns, gain Armor/Resist: +{1}.", skill.skillTurnEnd, skill.skillCritChance) + 
-                               string.Format("At the end of each turn, there's a {0}% chance where the shield explodes, dealing {1} Phyical Damage with Burn chance: {2}%.", skill.skillHitChance, skill.skillDamage, skill.skillStatusEff.burnChance)
+                               string.Format("At the end of each turn, there's a {0}% chance where the shield explodes, dealing {1} Phyical Damage with Burn chance: {2}%.", skill.skillHitChance, skill.skillDamage, skill.skillStatusEff.burn.statusChance)
                                 + string.Format("\nCooldown: {0} Turns", skill.skillCooldown);
                             int req = 2 + skill.skillRank * 4;
                             Skill reqSkill = FindSkill(1);
@@ -316,8 +316,8 @@ public class PlayerSkills : MonoBehaviour {
                         {
                             skill.skillDamage = (75 + (175 * skill.skillRank) * (FindSkill(1).skillRank + FindSkill(2).skillRank + FindSkill(3).skillRank + FindSkill(4).skillRank))*(stats.mana/ (stats.maxMana.totalAmount + 1));
                             skill.skillManaCost = stats.mana;
-                            skill.skillStatusEff.burnChance = 3 * (skill.skillRank) + FindSkill(1).skillStatusEff.burnChance;
-                            skill.skillStatusEff.paraChance = 3 * skill.skillRank + FindSkill(4).skillStatusEff.paraChance;
+                            skill.skillStatusEff.burn.statusChance = 3 * (skill.skillRank) + FindSkill(1).skillStatusEff.burn.statusChance;
+                            skill.skillStatusEff.paralyze.statusChance = 3 * skill.skillRank + FindSkill(4).skillStatusEff.paralyze.statusChance;
                             skill.skillHitChance = 3 + (skill.skillRank) + FindSkill(2).skillHitChance + FindSkill(3).skillHitChance;
                             skill.skillCritChance = FindSkill(3).skillCritChance + FindSkill(4).skillCritChance;
                             skill.skillCritMulti = FindSkill(3).skillCritMulti;
@@ -389,15 +389,15 @@ public class PlayerSkills : MonoBehaviour {
                         {
                             skill.skillDamage = (int)(15 + (stats.magicAtk.totalAmount / 2.2) * (2.1 * (1 + skill.skillRank)));
                             skill.skillManaCost = (int)(50 + skill.skillDamage / (19 - skill.skillRank) + skill.skillRank * 55);
-                            skill.skillStatusEff.burnChance = (int)(19 + 5 * skill.skillRank + stats.magicAtk.totalAmount / (35 + stats.magicAtk.totalAmount) / 4);
-                            skill.skillStatusEff.blindChance = (int)(14 + 7 * skill.skillRank + stats.magicAtk.totalAmount / (35 + stats.magicAtk.totalAmount) / 4);
+                            skill.skillStatusEff.burn.statusChance = (int)(19 + 5 * skill.skillRank + stats.magicAtk.totalAmount / (35 + stats.magicAtk.totalAmount) / 4);
+                            skill.skillStatusEff.blind.statusChance = (int)(14 + 7 * skill.skillRank + stats.magicAtk.totalAmount / (35 + stats.magicAtk.totalAmount) / 4);
                             break;
                         }
                     case 26:
                         {
                             skill.skillDamage = (int)(75 + (stats.magicAtk.totalAmount / 2) * (2.4 * (1 + skill.skillRank)));
                             skill.skillManaCost = (int)(100 + skill.skillDamage / (17 - skill.skillRank) + skill.skillRank * 25);
-                            skill.skillStatusEff.confChance = (int)(24 + 4 * skill.skillRank + stats.magicAtk.totalAmount / (23 + stats.magicAtk.totalAmount) / 4);
+                            skill.skillStatusEff.confuse.statusChance = (int)(24 + 4 * skill.skillRank + stats.magicAtk.totalAmount / (23 + stats.magicAtk.totalAmount) / 4);
                             break;
                         }
                     case 27: // need to add effect

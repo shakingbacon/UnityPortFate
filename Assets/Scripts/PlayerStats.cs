@@ -23,6 +23,7 @@ public class PlayerStats: MonoBehaviour
         stats.dmgTaken.baseAmount = 100;
         stats.manaComs.baseAmount = 100;
         stats.cash = 100;
+        stats.skillPoints = 100;
         stats.SimpleStatUpdate();
         StatsUpdate();
         stats.HealFullHP();

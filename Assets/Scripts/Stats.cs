@@ -32,6 +32,7 @@ public class Stats {
     public int maxExperience = 0;
     public int cash = 0;
     public List<Stat> statsList = new List<Stat>();
+    public List<Status> statuses = new List<Status>();
 
     public Stats()
     {
@@ -88,6 +89,11 @@ public class Stats {
                 statsList[i].totalAmount = statsList[i].baseAmount + statsList[i].buffedAmount;
             }
         }
+    }
+
+    public void ResetStatus()
+    {
+        statuses = new List<Status>();
     }
 
     public void HealFullHP()

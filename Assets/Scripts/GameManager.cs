@@ -28,13 +28,22 @@ public class GameManager : MonoBehaviour {
         {
             if (Input.GetButtonDown("Skill"))
             {
+                SoundDatabase.PlaySound(34);
                 //playerSkills.SkillUpdate();
-                OpenClosePage("Skill Page");
+                if (!OpenClosePage("Skill Page"))
+                {
+                    if (SkillPage.quickSkillsPressed)
+                    {
+                        SkillPage.AfterQuickSkillButonPress();
+                    }
+                    GameObject.FindGameObjectWithTag("Skill Page").transform.FindChild("Skill Desc").gameObject.SetActive(false);
+                }
             }
             if (!inBattle)
             {
                 if (Input.GetButtonDown("Inventory"))
                 {
+                    SoundDatabase.PlaySound(34);
                     if (!OpenClosePage("InventoryEquipment"))
                     {
                         InvEq.ShowStats(false);

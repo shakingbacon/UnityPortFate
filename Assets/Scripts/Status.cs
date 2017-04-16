@@ -6,14 +6,16 @@ using UnityEngine.UI;
 [System.Serializable]
 public class Status {
     public string statusName;
-    public Sprite statusIMG;
-    public int statusID;
+    public int statusID = -1;
+    //public Sprite statusIMG;
+    public int statusChance;
 
     public Status(string name, int id)
     {
         statusName = name;
-        statusIMG = Resources.Load<Sprite>("StatusEffects/" + name);
+        //statusIMG = Resources.Load<Sprite>("StatusEffects/" + name);
         statusID = id;
+        statusChance = 0;
     }
 
     public Status()

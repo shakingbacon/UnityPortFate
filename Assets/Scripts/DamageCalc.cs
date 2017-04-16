@@ -32,11 +32,41 @@ public class DamageCalc : MonoBehaviour
         return crit;
     }
 
+    public static void CheckSkillStatusEff(Stats victim, Skill skill)
+    {
+        foreach (Status status in skill.skillStatusEff.statusEffList)
+        {
+            if (status.statusChance > Random.Range(0, 101))
+            {
+                BattleUI.AddStatus(victim, status);
+            }
+        }
+        BattleUI.UpdateAllStatusHolder(victim);
+    }
+
+    public static void ApplyStatusEff(Stats user, Stats victim)
+    {
+        foreach(Status status in victim.statuses)
+        {
+            switch (status.statusID)
+            {
+                case 0:
+                    {
+                        int damage = (victim.maxHealth.totalAmount / 10 - Random.Range(0, victim.maxHealth.totalAmount / 100))
+                            + Random.Range(0, 10 + victim.maxHealth.totalAmount / 80);
+                        victim.health -= damage;
+                        BattleUI.TextAdd(victim, 26, "red", string.Format("took {0} burn damage", damage));
+                        break;
+                    }
+            }
+        }
+    }
+
     public static void SkillAttack(Stats user, Stats victim, Skill skill)
     {
         // Mana Cost
+        BattleUI.TextAdd(user, 30, "#000000ff", "used " + skill.skillName);
         user.mana -= skill.skillManaCost;
-
         // Hit Chance
         int hitChance = HitChanceModifier(user, victim, skill);
         bool ifHit = hitChance >= Random.Range(0, 101);
@@ -55,13 +85,14 @@ public class DamageCalc : MonoBehaviour
             //    damage += Random.Range(0, 11 + StatUtilities.FindStatTotal(user, 19));
             //}
             // On Hit Effects
-
+            CheckSkillStatusEff(victim, skill);
             // Crit Chance
             int critChance = CritChanceModifier(user, victim, skill);
             //// Check if Crit
             bool didCrit = critChance >= Random.Range(0, 101);
             if (didCrit)
             {
+                BattleUI.TextAdd(user, 30, "cyan", "critically striked!");
                 //// Crit Multiplier
                 int bonus = (user.critMulti.totalAmount + skill.skillCritMulti);
                 float calcBonus = bonus / 100f;
@@ -73,16 +104,29 @@ public class DamageCalc : MonoBehaviour
             {
                 damage = 0;
             }
+            // bonus
+            else
+            {
+                damage += Random.Range(0, 15 + damage/10);
+            }
             ////// Damage Calculation
             // Regular Damage Calculation
+            if (user == PlayerStats.stats)
+            {
+                BattleUI.TextAdd(user, 25, "black", string.Format("deal {0} {1} damage", damage, skill.skillType));
+            }
+            else
+            {
+                BattleUI.TextAdd(user, 25, "black", string.Format("deals {0} {1} damage", damage, skill.skillType));
+            }
             victim.health -= damage;
             // End
+            if (didCrit)
+            {
+                SoundDatabase.PlaySound(11);
+            }
             if (skill.skillSoundID != -1)
             {
-                if (didCrit)
-                {
-                    SoundDatabase.PlaySound(11);
-                }
                 SoundDatabase.PlaySound(skill.skillSoundID);
             }
             else
@@ -94,30 +138,50 @@ public class DamageCalc : MonoBehaviour
         }
         else // missed
         {
+            BattleUI.TextAdd(user, 30, "blue", "missed!");
             SoundDatabase.PlaySound(0);
         }
+        ApplyStatusEff(user, victim);
         BattleUI.UpdateEnemySliders();
         StatusBar.UpdateSliders();
         // Crit Chance
         //bool ifHit = StatUtilities.
     }
-    public static IEnumerator Battle(Stats player, Stats enemy, Skill playeruseskill) // once we know what skill the player wants to use, we can start a battle.
+    public static IEnumerator StartBattle(Stats player, Stats enemy, Skill playeruseskill) // once we know what skill the player wants to use, we can start a battle.
     {
         // speed calculation goes here
         //
+        BattleUI.NextTurn();
+        BattleUI.ResetScrollsPosition();
         // disable all images as we need the skill page to be active
         SkillPageImagesOn(false);
         // disable all buttons (basically cant do anything
         GameManager.InvisibleWallOn(true);
-        //
+        // reset text
+        BattleUI.TextReset();
+        // battle
         SkillAttack(player, enemy, playeruseskill);
         yield return new WaitForSeconds(1.1f);
-        SkillAttack(enemy, player, EnemyHolder.enemy.skills[Random.Range(0, EnemyHolder.enemy.skills.Count)]);
+        if (enemy.health <= 0)
+        {
+            BattleUI.TextAdd(enemy, 25, "black", string.Format("has been defeated!"));
+            yield return new WaitForSeconds(1.1f);
+            Battle.EndBattle();
+        }
+        else
+        {
+            SkillAttack(enemy, player, EnemyHolder.enemy.skills[Random.Range(0, EnemyHolder.enemy.skills.Count)]);
+        }
+        //
         SkillPageImagesOn(true);
         // return to normals
         GameManager.InvisibleWallOn(false);
-        GameManager.OpenClosePage("Skill Page");
+        if (SkillPage.skillPage.gameObject.activeInHierarchy)
+        {
+            GameManager.OpenClosePage("Skill Page");
+        }
         //GameManager.OpenClosePage("Skill Page");
+
     }
 
     static void SkillPageImagesOn(bool yes)

@@ -18,7 +18,7 @@ public class StatusHolder : MonoBehaviour {
         if (status.statusID != -1)
         {
             image.enabled = true;
-            image.sprite = status.statusIMG;
+            image.sprite = Resources.Load<Sprite>("Status Effects/" + status.statusName); ;
         }
         else
         {
