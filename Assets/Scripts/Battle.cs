@@ -21,14 +21,22 @@ public class Battle : MonoBehaviour {
         // Buttons
         //    enemyStats.enemy.stats, 
         //    player.transform.FindChild("Player Skills").GetComponent<PlayerSkills>().FindSkill(0)));
+        GameManager.OpenClosePage("Skill Page");
+        GameManager.OpenClosePage("Battle UI");
         BattleUI.skills.onClick.AddListener(SkillPage.InstantLearnedSkillPage);
+        GameManager.OpenClosePage("Battle UI");
+        GameManager.OpenClosePage("Skill Page");
         BattleUI.run.onClick.AddListener(EndBattle);
     }
 
     public static void SetupBattle()
     {
+        BattleUI.quickSkillDesc.text = "";
         GameManager.inBattle = true;
         GameManager.OpenClosePage("Battle UI");
+        GameManager.OpenClosePage("Skill Page");
+        QuickSkills.MoveToBattleUI();
+                GameManager.OpenClosePage("Skill Page");
         turnCount = -1;
         BattleUI.NextTurn();
         BattleUI.TextReset();
@@ -44,8 +52,7 @@ public class Battle : MonoBehaviour {
         EnemyHolder.enemy.stats.HealFullHP();
         EnemyHolder.enemy.stats.HealFullMP();
         EnemyHolder.enemyHolder.GetComponent<Image>().sprite = EnemyHolder.enemy.enemyIMG;
-        
-        SkillPage.UpdateQuickSkills();
+       
         // positions are scaled to screen size
         Camera.main.GetComponent<CameraFollow>().enabled = false;
         BattleUI.CopyPlayer();
@@ -53,6 +60,7 @@ public class Battle : MonoBehaviour {
         // Enemy Texts
         SkillPage.skillPoints.gameObject.SetActive(false);
         SkillPage.quickSkillsButton.gameObject.SetActive(false);
+        SkillPage.quickSkillsInfo.gameObject.SetActive(false);
         BattleUI.UpdateEnemySliders();
     }
 
@@ -64,10 +72,12 @@ public class Battle : MonoBehaviour {
         GameManager.inBattle = false;
         SkillPage.skillPoints.gameObject.SetActive(true);
         SkillPage.quickSkillsButton.gameObject.SetActive(true);
+        SkillPage.quickSkillsInfo.gameObject.SetActive(true);
         player.transform.position = new Vector3(player.transform.position.x - 0.55f, player.transform.position.y);
         Camera.main.transform.position = player.transform.position;
         Camera.main.GetComponent<CameraFollow>().enabled = true;
         SkillPage.AfterLearnedSkillButtonPress();
+        QuickSkills.MoveToSkillPage();
         SoundDatabase.PlayMusic(8);
     }
 

@@ -50,9 +50,10 @@ public class ItemHolder : MonoBehaviour {
                     SoundDatabase.PlaySound(0);
                     //print("equip");
                     InvEq.InsertItem(secondParent, index, InvEq.holdingItem.itemID);
+                    PlayerImage.UpdateImage(parent.name, item.itemName + CheckIsSecondHandWeapon(parent), true);
                     InvEq.UpdateHoldingItem(new Item(), false);
                     Equipment.AddItemStats(item);
-                    PlayerImage.UpdateImage(parent.name, item.itemName + CheckIsSecondHandWeapon(parent), true);
+                    
                 }
                 else
                 {

@@ -15,9 +15,10 @@ public class BattleUI : MonoBehaviour {
     public static Transform playerScroll;
     public static Transform enemyScroll;
     public static Text turn;
-    public static Transform quickSkills;
     public static Text enemyName;
     public static Text quickSkillNotifier;
+    public static Text quickSkillDesc;
+    public static Transform quickSkills;
     //public static GameObject playerCopy;
 
     void Start()
@@ -30,13 +31,13 @@ public class BattleUI : MonoBehaviour {
         enemyMP = battleUI.FindChild("Enemy Box").FindChild("Enemy MP").GetComponent<Slider>();
         skills = battleUI.FindChild("Player Box").FindChild("Skills").GetComponent<Button>();
         run = battleUI.FindChild("Player Box").FindChild("Run").GetComponent<Button>();
+        quickSkills = battleUI.FindChild("Player Box").FindChild("Quick Skills");
         playerStatus = battleUI.FindChild("Player Status");
         enemyStatus = battleUI.FindChild("Enemy Status");
         enemyName = battleUI.FindChild("Enemy Box").FindChild("Enemy Name").GetComponent<Text>();
         turn = battleUI.FindChild("Player Box").FindChild("Turn").GetComponent<Text>();
-        quickSkills = battleUI.FindChild("Player Box").FindChild("Quick Skills");
         quickSkillNotifier = battleUI.FindChild("Player Box").FindChild("Quick Skills Notifier").GetComponent<Text>();
-        GameManager.OpenClosePage("Battle UI");
+        quickSkillDesc = battleUI.FindChild("Player Box").FindChild("Quick Skills Desc").GetComponent<Text>();
     }
 
     public static void ResetPlayerStatus()

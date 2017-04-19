@@ -14,10 +14,11 @@ public class SkillPage : MonoBehaviour {
     public static int pageInt;
     public static List<List<Skill>> currentPage;
     public static Transform quickSkillsButton;
-    public static List<Skill> quickSkills = new List<Skill>();
+    public static Transform quickSkillsInfo;
+
     public static bool quickSkillsPressed;
 
-    void Awake()
+    void Start()
     {
         skillPage = gameObject.transform;
         skillPoints = skillPage.FindChild("SP");
@@ -26,18 +27,18 @@ public class SkillPage : MonoBehaviour {
         closeButton = skillPage.FindChild("Close Button");
         learnedSkillsButton = skillPage.FindChild("Learned Skills Button");
         quickSkillsButton = skillPage.FindChild("Quick Skills Button");
+        quickSkillsInfo = skillPage.FindChild("Quick Skill Info");
         pageNum = skillPage.FindChild("Page Num");
         currentPage = PlayerSkills.skills;
-        UpdateSkillPage(0);
         leftButton.GetComponent<Button>().onClick.AddListener(prevPage);
         rightButton.GetComponent<Button>().onClick.AddListener(nextPage);
         learnedSkillsButton.GetComponent<Button>().onClick.AddListener(LearnedSkillButtonPress);
-        closeButton.GetComponent<Button>().onClick.AddListener(() => GameManager.OpenClosePage("Skill Page"));
+        closeButton.GetComponent<Button>().onClick.AddListener(() => GameManager.CheckSkillPage());
         quickSkillsButton.GetComponent<Button>().onClick.AddListener(QuickSkillButtonPress);
         quickSkillsButton.gameObject.SetActive(false);
-        for(int i = 0; i < 8; i++)
-        quickSkills.Add(new Skill());
         pageNum.GetComponent<Text>().text = (pageInt + 1).ToString();
+        UpdateSkillPage(0);
+        UpdateSkillPoints();
 
     }
     
@@ -54,7 +55,6 @@ public class SkillPage : MonoBehaviour {
 
     static void QuickSkillButtonPress()
     {
-        quickSkills = new List<Skill>();
         quickSkillsPressed = true;
         learnedSkillsButton.gameObject.SetActive(false);
         quickSkillsButton.GetComponent<Button>().onClick.RemoveAllListeners();
@@ -65,10 +65,6 @@ public class SkillPage : MonoBehaviour {
 
     public static void AfterQuickSkillButonPress()
     {
-        while (quickSkills.Count != 8)
-        {
-            quickSkills.Add(new Skill());
-        }
         quickSkillsPressed = false;
         learnedSkillsButton.gameObject.SetActive(true);
         quickSkillsButton.GetComponent<Button>().onClick.RemoveAllListeners();
@@ -89,12 +85,12 @@ public class SkillPage : MonoBehaviour {
         UpdateSkillPage(pageInt);
         learnedSkillsButton.GetComponent<Button>().onClick.RemoveAllListeners();
         learnedSkillsButton.GetComponent<Button>().onClick.AddListener(AfterLearnedSkillButtonPress);
+        learnedSkillsButton.GetComponent<Button>().onClick.AddListener(() => SoundDatabase.PlaySound(18));
         learnedSkillsButton.GetComponentInChildren<Text>().text = "Back";
     }
 
     public static void AfterLearnedSkillButtonPress()
     {
-        SoundDatabase.PlaySound(18);
         currentPage = PlayerSkills.skills;
         pageInt = 0;
         UpdateSkillPage(pageInt);
@@ -159,26 +155,5 @@ public class SkillPage : MonoBehaviour {
             }
         }
         checkPages();
-    }
-    
-    public static void UpdateQuickSkills()
-    {
-        int i = 0;
-        foreach(Transform skill in BattleUI.quickSkills)
-        {
-            skill.GetComponent<SkillHolder>().skill = quickSkills[i];
-            if (quickSkills[i].skillID == -1)
-            {
-                BattleUI.quickSkills.GetChild(i).GetComponent<Button>().interactable = false;
-                BattleUI.quickSkills.GetChild(i).GetComponent<Image>().sprite = Resources.Load<Sprite>("unity_builtin_extra/UISprite");
-            }
-            else
-            {
-                BattleUI.quickSkills.GetChild(i).GetComponent<Button>().interactable = true;
-                BattleUI.quickSkills.GetChild(i).GetComponent<Image>().sprite
-                    = BattleUI.quickSkills.GetChild(i).GetComponent<SkillHolder>().skill.skillIMG;
-            }
-            i += 1;
-        }
     }
 }

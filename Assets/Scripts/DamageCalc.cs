@@ -5,6 +5,12 @@ using UnityEngine.UI;
 
 public class DamageCalc : MonoBehaviour
 {
+    public static DamageCalc damageCalc;
+
+    void Start()
+    {
+        damageCalc = gameObject.GetComponent<DamageCalc>();
+    }
 
     public static int DmgModifier(Stats user, Stats victim, Skill skill)
     {
@@ -44,22 +50,22 @@ public class DamageCalc : MonoBehaviour
         BattleUI.UpdateAllStatusHolder(victim);
     }
 
-    public static void ApplyStatusEff(Stats user, Stats victim)
+    public static void ApplyStatusEff(Stats user, Stats victim, Status status)
     {
-        foreach(Status status in victim.statuses)
+        switch (status.statusID)
         {
-            switch (status.statusID)
-            {
-                case 0:
-                    {
-                        int damage = (victim.maxHealth.totalAmount / 10 - Random.Range(0, victim.maxHealth.totalAmount / 100))
-                            + Random.Range(0, 10 + victim.maxHealth.totalAmount / 80);
-                        victim.health -= damage;
-                        BattleUI.TextAdd(victim, 26, "red", string.Format("took {0} burn damage", damage));
-                        break;
-                    }
-            }
+            case 0:
+                {
+                    SoundDatabase.PlaySound(35);
+                    int damage = (victim.maxHealth.totalAmount / 10 - Random.Range(0, victim.maxHealth.totalAmount / 100))
+                        + Random.Range(0, 10 + victim.maxHealth.totalAmount / 80);
+                    victim.health -= damage;
+                    BattleUI.TextAdd(victim, 26, "red", string.Format("took {0} burn damage", damage));
+                    break;
+                }
         }
+        BattleUI.UpdateEnemySliders();
+        StatusBar.UpdateSliders();
     }
 
     public static void SkillAttack(Stats user, Stats victim, Skill skill)
@@ -141,7 +147,6 @@ public class DamageCalc : MonoBehaviour
             BattleUI.TextAdd(user, 30, "blue", "missed!");
             SoundDatabase.PlaySound(0);
         }
-        ApplyStatusEff(user, victim);
         BattleUI.UpdateEnemySliders();
         StatusBar.UpdateSliders();
         // Crit Chance
@@ -151,6 +156,7 @@ public class DamageCalc : MonoBehaviour
     {
         // speed calculation goes here
         //
+        bool enemyDead = false;
         BattleUI.NextTurn();
         BattleUI.ResetScrollsPosition();
         // disable all images as we need the skill page to be active
@@ -164,13 +170,43 @@ public class DamageCalc : MonoBehaviour
         yield return new WaitForSeconds(1.1f);
         if (enemy.health <= 0)
         {
-            BattleUI.TextAdd(enemy, 25, "black", string.Format("has been defeated!"));
-            yield return new WaitForSeconds(1.1f);
-            Battle.EndBattle();
+            enemyDead = true;
+        }
+        //ApplyStatusEff(player, enemy);
+        //
+        else
+        {
+            foreach (Status status in enemy.statuses)
+            {
+                ApplyStatusEff(player, enemy, status);
+                yield return new WaitForSeconds(1.1f);
+                if (enemy.health <= 0)
+                {
+                    enemyDead = true;
+                    break;
+                }
+            }
+        }
+        if (enemyDead)
+        {
+                BattleUI.TextAdd(enemy, 25, "black", string.Format("has been defeated!"));
+                yield return new WaitForSeconds(1.1f);
+                Battle.EndBattle();
         }
         else
         {
+            // enemy attack
             SkillAttack(enemy, player, EnemyHolder.enemy.skills[Random.Range(0, EnemyHolder.enemy.skills.Count)]);
+            if (player.statuses.Count != 0)
+            {
+                yield return new WaitForSeconds(1.1f);
+            }
+            // check if player died
+            foreach (Status status in player.statuses)
+            {
+                ApplyStatusEff(enemy, player, status);
+                yield return new WaitForSeconds(1.1f);
+            }
         }
         //
         SkillPageImagesOn(true);
@@ -198,4 +234,5 @@ public class DamageCalc : MonoBehaviour
         SkillPage.rightButton.gameObject.SetActive(yes);
         SkillPage.pageNum.gameObject.SetActive(yes);
     }
+
 }

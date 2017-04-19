@@ -11,15 +11,9 @@ public class GameManager : MonoBehaviour {
 
     void Start()
     {
-        //Screen.SetResolution(1024, 768, true);
-        // Set beginning game values here
-        //activate skill page
         OpenClosePage("Skill Page");
-        OpenClosePage("Skill Page");
+        OpenClosePage("Battle UI");
         OpenClosePage("InventoryEquipment");
-        OpenClosePage("InventoryEquipment");
-        //GameObject.FindGameObjectWithTag("Skill Page").transform.FindChild("Skill Desc").gameObject.SetActive(false);
-        //GameObject.FindGameObjectWithTag("Skill Page").SetActive(false);
     }
 
     void Update()
@@ -28,16 +22,7 @@ public class GameManager : MonoBehaviour {
         {
             if (Input.GetButtonDown("Skill"))
             {
-                SoundDatabase.PlaySound(34);
-                //playerSkills.SkillUpdate();
-                if (!OpenClosePage("Skill Page"))
-                {
-                    if (SkillPage.quickSkillsPressed)
-                    {
-                        SkillPage.AfterQuickSkillButonPress();
-                    }
-                    GameObject.FindGameObjectWithTag("Skill Page").transform.FindChild("Skill Desc").gameObject.SetActive(false);
-                }
+                CheckSkillPage();
             }
             if (!inBattle)
             {
@@ -54,6 +39,24 @@ public class GameManager : MonoBehaviour {
                 }
             }
         }
+    }
+
+    public static void CheckSkillPage()
+    {
+        SoundDatabase.PlaySound(34);
+        //playerSkills.SkillUpdate();
+        if (OpenClosePage("Skill Page"))
+        {
+            if (SkillPage.quickSkillsPressed)
+            {
+                SkillPage.AfterQuickSkillButonPress();
+            }
+        }
+        else
+        {
+            GameObject.FindGameObjectWithTag("Skill Page").transform.FindChild("Skill Desc").gameObject.SetActive(false);
+        }
+
     }
 
     public static void InvisibleWallOn(bool yes)

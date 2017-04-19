@@ -94,7 +94,7 @@ public class Stats {
     public void ResetStatus()
     {
         statuses = new List<Status>();
-    }
+    }   
 
     public void HealFullHP()
     {
