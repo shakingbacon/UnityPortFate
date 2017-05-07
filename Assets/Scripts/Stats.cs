@@ -25,6 +25,7 @@ public class Stats {
     public Stat dodgeChance = new Stat();
     public Stat critChance = new Stat();
     public Stat critMulti = new Stat();
+    public int shield = 0;
     public int level = 0;
     public int abilityPoints = 0;
     public int skillPoints = 0;
@@ -32,10 +33,10 @@ public class Stats {
     public int maxExperience = 0;
     public int cash = 0;
     public List<Stat> statsList = new List<Stat>();
-    public List<Status> statuses = new List<Status>();
 
     public Stats()
     {
+        mingZi = "";
         job = new Job();
         strength = new Stat();
         intelligence = new Stat();
@@ -56,6 +57,7 @@ public class Stats {
         dodgeChance = new Stat();
         critChance = new Stat();
         critMulti = new Stat();
+        shield = 0;
         level = 0;
         abilityPoints = 0;
         skillPoints = 0;
@@ -91,10 +93,36 @@ public class Stats {
         }
     }
 
-    public void ResetStatus()
+    public int GetLatesetShieldAmount()
     {
-        statuses = new List<Status>();
-    }   
+        if (shield.Count == 0)
+        {
+            return 0;
+        }
+        else
+        {
+            return shield[shield.Count - 1];
+        }
+        
+    }
+
+    public void HealHP(int amount)
+    {
+        health += amount;
+        if (health > maxHealth.totalAmount)
+        {
+            health = maxHealth.totalAmount;
+        }
+    }
+
+    public void HealMP(int amount)
+    {
+        mana += amount;
+        if (mana > maxMana.totalAmount)
+        {
+            mana = maxMana.totalAmount;
+        }
+    }
 
     public void HealFullHP()
     {

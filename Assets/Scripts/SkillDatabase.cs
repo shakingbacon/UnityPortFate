@@ -14,15 +14,15 @@ public class SkillDatabase : MonoBehaviour {
         skills.Add(new Skill("Tsunami", 2, 28, "Wash away and drown", 10, Skill.SkillType.Magical));
         skills.Add(new Skill("Tornado", 3, 30, "Things around you fly", 10, Skill.SkillType.Magical));
         skills.Add(new Skill("Thunderstorm", 4, 27, "Call thunder", 10, Skill.SkillType.Magical));
-        skills.Add(new Skill("Mana Gaurd", 5, "Mana gaurds your health", 5, Skill.SkillType.Active));
-        skills.Add(new Skill("Restore", 6, "Restore Health", 6, Skill.SkillType.Active));
-        skills.Add(new Skill("Meditate", 7, "Focus your mind", 6, Skill.SkillType.Active));
-        skills.Add(new Skill("Corpse Drain", 8, "Gain more when killing", 8, Skill.SkillType.Passive));
+        skills.Add(new Skill("Mana Gaurd", 5, 19, "Mana gaurds your health", 5, Skill.SkillType.Active));
+        skills.Add(new Skill("Restore", 6, 14, "Restore Health", 6, Skill.SkillType.Active));
+        skills.Add(new Skill("Meditate", 7, 10, "Focus your mind", 6, Skill.SkillType.Active));
+        skills.Add(new Skill("Corpse Drain", 8, "Gain more when killing", 3, Skill.SkillType.Passive));
         skills.Add(new Skill("Max MP +", 9, "Expand your mind", 8, Skill.SkillType.Passive));
         skills.Add(new Skill("Magic Mastery", 10, "Train your skills", 8, Skill.SkillType.Passive));
         skills.Add(new Skill("Mana Armor", 11, "Mana is armor", 3, Skill.SkillType.Passive));
         skills.Add(new Skill("As One", 12, "Become one with yourself", 1, Skill.SkillType.Passive));
-        skills.Add(new Skill("Barrier", 13, "Create a barrier", 6, Skill.SkillType.Active));
+        skills.Add(new Skill("Barrier", 13, 10, "Create a barrier", 6, Skill.SkillType.Active));
         skills.Add(new Skill("Elemental Affinty", 14, "Learn the elements", 5, Skill.SkillType.Passive));
         skills.Add(new Skill("Volcano Shield", 15, "Harden yourself with fire", 3, Skill.SkillType.Active));
         skills.Add(new Skill("Purity", 16, "Purify yourself", 3, Skill.SkillType.Active));
@@ -38,7 +38,7 @@ public class SkillDatabase : MonoBehaviour {
         skills.Add(new Skill("Solar Flare", 25, "Power of the sun", 10, Skill.SkillType.Magical));
         skills.Add(new Skill("Lunar Blade", 26, "Power of the moon", 10, Skill.SkillType.Magical));
         skills.Add(new Skill("Elemental Strike", 27, "Strike with elements", 10, Skill.SkillType.Physical));
-        skills.Add(new Skill("Shining Rays", 28, "Call upon the light", 5, Skill.SkillType.Magical));
+        skills.Add(new Skill("Shining Rays", 28, "Call upon the light", 10, Skill.SkillType.Magical));
         skills.Add(new Skill("Razor Leaf", 29, "Sharp leaves", 10, Skill.SkillType.Physical));
         skills.Add(new Skill("Spirit Strike", 30, "Attack the soul", 10, Skill.SkillType.Magical));
         skills.Add(new Skill("Adaptation", 31, "Easy yourself", 3, Skill.SkillType.Active));
@@ -50,8 +50,9 @@ public class SkillDatabase : MonoBehaviour {
         skills.Add(new Skill("Lunatic", 37, "Crazy", 3, Skill.SkillType.Passive));
         skills.Add(new Skill("Photosynthesis", 38, "Absorb sun", 3, Skill.SkillType.Passive));
         skills.Add(new Skill("升天", 39, "Ascend", 3, Skill.SkillType.Passive));
-         skills.Add(new Skill("Gravity", 40, "Heavy", 3, Skill.SkillType.Magical));
+         skills.Add(new Skill("Gravity", 40, "Heavy", 3, Skill.SkillType.Passive));
         skills.Add(new Skill("Night's Shadow", 41, "Darkness", 3, Skill.SkillType.Passive));
+        //
         skills.Add(new Skill("Rising Tide", 42, "High tide", 3, Skill.SkillType.Passive));
         //skills.Add(new Skill("", 43, "", , Skill.SkillType.));
         //skills.Add(new Skill("", 44, "", , Skill.SkillType.));
@@ -77,9 +78,9 @@ public class SkillDatabase : MonoBehaviour {
             15, 16, 17, 18, 31, 32, 33, 34,
             -1, -1, -1, -1, 35, 36, 37, 8,
             23, 20, 21, 22, 38, 39, 40, 41,
-            27, 19, 14, -1, -1, -1, 42, -1}),
+            27, 19, 14, -1, -1, -1, -1, -1}),
             new List<int>(new []{
-            5, 9, 10, 12, -1, -1, -1, -1,
+            5, 9, 10, 12, 28, -1, -1, -1,
             6, 7, 11, 13, -1, -1, -1, -1,
             -1, -1, -1, -1, -1, -1, -1, -1,
             -1, -1, -1, -1, -1, -1, -1, -1,

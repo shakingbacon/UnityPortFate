@@ -4,10 +4,13 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
 
+    public GUISkin skin;
     public static bool invisibleWallOn = false;
     static string showingPage;
     public static bool inBattle;
     public bool setupBattle;
+    public static bool hoveringBattleStatus;
+    public static Transform hoveringBattleStatusParent;
 
     void Start()
     {
@@ -22,6 +25,7 @@ public class GameManager : MonoBehaviour {
         {
             if (Input.GetButtonDown("Skill"))
             {
+                SkillPage.UpdateSkillPoints();
                 CheckSkillPage();
             }
             if (!inBattle)
@@ -39,6 +43,27 @@ public class GameManager : MonoBehaviour {
                 }
             }
         }
+    }
+    void OnGUI()
+    {
+        //GUI.skin = skin;
+        ////print(hoveringBattleStatus);
+        //if (hoveringBattleStatus)
+        //{
+        //    float height = Screen.height * 0.25f;
+        //    float width = Screen.width * 0.40f;
+        //    if (hoveringBattleStatusParent == BattleUI.enemyStatus)
+        //    {
+        //        GUI.Box(new Rect(Event.current.mousePosition.x - width, Event.current.mousePosition.y, width, height),
+        //            hoveringBattleStatusParent.GetComponentInChildren<StatusHolder>().MakeStatusTooltip());  
+        //    }
+        //    else
+        //    {
+        //        GUI.Box(new Rect(Event.current.mousePosition.x, Event.current.mousePosition.y, width, height),
+        //            hoveringBattleStatusParent.GetComponentInChildren<StatusHolder>().MakeStatusTooltip());
+        //    }
+
+        //}
     }
 
     public static void CheckSkillPage()

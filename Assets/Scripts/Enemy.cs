@@ -16,18 +16,21 @@ public class Enemy
         enemyID = id;
         enemyIMG = Resources.Load<Sprite>("Enemy Icons/" + name);
         stats.mingZi = name;
-        stats.maxHealth.totalAmount = hp;
-        stats.maxMana.totalAmount = mp;
-        stats.physAtk.totalAmount = phys;
-        stats.magicAtk.totalAmount = mag;
-        stats.armor.totalAmount = armor;
-        stats.resist.totalAmount = resist;
-        stats.hitChance.totalAmount = hit;
-        stats.dodgeChance.totalAmount = dodge;
-        stats.critChance.totalAmount = crit;
-        stats.critMulti.totalAmount = multi;
+        stats.maxHealth.baseAmount = hp;
+        stats.maxMana.baseAmount = mp;
+        stats.physAtk.baseAmount = phys;
+        stats.magicAtk.baseAmount = mag;
+        stats.armor.baseAmount = armor;
+        stats.resist.baseAmount = resist;
+        stats.hitChance.baseAmount = hit;
+        stats.dodgeChance.baseAmount = dodge;
+        stats.critChance.baseAmount = crit;
+        stats.critMulti.baseAmount = multi;
         stats.experience = exp;
         stats.cash = loot;
+        stats.dmgOutput.baseAmount = 100;
+        stats.dmgTaken.baseAmount = 100;
+        stats.manaComs.baseAmount = 100;
     }
 
     public Enemy(Enemy enemy)
@@ -36,19 +39,23 @@ public class Enemy
         enemyID = enemy.enemyID;
         enemyIMG = Resources.Load<Sprite>("Enemy Icons/" + enemy.stats.mingZi);
         stats.mingZi = enemy.stats.mingZi;
-        stats.maxHealth.totalAmount = enemy.stats.maxHealth.totalAmount;
-        stats.maxMana.totalAmount = enemy.stats.maxMana.totalAmount;
-        stats.physAtk.totalAmount = enemy.stats.physAtk.totalAmount;
-        stats.magicAtk.totalAmount = enemy.stats.magicAtk.totalAmount;
-        stats.armor.totalAmount = enemy.stats.armor.totalAmount;
-        stats.resist.totalAmount = enemy.stats.resist.totalAmount;
-        stats.hitChance.totalAmount = enemy.stats.hitChance.totalAmount;
-        stats.dodgeChance.totalAmount = enemy.stats.dodgeChance.totalAmount;
-        stats.critChance.totalAmount = enemy.stats.critChance.totalAmount;
-        stats.critMulti.totalAmount = enemy.stats.critMulti.totalAmount;
+        stats.maxHealth.baseAmount = enemy.stats.maxHealth.baseAmount;
+        stats.maxMana.baseAmount = enemy.stats.maxMana.baseAmount;
+        stats.physAtk.baseAmount = enemy.stats.physAtk.baseAmount;
+        stats.magicAtk.baseAmount = enemy.stats.magicAtk.baseAmount;
+        stats.armor.baseAmount = enemy.stats.armor.baseAmount;
+        stats.resist.baseAmount = enemy.stats.resist.baseAmount;
+        stats.hitChance.baseAmount = enemy.stats.hitChance.baseAmount;
+        stats.dodgeChance.baseAmount = enemy.stats.dodgeChance.baseAmount;
+        stats.critChance.baseAmount = enemy.stats.critChance.baseAmount;
+        stats.critMulti.baseAmount = enemy.stats.critMulti.baseAmount;
         stats.experience = enemy.stats.experience;
         stats.cash = enemy.stats.cash;
+        stats.dmgOutput.baseAmount = enemy.stats.dmgOutput.baseAmount;
+        stats.dmgTaken.baseAmount = enemy.stats.dmgTaken.baseAmount;
+        stats.manaComs.baseAmount = enemy.stats.manaComs.baseAmount;
         skills.Add(new Skill(SkillDatabase.GetSkill(0)));
+        stats.SimpleStatUpdate();
         UpdateSkills();
     }
 

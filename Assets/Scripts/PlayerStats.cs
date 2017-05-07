@@ -10,24 +10,22 @@ public class PlayerStats: MonoBehaviour
 
     void Start()
     {
-        stats.level = 1;
-        stats.skillPoints = 1;
         stats.job = JobDatabase.GetJob(0);
         stats.strength.baseAmount = 3;
         stats.intelligence.baseAmount = 3;
         stats.agility.baseAmount = 3;
         stats.luck.baseAmount = 3;
-        stats.maxExperience = 25;
         stats.critMulti.baseAmount = 225;
         stats.dmgOutput.baseAmount = 100;
         stats.dmgTaken.baseAmount = 100;
         stats.manaComs.baseAmount = 100;
         stats.cash = 100;
+        LevelUp();
         stats.skillPoints = 100;
-        stats.SimpleStatUpdate();
         StatsUpdate();
         stats.HealFullHP();
         stats.HealFullMP();
+        StatusBar.UpdateSliders();
     }
     //void StatsUpdate()
     //{
@@ -100,6 +98,26 @@ public class PlayerStats: MonoBehaviour
     //    }
 
     // Use this for initialization
+
+
+    public static void LevelUp()
+    {
+        stats.level += 1;
+        stats.abilityPoints = 6;
+        if (stats.level % 5 == 0)
+        {
+            stats.skillPoints += 2;
+
+        }
+        else
+        {
+            stats.skillPoints += 1;
+        }
+        stats.experience = 0;
+        stats.maxExperience = (9 + stats.level) * stats.level + 11 * stats.level;
+        StatsUpdate();
+        StatusBar.UpdateStatusBar();
+    }
 
     public static void StatsUpdate()
     {

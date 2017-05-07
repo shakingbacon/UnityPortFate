@@ -12,16 +12,19 @@ public class InvEq : MonoBehaviour
     public static Transform inventory;
     public static Transform statsButton;
     public static GameObject playerImage;
+    public static Text cash;
 
 
     void Start()
     {
         inventoryEquipment = gameObject.transform;
-        playerImage = inventoryEquipment.FindChild("Player Image").gameObject;
+        cash = inventoryEquipment.FindChild("Cash").GetComponent<Text>();
+        playerImage = inventoryEquipment.FindChild("Player Image Box").gameObject;
         inventory = gameObject.transform.FindChild("Inventory");
         statsButton = gameObject.transform.FindChild("Stats Button");
         statsButton.GetComponent<Button>().onClick.AddListener(() => ShowStats(!showStats));
         inventoryEquipment.FindChild("Close Button").GetComponent<Button>().onClick.AddListener(() => GameManager.OpenClosePage("InventoryEquipment"));
+        InvEq.UpdateCashText();
     }
 
     void OnGUI()
@@ -33,6 +36,11 @@ public class InvEq : MonoBehaviour
             float height = 80 * (Screen.height / 600f);
             GUI.DrawTexture(new Rect(Event.current.mousePosition.x, Event.current.mousePosition.y - height, width, height), Resources.Load<Texture2D>("Item Icons/" + holdingItem.itemName));
         }
+    }
+
+    public static void UpdateCashText()
+    {
+        cash.text = "Cash: $" + PlayerStats.stats.cash;
     }
 
     public static void UpdateHoldingItem(Item item, bool isholding)

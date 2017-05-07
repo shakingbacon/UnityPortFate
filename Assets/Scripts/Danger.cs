@@ -3,14 +3,12 @@ using System.Collections;
 
 public class Danger : MonoBehaviour {
     CameraFollow cameraFollow;
-    GameManager manager;
     GameObject player;
     Vector3 playerPos, cameraPos;
     
 
 	// Use this for initialization
 	void Start () {
-        manager  = GameObject.FindGameObjectWithTag("Manager").GetComponent<GameManager>();
         //player = GameObject.FindGameObjectWithTag("Player");
         //cameraFollow = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraFollow>();
 	}

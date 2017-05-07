@@ -4,23 +4,23 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerImage : MonoBehaviour {
-    public static Transform playerImage;
+    public static Transform playerImageGameObject;
 
     void Start()
     {
-        playerImage = gameObject.transform;
+        playerImageGameObject = gameObject.transform;
     }
 
     public static void UpdateImage(string where, string name, bool enable)
     {
-        playerImage.FindChild(where).GetComponent<Image>().sprite = Resources.Load<Sprite>("Player/" + name);
-        playerImage.FindChild(where).GetComponent<Image>().preserveAspect = true;
-        playerImage.FindChild(where).GetComponent<Image>().enabled = enable;
+        playerImageGameObject.FindChild(where).GetComponent<Image>().sprite = Resources.Load<Sprite>("Player/" + name);
+        playerImageGameObject.FindChild(where).GetComponent<Image>().preserveAspect = true;
+        playerImageGameObject.FindChild(where).GetComponent<Image>().enabled = enable;
     }
     public static void UpdateImage(string where, Item item, bool enable)
     {
-        playerImage.FindChild(where).GetComponent<Image>().sprite = Resources.Load<Sprite>("Player/" + item.itemName);
-        playerImage.FindChild(where).GetComponent<Image>().preserveAspect = true;
-        playerImage.FindChild(where).GetComponent<Image>().enabled = enable;
+        playerImageGameObject.FindChild(where).GetComponent<Image>().sprite = Resources.Load<Sprite>("Player/" + item.itemName);
+        playerImageGameObject.FindChild(where).GetComponent<Image>().preserveAspect = true;
+        playerImageGameObject.FindChild(where).GetComponent<Image>().enabled = enable;
     }
 }

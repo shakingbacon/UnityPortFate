@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class Battle : MonoBehaviour {
-    static CameraFollow cameraFollow;
     static GameObject player;
     RectTransform enemyRect;
     public static int turnCount;
@@ -17,7 +16,6 @@ public class Battle : MonoBehaviour {
     void Start ()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        cameraFollow = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraFollow>();
         // Buttons
         //    enemyStats.enemy.stats, 
         //    player.transform.FindChild("Player Skills").GetComponent<PlayerSkills>().FindSkill(0)));
@@ -31,36 +29,36 @@ public class Battle : MonoBehaviour {
 
     public static void SetupBattle()
     {
-        BattleUI.quickSkillDesc.text = "";
-        GameManager.inBattle = true;
-        GameManager.OpenClosePage("Battle UI");
-        GameManager.OpenClosePage("Skill Page");
-        QuickSkills.MoveToBattleUI();
-                GameManager.OpenClosePage("Skill Page");
+        if (!GameManager.inBattle)
+        {
+            GameManager.inBattle = true;
+            GameManager.OpenClosePage("Battle UI");
+            GameManager.OpenClosePage("Skill Page");
+            QuickSkills.MoveToBattleUI();
+            GameManager.OpenClosePage("Skill Page");
+            if (SkillPage.quickSkillsPressed)
+            {
+                SkillPage.AfterQuickSkillButonPress();
+            }
+            Camera.main.GetComponent<CameraFollow>().enabled = false;
+            BattleUI.MovePlayer(BattleUI.battleUI.FindChild("Player Image Box"));
+            //player.transform.position = BattleUI.playerPosition;
+            // Enemy Texts
+            SkillPage.skillPoints.gameObject.SetActive(false);
+            SkillPage.quickSkillsButton.gameObject.SetActive(false);
+            SkillPage.quickSkillsInfo.gameObject.SetActive(false);
+        }
+        SoundDatabase.PlayMusic(Random.Range(1, 8));
         turnCount = -1;
         BattleUI.NextTurn();
         BattleUI.TextReset();
         BattleUI.ResetAllStatus();
-        if (SkillPage.quickSkillsPressed)
-        {
-            SkillPage.AfterQuickSkillButonPress();
-        }
-        PlayerStats.stats.ResetStatus();
-        SoundDatabase.PlayMusic(Random.Range(1, 8));
+        BattleUI.quickSkillDesc.text = "";
         EnemyHolder.enemy = new Enemy(EnemyDatabase.enemies[(Random.Range(0, EnemyDatabase.enemies.Count))]);
         BattleUI.enemyName.text = EnemyHolder.enemy.stats.mingZi;
         EnemyHolder.enemy.stats.HealFullHP();
         EnemyHolder.enemy.stats.HealFullMP();
         EnemyHolder.enemyHolder.GetComponent<Image>().sprite = EnemyHolder.enemy.enemyIMG;
-       
-        // positions are scaled to screen size
-        Camera.main.GetComponent<CameraFollow>().enabled = false;
-        BattleUI.CopyPlayer();
-        //player.transform.position = BattleUI.playerPosition;
-        // Enemy Texts
-        SkillPage.skillPoints.gameObject.SetActive(false);
-        SkillPage.quickSkillsButton.gameObject.SetActive(false);
-        SkillPage.quickSkillsInfo.gameObject.SetActive(false);
         BattleUI.UpdateEnemySliders();
     }
 
@@ -78,6 +76,7 @@ public class Battle : MonoBehaviour {
         Camera.main.GetComponent<CameraFollow>().enabled = true;
         SkillPage.AfterLearnedSkillButtonPress();
         QuickSkills.MoveToSkillPage();
+        BattleUI.MovePlayer(InvEq.playerImage.transform);
         SoundDatabase.PlayMusic(8);
     }
 

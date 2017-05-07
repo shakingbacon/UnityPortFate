@@ -21,7 +21,9 @@ public class Skill {
     public int skillCritChance;
     public int skillCritMulti;
     public int skillCooldown;
-    public int skillTurnEnd;
+    public int skillDuration;
+    public int skillCooldownEnd;
+    public bool skillOnCooldown;
     public StatusEffects skillStatusEff = new StatusEffects();
     public SkillType skillType;
 
@@ -68,4 +70,5 @@ public class Skill {
     {
         skillID = -1;
     }
+
 }

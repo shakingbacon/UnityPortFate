@@ -154,6 +154,7 @@ public class SkillPage : MonoBehaviour {
                     = skillPage.FindChild("Skills").transform.GetChild(i).GetComponent<SkillHolder>().skill.skillIMG;
             }
         }
+        skillPage.FindChild("Page Num").GetComponent<Text>().text = (pageInt + 1).ToString();
         checkPages();
     }
 }

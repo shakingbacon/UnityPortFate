@@ -19,7 +19,7 @@ public class BattleUI : MonoBehaviour {
     public static Text quickSkillNotifier;
     public static Text quickSkillDesc;
     public static Transform quickSkills;
-    //public static GameObject playerCopy;
+    public Transform statusHolderPrefab;
 
     void Start()
     {
@@ -38,95 +38,140 @@ public class BattleUI : MonoBehaviour {
         turn = battleUI.FindChild("Player Box").FindChild("Turn").GetComponent<Text>();
         quickSkillNotifier = battleUI.FindChild("Player Box").FindChild("Quick Skills Notifier").GetComponent<Text>();
         quickSkillDesc = battleUI.FindChild("Player Box").FindChild("Quick Skills Desc").GetComponent<Text>();
+        //GameManager.OpenClosePage("InventoryEquipment");
     }
+    public static void RemoveStatus(Transform who, int id)
+    {
+        foreach (Transform status in who)
+        {
+            if (status.GetComponent<StatusHolder>().status.statusID == id)
+            {
+                Destroy(status.gameObject);
+            }
+        }
+    }
+    public static void RemoveActive(Transform who, int id)
+    {
+        foreach (Transform skill in who)
+        {
+            if (skill.GetComponent<StatusHolder>().skill.skillID == id)
+            {
+                Destroy(skill.gameObject);
+}
+        }
+    }
+      
 
     public static void ResetPlayerStatus()
     {
-        for (int i = 0; i < playerStatus.childCount; i += 1)
+        foreach (Transform status in playerStatus)
         {
-            if (playerStatus.GetChild(i).GetComponent<StatusHolder>().status.statusID == -1)
-            {
-                playerStatus.GetChild(i).GetComponent<StatusHolder>().status = new Status();
-                playerStatus.GetChild(i).GetComponent<StatusHolder>().UpdateStatus();
-            }
+            status.GetComponent<StatusHolder>().skill.skillOnCooldown = false;
+            Destroy(status.gameObject);
         }
     }
 
     public static void ResetEnemyStatus()
     {
-        for (int i = 0; i < enemyStatus.childCount; i += 1)
+        foreach (Transform status in enemyStatus)
         {
-            if (enemyStatus.GetChild(i).GetComponent<StatusHolder>().status.statusID == -1)
-            {
-                enemyStatus.GetChild(i).GetComponent<StatusHolder>().status = new Status();
-                enemyStatus.GetChild(i).GetComponent<StatusHolder>().UpdateStatus();
-            }
+            status.GetComponent<StatusHolder>().skill.skillOnCooldown = false;
+            Destroy(status.gameObject);
         }
     }
 
     public static void ResetAllStatus()
     {
-        for (int i = 0; i < playerStatus.childCount; i += 1)
+        ResetPlayerStatus();
+        foreach (List<Skill> page in PlayerSkills.learnedSkills)
         {
-            if (playerStatus.GetChild(i).GetComponent<StatusHolder>().status.statusID != -1)
+            foreach (Skill skill in page)
             {
-                playerStatus.GetChild(i).GetComponent<StatusHolder>().status = new Status();
-                playerStatus.GetChild(i).GetComponent<StatusHolder>().UpdateStatus();
+                skill.skillOnCooldown = false;
             }
         }
-        for (int i = 0; i < enemyStatus.childCount; i += 1)
-        {
-            if (enemyStatus.GetChild(i).GetComponent<StatusHolder>().status.statusID != -1)
-            {
-                enemyStatus.GetChild(i).GetComponent<StatusHolder>().status = new Status();
-                enemyStatus.GetChild(i).GetComponent<StatusHolder>().UpdateStatus();
-            }
-        }
+        ResetEnemyStatus();
     }
 
-    public static void AddStatus(Stats victim, Status status)
-    {
-        if (victim.statuses.Count == 6)
-        {
-            victim.statuses.RemoveAt(0);
-            victim.statuses.Add(status);
-        }
-        else
-        {
-            victim.statuses.Add(status);
-        }
-    }
-
-    public static void UpdateAllStatusHolder(Stats victim)
+    public static void AddStatus(bool isPlayer, Status status)
     {
         Transform who;
-        if (victim == EnemyHolder.enemy.stats)
-        {
-            who = enemyStatus;
-        }
-        else
+        if (isPlayer)
         {
             who = playerStatus;
         }
-        int i = 0;
-        foreach(Status status in victim.statuses)
+        else
         {
-            who.GetChild(i).GetComponent<StatusHolder>().status = status;
-            who.GetChild(i).GetComponent<StatusHolder>().UpdateStatus();
-            i += 1;
-         }
-
+            who = enemyStatus;
+        }
+        Transform newStatus = Instantiate(battleUI.GetComponent<BattleUI>().statusHolderPrefab, who);
+        newStatus.transform.localScale = new Vector3(1, 1, 1);
+        newStatus.GetComponent<StatusHolder>().status = status;
+        newStatus.GetComponent<StatusHolder>().UpdateStatus();
+    }
+    public static void AddStatus(bool isPlayer, Skill skill)
+    {
+        Transform who;
+        if (isPlayer)
+        {
+            who = playerStatus;
+        }
+        else
+        {
+            who = enemyStatus;
+        }
+        Transform newStatus = Instantiate(battleUI.GetComponent<BattleUI>().statusHolderPrefab, who);
+        newStatus.transform.localScale = new Vector3(1, 1, 1);
+        newStatus.GetComponent<StatusHolder>().skill = skill;
+        newStatus.GetComponent<StatusHolder>().turnEnd = Battle.turnCount + skill.skillDuration;
+        AddCooldown(skill);
+        newStatus.GetComponent<StatusHolder>().UpdateStatus();
     }
 
-    public static void CopyPlayer()
+    public static void AddCooldown(Skill skill)
+    {
+        skill.skillCooldownEnd = Battle.turnCount + skill.skillCooldown;
+        skill.skillOnCooldown = true;
+    }
+
+    //public static void UpdateAllStatusHolder(Stats victim)
+    //{
+    //    Transform who;
+    //    if (victim == EnemyHolder.enemy.stats)
+    //    {
+    //        who = enemyStatus;
+    //    }
+    //    else
+    //    {
+    //        who = playerStatus;
+    //    }
+    //    int i = 0;
+    //    foreach(Status status in victim.statuses)
+    //    {
+    //        who.GetChild(i).GetComponent<StatusHolder>().status = status;
+    //        who.GetChild(i).GetComponent<StatusHolder>().UpdateStatus();
+    //        i += 1;
+    //     }
+
+    //}
+
+    public static void MovePlayer(Transform parent)
     {
         if (GameManager.OpenClosePage("InventoryEquipment"))
         {
             GameManager.OpenClosePage("InventoryEquipment");
         }
-        playerCopy = Instantiate(GameObject.FindGameObjectWithTag("Player Image"), battleUI);
-        playerCopy.GetComponent<Image>().SetNativeSize();
-        playerCopy.transform.localPosition = new Vector3(-185, 150);
+        PlayerImage.playerImageGameObject.transform.SetParent(parent);
+        if (GameManager.inBattle)
+        {
+            PlayerImage.playerImageGameObject.GetComponent<Image>().SetNativeSize();
+            PlayerImage.playerImageGameObject.transform.localPosition = new Vector3(0, 0);
+        }
+        else
+        {
+            PlayerImage.playerImageGameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(298,276);
+            PlayerImage.playerImageGameObject.transform.localPosition = new Vector3(0, 0);
+        }
         GameManager.OpenClosePage("InventoryEquipment");
     }
 
@@ -159,7 +204,6 @@ public class BattleUI : MonoBehaviour {
         playerScroll.GetComponentInChildren<Scrollbar>().value = 1;
         enemyScroll.GetComponentInChildren<Scrollbar>().value = 1;
     }
-
 
     public static void UpdateEnemySliders()
     {

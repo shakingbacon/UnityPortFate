@@ -83,6 +83,7 @@
      <Compile Include="Assets\Scripts\SlotButton.cs" />
      <Compile Include="Assets\Scripts\SoundDatabase.cs" />
      <Compile Include="Assets\Scripts\Stat.cs" />
+     <Compile Include="Assets\Scripts\StatPage.cs" />
      <Compile Include="Assets\Scripts\StatUtilities.cs" />
      <Compile Include="Assets\Scripts\StaticCoroutine.cs" />
      <Compile Include="Assets\Scripts\Stats.cs" />
@@ -92,6 +93,7 @@
      <Compile Include="Assets\Scripts\StatusHolder.cs" />
      <Compile Include="Assets\Scripts\TextureScale.cs" />
      <Compile Include="Assets\Scripts\Tooltip.cs" />
+     <Compile Include="Assets\Scripts\VictoryScreen.cs" />
      <Compile Include="Assets\Scripts\Warp.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>

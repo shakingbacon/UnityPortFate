@@ -149,7 +149,33 @@ public class SkillHolder : MonoBehaviour {
                     }
                     else
                     {
-                        StartCoroutine(DamageCalc.StartBattle(PlayerStats.stats, EnemyHolder.enemy.stats, skill));
+                        bool alreadyActive = false;
+                        bool onCooldown = false;
+                        if (skill.skillType == Skill.SkillType.Active)
+                        {
+                            if (skill.skillOnCooldown)
+                            {
+                                onCooldown = true;
+                                StartCoroutine(showTextForTime(BattleUI.quickSkillNotifier, "On Cooldown! Turns Left: " + (skill.skillCooldownEnd - Battle.turnCount), 1));
+                            }
+                            foreach (Transform status in BattleUI.playerStatus)
+                            {
+                                if (status.GetComponent<StatusHolder>().skill.skillID == skill.skillID)
+                                {
+                                    alreadyActive = true;
+                                    StartCoroutine(showTextForTime(BattleUI.quickSkillNotifier, "Already Active!", 1));
+                                    break;
+                                }
+                            }
+                        }
+                        if (!alreadyActive && !onCooldown)
+                        {
+                            StartCoroutine(DamageCalc.StartBattle(PlayerStats.stats, EnemyHolder.enemy.stats, skill));
+                        }
+                        else
+                        {
+                            SoundDatabase.PlaySound(33);
+                        }
                     }
                 }
                 else
@@ -174,7 +200,33 @@ public class SkillHolder : MonoBehaviour {
                     }
                     else
                     {
-                        StartCoroutine(DamageCalc.StartBattle(PlayerStats.stats, EnemyHolder.enemy.stats, skill));
+                        bool alreadyActive = false;
+                        bool onCooldown = false;
+                        if (skill.skillCooldown != 0)
+                        {
+                            if (skill.skillOnCooldown)
+                            {
+                                onCooldown = true;
+                                StartCoroutine(showTextForTime("On Cooldown! Turns Left: " + (skill.skillCooldownEnd - Battle.turnCount), 1));
+                            }
+                            foreach (Transform status in BattleUI.playerStatus)
+                            {
+                                if (status.GetComponent<StatusHolder>().skill.skillID == skill.skillID)
+                                {
+                                    alreadyActive = true;
+                                    StartCoroutine(showTextForTime("Already Active!", 1));
+                                    break;
+                                }
+                            }
+                        }
+                        if (!alreadyActive && !onCooldown)
+                        {
+                            StartCoroutine(DamageCalc.StartBattle(PlayerStats.stats, EnemyHolder.enemy.stats, skill));
+                        }
+                        else
+                        {
+                            SoundDatabase.PlaySound(33);
+                        }
                     }
                 }
                 else
@@ -289,6 +341,7 @@ public class SkillHolder : MonoBehaviour {
         {
             GameObject.FindGameObjectWithTag("Skill Page").transform.FindChild("Skill Desc").gameObject.SetActive(false);
             GameObject.FindGameObjectWithTag("Skill Page").transform.FindChild("Skill Desc").FindChild("Notifier Text").GetComponent<Text>().text = "";
+            showingSkillPageNotifier = false;
         }
     }
 

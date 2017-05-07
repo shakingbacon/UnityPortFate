@@ -5,18 +5,44 @@ using UnityEngine.UI;
 
 public class StatusBar : MonoBehaviour {
 
+    public static Transform statusBar;
     public static Slider healthBar;
     public static Slider manaBar;
     public static Slider expBar;
+    public static Slider shieldBar;
     public static Transform playerDesc;
+    public static bool hasShield;
+    public static int shieldMax;
 
     void Start()
     {
+        statusBar = gameObject.transform;
         healthBar = gameObject.transform.FindChild("HP Bar").GetComponent<Slider>();
         manaBar = gameObject.transform.FindChild("MP Bar").GetComponent<Slider>();
         expBar = gameObject.transform.FindChild("EXP Bar").GetComponent<Slider>();
+        shieldBar = gameObject.transform.FindChild("Shield Bar").GetComponent<Slider>();
         playerDesc = gameObject.transform.FindChild("Player Description");
         UpdateStatusBar();
+    }
+
+
+    public static void SetShield()
+    {
+        hasShield = true;
+        shieldMax = PlayerStats.a
+        statusBar.FindChild("Shield Bar").gameObject.SetActive(true);
+        SliderUtilities.UpdateSliderFillWithText(shieldBar, PlayerStats.stats.GetLatesetShieldAmount(), shieldMax, "Shield: ", "Shield Amount");
+    }
+
+    public static void UpdateShield()
+    {
+        SliderUtilities.UpdateSliderFillWithText(shieldBar, PlayerStats.stats.shield, shieldMax, "Shield: ", "Shield Amount");
+    }
+
+    public static void NoShield()
+    {
+        hasShield = false;
+        statusBar.FindChild("Shield Bar").gameObject.SetActive(false);
     }
 
     public static void UpdateDescription()

@@ -70,7 +70,14 @@ public class SoundDatabase : MonoBehaviour {
 
     public static void PlaySound(int id)
     {
-        soundDatabase.StartCoroutine(soundDatabase.MakeSound(id));
+        if (id == -1)
+        {
+            soundDatabase.StartCoroutine(soundDatabase.MakeSound(Random.Range(1, 8)));
+        }
+        else
+        {
+            soundDatabase.StartCoroutine(soundDatabase.MakeSound(id));
+        }
     }
 
 
