@@ -7,99 +7,6 @@ public class PlayerStats: MonoBehaviour
 {
     public static Stats stats = new Stats();
 
-
-    void Start()
-    {
-        stats.job = JobDatabase.GetJob(0);
-        stats.strength.baseAmount = 3;
-        stats.intelligence.baseAmount = 3;
-        stats.agility.baseAmount = 3;
-        stats.luck.baseAmount = 3;
-        stats.critMulti.baseAmount = 225;
-        stats.dmgOutput.baseAmount = 100;
-        stats.dmgTaken.baseAmount = 100;
-        stats.manaComs.baseAmount = 100;
-        stats.cash = 100;
-        LevelUp();
-        stats.skillPoints = 100;
-        StatsUpdate();
-        stats.HealFullHP();
-        stats.HealFullMP();
-        StatusBar.UpdateSliders();
-    }
-    //void StatsUpdate()
-    //{
-    //    stats
-    //}
-    //    public string playerName;
-    //    public Job job;
-    //    private JobDatabase jobDatabase;
-    //    public List<Stat> stats = new List<Stat>();
-    //    public GUISkin skin;
-    //    public Slider healthBar;
-    //    public Slider manaBar;
-    //    public Slider expBar;
-
-
-    //    void Start()
-    //    {
-
-    //        // any stat id will always be the same eg. id = 0 is always str
-    //        stats.Add(new Stat("Str", 0, 3));
-    //        stats.Add(new Stat("Int", 1, 3));
-    //        stats.Add(new Stat("Agi", 2, 3));
-    //        stats.Add(new Stat("Luk", 3, 3));
-    //        stats.Add(new Stat("HP", 4));
-    //        stats.Add(new Stat("Max HP"stats);
-    //        stats.Add(new Stat("MP", 6));
-    //        stats.Add(new Stat("Max MP"stats);
-    //        stats.Add(new Stat("Phys Atk", 8));
-    //        stats.Add(new Stat("Magic Atk".magicAtk);
-    //        stats.Add(new Stat("Armor", 10));
-    //        stats.Add(new Stat("Resist", 11));
-    //        stats.Add(new Stat("Hit Rate", 12));
-    //        stats.Add(new Stat("Dodge Rate", 17));
-    //        stats.Add(new Stat("Crit Rate", 14));
-    //        stats.Add(new Stat("Crit Multiplier", 15, 225));
-    //        stats.Add(new Stat("LV", 16, 1));
-    //        stats.Add(new Stat("AP", 17stats);
-    //        stats.Add(new Stat("SP", 18, 1));
-    //        stats.Add(new Stat("EXP", 19));
-    //        stats.Add(new Stat("Max EXP", 20));
-    //        stats.Add(new Stat("Cash", 21, 100));
-    //        jobDatabase = GameObject.FindGameObjectWithTag("Job Database").GetComponent<JobDatabase>();
-    //        for (int i = 0; i < jobDatabase.jobs.Count; i += 1)
-    //        {
-    //            if (jobDatabase.jobs[i].jobID == 0)
-    //            {
-    //                job = jobDatabase.jobs[i];
-    //                break;
-    //            }
-    //        }
-    //        StatsUpdate();
-    //        StatUtilities.HealHPFull(stats);
-    //        StatUtilities.HealMPFull(stats);
-    //        stats, 20).statAmount = 25;
-    //        StatsUpdate();
-    //        GameObject.FindGameObjectWithTag("Canvas").transform.FindChild("Status Bar").transform.FindChild("Player Description").transform.FindChild("Name").GetComponent<Text>().text = playerName;
-    //        GameObject.FindGameObjectWithTag("Canvas").transform.FindChild("Status Bar").transform.FindChild("Player Description").transform.FindChild("Job").GetComponent<Text>().text = job.jobName;
-
-    //        //BuffStat(8, 30);
-    //        //StatsUpdate();
-    //    }
-    //    void Update()
-    //    {
-    //        if (Input.GetButtonDown("Test"))
-    //        {
-
-    //        }
-    //        StatusBar();
-    //        //StatsUpdate();
-    //    }
-
-    // Use this for initialization
-
-
     public static void LevelUp()
     {
         stats.level += 1;
@@ -114,9 +21,16 @@ public class PlayerStats: MonoBehaviour
             stats.skillPoints += 1;
         }
         stats.experience = 0;
-        stats.maxExperience = (9 + stats.level) * stats.level + 11 * stats.level;
+        SetMaxExp();
         StatsUpdate();
+        stats.HealFullHP();
+        stats.HealFullMP();
         StatusBar.UpdateStatusBar();
+    }
+
+    public static void SetMaxExp()
+    {
+        stats.maxExperience = (9 + stats.level) * stats.level + 11 * stats.level;
     }
 
     public static void StatsUpdate()

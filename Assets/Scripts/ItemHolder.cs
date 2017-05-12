@@ -15,92 +15,103 @@ public class ItemHolder : MonoBehaviour {
 
     public void MouseClick()
     {
-        Transform secondParent = gameObject.transform.parent.parent; // Inventory or equipemnt name
-        Transform parent = gameObject.transform.parent; //slots
-        // inventory/Equipment click
-        if (!InvEq.isHoldingitem && item.itemID != -1)
+        if (!GameManager.inBattle)
         {
-            SoundDatabase.PlaySound(18);
-            //print("lift");
-            if (secondParent.name == "Equipment")
+            Transform secondParent = gameObject.transform.parent.parent; // Inventory or equipemnt name
+            Transform parent = gameObject.transform.parent; //slots
+            if (!InvEq.isHoldingitem && item.itemID != -1)
             {
-                Equipment.RemoveItemStats(item);
-                PlayerImage.UpdateImage(parent.name, new Item(), false);
-                InvEq.UpdateHoldingItem(item, true);
-                InvEq.CleanSlot(secondParent, index);
-                gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("Default Equip/" + parent.name);
-                gameObject.GetComponent<Image>().enabled = true;
-            }
-            else
-            {
-                InvEq.UpdateHoldingItem(item, true);
-                InvEq.CleanSlot(secondParent, index);
-            }
-            InvEq.UpdateStatsDesc();
-            MouseLeave();// no item will be in the slot so no desc
-        }
-        else if (InvEq.isHoldingitem && item.itemID == -1)
-        {
-            
-            //print("put down");
-            if (secondParent.name == "Equipment")
-            {
-                if (Equipment.CheckEquip(parent))
+                SoundDatabase.PlaySound(18);
+                //print("lift");
+                if (secondParent.name == "Equipment")
                 {
-                    SoundDatabase.PlaySound(0);
-                    //print("equip");
-                    InvEq.InsertItem(secondParent, index, InvEq.holdingItem.itemID);
-                    PlayerImage.UpdateImage(parent.name, item.itemName + CheckIsSecondHandWeapon(parent), true);
-                    InvEq.UpdateHoldingItem(new Item(), false);
-                    Equipment.AddItemStats(item);
-                    
+                    Equipment.RemoveItemStats(item);
+                    PlayerImage.UpdateImage(parent.name, new Item(), false);
+                    InvEq.UpdateHoldingItem(item, true);
+                    InvEq.CleanSlot(secondParent, index);
+                    gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("Default Equip/" + parent.name);
+                    gameObject.GetComponent<Image>().enabled = true;
                 }
                 else
                 {
-                    SoundDatabase.PlaySound(33);
+                    InvEq.UpdateHoldingItem(item, true);
+                    InvEq.CleanSlot(secondParent, index);
                 }
+                InvEq.UpdateStatsDesc();
+                MouseLeave();// no item will be in the slot so no desc
             }
-            else
+            else if (InvEq.isHoldingitem && item.itemID == -1)
             {
-                SoundDatabase.PlaySound(0);
-                //print("regular");
-                InvEq.InsertItem(secondParent, index, InvEq.holdingItem.itemID);
-                InvEq.UpdateHoldingItem(new Item(), false);
-            }
-            InvEq.UpdateStatsDesc();
-            MouseEnter();
-        }
-        else if (InvEq.isHoldingitem && item.itemID != -1)
-        {
-            //print("换");
-            Item willBeReplaceItem = InvEq.GetItem(secondParent, index);
-            if (secondParent.name == "Equipment")
-            {
-                if (Equipment.CheckEquip(parent))
-                {
-                    SoundDatabase.PlaySound(0);
-                    InvEq.InsertItem(secondParent, index, InvEq.holdingItem.itemID);
-                    PlayerImage.UpdateImage(parent.name, item.itemName + CheckIsSecondHandWeapon(parent), true);
 
-                    Equipment.AddItemStats(item);
-                    InvEq.UpdateHoldingItem(willBeReplaceItem);
-                    Equipment.RemoveItemStats(willBeReplaceItem);
-                    
+                //print("put down"); put down weapon
+                if (secondParent.name == "Equipment")
+                {
+                    if (Equipment.CheckEquip(parent))
+                    {
+                        if (GameManager.inTutorial)
+                        {
+                            Tutorial.equippedItem = true;
+                        }
+                        SoundDatabase.PlaySound(0);
+                        //print("equip");
+                        InvEq.InsertItem(secondParent, index, InvEq.holdingItem.itemID);
+                        PlayerImage.UpdateImage(parent.name, item.itemName + CheckIsSecondHandWeapon(parent), true);
+                        InvEq.UpdateHoldingItem(new Item(), false);
+                        Equipment.AddItemStats(item);
+
+                    }
+                    else
+                    {
+                        SoundDatabase.PlaySound(33);
+                    }
                 }
                 else
                 {
-                    SoundDatabase.PlaySound(33);
+                    SoundDatabase.PlaySound(0);
+                    //print("regular");
+                    InvEq.InsertItem(secondParent, index, InvEq.holdingItem.itemID);
+                    InvEq.UpdateHoldingItem(new Item(), false);
                 }
+                InvEq.UpdateStatsDesc();
+                MouseEnter();
             }
-            else
+            else if (InvEq.isHoldingitem && item.itemID != -1)
             {
-                SoundDatabase.PlaySound(0);
-                InvEq.InsertItem(secondParent, index, InvEq.holdingItem.itemID);
-                InvEq.UpdateHoldingItem(willBeReplaceItem);
+                //print("换");
+                Item willBeReplaceItem = InvEq.GetItem(secondParent, index);
+                if (secondParent.name == "Equipment")
+                {
+                    if (Equipment.CheckEquip(parent))
+                    {
+                        SoundDatabase.PlaySound(0);
+                        InvEq.InsertItem(secondParent, index, InvEq.holdingItem.itemID);
+                        PlayerImage.UpdateImage(parent.name, item.itemName + CheckIsSecondHandWeapon(parent), true);
+
+                        Equipment.AddItemStats(item);
+                        InvEq.UpdateHoldingItem(willBeReplaceItem);
+                        Equipment.RemoveItemStats(willBeReplaceItem);
+
+                    }
+                    else
+                    {
+                        SoundDatabase.PlaySound(33);
+                    }
+                }
+                else
+                {
+                    SoundDatabase.PlaySound(0);
+                    InvEq.InsertItem(secondParent, index, InvEq.holdingItem.itemID);
+                    InvEq.UpdateHoldingItem(willBeReplaceItem);
+                }
+                InvEq.UpdateStatsDesc();
+                MouseEnter();
             }
-            InvEq.UpdateStatsDesc();
-            MouseEnter();
-        }   
+        }
+        // in battle, cant use inventory buttons
+        else
+        {
+            SoundDatabase.PlaySound(33);
+        }
     }
 
     public static string CheckIsSecondHandWeapon(Transform parent)

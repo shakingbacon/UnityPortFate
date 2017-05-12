@@ -21,7 +21,7 @@ public class StatPage : MonoBehaviour {
         statPage.FindChild("Finish").GetComponent<Button>().onClick.AddListener(PlayerStats.stats.HealFullHP);
         statPage.FindChild("Finish").GetComponent<Button>().onClick.AddListener(PlayerStats.stats.HealFullMP);
         statPage.FindChild("Finish").GetComponent<Button>().onClick.AddListener(StatusBar.UpdateSliders);
-        statPage.FindChild("Finish").GetComponent<Button>().onClick.AddListener(() => SoundDatabase.PlaySound(21));
+        statPage.FindChild("Finish").GetComponent<Button>().onClick.AddListener(() => SoundDatabase.PlaySound(32));
         GameManager.OpenClosePage("Level Up Screen");
     }
 	
@@ -109,6 +109,8 @@ public class StatPage : MonoBehaviour {
         {
             SoundDatabase.PlaySound(33);
         }
+        PlayerStats.stats.HealFullHP();
+        PlayerStats.stats.HealFullMP();
     }
 
     public void RemStat(string stat)
@@ -153,6 +155,8 @@ public class StatPage : MonoBehaviour {
         {
             SoundDatabase.PlaySound(33);
         }
+        PlayerStats.stats.HealFullHP();
+        PlayerStats.stats.HealFullMP();
     }
 
     public static void SetCurrentStats()

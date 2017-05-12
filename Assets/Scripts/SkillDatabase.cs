@@ -24,27 +24,27 @@ public class SkillDatabase : MonoBehaviour {
         skills.Add(new Skill("As One", 12, "Become one with yourself", 1, Skill.SkillType.Passive));
         skills.Add(new Skill("Barrier", 13, 10, "Create a barrier", 6, Skill.SkillType.Active));
         skills.Add(new Skill("Elemental Affinty", 14, "Learn the elements", 5, Skill.SkillType.Passive));
-        skills.Add(new Skill("Volcano Shield", 15, "Harden yourself with fire", 3, Skill.SkillType.Active));
-        skills.Add(new Skill("Purity", 16, "Purify yourself", 3, Skill.SkillType.Active));
-        skills.Add(new Skill("Cyclone Pressure", 17, "Pressure the enemy", 3, Skill.SkillType.Active));
-        skills.Add(new Skill("Electric Charge", 18, "Charge your battery", 3, Skill.SkillType.Active));
-        skills.Add(new Skill("Elemental Burst", 19, "Channel all elements", 7, Skill.SkillType.Magical));
+        skills.Add(new Skill("Volcano Shield", 15, 39, "Harden yourself with fire", 3, Skill.SkillType.Active));
+        skills.Add(new Skill("Purity", 16, 19, "Purify yourself", 3, Skill.SkillType.Active));
+        skills.Add(new Skill("Cyclone Pressure", 17, 40, "Pressure the enemy", 3, Skill.SkillType.Active));
+        skills.Add(new Skill("Electric Charge", 18, 44, "Charge your battery", 3, Skill.SkillType.Active));
+        skills.Add(new Skill("Elemental Burst", 19, 50, "Channel all elements", 7, Skill.SkillType.Magical));
         skills.Add(new Skill("风水", 20, "Understand surroundings", 3, Skill.SkillType.Passive));
         skills.Add(new Skill("Glass Cannon", 21, "All in", 3, Skill.SkillType.Passive));
         skills.Add(new Skill("Soaked Shock", 22, "Careful", 3, Skill.SkillType.Passive));
         skills.Add(new Skill("Plasma Fusion", 23, "Feel the power", 3, Skill.SkillType.Passive));
         skills.Add(new Skill("Magical Attack", 24, 31, "Basic magical attack", 1, Skill.SkillType.Magical));
         //////////////
-        skills.Add(new Skill("Solar Flare", 25, "Power of the sun", 10, Skill.SkillType.Magical));
-        skills.Add(new Skill("Lunar Blade", 26, "Power of the moon", 10, Skill.SkillType.Magical));
+        skills.Add(new Skill("Solar Flare", 25, 13, "Power of the sun", 10, Skill.SkillType.Magical));
+        skills.Add(new Skill("Lunar Blade", 26, 52, "Power of the moon", 10, Skill.SkillType.Magical));
         skills.Add(new Skill("Elemental Strike", 27, "Strike with elements", 10, Skill.SkillType.Physical));
-        skills.Add(new Skill("Shining Rays", 28, "Call upon the light", 10, Skill.SkillType.Magical));
-        skills.Add(new Skill("Razor Leaf", 29, "Sharp leaves", 10, Skill.SkillType.Physical));
-        skills.Add(new Skill("Spirit Strike", 30, "Attack the soul", 10, Skill.SkillType.Magical));
-        skills.Add(new Skill("Adaptation", 31, "Easy yourself", 3, Skill.SkillType.Active));
-        skills.Add(new Skill("Heat Wave", 32, "Hot stuff", 3, Skill.SkillType.Active));
-        skills.Add(new Skill("Lunar Eclipse", 33, "Moon?", 3, Skill.SkillType.Active));
-        skills.Add(new Skill("Dark Veil", 34, "So dark", 3, Skill.SkillType.Active));
+        skills.Add(new Skill("Shining Rays", 28, 51, "Call upon the light", 10, Skill.SkillType.Magical));
+        skills.Add(new Skill("Razor Leaf", 29, 49, "Sharp leaves", 10, Skill.SkillType.Physical));
+        skills.Add(new Skill("Spirit Strike", 30, 53, "Attack the soul", 10, Skill.SkillType.Magical));
+        skills.Add(new Skill("Adaptation", 31, 45, "Easy yourself", 3, Skill.SkillType.Active));
+        skills.Add(new Skill("Heat Wave", 32, 48, "Hot stuff", 3, Skill.SkillType.Active));
+        skills.Add(new Skill("Lunar Eclipse", 33, 47, "Moon?", 3, Skill.SkillType.Active));
+        skills.Add(new Skill("Dark Veil", 34, 54, "So dark", 3, Skill.SkillType.Active));
         skills.Add(new Skill("Respiration", 35, "Breathe", 3, Skill.SkillType.Passive));
         skills.Add(new Skill("Scorched Touch", 36, "Sizzle", 3, Skill.SkillType.Passive));
         skills.Add(new Skill("Lunatic", 37, "Crazy", 3, Skill.SkillType.Passive));
@@ -54,6 +54,7 @@ public class SkillDatabase : MonoBehaviour {
         skills.Add(new Skill("Night's Shadow", 41, "Darkness", 3, Skill.SkillType.Passive));
         //
         skills.Add(new Skill("Rising Tide", 42, "High tide", 3, Skill.SkillType.Passive));
+        skills.Add(new Skill("Shield", 43, "", 0, Skill.SkillType.Active));
         //skills.Add(new Skill("", 43, "", , Skill.SkillType.));
         //skills.Add(new Skill("", 44, "", , Skill.SkillType.));
         //skills.Add(new Skill("", 45, "", , Skill.SkillType.));
@@ -72,7 +73,7 @@ public class SkillDatabase : MonoBehaviour {
         //-1, -1, -1, -1, -1, -1, -1, -1
         List<List<int>> mage =
             new List<List<int>>(new[]{
-                // A 8 x 5 matrix, what is seen here will be the same on screen 
+                // An 8 x 5 matrix, what is seen here will be the same on screen 
             new List<int>(new []{
              1, 2, 3, 4, 29, 25, 26, 30,
             15, 16, 17, 18, 31, 32, 33, 34,
@@ -81,7 +82,7 @@ public class SkillDatabase : MonoBehaviour {
             27, 19, 14, -1, -1, -1, -1, -1}),
             new List<int>(new []{
             5, 9, 10, 12, 28, -1, -1, -1,
-            6, 7, 11, 13, -1, -1, -1, -1,
+            6, 7, -1, 13, -1, -1, -1, -1,
             -1, -1, -1, -1, -1, -1, -1, -1,
             -1, -1, -1, -1, -1, -1, -1, -1,
             -1, -1, -1, -1, -1, -1, 0, 24})

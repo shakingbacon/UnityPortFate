@@ -15,15 +15,15 @@ public class Inventory : MonoBehaviour
             InvEq.CleanSlot(inventory, i);
         }
         //AddItem(1000);
-        AddItem(1001);
-        AddItem(1100);
-        AddItem(1200);
-        AddItem(1201);
-        AddItem(1300);
-        AddItem(1400);
-        AddItem(1500);
-        AddItem(1600);
-        AddItem(1700);
+        //AddItem(1001);
+        //AddItem(1100);
+        //AddItem(1200);
+        //AddItem(1201);
+        //AddItem(1300);
+        //AddItem(1400);
+        //AddItem(1500);
+        //AddItem(1600);
+        //AddItem(1700);
     }
 
     public static void AddItem(int itemindex)
@@ -38,6 +38,17 @@ public class Inventory : MonoBehaviour
         }
     }
 
+    public static bool HasItem(int itemindex)
+    {
+        for (int i = 0; i < inventory.childCount; i += 1)
+        {
+            if (InvEq.GetItem(inventory, i).itemID == itemindex)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
     
 
     //private Page page = new Page(0, 100, 100, 325, 460, 50);

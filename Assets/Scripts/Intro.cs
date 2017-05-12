@@ -1,21 +1,33 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class Intro : MonoBehaviour {
-    // GUI
-    public GUISkin skin;
 
-    void OnGUI()
+
+    void Start()
     {
-        GUI.skin = skin;
-        GUI.Label(new Rect(Screen.width/4, (Screen.height/10),500,150), "Booga's Welcome of Fate", skin.GetStyle("Title"));
-        if (GUI.Button(new Rect (Screen.width*0.3f,375, 100, 100),"Start",skin.GetStyle("Yes")))
+        GameManager.inIntro = true;
+        gameObject.transform.FindChild("Version").GetComponent<Text>().text = GameManager.version;
+    }
+
+    public void StartButtonPress()
+    {
+        if (gameObject.transform.FindChild("Input Name").GetComponent<InputField>().text.Length != 0)
         {
-            //Application.LoadLevel("Instructions");
+            SoundDatabase.PlaySound(43);
+            PlayerStats.stats.mingZi = gameObject.transform.FindChild("Input Name").GetComponent<InputField>().text;
+            StatusBar.UpdateDescription();
+            Destroy(gameObject);
         }
-        if (GUI.Button(new Rect (Screen.width*0.6f, 375, 100, 100),"Quit",skin.GetStyle("No")))
+        else
         {
-            Application.Quit();
+            SoundDatabase.PlaySound(33);
         }
-	}
+    }
+
+    public void QuitButtonPress()
+    {
+        Application.Quit();
+    }
 }

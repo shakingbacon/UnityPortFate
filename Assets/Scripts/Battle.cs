@@ -16,22 +16,21 @@ public class Battle : MonoBehaviour {
     void Start ()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        // Buttons
-        //    enemyStats.enemy.stats, 
-        //    player.transform.FindChild("Player Skills").GetComponent<PlayerSkills>().FindSkill(0)));
-        GameManager.OpenClosePage("Skill Page");
-        GameManager.OpenClosePage("Battle UI");
-        BattleUI.skills.onClick.AddListener(SkillPage.InstantLearnedSkillPage);
-        GameManager.OpenClosePage("Battle UI");
-        GameManager.OpenClosePage("Skill Page");
-        BattleUI.run.onClick.AddListener(EndBattle);
     }
 
-    public static void SetupBattle()
+    public static void SetupBattle(Enemy vswho)
     {
         if (!GameManager.inBattle)
         {
             GameManager.inBattle = true;
+            if (GameManager.inTutorial)
+            {
+                BattleUI.run.interactable = false;
+            }
+            else
+            {
+                BattleUI.run.interactable = true;
+            }
             GameManager.OpenClosePage("Battle UI");
             GameManager.OpenClosePage("Skill Page");
             QuickSkills.MoveToBattleUI();
@@ -48,23 +47,27 @@ public class Battle : MonoBehaviour {
             SkillPage.quickSkillsButton.gameObject.SetActive(false);
             SkillPage.quickSkillsInfo.gameObject.SetActive(false);
         }
-        SoundDatabase.PlayMusic(Random.Range(1, 8));
+        VictoryScreen.ResetDetails();
+        SoundDatabase.PlayMusic(Random.Range(2, 9));
         turnCount = -1;
         BattleUI.NextTurn();
         BattleUI.TextReset();
         BattleUI.ResetAllStatus();
         BattleUI.quickSkillDesc.text = "";
-        EnemyHolder.enemy = new Enemy(EnemyDatabase.enemies[(Random.Range(0, EnemyDatabase.enemies.Count))]);
+        EnemyHolder.enemy = new Enemy(vswho);
         BattleUI.enemyName.text = EnemyHolder.enemy.stats.mingZi;
         EnemyHolder.enemy.stats.HealFullHP();
         EnemyHolder.enemy.stats.HealFullMP();
         EnemyHolder.enemyHolder.GetComponent<Image>().sprite = EnemyHolder.enemy.enemyIMG;
         BattleUI.UpdateEnemySliders();
+        StatusBar.LoseShield();
     }
 
 
     public static void EndBattle()
     {
+        DamageCalc.LoseAllPlayerStatusEffects();
+        StatusBar.LoseShield();
         GameManager.OpenClosePage("Battle UI");
         DestroyImmediate(BattleUI.playerCopy);
         GameManager.inBattle = false;
@@ -77,7 +80,7 @@ public class Battle : MonoBehaviour {
         SkillPage.AfterLearnedSkillButtonPress();
         QuickSkills.MoveToSkillPage();
         BattleUI.MovePlayer(InvEq.playerImage.transform);
-        SoundDatabase.PlayMusic(8);
+        SoundDatabase.PlayMusic(9);
     }
 
 }

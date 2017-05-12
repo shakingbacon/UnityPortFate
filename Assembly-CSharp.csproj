@@ -93,6 +93,7 @@
      <Compile Include="Assets\Scripts\StatusHolder.cs" />
      <Compile Include="Assets\Scripts\TextureScale.cs" />
      <Compile Include="Assets\Scripts\Tooltip.cs" />
+     <Compile Include="Assets\Scripts\Tutorial.cs" />
      <Compile Include="Assets\Scripts\VictoryScreen.cs" />
      <Compile Include="Assets\Scripts\Warp.cs" />
  <Reference Include="UnityEngine.UI">

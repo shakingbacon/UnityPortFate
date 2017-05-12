@@ -93,17 +93,9 @@ public class Stats {
         }
     }
 
-    public int GetLatesetShieldAmount()
+    public bool IsDead()
     {
-        if (shield.Count == 0)
-        {
-            return 0;
-        }
-        else
-        {
-            return shield[shield.Count - 1];
-        }
-        
+        return health <= 0;
     }
 
     public void HealHP(int amount)

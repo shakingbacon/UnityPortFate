@@ -110,16 +110,7 @@ public class ItemDatabase : MonoBehaviour
 
     public static Item GetItem(int id)
     {
-        Item returnItem = new Item();
-        for (int j = 0; j < items.Count; j += 1)
-        {
-            if (items[j].itemID == id)
-            {
-                returnItem = items[j];
-                break;
-            }
-        }
-        return returnItem;
+        return items.Find(anItem => anItem.itemID == id);
     }
 
     private void AddItems(List<List<Item>> listToAdd, List<List<int>> listOfItems)

@@ -23,12 +23,21 @@ public class VictoryScreen : MonoBehaviour {
 
     public static void YesClick()
     {
-        Battle.SetupBattle();
+        Battle.SetupBattle(new Enemy(EnemyDatabase.enemies[(Random.Range(0, EnemyDatabase.enemies.Count))]));
         OpenCloseVictoryScreen();
     }
     public static void NoClick()
     {
         OpenCloseVictoryScreen();
         Battle.EndBattle();
+    }
+
+    public static void AddDetails(string text)
+    {
+        victoryScreen.FindChild("Details").GetComponent<Text>().text += "\n" + text;
+    }
+    public static void ResetDetails()
+    {
+        victoryScreen.FindChild("Details").GetComponent<Text>().text = "";
     }
 }

@@ -22,16 +22,6 @@ public class Danger : MonoBehaviour {
     }
     void OnTriggerEnter2D()
     {
-        Battle.SetupBattle();
-        ///
-      ///if (playerClone == null)
-        ///{
-        ///    playerClone = Instantiate(player);
-        ///    playerClone.transform.position = new Vector3(playerClone.transform.position.x - 1, playerClone.transform.position.y, 0);
-        ///    cameraFollow.target = playerClone.transform;
-        ///    Destroy(playerClone.transform.GetChild(2).gameObject);
-        ///}
-        ///
-       
+        Battle.SetupBattle(new Enemy(EnemyDatabase.enemies[Random.Range(0, 4)]));
     }
 }

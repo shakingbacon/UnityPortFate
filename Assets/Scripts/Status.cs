@@ -8,7 +8,7 @@ public class Status {
     public string statusName;
     public int statusID = -1;
     //public Sprite statusIMG;
-    public int statusChance;
+    public int statusChance = 0;
 
     public Status(string name, int id)
     {
@@ -21,5 +21,6 @@ public class Status {
     public Status()
     {
         statusID = -1;
+        statusChance = 0;
     }
 }

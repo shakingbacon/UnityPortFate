@@ -18,12 +18,14 @@ public class BattleUI : MonoBehaviour {
     public static Text enemyName;
     public static Text quickSkillNotifier;
     public static Text quickSkillDesc;
+    public static Text battling;
     public static Transform quickSkills;
     public Transform statusHolderPrefab;
 
     void Start()
     {
         battleUI = gameObject.transform;
+        battling = battleUI.FindChild("Battling").GetComponent<Text>();
         playerScroll = battleUI.FindChild("Player Text Scroll");
         enemyScroll = battleUI.FindChild("Enemy Text Scroll");
         //playerCopy = battleUI.FindChild("Player Copy").gameObject;
@@ -38,6 +40,9 @@ public class BattleUI : MonoBehaviour {
         turn = battleUI.FindChild("Player Box").FindChild("Turn").GetComponent<Text>();
         quickSkillNotifier = battleUI.FindChild("Player Box").FindChild("Quick Skills Notifier").GetComponent<Text>();
         quickSkillDesc = battleUI.FindChild("Player Box").FindChild("Quick Skills Desc").GetComponent<Text>();
+        skills.onClick.AddListener(SkillPage.InstantLearnedSkillPage);
+
+        run.onClick.AddListener(Battle.EndBattle);
         //GameManager.OpenClosePage("InventoryEquipment");
     }
     public static void RemoveStatus(Transform who, int id)
@@ -93,10 +98,10 @@ public class BattleUI : MonoBehaviour {
         ResetEnemyStatus();
     }
 
-    public static void AddStatus(bool isPlayer, Status status)
+    public static void AddStatus(Stats user, Status status)
     {
         Transform who;
-        if (isPlayer)
+        if (user == PlayerStats.stats)
         {
             who = playerStatus;
         }
@@ -109,10 +114,10 @@ public class BattleUI : MonoBehaviour {
         newStatus.GetComponent<StatusHolder>().status = status;
         newStatus.GetComponent<StatusHolder>().UpdateStatus();
     }
-    public static void AddStatus(bool isPlayer, Skill skill)
+    public static void AddStatus(Stats user, Skill skill)
     {
         Transform who;
-        if (isPlayer)
+        if (user == PlayerStats.stats)
         {
             who = playerStatus;
         }
@@ -189,13 +194,49 @@ public class BattleUI : MonoBehaviour {
 
     public static void TextAdd(Stats who, int size, string color, string desc)
     {
+        Transform whoScroll;
         if (who == PlayerStats.stats)
         {
+            whoScroll = playerScroll;
             playerScroll.GetComponentInChildren<Text>().text += string.Format("<size={0}><color={1}>You {2}</color></size>\n", size, color, desc);
         }
         else
         {
+            whoScroll = enemyScroll;
             enemyScroll.GetComponentInChildren<Text>().text += string.Format("<size={0}><color={1}>{2} {3}</color></size>\n", size, color, who.mingZi, desc);
+
+        }
+        ScrollBump(whoScroll);
+    }
+
+    public static void TextAdd(Stats who, int size, string desc)
+    {
+        Transform whoScroll;
+        if (who == PlayerStats.stats)
+        {
+            whoScroll = playerScroll;
+        }
+        else
+        {
+            whoScroll = enemyScroll;
+        }
+        whoScroll.GetComponentInChildren<Text>().text += string.Format("<size={0}><color=black>{1}</color></size>\n", size, desc);
+        ScrollBump(whoScroll);
+    }
+
+    public static void ScrollBump(Transform whoScroll)
+    {
+        int lol = 0;
+        for (int i = 0; i < enemyScroll.GetComponentInChildren<Text>().text.Length; i++)
+        {
+            if (enemyScroll.GetComponentInChildren<Text>().text[i] == '\n')
+            {
+                lol += 1;
+            }
+        }
+        if (lol >= 6)
+        {
+            enemyScroll.GetComponentInChildren<Scrollbar>().value = 1 - lol * 0.045f;
         }
     }
 

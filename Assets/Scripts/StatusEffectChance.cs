@@ -4,35 +4,59 @@ using UnityEngine;
 
 [System.Serializable]
 public class StatusEffects {
-    public Status burn;
-    public Status paralyze;
-    public Status bleed;
-    public Status poison;
-    public Status cripple;
-    public Status blind;
-    public Status confuse;
-    public Status curse;
-    public List<Status> statusEffList = new List<Status>();
+    public List<Status> statusList = new List<Status>();
     
     public StatusEffects()
     {
-        burn = new Status("Burn" ,0);
-        paralyze = new Status("Paralyze", 1);
-        bleed = new Status("Bleed", 2);
-        poison = new Status("Poison", 3);
-        cripple = new Status("Cripple", 4);
-        blind = new Status("Blind", 5);
-        confuse = new Status("Confuse", 6);
-        curse = new Status("Curse", 7);
-        statusEffList.Add(burn);
-        statusEffList.Add(paralyze);
-        statusEffList.Add(bleed);
-        statusEffList.Add(poison);
-        statusEffList.Add(cripple);
-        statusEffList.Add(blind);
-        statusEffList.Add(confuse);
-        statusEffList.Add(curse);
+        statusList.Add(new Status("Burn", 0));
+        statusList.Add(new Status("Paralyze", 1));
+        statusList.Add(new Status("Bleed", 2));
+        statusList.Add(new Status("Poison", 3));
+        statusList.Add(new Status("Cripple", 4));
+        statusList.Add(new Status("Blind", 5));
+        statusList.Add(new Status("Confuse", 6));
+        statusList.Add(new Status("Curse", 7));
     }
-    
+
+    public StatusEffects(StatusEffects copy)
+    {
+        statusList.Add(new Status("Burn", 0));
+        statusList.Add(new Status("Paralyze", 1));
+        statusList.Add(new Status("Bleed", 2));
+        statusList.Add(new Status("Poison", 3));
+        statusList.Add(new Status("Cripple", 4));
+        statusList.Add(new Status("Blind", 5));
+        statusList.Add(new Status("Confuse", 6));
+        statusList.Add(new Status("Curse", 7));
+        foreach (Status status in statusList)
+        {
+            SetStatusChance(status.statusID, copy.GetStatusChance(status.statusID));
+        }
+    }
+
+    public Status GetStatus(int id) 
+    {
+        return statusList.Find(anID => anID.statusID == id);
+    }
+
+    public void SetStatusChance(int id, int chance)
+    {
+        GetStatus(id).statusChance = chance;
+    }
+
+    public int GetStatusChance(int id)
+    {
+        return GetStatus(id).statusChance;
+    }
+
+    public void AddStatusChance(int id, int chance)
+    {
+        GetStatus(id).statusChance += chance;
+    }
+
+    public void AddPercentStatusChance(int id, int percent)
+    {
+        GetStatus(id).statusChance = (int)(GetStatus(id).statusChance * (1f + (percent / 100f)));
+    }
 
 }

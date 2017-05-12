@@ -16,7 +16,7 @@ public class PlayerMovement : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (!GameManager.inBattle)
+        if (!GameManager.inBattle && !GameManager.inIntro)
         {
             Vector2 moveVect = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
             if (moveVect != Vector2.zero)
@@ -32,7 +32,7 @@ public class PlayerMovement : MonoBehaviour {
             {
                 anim.SetBool("isWalking", false);
             }
-            rbody.MovePosition(rbody.position + moveVect * Time.deltaTime * 1.3f);
+            rbody.MovePosition(rbody.position + moveVect * Time.deltaTime * 1.4f);
         }
         else
         {

@@ -29,7 +29,7 @@ public class SkillPage : MonoBehaviour {
         quickSkillsButton = skillPage.FindChild("Quick Skills Button");
         quickSkillsInfo = skillPage.FindChild("Quick Skill Info");
         pageNum = skillPage.FindChild("Page Num");
-        currentPage = PlayerSkills.skills;
+        //currentPage = PlayerSkills.skills;
         leftButton.GetComponent<Button>().onClick.AddListener(prevPage);
         rightButton.GetComponent<Button>().onClick.AddListener(nextPage);
         learnedSkillsButton.GetComponent<Button>().onClick.AddListener(LearnedSkillButtonPress);
@@ -37,9 +37,6 @@ public class SkillPage : MonoBehaviour {
         quickSkillsButton.GetComponent<Button>().onClick.AddListener(QuickSkillButtonPress);
         quickSkillsButton.gameObject.SetActive(false);
         pageNum.GetComponent<Text>().text = (pageInt + 1).ToString();
-        UpdateSkillPage(0);
-        UpdateSkillPoints();
-
     }
     
     public static void UpdateSkillPoints()
@@ -50,6 +47,7 @@ public class SkillPage : MonoBehaviour {
     public static void InstantLearnedSkillPage()
     {
         GameManager.OpenClosePage("Skill Page");
+        GameObject.FindGameObjectWithTag("Skill Page").transform.FindChild("Skill Desc").gameObject.SetActive(false);
         LearnedSkillButtonPress();
     }
 
@@ -75,6 +73,11 @@ public class SkillPage : MonoBehaviour {
 
     static void LearnedSkillButtonPress()
     {
+        if (GameManager.inTutorial)
+        {
+            Tutorial.pressedLearnedSkills = true;
+        }
+        //
         SoundDatabase.PlaySound(18);
         currentPage = PlayerSkills.learnedSkills;
         if (!GameManager.inBattle)

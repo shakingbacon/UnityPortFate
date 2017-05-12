@@ -31,6 +31,7 @@ public class Skill {
     {
         Physical,
         Magical,
+        True,
         Active,
         Passive
     }
@@ -63,8 +64,18 @@ public class Skill {
         skillSoundID = skill.skillSoundID;
         skillIMG = Resources.Load<Sprite>("Skills/" + skill.skillName);
         skillDesc = skill.skillDesc;
+        skillRank = skill.skillRank;
         skillMaxRank = skill.skillMaxRank;
+        skillDamage = skill.skillDamage;
+        skillManaCost = skill.skillManaCost;
+        skillHitChance = skill.skillHitChance;
+        skillCritChance = skill.skillCritChance;
+        skillCritMulti = skill.skillCritMulti;
+        skillCooldown = skill.skillCooldown;
+        skillDuration = skill.skillDuration;
+        skillCooldownEnd = skill.skillCooldownEnd;
         skillType = skill.skillType;
+        skillStatusEff = new StatusEffects(skill.skillStatusEff);
     }
     public Skill()
     {

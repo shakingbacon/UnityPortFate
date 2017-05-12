@@ -27,18 +27,6 @@ public class SoundDatabase : MonoBehaviour {
         {
             sounds.Add(file);
         }
-        //soundSource2 = gameObject.transform.FindChild("Sound 2").GetComponent<AudioSource>();
-        //soundSource3 = gameObject.transform.FindChild("Sound 3").GetComponent<AudioSource>();
-        //soundSource4 = gameObject.transform.FindChild("Sound 4").GetComponent<AudioSource>();
-        //soundSource5 = gameObject.transform.FindChild("Sound 5").GetComponent<AudioSource>();
-        //soundSource6 = gameObject.transform.FindChild("Sound 6").GetComponent<AudioSource>();
-        //soundSourceList.Add(soundSource);
-        //soundSourceList.Add(soundSource2);
-        //soundSourceList.Add(soundSource3);
-        //soundSourceList.Add(soundSource4);
-        //soundSourceList.Add(soundSource5);
-        //soundSourceList.Add(soundSource6);
-
     }
 
 
@@ -47,6 +35,11 @@ public class SoundDatabase : MonoBehaviour {
         bgmSource.clip = bgm[id];
         bgmSource.Play();
         return;
+    }
+
+    public static void PauseMusic()
+    {
+        bgmSource.Pause();
     }
 
     public IEnumerator MakeSound(int id)
