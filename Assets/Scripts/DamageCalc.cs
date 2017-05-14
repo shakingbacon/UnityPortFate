@@ -62,7 +62,7 @@ public class DamageCalc : MonoBehaviour
                             if (skill.skillType == Skill.SkillType.Magical)
                             {
                                 dmg = (int)(dmg * (statusSkill.skillDamage / 100f));
-                                BattleUI.TextAdd(user, 18, string.Format("{0} is charged from {1}",skill.skillName, statusSkill.skillName));
+                                BattleUI.TextAdd(user, 18, string.Format("{0} is charged from {1}", skill.skillName, statusSkill.skillName));
                                 BattleUI.RemoveActive(who, statusSkill.skillID);
                             }
                             break;
@@ -111,7 +111,7 @@ public class DamageCalc : MonoBehaviour
                         }
                 }
             }
-            
+
         }
         //BattleUI.UpdateAllStatusHolder(victim);
     }
@@ -139,7 +139,7 @@ public class DamageCalc : MonoBehaviour
                         SoundDatabase.PlaySound(37);
                         BattleUI.TextAdd(victim, 26, "yellow", string.Format("is Paralyzed"));
                         yield return new WaitForSeconds(1.1f);
-                        if (Random.Range(0,101) >= 50)
+                        if (Random.Range(0, 101) >= 50)
                         {
                             SoundDatabase.PlaySound(37);
                             BattleUI.TextAdd(victim, 26, "yellow", string.Format("couldn't move!"));
@@ -172,47 +172,96 @@ public class DamageCalc : MonoBehaviour
         }
     }
 
+    public static bool IsSkill(Transform holder)
+    {
+        bool isSkill = false;
+        if (holder.GetComponent<StatusHolder>().skill.skillID != -1)
+        {
+            isSkill = true;
+        }
+        else
+        {
+            isSkill = false;
+        }
+        return isSkill;
+    }
+
     public static void SkillModifier(Stats user, Stats victim, Skill skill)
     {
         // this is should be used for attacking skills, if an attacking skill would have a cooldown, would need to find it in the player skill list and give it as it would only give the copied skill the cooldown.
         Transform who;
+        Transform victimWho;
         if (user == PlayerStats.stats)
         {
             who = BattleUI.playerStatus;
+            victimWho = BattleUI.enemyStatus;
         }
         else
         {
+            victimWho = BattleUI.playerStatus;
             who = BattleUI.enemyStatus;
         }
         foreach (Transform status in who)
         {
-            Skill statusSkill = status.GetComponent<StatusHolder>().skill;
-            switch (statusSkill.skillID)
+
+            if (IsSkill(status))
             {
-                case 18:
-                    {
-                        skill.skillDamage += statusSkill.skillDamage;
-                        skill.skillStatusEff.AddStatusChance(1, statusSkill.skillHitChance);
-                        skill.skillCritChance += statusSkill.skillCritChance;
-                        skill.skillManaCost = (int)(skill.skillManaCost * (statusSkill.skillCritMulti / 100f));
-                        break;
-                    }
-                case 32:
-                    {
-                        skill.skillStatusEff.AddPercentStatusChance(0 , statusSkill.skillManaCost);
-                        break;
-                    }
-                case 33:
-                    {
-                        if (skill.skillStatusEff.GetStatusChance(6) != 0)
+                Skill statusSkill = status.GetComponent<StatusHolder>().skill;
+                switch (statusSkill.skillID)
+                {
+                    case 18:
                         {
-                            skill.skillDamage += (int)(skill.skillDamage * (skill.skillStatusEff.GetStatusChance(6) / 100f * 8));
-                            skill.skillStatusEff.SetStatusChance(6, 0);
+                            skill.skillDamage += statusSkill.skillDamage;
+                            skill.skillStatusEff.AddStatusChance(1, statusSkill.skillHitChance);
+                            skill.skillCritChance += statusSkill.skillCritChance;
+                            skill.skillManaCost = (int)(skill.skillManaCost * (statusSkill.skillCritMulti / 100f));
+                            break;
                         }
-                        break;
-                    }
+                    case 32:
+                        {
+                            skill.skillStatusEff.AddPercentStatusChance(0, statusSkill.skillManaCost);
+                            break;
+                        }
+                    case 33:
+                        {
+                            if (skill.skillStatusEff.GetStatusChance(6) != 0)
+                            {
+                                skill.skillDamage += (int)(skill.skillDamage * (skill.skillStatusEff.GetStatusChance(6) / 100f * 8));
+                                skill.skillStatusEff.SetStatusChance(6, 0);
+                            }
+                            break;
+                        }
+                }
             }
-            
+            //else
+            //{
+            //    Status status = status.GetComponent<StatusHolder>().status;
+            //}
+
+        }
+        foreach (Transform status in victimWho) // if opponent has debuff
+        {
+            if (IsSkill(status))
+            {
+
+            }
+            else
+            {
+                Status statusSkill = status.GetComponent<StatusHolder>().status;
+                switch (statusSkill.statusID)
+                {
+                    case 8:
+                        {
+                            if (skill.skillID == 4)
+                            {
+                                BattleUI.RemoveStatus(victimWho, 8);
+                                skill.skillDamage = (int)(skill.skillDamage * (1 + PlayerSkills.FindSkill(22).skillHitChance / 100f));
+                                BattleUI.TextAdd(user, 17, "yellow", string.Format("dealt more damage from {0}", PlayerSkills.FindSkill(22).skillName));
+                            }
+                            break;
+                        }
+                }
+            }
         }
     }
 
@@ -262,6 +311,15 @@ public class DamageCalc : MonoBehaviour
                                     int manaHeal = (int)(skill.skillManaCost * (passiveSkill.skillCritChance / 100f));
                                     user.HealMP(manaHeal);
                                     BattleUI.TextAdd(user, 17, "black", string.Format("gained {0} Mana from {1}", manaHeal, passiveSkill.skillName));
+                                }
+                                break;
+                            }
+                        case 22:
+                            {
+                                if (skill.skillID == 2 && Random.Range(0, 100) < passiveSkill.skillDamage)
+                                {
+                                    BattleUI.AddStatus(victim, new Status(StatusDatabase.GetStatus(8)));
+                                    BattleUI.TextAdd(user, 17, "blue", string.Format("applied Soaked debuff to enemy"));
                                 }
                                 break;
                             }

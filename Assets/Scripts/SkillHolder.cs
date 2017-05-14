@@ -109,6 +109,7 @@ public class SkillHolder : MonoBehaviour {
                                 if (skill.skillType == Skill.SkillType.Passive)
                                 {
                                     PlayerSkills.GainPassiveBonusEffect(skill.skillID);
+                                    PlayerStats.FullUpdate();
                                 }
                                 MouseEnter();// reset desc
                             }

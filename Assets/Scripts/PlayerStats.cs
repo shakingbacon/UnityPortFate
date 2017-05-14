@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class PlayerStats: MonoBehaviour
 {
     public static Stats stats = new Stats();
+    public static List<int> specialPassives = new List<int>();
 
     public static void LevelUp()
     {
@@ -31,6 +32,81 @@ public class PlayerStats: MonoBehaviour
     public static void SetMaxExp()
     {
         stats.maxExperience = (9 + stats.level) * stats.level + 11 * stats.level;
+    }
+
+    public static void AddSpecialPassive(int id)
+    {
+        if (!specialPassives.Exists(anID => anID == id))
+        {
+            specialPassives.Add(id);
+        }
+    }
+
+    public static void SpecialPassivesEffects()
+    {
+        foreach (int i in specialPassives)
+        {
+            switch (i)
+            {
+                case 12:
+                    {
+                        stats.maxHealth.totalAmount = 1;
+                        stats.HealFullHP();
+                        stats.strength.totalAmount = 1;
+                        break;
+                    }
+                case 14:
+                    {
+                        List<int> skills = new List<int>(new int[] { 1, 2, 3, 4 });
+                         foreach (int id in skills)
+                        {
+                            Skill skill = PlayerSkills.FindSkill(id);
+                            skill.skillDamage = (int)(skill.skillDamage * (1f + (PlayerSkills.FindSkill(14).skillDamage / 100f)));
+                            skill.skillManaCost = (int)(skill.skillManaCost * (1f - (PlayerSkills.FindSkill(14).skillDamage / 100f)));
+                            switch (id)
+                            {
+                                case 1:
+                                    {
+                                        print(skill.skillStatusEff.GetStatusChance(0));
+                                        skill.skillStatusEff.AddPercentStatusChance(0, PlayerSkills.FindSkill(14).skillDamage);
+                                        skill.skillEffDesc = "Chance to inflict Burn: " + skill.skillStatusEff.GetStatusChance(0) + "%";
+                                        print(skill.skillStatusEff.GetStatusChance(0));
+                                        break;
+                                    }
+                                case 2:
+                                    {
+                                        skill.skillHitChance = (int)(skill.skillHitChance * (1f + (PlayerSkills.FindSkill(14).skillDamage / 100f)));
+                                        skill.skillEffDesc = "Hit Chance: +" + skill.skillHitChance + "%";
+                                        break;
+                                    }
+                                case 3:
+                                    {
+                                        skill.skillCritChance = (int)(skill.skillCritChance*(1f + (PlayerSkills.FindSkill(14).skillDamage / 100f)));
+                                        skill.skillHitChance = (int)(skill.skillHitChance * (1f - (PlayerSkills.FindSkill(14).skillDamage / 100f)));
+                                        skill.skillCritMulti = (int)(skill.skillCritMulti * (1f + (PlayerSkills.FindSkill(14).skillDamage / 100f)));
+                                        skill.skillEffDesc = "Crit Chance: +" + skill.skillCritChance + "%, " +
+                                        "Crit Multi: +" + skill.skillCritMulti + "%\n" + "Hit Chance: " + skill.skillHitChance + "%";
+                                        break;
+                                    }
+                                case 4:
+                                    {
+                                        skill.skillStatusEff.AddPercentStatusChance(1, (PlayerSkills.FindSkill(14).skillDamage));
+                                        skill.skillCritChance = (int)(skill.skillCritChance*(1f + (PlayerSkills.FindSkill(14).skillDamage / 100f)));
+                                        skill.skillEffDesc = "Chance to Paralyze: " + skill.skillStatusEff.GetStatusChance(1) + "%\nCrit Chance: +" + skill.skillCritChance + "%";
+                                        break;
+                                    }
+                            }
+                        }
+                        break;
+                    }
+                case 23:
+                    {
+                        PlayerSkills.FindSkill(1).skillStatusEff.AddNewStatusAndSet(1, 10);
+
+                        break;
+                    }
+            }
+        }
     }
 
     public static void StatsUpdate()
@@ -71,6 +147,14 @@ public class PlayerStats: MonoBehaviour
                 }
         }
     }
+
+    public static void FullUpdate()
+    {
+        StatsUpdate();
+        PlayerSkills.SkillUpdate();
+        SpecialPassivesEffects();
+        StatusBar.UpdateStatusBar();
+    }
     public static string makeStatsPage()
     {
         string text = "";
@@ -110,8 +194,6 @@ public class PlayerStats: MonoBehaviour
         text += dmgTake;
         string manaComs = string.Format("<size=17><color=#2EEC61>Mana Coms: {0}% + {1}% = {2}%</color></size>\n", stats.manaComs.baseAmount, stats.manaComs.buffedAmount, stats.manaComs.totalAmount);
         text += manaComs;
-
-
         return text;
     }
 }

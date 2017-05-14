@@ -18,6 +18,12 @@ public class Status {
         statusChance = 0;
     }
 
+    public Status(Status status)
+    {
+        statusName = status.statusName;
+        statusID = status.statusID;
+    }
+
     public Status()
     {
         statusID = -1;

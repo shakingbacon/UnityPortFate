@@ -5,33 +5,29 @@ using UnityEngine;
 [System.Serializable]
 public class StatusEffects {
     public List<Status> statusList = new List<Status>();
-    
+
     public StatusEffects()
     {
-        statusList.Add(new Status("Burn", 0));
-        statusList.Add(new Status("Paralyze", 1));
-        statusList.Add(new Status("Bleed", 2));
-        statusList.Add(new Status("Poison", 3));
-        statusList.Add(new Status("Cripple", 4));
-        statusList.Add(new Status("Blind", 5));
-        statusList.Add(new Status("Confuse", 6));
-        statusList.Add(new Status("Curse", 7));
+        statusList = new List<Status>();
     }
 
     public StatusEffects(StatusEffects copy)
     {
-        statusList.Add(new Status("Burn", 0));
-        statusList.Add(new Status("Paralyze", 1));
-        statusList.Add(new Status("Bleed", 2));
-        statusList.Add(new Status("Poison", 3));
-        statusList.Add(new Status("Cripple", 4));
-        statusList.Add(new Status("Blind", 5));
-        statusList.Add(new Status("Confuse", 6));
-        statusList.Add(new Status("Curse", 7));
-        foreach (Status status in statusList)
+        foreach (Status status in copy.statusList)
         {
-            SetStatusChance(status.statusID, copy.GetStatusChance(status.statusID));
+            statusList.Add(status);
         }
+    }
+
+    public void AddNewStatus(int id)
+    {
+        statusList.Add(new Status(StatusDatabase.GetStatus(id)));
+    }
+
+    public void AddNewStatusAndSet(int id, int chance)
+    {
+        AddNewStatus(id);
+        SetStatusChance(id, chance);
     }
 
     public Status GetStatus(int id) 
