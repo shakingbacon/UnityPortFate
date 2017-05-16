@@ -1,112 +1,267 @@
-﻿using System.Collections;
+﻿using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+using UnityEngine.UI;
 
-public class PlayerSkills : MonoBehaviour {
-    public static List<List<Skill>> skills = new List<List<Skill>>();
-    public static List<List<Skill>> learnedSkills = new List<List<Skill>>();
+[System.Serializable]
+public class PlayerData : Mortal
+{
+    // learned skills are put in the inherited stats skills
+    public List<int> specialPassives = new List<int>();
+    public SkillList skillsJob = new SkillList();
 
-    public static void ApplyJob()
+    public PlayerData()
     {
-        skills = new List<List<Skill>>();
-        switch (PlayerStats.stats.job.jobID)
+
+    }
+
+    public void SetMaxExp()
+    {
+        maxExperience = (9 + level) * level + 11 * level;
+    }
+
+    public void ApplyJob()
+    {
+        switch (job.jobID)
         {
             case 0:
                 {
-                    AddPage(skills, SkillDatabase.mageSkills.Count);
-                    for (int i = 0; i < SkillDatabase.mageSkills.Count; i += 1)
-                    {
-                        for (int k = 0; k < SkillDatabase.mageSkills[i].Count; k += 1)
-                            skills[i].Add((new Skill(SkillDatabase.mageSkills[i][k])));
-                    }
-                    AddPage(learnedSkills, 3);
-                    AddSkillSlots(learnedSkills, 40);
-                    learnedSkills[0][0] = FindSkill(0);
-                    learnedSkills[0][1] = FindSkill(24);
-                    FindSkill(0).skillRank += 1; // Basic attack rank always 1
-                    FindSkill(24).skillRank += 1;
-                    //        
+                    skillsJob = new SkillList(SkillDatabase.mageSkills);
+                    MakeNewBlankPage(3, 40);
+                    LearnSkill(skillsJob.FindSkill(0));
+                    LearnSkill(skillsJob.FindSkill(24));
                     SkillUpdate();
                     break;
                 }
         }
     }
 
-    private static void AddSkillSlots(List<List<Skill>> page, int skillnum)
+    public void AddSpecialPassive(int id)
     {
-        for (int j = 0; j < page.Count; j += 1)
+        if (!specialPassives.Exists(anID => anID == id))
         {
-            while (page[j].Count < skillnum)// 40 skills in a page
+            specialPassives.Add(id);
+        }
+    }
+
+    public void SpecialPassivesEffects()
+    {
+        foreach (int i in specialPassives)
+        {
+            Skill passive = FindSkill(i);
+            switch (i)
             {
-                page[j].Add(new Skill());
+                case 12:
+                    {
+                        maxHealth.totalAmount = 1;
+                        HealFullHP();
+                        strength.totalAmount = 1;
+                        break;
+                    }
+                case 14:
+                    {
+                        List<int> skills = new List<int>(new int[] { 1, 2, 3, 4 });
+                         foreach (int id in skills)
+                        {
+                            Skill skill = FindSkill(id);
+                            skill.skillDamage = (int)(skill.skillDamage * (1f + (passive.skillDamage / 100f)));
+                            skill.skillManaCost = (int)(skill.skillManaCost * (1f - (passive.skillDamage / 100f)));
+                            switch (id)
+                            {
+                                case 1:
+                                    {
+                                        skill.skillStatusEff.AddPercentStatusChance(0, passive.skillDamage);
+                                        skill.skillEffDesc = "Chance to Burn: " + skill.skillStatusEff.GetStatusChance(0) + "%";
+                                        break;
+                                    }
+                                case 2:
+                                    {
+                                        skill.skillHitChance = (int)(skill.skillHitChance * (1f + (passive.skillDamage / 100f)));
+                                        skill.skillEffDesc = "Hit Chance: +" + skill.skillHitChance + "%";
+                                        break;
+                                    }
+                                case 3:
+                                    {
+                                        skill.skillCritChance = (int)(skill.skillCritChance*(1f + (passive.skillDamage / 100f)));
+                                        skill.skillHitChance = (int)(skill.skillHitChance * (1f - (passive.skillDamage / 100f)));
+                                        skill.skillCritMulti = (int)(skill.skillCritMulti * (1f + (passive.skillDamage / 100f)));
+                                        skill.skillEffDesc = "Crit Chance: +" + skill.skillCritChance + "%, " +
+                                        "Crit Multi: +" + skill.skillCritMulti + "%\n" + "Hit Chance: " + skill.skillHitChance + "%";
+                                        break;
+                                    }
+                                case 4:
+                                    {
+                                        skill.skillStatusEff.AddPercentStatusChance(1, (passive.skillDamage));
+                                        skill.skillCritChance = (int)(skill.skillCritChance*(1f + (passive.skillDamage / 100f)));
+                                        skill.skillEffDesc = "Chance to Paralyze: " + skill.skillStatusEff.GetStatusChance(1) + "%\nCrit Chance: +" + skill.skillCritChance + "%";
+                                        break;
+                                    }
+                            }
+                        }
+                        break;
+                    }
+                case 23:
+                    {
+                        Skill fire = FindSkill(1);
+                        int para = 6 + 5 * fire.skillRank + 3 * passive.skillRank;
+                        fire.skillStatusEff.AddNewStatusAndSet(1, para);
+                        fire.skillEffDesc += "\nChance to Paralyze: " + fire.skillStatusEff.GetStatusChance(1) + "%";
+                        Skill thunder = FindSkill(4);
+                        int burn = 6 + 5 *thunder.skillRank + 3 * passive.skillRank;
+                        thunder.skillStatusEff.AddNewStatusAndSet(0, burn);
+                        thunder.skillEffDesc += "\nChance to Burn: " + thunder.skillStatusEff.GetStatusChance(0) + "%";
+                        break;
+                    }
             }
         }
     }
 
-    private static void AddPage(List<List<Skill>> page, int pages)
+    public void GainPassiveBonusEffect(int id)
     {
-        for (int i = 0; i < pages; i += 1)
+        Skill passive = skillsJob.FindSkill(id);
+        switch (id)
         {
-            page.Add(new List<Skill>());
-        }
-    }
-
-    public static Skill FindSkill(int id)
-    {
-        Skill skill = new Skill();
-        for (int k = 0; k < skills.Count; k += 1)
-            for (int i = 0; i < skills[k].Count; i += 1)
-            {
-                if (skills[k][i].skillID == id)
+            case 9:
                 {
-                    skill = skills[k][i];
+                    maxMana.buffedAmount += passive.skillDamage;
+                    passive.skillManaCost += passive.skillDamage;
+                    break;
                 }
-            }
-        return skill;
+            case 10:
+                {
+                    luck.buffedAmount += passive.skillDamage;
+                    hitChance.buffedAmount += passive.skillDamage;
+                    critChance.buffedAmount += passive.skillDamage;
+                    break;
+                }
+            case 11:
+                {
+                    armor.buffedAmount += passive.skillDamage;
+                    resist.buffedAmount += passive.skillDamage;
+                    passive.skillManaCost += passive.skillDamage;
+                    break;
+                }
+            case 12:
+                {
+                    AddSpecialPassive(12);
+                    maxMana.buffedAmount += passive.skillDamage;
+                    break;
+                }
+            case 14:
+                {
+                    AddSpecialPassive(14);
+                    break;
+                }
+            case 20:
+                {
+                    luck.buffedAmount += passive.skillDamage;
+                    break;
+                }
+            case 21:
+                {
+                    maxHealth.buffedAmount -= passive.skillDamage;
+                    armor.buffedAmount -= passive.skillHitChance;
+                    resist.buffedAmount -= passive.skillHitChance;
+                    physAtk.buffedAmount += passive.skillCritChance;
+                    magicAtk.buffedAmount += passive.skillCritChance;
+                    break;
+                }
+            case 23:
+                {
+                    AddSpecialPassive(23);
+                    break;
+                }
+            case 35:
+                {
+                    dodgeChance.buffedAmount += passive.skillDamage;
+                    maxMana.buffedAmount += passive.skillHitChance;
+                    manaComs.buffedAmount -= passive.skillCritChance;
+                    break;
+                }
+        }
+    }
+
+    public void StatsUpdate()
+    {
+        SimpleStatUpdate();
+        switch (job.jobID)
+        {
+            case 0:// Mage Stat Updates
+                {   // These are stats based off other stats
+                    //
+                    maxHealth.baseAmount = 225 + strength.totalAmount * 11 + level * 32;
+                    maxHealth.totalAmount = maxHealth.baseAmount + maxHealth.buffedAmount;
+                    //
+                    maxMana.baseAmount = 325 + intelligence.totalAmount * 26 + level * 60;
+                    maxMana.totalAmount = maxMana.baseAmount + maxMana.buffedAmount;
+                    //
+                    physAtk.baseAmount = 35 + strength.totalAmount * 3 + level * 3;
+                    physAtk.totalAmount = physAtk.baseAmount + physAtk.buffedAmount;
+                    //
+                    magicAtk.baseAmount = 60 + intelligence.totalAmount * 6 + level * 8;
+                    magicAtk.totalAmount = magicAtk.baseAmount + magicAtk.buffedAmount;
+                    //
+                    armor.baseAmount = 10 + strength.totalAmount * 4 + level * 6;
+                    armor.totalAmount = armor.baseAmount + armor.buffedAmount;
+                    //
+                    resist.baseAmount = 15 + intelligence.totalAmount * 9 + level * 10;
+                    resist.totalAmount = resist.baseAmount + resist.buffedAmount;
+                    //
+                    hitChance.baseAmount = 90 + agility.totalAmount/6 + luck.totalAmount/5;
+                    hitChance.totalAmount = hitChance.baseAmount + hitChance.buffedAmount;
+                    //
+                    dodgeChance.baseAmount = 1 + agility.totalAmount/5 + luck.totalAmount/4;
+                    dodgeChance.totalAmount = dodgeChance.baseAmount + dodgeChance.buffedAmount;
+                    //
+                    critChance.baseAmount = 3 + agility.totalAmount/5 + luck.totalAmount/4;
+                    critChance.totalAmount = critChance.baseAmount + critChance.buffedAmount;
+                    mana = 999999;
+                    break;
+                }
+        }
     }
 
 
-    // all skill updates
-    public static void SkillUpdate()
+    public void SkillUpdate()
     {
-        for (int k = 0; k < skills.Count; k += 1)
-        for (int i = 0; i < skills[k].Count; i += 1)
-        {
-            Skill skill = skills[k][i];
-            Stats stats = PlayerStats.stats;
-            switch (skill.skillID)
+        for (int k = 0; k < skillsJob.skills.Count; k += 1)
+            for (int i = 0; i < skillsJob.skills[k].Count; i += 1)
             {
+                Skill skill = skillsJob.skills[k][i];
+                skill.skillStatusEff.ResetAll();
+                switch (skill.skillID)
+                {
                     case 0:
                         {
-                            skill.skillDamage = stats.physAtk.totalAmount;
+                            skill.skillDamage = physAtk.totalAmount;
                             skill.skillEffDesc = "Attack, dealing physical damage";
                             break;
                         }
                     case 1:
                         {
-                            skill.skillDamage = (int)(80 + (stats.magicAtk.totalAmount / 1.8) * (1.8 * (1 + skill.skillRank)));
+                            skill.skillDamage = (int)(80 + (magicAtk.totalAmount / 1.8) * (1.8 * (1 + skill.skillRank)));
                             skill.skillManaCost = (int)(50 + skill.skillDamage / (17 - skill.skillRank) + skill.skillRank * 35);
-                            skill.skillStatusEff.AddNewStatusAndSet(0, (int)(115 + 3 * skill.skillRank + stats.magicAtk.totalAmount / (25 + stats.magicAtk.totalAmount) / 4));
+                            skill.skillStatusEff.AddNewStatusAndSet(0, (int)(115 + 3 * skill.skillRank + magicAtk.totalAmount / (25 + magicAtk.totalAmount) / 4));
                             skill.skillEffDesc = "Chance to inflict Burn: " + skill.skillStatusEff.GetStatusChance(0) + "%";
                             int req = skill.skillRank * 3;
-                            skill.skillRequire = stats.level >= req;
+                            skill.skillRequire = level >= req;
                             skill.skillRequireDesc = string.Format("Level: {0}", req);
                             break;
                         }
-                   case 2:
+                    case 2:
                         {
-                            skill.skillDamage = 30;//(int)(95 + (stats.magicAtk.totalAmount) / 1.7 * (1.85 * (1 + skill.skillRank)));
+                            skill.skillDamage = 30;//(int)(95 + (magicAtk.totalAmount) / 1.7 * (1.85 * (1 + skill.skillRank)));
                             skill.skillManaCost = (int)(45 + skill.skillDamage / (20 - skill.skillRank + skill.skillRank * 25));
                             skill.skillHitChance = (int)(20 + 4.5 * skill.skillRank);
-                            skill.skillEffDesc = "Hit Chance: +" + skill.skillHitChance+"%";
+                            skill.skillEffDesc = "Hit Chance: +" + skill.skillHitChance + "%";
                             int req = skill.skillRank * 3;
-                            skill.skillRequire = stats.level >= req;
+                            skill.skillRequire = level >= req;
                             skill.skillRequireDesc = string.Format("Level: {0}", req);
                             break;
                         }
                     case 3:
                         {
-                            skill.skillDamage = (int)(95 + (stats.magicAtk.totalAmount / 1.7) * (1.85 * (1 + skill.skillRank)));
+                            skill.skillDamage = (int)(95 + (magicAtk.totalAmount / 1.7) * (1.85 * (1 + skill.skillRank)));
                             skill.skillManaCost = (int)(45 + skill.skillDamage / (20 - skill.skillRank) + skill.skillRank * 25);
                             skill.skillCritChance = (int)(100 + 4 * skill.skillRank);
                             skill.skillHitChance = (int)(-20 + 4.5 * skill.skillRank);
@@ -114,42 +269,42 @@ public class PlayerSkills : MonoBehaviour {
                             skill.skillEffDesc = "Crit Chance: +" + skill.skillCritChance + "%, " +
                                 "Crit Multi: +" + skill.skillCritMulti + "%\n" + "Hit Chance: " + skill.skillHitChance + "%";
                             int req = skill.skillRank * 3;
-                            skill.skillRequire = stats.level >= req;
+                            skill.skillRequire = level >= req;
                             skill.skillRequireDesc = string.Format("Level: {0}", req);
                             break;
                         }
                     case 4:
                         {
-                            skill.skillDamage = 60;//(int)(115 + (stats.magicAtk.totalAmount / 1.7) * (1.9 * (1 + skill.skillRank)));
+                            skill.skillDamage = 60;//(int)(115 + (magicAtk.totalAmount / 1.7) * (1.9 * (1 + skill.skillRank)));
                             skill.skillManaCost = (int)(60 + skill.skillDamage / (14 - skill.skillRank) + skill.skillRank * 55);
-                            skill.skillStatusEff.AddNewStatusAndSet(1, (int)(120 + 3 * skill.skillRank + stats.magicAtk.totalAmount/(25 + stats.magicAtk.totalAmount/4)));
+                            skill.skillStatusEff.AddNewStatusAndSet(1, (int)(120 + 3 * skill.skillRank + magicAtk.totalAmount / (25 + magicAtk.totalAmount / 4)));
                             skill.skillCritChance = (int)(14 + 4 * skill.skillRank);
                             skill.skillEffDesc = "Chance to Paralyze: " + skill.skillStatusEff.GetStatusChance(1) + "%\nCrit Chance: +" + skill.skillCritChance + "%";
                             int req = skill.skillRank * 3;
-                            skill.skillRequire = stats.level >= req;
+                            skill.skillRequire = level >= req;
                             skill.skillRequireDesc = string.Format("Level: {0}", req);
                             break;
                         }
                     case 5:
                         {
-                            skill.skillManaCost = (int)(75 * skill.skillRank + (stats.mana * 0.195) / (skill.skillRank + 1));
+                            skill.skillManaCost = (int)(75 * skill.skillRank + (mana * 0.195) / (skill.skillRank + 1));
                             skill.skillCooldown = 10;
                             skill.skillDuration = 6 + 1 * skill.skillRank;
                             skill.skillEffDesc = string.Format("For {0} turns, when recieving damage from an enemy, your Current Mana takes damage instead of your HP. When no MP is available, damage is applied normally.",
                                 skill.skillDuration) + string.Format("\nCooldown: {0} Turns", skill.skillCooldown);
                             int req = 3 + skill.skillRank * 4;
-                            skill.skillRequire = stats.level >= req;
+                            skill.skillRequire = level >= req;
                             skill.skillRequireDesc = string.Format("Level: {0}", req);
                             break;
                         }
                     case 6:
                         {
-                            skill.skillDamage = (int)(200 + skill.skillRank * 75.5 + stats.maxHealth.totalAmount / (8 - skill.skillRank) + stats.magicAtk.totalAmount * 0.75 / stats.maxHealth.totalAmount);
-                            skill.skillManaCost = (int)(60 + stats.magicAtk.totalAmount * 0.6 * (1 - skill.skillRank / 20));
+                            skill.skillDamage = (int)(200 + skill.skillRank * 75.5 + maxHealth.totalAmount / (8 - skill.skillRank) + magicAtk.totalAmount * 0.75 / maxHealth.totalAmount);
+                            skill.skillManaCost = (int)(60 + magicAtk.totalAmount * 0.6 * (1 - skill.skillRank / 20));
                             skill.skillCooldown = 3;
                             skill.skillEffDesc = string.Format("Restore HP: +{0}\nCooldown: {1} Turns", skill.skillDamage, skill.skillCooldown);
                             int req = 3 + skill.skillRank * 3;
-                            skill.skillRequire = stats.level >= req;
+                            skill.skillRequire = level >= req;
                             skill.skillRequireDesc = string.Format("Level: {0}", req);
                             break;
                         }
@@ -161,20 +316,20 @@ public class PlayerSkills : MonoBehaviour {
                             skill.skillEffDesc = string.Format("After using this skill, within {0} turns, the next Magical Damage Skill you cast will deal {1}% of its damage.", skill.skillDuration, skill.skillDamage)
                                 + string.Format("\nCooldown: {0} Turns", skill.skillCooldown);
                             int req = 5 + skill.skillRank * 6;
-                            skill.skillRequire = stats.level >= req;
+                            skill.skillRequire = level >= req;
                             skill.skillRequireDesc = string.Format("Level: {0}", req);
                             break;
                         }
                     case 8:
                         {
-                            skill.skillDamage = 19 + stats.level / 5 + 6 * skill.skillRank;
-                            skill.skillManaCost = 8 + stats.level / 3 + 4 * skill.skillRank;
+                            skill.skillDamage = 19 + level / 5 + 6 * skill.skillRank;
+                            skill.skillManaCost = 8 + level / 3 + 4 * skill.skillRank;
                             skill.skillHitChance = 30 + 3 * skill.skillRank;
                             skill.skillCritChance = 35 + 4 * skill.skillRank;
                             skill.skillEffDesc = string.Format("Whenever you defeat an enemy, you have a {0}% chance to restore {1}% of your Maximum MP as MP. Also, whenever you cast a Damaging Skill, you have a {2}% chance to gain {3}% of its Mana Cost as MP\n",
                                 skill.skillDamage, skill.skillHitChance, skill.skillManaCost, skill.skillCritChance);
                             int req = 4 + skill.skillRank * 3;
-                            Skill skillreq = FindSkill(30);
+                            Skill skillreq = skillsJob.FindSkill(30);
                             skill.skillRequire = skillreq.skillRank >= req;
                             skill.skillRequireDesc = string.Format("{0} - Rank: {1}", skillreq.skillName, req);
                             break;
@@ -185,7 +340,7 @@ public class PlayerSkills : MonoBehaviour {
                             // the mana cost is where to total is stored
                             skill.skillEffDesc = "Whenever you Rank Up this skill, gain a set amount of Max MP permanantly.\n" + string.Format("Gain Max MP: +{0}\nTotal Gained: +{1} MP", skill.skillDamage, skill.skillManaCost);
                             int req = skill.skillRank * 5;
-                            skill.skillRequire = stats.level >= req;
+                            skill.skillRequire = level >= req;
                             skill.skillRequireDesc = string.Format("Level: {0}", req);
                             break;
                         }
@@ -194,39 +349,39 @@ public class PlayerSkills : MonoBehaviour {
                             skill.skillDamage = 6;
                             skill.skillEffDesc = string.Format("Luck/Hit/Crit: +{0}. Next rank: +{1}", skill.skillDamage * skill.skillRank, skill.skillDamage * (1 + skill.skillRank));
                             int req = skill.skillRank * 3;
-                            skill.skillRequire = stats.level >= req;
+                            skill.skillRequire = level >= req;
                             skill.skillRequireDesc = string.Format("Level: {0}", req);
                             break;
                         }
                     case 11:
                         {
-                            skill.skillDamage = stats.maxMana.totalAmount / 40;
+                            skill.skillDamage = maxMana.totalAmount / 40;
                             // Mana cost is amount gained 
                             skill.skillEffDesc = string.Format("When this skill is ranked up, gain {0} Armor/Resist instantly. This skill is based off your Current Max MP.\nAmount Gained: {1} Armor/Resist", skill.skillDamage, skill.skillManaCost);
                             int req = 10 + skill.skillRank * 8;
-                            skill.skillRequire = stats.level >= req;
+                            skill.skillRequire = level >= req;
                             skill.skillRequireDesc = string.Format("Level: {0}", req);
                             break;
                         }
                     case 12:
                         {
-                            skill.skillDamage = (stats.strength.totalAmount * 2 + stats.maxHealth.totalAmount) * 3;
+                            skill.skillDamage = (strength.totalAmount * 2 + maxHealth.totalAmount) * 3;
                             skill.skillEffDesc = string.Format("Permamantly set your Str and HP to 1 to increase your Max MP by {0}.\nThis skill is based off your current Strength and max HP.\n", skill.skillDamage);
                             int req = 10;
-                            skill.skillRequire = stats.level >= req;
+                            skill.skillRequire = level >= req;
                             skill.skillRequireDesc = string.Format("Level: {0}", req);
                             break;
                         }
                     case 13:
                         {
-                            skill.skillDamage = (int)(75 + skill.skillRank * 6 + stats.magicAtk.totalAmount * (1.5 + 0.8 * skill.skillRank) * (1 + skill.skillRank / 5));
-                            skill.skillManaCost = (int)(60 + skill.skillRank * 50 + stats.magicAtk.totalAmount * 0.25);
+                            skill.skillDamage = (int)(75 + skill.skillRank * 6 + magicAtk.totalAmount * (1.5 + 0.8 * skill.skillRank) * (1 + skill.skillRank / 5));
+                            skill.skillManaCost = (int)(60 + skill.skillRank * 50 + magicAtk.totalAmount * 0.25);
                             skill.skillCooldown = 5;
                             skill.skillDuration = 3;
                             skill.skillEffDesc = string.Format("For {0} turns, create a damage blocking shield. Shields always takes damage first.\nShield: {1}, Cooldown: {2} Turns",
                                 skill.skillDuration, skill.skillDamage, skill.skillCooldown);
                             int req = 7 + skill.skillRank * 7;
-                            skill.skillRequire = stats.level >= req;
+                            skill.skillRequire = level >= req;
                             skill.skillRequireDesc = string.Format("Level: {0}", req);
                             break;
                         }
@@ -236,9 +391,9 @@ public class PlayerSkills : MonoBehaviour {
                             skill.skillEffDesc = string.Format("By {0}%, decrease the mana cost, increase the damage, and increase bonuses of Inferno, Tsunami, Tornado, Thunderstorm, and Elemental Burst.\n", skill.skillDamage);
                             int req = 2 + skill.skillRank * 4;
                             skill.skillRequire = false;
-                            if ((FindSkill(1).skillRank >= req && FindSkill(2).skillRank >= req) || (FindSkill(1).skillRank >= req && FindSkill(3).skillRank >= req) ||
-                                (FindSkill(1).skillRank >= req && FindSkill(4).skillRank >= req) || (FindSkill(2).skillRank >= req && FindSkill(3).skillRank >= req) ||
-                                (FindSkill(2).skillRank >= req && FindSkill(4).skillRank >= req) || (FindSkill(3).skillRank >= req && FindSkill(4).skillRank >= req))
+                            if ((skillsJob.FindSkill(1).skillRank >= req && skillsJob.FindSkill(2).skillRank >= req) || (skillsJob.FindSkill(1).skillRank >= req && skillsJob.FindSkill(3).skillRank >= req) ||
+                                (skillsJob.FindSkill(1).skillRank >= req && skillsJob.FindSkill(4).skillRank >= req) || (skillsJob.FindSkill(2).skillRank >= req && skillsJob.FindSkill(3).skillRank >= req) ||
+                                (skillsJob.FindSkill(2).skillRank >= req && skillsJob.FindSkill(4).skillRank >= req) || (skillsJob.FindSkill(3).skillRank >= req && skillsJob.FindSkill(4).skillRank >= req))
                             {
                                 skill.skillRequire = true;
                             }
@@ -247,35 +402,35 @@ public class PlayerSkills : MonoBehaviour {
                         }
                     case 15:
                         {
-                            skill.skillDamage = (int)(25 + skill.skillRank * 90 + stats.magicAtk.totalAmount*0.666 / (8 - skill.skillRank));
-                            skill.skillManaCost = (int)(23 + skill.skillRank * 33 + stats.magicAtk.totalAmount * 0.5 * (1 + skill.skillRank));
-                            skill.skillHitChance = (int)(22 + skill.skillRank * 6 + stats.magicAtk.totalAmount * 0.1 / (1 + skill.skillRank)); // explosion chance;
+                            skill.skillDamage = (int)(25 + skill.skillRank * 90 + magicAtk.totalAmount * 0.666 / (8 - skill.skillRank));
+                            skill.skillManaCost = (int)(23 + skill.skillRank * 33 + magicAtk.totalAmount * 0.5 * (1 + skill.skillRank));
+                            skill.skillHitChance = (int)(22 + skill.skillRank * 6 + magicAtk.totalAmount * 0.1 / (1 + skill.skillRank)); // explosion chance;
                             skill.skillCritChance = 75 + 50 * skill.skillRank; // armor/res bonus
-                            skill.skillStatusEff.AddNewStatusAndSet(0, (int)(17 + skill.skillRank * 10 + stats.magicAtk.totalAmount * 0.1 / (1 + skill.skillRank)));
+                            skill.skillStatusEff.AddNewStatusAndSet(0, (int)(17 + skill.skillRank * 10 + magicAtk.totalAmount * 0.1 / (1 + skill.skillRank)));
                             skill.skillCooldown = 5;
                             skill.skillDuration = 4;
-                            skill.skillEffDesc = string.Format("For {0} turns, gain Armor/Resist: +{1}.", skill.skillDuration, skill.skillCritChance) + 
+                            skill.skillEffDesc = string.Format("For {0} turns, gain Armor/Resist: +{1}.", skill.skillDuration, skill.skillCritChance) +
                                string.Format(" At the end of each turn, there's a {0}% chance where the shield explodes, dealing {1} Phyical Damage with Burn chance: {2}%.", skill.skillHitChance, skill.skillDamage, skill.skillStatusEff.GetStatusChance(0))
                                 + string.Format("\nCooldown: {0} Turns", skill.skillCooldown);
                             int req = 2 + skill.skillRank * 4;
-                            Skill reqSkill = FindSkill(1);
+                            Skill reqSkill = skillsJob.FindSkill(1);
                             skill.skillRequire = reqSkill.skillRank >= req;
                             skill.skillRequireDesc = string.Format("{0} - Rank: {1}", reqSkill.skillName, req);
                             break;
                         }
                     case 16:
                         {
-                            skill.skillDamage = (int)(25 + 75 * skill.skillRank + stats.maxHealth.totalAmount * 0.15);
+                            skill.skillDamage = (int)(25 + 75 * skill.skillRank + maxHealth.totalAmount * 0.15);
                             skill.skillManaCost = 125 + 125 * skill.skillRank;
                             skill.skillHitChance = (int)(skill.skillDamage * 0.2);
                             skill.skillCritChance = 0; // <-------- this is where the count of status removed goes to
                             skill.skillCooldown = 6;
                             skill.skillDuration = 3;
                             skill.skillEffDesc = string.Format("Remove all status/actives effects from yourself.\nFor each status effect removed, recover {0} HP, also for {3} turns, gain bonus {1} Armor and {2} Resist.",
-                                skill.skillDamage, skill.skillHitChance, skill.skillHitChance*2, skill.skillDuration)
+                                skill.skillDamage, skill.skillHitChance, skill.skillHitChance * 2, skill.skillDuration)
                                 + string.Format("\nCooldown: {0} Turns", skill.skillCooldown);
                             int req = 2 + skill.skillRank * 4;
-                            Skill reqSkill = FindSkill(2);
+                            Skill reqSkill = skillsJob.FindSkill(2);
                             skill.skillRequire = reqSkill.skillRank >= req;
                             skill.skillRequireDesc = string.Format("{0} - Rank: {1}", reqSkill.skillName, req);
                             break;
@@ -288,12 +443,12 @@ public class PlayerSkills : MonoBehaviour {
                             skill.skillCritChance = 25 + 17 * skill.skillRank;
                             skill.skillCooldown = 7;
                             skill.skillDuration = 4;
-                            skill.skillEffDesc = string.Format("Apply a debuff to the enemy for {0} Turns. " 
+                            skill.skillEffDesc = string.Format("Apply a debuff to the enemy for {0} Turns. "
                                 + "The enemy's mana cost of any skill increases by {1}% but the enemy takes and deals {2}% increased damage. Also, whenever the enemy uses attacks, the enemy takes {3}% of the damage dealt as True Damage.",
                                 skill.skillDuration, skill.skillDamage, skill.skillHitChance, skill.skillCritChance)
                                 + string.Format("\nCooldown: {0} Turns", skill.skillCooldown);
                             int req = 2 + skill.skillRank * 4;
-                            Skill reqSkill = FindSkill(3);
+                            Skill reqSkill = skillsJob.FindSkill(3);
                             skill.skillRequire = reqSkill.skillRank >= req;
                             skill.skillRequireDesc = string.Format("{0} - Rank: {1}", reqSkill.skillName, req);
                             break;
@@ -311,26 +466,26 @@ public class PlayerSkills : MonoBehaviour {
                                 skill.skillDuration, skill.skillDamage, skill.skillHitChance, skill.skillCritChance, skill.skillCritMulti)
                                 + string.Format("\nCooldown: {0} Turns", skill.skillCooldown);
                             int req = 2 + skill.skillRank * 4;
-                            Skill reqSkill = FindSkill(4);
+                            Skill reqSkill = skillsJob.FindSkill(4);
                             skill.skillRequire = reqSkill.skillRank >= req;
                             skill.skillRequireDesc = string.Format("{0} - Rank: {1}", reqSkill.skillName, req);
                             break;
                         }
                     case 19:
                         {
-                            skill.skillDamage = (75 + (175 * skill.skillRank) * (FindSkill(1).skillRank + FindSkill(2).skillRank + FindSkill(3).skillRank + FindSkill(4).skillRank))*(stats.mana/ (stats.maxMana.totalAmount + 1));
-                            skill.skillManaCost = stats.mana;
-                            skill.skillStatusEff.AddNewStatusAndSet(0, 3 * (skill.skillRank) + FindSkill(1).skillStatusEff.GetStatusChance(0));
-                            skill.skillStatusEff.AddNewStatusAndSet(1, 3 * skill.skillRank + FindSkill(4).skillStatusEff.GetStatusChance(1));
-                            skill.skillHitChance = 3 + (skill.skillRank) + FindSkill(2).skillHitChance + FindSkill(3).skillHitChance;
-                            skill.skillCritChance = FindSkill(3).skillCritChance + FindSkill(4).skillCritChance;
-                            skill.skillCritMulti = FindSkill(3).skillCritMulti;
+                            skill.skillDamage = (75 + (175 * skill.skillRank) * (skillsJob.FindSkill(1).skillRank + skillsJob.FindSkill(2).skillRank + skillsJob.FindSkill(3).skillRank + skillsJob.FindSkill(4).skillRank)) * (mana / (maxMana.totalAmount + 1));
+                            skill.skillManaCost = mana;
+                            skill.skillStatusEff.AddNewStatusAndSet(0, 3 * (skill.skillRank) + skillsJob.FindSkill(1).skillStatusEff.GetStatusChance(0));
+                            skill.skillStatusEff.AddNewStatusAndSet(1, 3 * skill.skillRank + skillsJob.FindSkill(4).skillStatusEff.GetStatusChance(1));
+                            skill.skillHitChance = 3 + (skill.skillRank) + skillsJob.FindSkill(2).skillHitChance + skillsJob.FindSkill(3).skillHitChance;
+                            skill.skillCritChance = skillsJob.FindSkill(3).skillCritChance + skillsJob.FindSkill(4).skillCritChance;
+                            skill.skillCritMulti = skillsJob.FindSkill(3).skillCritMulti;
                             skill.skillEffDesc = string.Format("Consume all your current Mana to deal massive damage. This skill deals more damage based on the rank of each Elemental damaging skill.\n");
                             int req = 3 + skill.skillRank * 3;
                             skill.skillRequire = false;
-                            if ((FindSkill(1).skillRank >= req && FindSkill(2).skillRank >= req) || (FindSkill(1).skillRank >= req && FindSkill(3).skillRank >= req) ||
-                                (FindSkill(1).skillRank >= req && FindSkill(4).skillRank >= req) || (FindSkill(2).skillRank >= req && FindSkill(3).skillRank >= req) ||
-                                (FindSkill(2).skillRank >= req && FindSkill(4).skillRank >= req) || (FindSkill(3).skillRank >= req && FindSkill(4).skillRank >= req))
+                            if ((skillsJob.FindSkill(1).skillRank >= req && skillsJob.FindSkill(2).skillRank >= req) || (skillsJob.FindSkill(1).skillRank >= req && skillsJob.FindSkill(3).skillRank >= req) ||
+                                (skillsJob.FindSkill(1).skillRank >= req && skillsJob.FindSkill(4).skillRank >= req) || (skillsJob.FindSkill(2).skillRank >= req && skillsJob.FindSkill(3).skillRank >= req) ||
+                                (skillsJob.FindSkill(2).skillRank >= req && skillsJob.FindSkill(4).skillRank >= req) || (skillsJob.FindSkill(3).skillRank >= req && skillsJob.FindSkill(4).skillRank >= req))
                             {
                                 skill.skillRequire = true;
                             }
@@ -340,23 +495,23 @@ public class PlayerSkills : MonoBehaviour {
                     case 20:
                         {
                             skill.skillDamage = 12 + 11 * skill.skillRank;
-                            skill.skillEffDesc = string.Format("Luck: +{0}",skill.skillDamage);
+                            skill.skillEffDesc = string.Format("Luck: +{0}", skill.skillDamage);
                             int req = 2 + skill.skillRank * 4;
-                            Skill reqSkill = FindSkill(2);
-                            Skill reqSkill2 = FindSkill(3);
+                            Skill reqSkill = skillsJob.FindSkill(2);
+                            Skill reqSkill2 = skillsJob.FindSkill(3);
                             skill.skillRequire = reqSkill.skillRank >= req && reqSkill2.skillRank >= req;
                             skill.skillRequireDesc = string.Format("{0} AND {1} - Rank: {2}", reqSkill.skillName, reqSkill2.skillName, req);
                             break;
                         }
                     case 21:
                         {
-                            skill.skillDamage = (stats.maxHealth.totalAmount/4 - 100 - 100*skill.skillMaxRank);
+                            skill.skillDamage = (maxHealth.totalAmount / 4 - 100 - 100 * skill.skillMaxRank);
                             skill.skillHitChance = -15 - 55 * skill.skillRank;
                             skill.skillCritChance = 25 + 85 * skill.skillRank;
                             skill.skillEffDesc = string.Format("Max HP: {0}\nArmor/Resist: {1}\nGain: {2} Phys/Magic Attack\n", skill.skillDamage, skill.skillHitChance, skill.skillCritChance);
                             int req = 2 + skill.skillRank * 4;
-                            Skill reqSkill = FindSkill(3);
-                            Skill reqSkill2 = FindSkill(1);
+                            Skill reqSkill = skillsJob.FindSkill(3);
+                            Skill reqSkill2 = skillsJob.FindSkill(1);
                             skill.skillRequire = reqSkill.skillRank >= req && reqSkill2.skillRank >= req;
                             skill.skillRequireDesc = string.Format("{0} AND {1} - Rank: {2}", reqSkill.skillName, reqSkill2.skillName, req);
                             break;
@@ -368,87 +523,87 @@ public class PlayerSkills : MonoBehaviour {
                             skill.skillEffDesc = string.Format("When using a Water damaging skill, {0}% chance to apply a debuff to the enemy. Using an Electric damaging skill consumes this debuff, dealing {1}% more damage.\n",
                                 skill.skillDamage, skill.skillHitChance);
                             int req = 2 + skill.skillRank * 4;
-                            Skill reqSkill = FindSkill(2);
-                            Skill reqSkill2 = FindSkill(4);
+                            Skill reqSkill = skillsJob.FindSkill(2);
+                            Skill reqSkill2 = skillsJob.FindSkill(4);
                             skill.skillRequire = reqSkill.skillRank >= req && reqSkill2.skillRank >= req;
                             skill.skillRequireDesc = string.Format("{0} AND {1} - Rank: {2}", reqSkill.skillName, reqSkill2.skillName, req);
                             break;
                         }
                     case 23:
                         {
-                            skill.skillEffDesc = string.Format("Fire damaging skills obtain Crit Chance, and Chance to Paralyze bonuses, Electric damaging skills obtain Chance to Burn bonus.\n");
+                            skill.skillEffDesc = string.Format("Fire damaging skills obtain the Chance to Paralyze bonuses, Electric damaging skills obtain the Chance to Burn bonus.\n");
                             int req = 2 + skill.skillRank * 4;
-                            Skill reqSkill = FindSkill(1);
-                            Skill reqSkill2 = FindSkill(4);
+                            Skill reqSkill = skillsJob.FindSkill(1);
+                            Skill reqSkill2 = skillsJob.FindSkill(4);
                             skill.skillRequire = reqSkill.skillRank >= req && reqSkill2.skillRank >= req;
                             skill.skillRequireDesc = string.Format("{0} AND {1} - Rank: {2}", reqSkill.skillName, reqSkill2.skillName, req);
                             break;
                         }
                     case 24:
                         {
-                            skill.skillDamage = stats.magicAtk.totalAmount;
+                            skill.skillDamage = magicAtk.totalAmount;
                             skill.skillEffDesc = "Attack, dealing magical damage";
                             break;
                         }
                     case 25:
                         {
-                            skill.skillDamage = (int)(15 + (stats.magicAtk.totalAmount / 2.2) * (2.1 * (1 + skill.skillRank)));
+                            skill.skillDamage = (int)(15 + (magicAtk.totalAmount / 2.2) * (2.1 * (1 + skill.skillRank)));
                             skill.skillManaCost = (int)(50 + skill.skillDamage / (19 - skill.skillRank) + skill.skillRank * 55);
-                            skill.skillStatusEff.AddNewStatusAndSet(0, (int)(19 + 5 * skill.skillRank + stats.magicAtk.totalAmount / (35 + stats.magicAtk.totalAmount) / 4));
-                            skill.skillStatusEff.AddNewStatusAndSet(5, (int)(14 + 7 * skill.skillRank + stats.magicAtk.totalAmount / (35 + stats.magicAtk.totalAmount) / 4));
+                            skill.skillStatusEff.AddNewStatusAndSet(0, (int)(19 + 5 * skill.skillRank + magicAtk.totalAmount / (35 + magicAtk.totalAmount) / 4));
+                            skill.skillStatusEff.AddNewStatusAndSet(5, (int)(14 + 7 * skill.skillRank + magicAtk.totalAmount / (35 + magicAtk.totalAmount) / 4));
                             skill.skillEffDesc = string.Format("Chance to Burn: {0}%\n Chance to Blind: {1}%", skill.skillStatusEff.GetStatusChance(0), skill.skillStatusEff.GetStatusChance(5));
                             int req = skill.skillRank * 3;
-                            skill.skillRequire = stats.level >= req;
+                            skill.skillRequire = level >= req;
                             skill.skillRequireDesc = string.Format("Level: {0}", req);
                             break;
                         }
                     case 26:
                         {
-                            skill.skillDamage = 75;//(int)(75 + (stats.magicAtk.totalAmount / 2) * (2.25 * (1 + skill.skillRank)));
+                            skill.skillDamage = 75;//(int)(75 + (magicAtk.totalAmount / 2) * (2.25 * (1 + skill.skillRank)));
                             skill.skillManaCost = (int)(100 + skill.skillDamage / (17 - skill.skillRank) + skill.skillRank * 25);
-                            skill.skillStatusEff.AddNewStatusAndSet(6, 100);//(int)(24 + 4 * skill.skillRank + stats.magicAtk.totalAmount / (23 + stats.magicAtk.totalAmount) / 4));
+                            skill.skillStatusEff.AddNewStatusAndSet(6, 100);//(int)(24 + 4 * skill.skillRank + magicAtk.totalAmount / (23 + magicAtk.totalAmount) / 4));
                             skill.skillEffDesc = string.Format("Chance to Confuse: {0}%", skill.skillStatusEff.GetStatusChance(6));
                             int req = skill.skillRank * 3;
-                            skill.skillRequire = stats.level >= req;
+                            skill.skillRequire = level >= req;
                             skill.skillRequireDesc = string.Format("Level: {0}", req);
                             break;
                         }
                     case 27: // need to add effect
                         {
-                            skill.skillDamage = (int)(100 + (stats.magicAtk.totalAmount / 2) * (2.4 * (1 + skill.skillRank)));
+                            skill.skillDamage = (int)(100 + (magicAtk.totalAmount / 2) * (2.4 * (1 + skill.skillRank)));
                             skill.skillManaCost = (int)(70 + skill.skillDamage / (15 - skill.skillRank) + skill.skillRank * 40);
                             int req = skill.skillRank * 3;
-                            skill.skillRequire = stats.level >= req;
+                            skill.skillRequire = level >= req;
                             skill.skillRequireDesc = string.Format("Level: {0}", req);
                             break;
                         }
                     case 28:
                         {
-                            skill.skillDamage = (int)(25 + (stats.magicAtk.totalAmount / 2.7) * (1.2 * (1 + skill.skillRank)));
+                            skill.skillDamage = (int)(25 + (magicAtk.totalAmount / 2.7) * (1.2 * (1 + skill.skillRank)));
                             skill.skillManaCost = (int)(100 + skill.skillDamage / (17 - skill.skillRank) + skill.skillRank * 80);
-                            skill.skillStatusEff.AddNewStatusAndSet(5, (int)(36 + 4 * skill.skillRank + stats.magicAtk.totalAmount / (19 + stats.magicAtk.totalAmount) / 4));
+                            skill.skillStatusEff.AddNewStatusAndSet(5, (int)(36 + 4 * skill.skillRank + magicAtk.totalAmount / (19 + magicAtk.totalAmount) / 4));
                             skill.skillEffDesc = string.Format("Chance to Blind: {0}%", skill.skillStatusEff.GetStatusChance(5));
                             break;
                         }
                     case 29:
                         {
-                            skill.skillDamage = (int)(75 + (stats.magicAtk.totalAmount / 2.5) * (2.1 * (1 + skill.skillRank)));
+                            skill.skillDamage = (int)(75 + (magicAtk.totalAmount / 2.5) * (2.1 * (1 + skill.skillRank)));
                             skill.skillManaCost = (int)(50 + skill.skillDamage / (17 - skill.skillRank) + skill.skillRank * 40);
-                            skill.skillStatusEff.AddNewStatusAndSet(5, (int)(17 + 8 * skill.skillRank + stats.magicAtk.totalAmount / (28 + stats.magicAtk.totalAmount) / 4));
+                            skill.skillStatusEff.AddNewStatusAndSet(5, (int)(17 + 8 * skill.skillRank + magicAtk.totalAmount / (28 + magicAtk.totalAmount) / 4));
                             skill.skillEffDesc = string.Format("Chance to Cripple: {0}%", skill.skillStatusEff.GetStatusChance(5));
                             int req = skill.skillRank * 3;
-                            skill.skillRequire = stats.level >= req;
+                            skill.skillRequire = level >= req;
                             skill.skillRequireDesc = string.Format("Level: {0}", req);
                             break;
                         }
                     case 30:
                         {
-                            skill.skillDamage = (int)(50 + (stats.magicAtk.totalAmount / 1.8) * (2.9 * (1 + skill.skillRank)));
+                            skill.skillDamage = (int)(50 + (magicAtk.totalAmount / 1.8) * (2.9 * (1 + skill.skillRank)));
                             skill.skillManaCost = (int)(80 + skill.skillDamage / (17 - skill.skillRank) + skill.skillRank * 40);
-                            skill.skillStatusEff.AddNewStatusAndSet(7, (int)(20 + 6 * skill.skillRank + stats.magicAtk.totalAmount / (24 + stats.magicAtk.totalAmount) / 4));
+                            skill.skillStatusEff.AddNewStatusAndSet(7, (int)(20 + 6 * skill.skillRank + magicAtk.totalAmount / (24 + magicAtk.totalAmount) / 4));
                             skill.skillEffDesc = string.Format("Chance to Curse: {0}%", skill.skillStatusEff.GetStatusChance(7));
                             int req = skill.skillRank * 3;
-                            skill.skillRequire = stats.level >= req;
+                            skill.skillRequire = level >= req;
                             skill.skillRequireDesc = string.Format("Level: {0}", req);
                             break;
                         }
@@ -464,7 +619,7 @@ public class PlayerSkills : MonoBehaviour {
                                 skill.skillDuration, skill.skillDamage, skill.skillHitChance)
                                 + string.Format("\nCooldown: {0} Turns", skill.skillCooldown);
                             int req = 2 + skill.skillRank * 4;
-                            Skill reqSkill = FindSkill(29);
+                            Skill reqSkill = skillsJob.FindSkill(29);
                             skill.skillRequire = reqSkill.skillRank >= req;
                             skill.skillRequireDesc = string.Format("{0} - Rank: {1}", reqSkill.skillName, req);
                             break;
@@ -477,7 +632,7 @@ public class PlayerSkills : MonoBehaviour {
                             skill.skillEffDesc = string.Format("For {0} turns, the chance of being burned raises by {1}%", skill.skillDuration, skill.skillManaCost)
                                 + string.Format("\nCooldown: {0} Turns", skill.skillCooldown);
                             int req = 2 + skill.skillRank * 4;
-                            Skill reqSkill = FindSkill(25);
+                            Skill reqSkill = skillsJob.FindSkill(25);
                             skill.skillRequire = reqSkill.skillRank >= req;
                             skill.skillRequireDesc = string.Format("{0} - Rank: {1}", reqSkill.skillName, req);
                             break;
@@ -489,7 +644,7 @@ public class PlayerSkills : MonoBehaviour {
                             skill.skillCooldown = 6;
                             skill.skillEffDesc = string.Format("For {0} turns, any damaging attack that has the chance to inflict Confuse has its damage increased by its chance to Confuse multiplied by 8, but the chance to Confuse becomes 0%\n", skill.skillDuration);
                             int req = 2 + skill.skillRank * 4;
-                            Skill reqSkill = FindSkill(26);
+                            Skill reqSkill = skillsJob.FindSkill(26);
                             skill.skillRequire = reqSkill.skillRank >= req;
                             skill.skillRequireDesc = string.Format("{0} - Rank: {1}", reqSkill.skillName, req);
                             break;
@@ -501,10 +656,10 @@ public class PlayerSkills : MonoBehaviour {
                             skill.skillHitChance = 10 + 5 * skill.skillRank;
                             skill.skillDuration = 5;
                             skill.skillCooldown = 8;
-                            skill.skillEffDesc = string.Format("For {0} turns:\n+{1}% Dodge Chance\n+{2}% Critical Chance",skill.skillDuration, skill.skillDamage, skill.skillHitChance)
+                            skill.skillEffDesc = string.Format("For {0} turns:\n+{1}% Dodge Chance\n+{2}% Critical Chance", skill.skillDuration, skill.skillDamage, skill.skillHitChance)
                                 + string.Format("\nCooldown: {0} Turns", skill.skillCooldown); ;
                             int req = 2 + skill.skillRank * 4;
-                            Skill reqSkill = FindSkill(30);
+                            Skill reqSkill = skillsJob.FindSkill(30);
                             skill.skillRequire = reqSkill.skillRank >= req;
                             skill.skillRequireDesc = string.Format("{0} - Rank: {1}", reqSkill.skillName, req);
                             break;
@@ -516,7 +671,7 @@ public class PlayerSkills : MonoBehaviour {
                             skill.skillCritChance = 8 + 4 * skill.skillRank;
                             skill.skillEffDesc = string.Format("+{0}% Dodge Chance\n+{1} Max MP, -{2}% Mana Comsumption", skill.skillDamage, skill.skillHitChance, skill.skillCritChance);
                             int req = 4 + skill.skillRank * 3;
-                            Skill reqSkill = FindSkill(29);
+                            Skill reqSkill = skillsJob.FindSkill(29);
                             skill.skillRequire = reqSkill.skillRank >= req;
                             skill.skillRequireDesc = string.Format("{0} - Rank: {1}", reqSkill.skillName, req);
                             break;
@@ -526,7 +681,7 @@ public class PlayerSkills : MonoBehaviour {
                             skill.skillDamage = 6 + 6 * skill.skillMaxRank;
                             skill.skillEffDesc = string.Format("Being attacked has a {0}% chance to burn the attacker.\n", skill.skillDamage);
                             int req = 4 + skill.skillRank * 3;
-                            Skill reqSkill = FindSkill(25);
+                            Skill reqSkill = skillsJob.FindSkill(25);
                             skill.skillRequire = reqSkill.skillRank >= req;
                             skill.skillRequireDesc = string.Format("{0} - Rank: {1}", reqSkill.skillName, req);
                             break;
@@ -537,19 +692,19 @@ public class PlayerSkills : MonoBehaviour {
                             skill.skillHitChance = 10 + 5 * skill.skillRank;
                             skill.skillEffDesc = string.Format("You are immune to Confuse. Attacks with the chance to Confuse is increased +{0}%. If the enemy is confused, enemy's Damage Taken +{1}%.\n", skill.skillDamage, skill.skillHitChance);
                             int req = 4 + skill.skillRank * 3;
-                            Skill reqSkill = FindSkill(26);
+                            Skill reqSkill = skillsJob.FindSkill(26);
                             skill.skillRequire = reqSkill.skillRank >= req;
                             skill.skillRequireDesc = string.Format("{0} - Rank: {1}", reqSkill.skillName, req);
                             break;
                         }
                     case 38:
                         {
-                            skill.skillDamage = (3 + (2 + stats.level/3 * skill.skillRank)) * skill.skillRank;
-                            skill.skillHitChance = (5 + (1 + stats.level / 4 * skill.skillRank)) * skill.skillRank;
+                            skill.skillDamage = (3 + (2 + level / 3 * skill.skillRank)) * skill.skillRank;
+                            skill.skillHitChance = (5 + (1 + level / 4 * skill.skillRank)) * skill.skillRank;
                             skill.skillEffDesc = string.Format("During battle, at the end of your turn, gain {0} HP multiplied by the turn count. Also, any damage taken is reduced by {1} multiplied by the turn count.\n", skill.skillDamage, skill.skillHitChance);
                             int req = 2 + skill.skillRank * 4;
-                            Skill reqSkill = FindSkill(29);
-                            Skill reqSkill2 = FindSkill(25);
+                            Skill reqSkill = skillsJob.FindSkill(29);
+                            Skill reqSkill2 = skillsJob.FindSkill(25);
                             skill.skillRequire = reqSkill.skillRank >= req && reqSkill2.skillRank >= req;
                             skill.skillRequireDesc = string.Format("{0} AND {1} - Rank: {2}", reqSkill.skillName, reqSkill2.skillName, req);
                             break;
@@ -560,8 +715,8 @@ public class PlayerSkills : MonoBehaviour {
                             skill.skillDuration = 2 + skill.skillRank;
                             skill.skillEffDesc = string.Format("During battle, if your HP is 0 or lower, don't die and set HP equal to {0}. If you don't defeat the enemy within {1} turns, reduce HP to 0 and die normally.\n", skill.skillDamage, skill.skillDuration);
                             int req = 2 + skill.skillRank * 4;
-                            Skill reqSkill = FindSkill(25);
-                            Skill reqSkill2 = FindSkill(30);
+                            Skill reqSkill = skillsJob.FindSkill(25);
+                            Skill reqSkill2 = skillsJob.FindSkill(30);
                             skill.skillRequire = reqSkill.skillRank >= req && reqSkill2.skillRank >= req;
                             skill.skillRequireDesc = string.Format("{0} AND {1} - Rank: {2}", reqSkill.skillName, reqSkill2.skillName, req);
                             break;
@@ -571,8 +726,8 @@ public class PlayerSkills : MonoBehaviour {
                             skill.skillDamage = 25 + 10 * skill.skillRank;
                             skill.skillEffDesc = string.Format("Any damage is multiplied by {0}% (including enemy).\n", skill.skillDamage);
                             int req = 2 + skill.skillRank * 4;
-                            Skill reqSkill = FindSkill(26);
-                            Skill reqSkill2 = FindSkill(29);
+                            Skill reqSkill = skillsJob.FindSkill(26);
+                            Skill reqSkill2 = skillsJob.FindSkill(29);
                             skill.skillRequire = reqSkill.skillRank >= req && reqSkill2.skillRank >= req;
                             skill.skillRequireDesc = string.Format("{0} AND {1} - Rank: {2}", reqSkill.skillName, reqSkill2.skillName, req);
                             break;
@@ -583,8 +738,8 @@ public class PlayerSkills : MonoBehaviour {
                             skill.skillHitChance = 20 + 10 * skill.skillRank;
                             skill.skillEffDesc = string.Format("+{0}% Dodge Chance\nAny damage dealing %HP damage is increased by {1}%.\n", skill.skillDamage, skill.skillHitChance);
                             int req = 2 + skill.skillRank * 4;
-                            Skill reqSkill = FindSkill(30);
-                            Skill reqSkill2 = FindSkill(26);
+                            Skill reqSkill = skillsJob.FindSkill(30);
+                            Skill reqSkill2 = skillsJob.FindSkill(26);
                             skill.skillRequire = reqSkill.skillRank >= req && reqSkill2.skillRank >= req;
                             skill.skillRequireDesc = string.Format("{0} AND {1} - Rank: {2}", reqSkill.skillName, reqSkill2.skillName, req);
                             break;
@@ -593,8 +748,8 @@ public class PlayerSkills : MonoBehaviour {
                         {
                             skill.skillEffDesc = string.Format("Water skills damage increased");
                             int req = 2 + skill.skillRank * 4;
-                            Skill reqSkill = FindSkill(26);
-                            Skill reqSkill2 = FindSkill(2);
+                            Skill reqSkill = skillsJob.FindSkill(26);
+                            Skill reqSkill2 = skillsJob.FindSkill(2);
                             skill.skillRequire = reqSkill.skillRank >= req && reqSkill2.skillRank >= req;
                             skill.skillRequireDesc = string.Format("{0} AND {1} - Rank: {2}", reqSkill.skillName, reqSkill2.skillName, req);
                             break;
@@ -609,68 +764,55 @@ public class PlayerSkills : MonoBehaviour {
                         }
                 }
                 skill.skillRequire = true;
-                skill.skillManaCost = (int)(skill.skillManaCost * (PlayerStats.stats.manaComs.totalAmount/100f));
-        }
+                skill.skillManaCost = (int)(skill.skillManaCost * (manaComs.totalAmount / 100f));
+            }
     }
 
-    public static void GainPassiveBonusEffect(int id)
+    public void FullUpdate()
     {
-        Stats stats = PlayerStats.stats;
-        Skill passive = FindSkill(id);
-        switch (id)
-        {
-            case 9:
-                {
-                    print(passive.skillDamage);
-                    stats.maxMana.buffedAmount += passive.skillDamage;
-                    passive.skillManaCost += passive.skillDamage;
-                    break;
-                }
-            case 10:
-                {
-                    stats.luck.buffedAmount += passive.skillDamage;
-                    stats.hitChance.buffedAmount += passive.skillDamage;
-                    stats.critChance.buffedAmount += passive.skillDamage;
-                    break;
-                }
-            case 11:
-                {
-                    stats.armor.buffedAmount += passive.skillDamage;
-                    stats.resist.buffedAmount += passive.skillDamage;
-                    passive.skillManaCost += passive.skillDamage;
-                    break;
-                }
-            case 12:
-                {
-                    PlayerStats.AddSpecialPassive(12);
-                    stats.maxMana.buffedAmount += passive.skillDamage;
-                    break;
-                }
-            case 14:
-                {
-                    PlayerStats.AddSpecialPassive(14);
-                    break;
-                }
-            case 20:
-                {
-                    stats.luck.buffedAmount += passive.skillDamage;
-                    break;
-                }
-            case 21:
-                {
-                    stats.maxHealth.buffedAmount -= passive.skillDamage;
-                    stats.armor.buffedAmount -= passive.skillHitChance;
-                    stats.resist.buffedAmount -= passive.skillHitChance;
-                    stats.physAtk.buffedAmount += passive.skillCritChance;
-                    stats.magicAtk.buffedAmount += passive.skillCritChance;
-                    break;
-                }
-            case 23:
-                {
-                    PlayerStats.AddSpecialPassive(23);
-                    break;
-                }
-        }
+        StatsUpdate();
+        SkillUpdate();
+        SpecialPassivesEffects();
+        StatusBar.UpdateStatusBar();
     }
-
+    public string makeStatsPage()
+    {
+        string text = "";
+        //string lv = "<color=#FFFFFF>LV: " + FindStat(16).totalAmount + "</color></size>\n";
+        string str = string.Format("<size=15><color=#C40D0D>Strength: {0} + {1} = {2}</color></size>", strength.baseAmount, strength.buffedAmount, strength.totalAmount);
+        string intel = string.Format("<size=15><color=#0000FF>  Intelligence: {0} + {1} = {2}</color></size>\n", intelligence.baseAmount, intelligence.buffedAmount, intelligence.totalAmount);
+        text += str + intel;
+        string agi = string.Format("<size=17><color=#00FF00>Agility: {0} + {1} = {2}</color></size>", agility.baseAmount, agility.buffedAmount, agility.totalAmount);
+        text += agi;
+        string luk = string.Format("<size=17><color=#F3F335>  Luck: {0} + {1} = {2}</color></size>\n", luck.baseAmount, luck.buffedAmount, luck.totalAmount);
+        text += luk;
+        string hp = string.Format("<size=14><color=#F00000>Max HP: {0} + {1} = {2}</color></size>", maxHealth.baseAmount, maxHealth.buffedAmount, maxHealth.totalAmount);
+        text += hp;
+        string mp = string.Format("<size=14><color=#2BF2F2>  Max MP: {0} + {1} = {2}</color></size>\n", maxMana.baseAmount, maxMana.buffedAmount, maxMana.totalAmount);
+        text += mp;
+        string atk = string.Format("<size=14><color=#EC2E2F>Phys Atk: {0} + {1} = {2}</color></size>", physAtk.baseAmount, physAtk.buffedAmount, physAtk.totalAmount);
+        text += atk;
+        string matk = string.Format("<size=14><color=#2200FF>  Magic Atk: {0} + {1} = {2}</color></size>\n", magicAtk.baseAmount, magicAtk.buffedAmount, magicAtk.totalAmount);
+        text += matk;
+        string ar = string.Format("<size=16><color=#000000>Defense: {0} + {1} = {2}</color></size>", armor.baseAmount, armor.buffedAmount, armor.totalAmount);
+        text += ar;
+        string res = string.Format("<size=16><color=#04007f>  Resist: {0} + {1} = {2}</color></size>\n", resist.baseAmount, resist.buffedAmount, resist.totalAmount);
+        text += res;
+        string hit = string.Format("<size=17><color=#2EEC61>Hit%: {0}% + {1}% = {2}%</color></size>\n", hitChance.baseAmount, hitChance.buffedAmount, hitChance.totalAmount);
+        text += hit;
+        string dodge = string.Format("<size=17><color=#2EED8E>Dodge%: {0}% + {1}% = {2}%</color></size>\n", dodgeChance.baseAmount, dodgeChance.buffedAmount, dodgeChance.totalAmount);
+        text += dodge;
+        string crit = string.Format("<size=17><color=#2EEDED>Crit% : {0}% + {1}% = {2}%</color></size>\n", critChance.baseAmount, critChance.buffedAmount, critChance.totalAmount);
+        text += crit;
+        string multi = string.Format("<size=17><color=#DEAB71>Crit Multi: {0}% + {1}% = {2}%</color></size>\n", critMulti.baseAmount, critMulti.buffedAmount, critMulti.totalAmount);
+        text += multi;
+        string dmgOut = string.Format("<size=17><color=#2EEC61>DMG Output: {0}% + {1}% = {2}%</color></size>\n", dmgOutput.baseAmount, dmgOutput.buffedAmount, dmgOutput.totalAmount);
+        text += dmgOut;
+        string dmgTake = string.Format("<size=17><color=#2EEC61>DMG Taken: {0}% + {1}% = {2}%</color></size>\n", dmgTaken.baseAmount, dmgTaken.buffedAmount, dmgTaken.totalAmount);
+        text += dmgTake;
+        string com = string.Format("<size=17><color=#2EEC61>Mana Coms: {0}% + {1}% = {2}%</color></size>\n", manaComs.baseAmount, manaComs.buffedAmount, manaComs.totalAmount);
+        text += com;
+        return text;
+    }
 }
+

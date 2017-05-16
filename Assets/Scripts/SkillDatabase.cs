@@ -63,6 +63,18 @@ public class SkillDatabase : MonoBehaviour {
         //skills.Add(new Skill("", 48, "", , Skill.SkillType.));
         //skills.Add(new Skill("", 49, "", , Skill.SkillType.));
 
+
+
+        // statuses the hit chance is the chance
+        skills.Add(new Skill("Burn", 1000, ""));
+        skills.Add(new Skill("Paralyze", 1001, ""));
+        skills.Add(new Skill("Bleed", 1002, ""));
+        skills.Add(new Skill("Poison", 1003, ""));
+        skills.Add(new Skill("Cripple", 1004, ""));
+        skills.Add(new Skill("Blind", 1005, ""));
+        skills.Add(new Skill("Confuse", 1006, ""));
+        skills.Add(new Skill("Curse", 1007, ""));
+        skills.Add(new Skill("Soaked", 1008, ""));
         //// Mage Skills
         // add pages
         AddPage(mageSkills, 2);

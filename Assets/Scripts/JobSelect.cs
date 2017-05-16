@@ -5,31 +5,31 @@ public class JobSelect : MonoBehaviour {
 
     public static void AddBaseStats()
     {
-        PlayerStats.stats.level = 1;
-        PlayerStats.stats.strength.baseAmount = 3;
-        PlayerStats.stats.intelligence.baseAmount = 3;
-        PlayerStats.stats.agility.baseAmount = 3;
-        PlayerStats.stats.luck.baseAmount = 3;
-        PlayerStats.stats.critMulti.baseAmount = 225;
-        PlayerStats.stats.dmgOutput.baseAmount = 100;
-        PlayerStats.stats.dmgTaken.baseAmount = 100;
-        PlayerStats.stats.manaComs.baseAmount = 100;
-        PlayerStats.stats.cash = 100;
-        PlayerStats.StatsUpdate();
-        PlayerStats.stats.HealFullHP();
-        PlayerStats.stats.HealFullMP();
-        PlayerStats.SetMaxExp();
-        InvEq.UpdateCashText();
+        GameManager.player.level = 1;
+        GameManager.player.strength.baseAmount = 3;
+        GameManager.player.intelligence.baseAmount = 3;
+        GameManager.player.agility.baseAmount = 3;
+        GameManager.player.luck.baseAmount = 3;
+        GameManager.player.critMulti.baseAmount = 225;
+        GameManager.player.dmgOutput.baseAmount = 100;
+        GameManager.player.dmgTaken.baseAmount = 100;
+        GameManager.player.manaComs.baseAmount = 100;
+        GameManager.player.cash = 100;
+        GameManager.player.FullUpdate();
+        GameManager.player.HealFullHP();
+        GameManager.player.HealFullMP();
+        GameManager.player.SetMaxExp();
+        //InvEq.UpdateCashText();
         StatusBar.UpdateStatusBar();
     }
 
     public void SelectMage()
     {
         SoundDatabase.PlaySound(43);
-        PlayerStats.stats.job = JobDatabase.GetJob(0);
+        GameManager.player.job = JobDatabase.GetJob(0);
         AddBaseStats();
-        PlayerSkills.ApplyJob();
-        SkillPage.currentPage = PlayerSkills.skills;
+        GameManager.player.ApplyJob();
+        SkillPage.currentPage = GameManager.player.skillsJob.skills;
         SkillPage.UpdateSkillPage(0);
         SkillPage.UpdateSkillPoints();
         GameManager.inIntro = false;
@@ -40,10 +40,10 @@ public class JobSelect : MonoBehaviour {
     }
     public void SelectRogue()
     {
-        PlayerStats.stats.job = JobDatabase.GetJob(1);
+        GameManager.player.job = JobDatabase.GetJob(1);
     }
     public void SelectWarrior()
     {
-        PlayerStats.stats.job = JobDatabase.GetJob(2);
+        GameManager.player.job = JobDatabase.GetJob(2);
     }
 }

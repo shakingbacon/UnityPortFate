@@ -16,7 +16,7 @@ public class Intro : MonoBehaviour {
         if (gameObject.transform.FindChild("Input Name").GetComponent<InputField>().text.Length != 0)
         {
             SoundDatabase.PlaySound(43);
-            PlayerStats.stats.mingZi = gameObject.transform.FindChild("Input Name").GetComponent<InputField>().text;
+            GameManager.player.mingZi = gameObject.transform.FindChild("Input Name").GetComponent<InputField>().text;
             StatusBar.UpdateDescription();
             Destroy(gameObject);
         }

@@ -4,20 +4,12 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class Battle : MonoBehaviour {
-    static GameObject player;
+    public static PlayerData player;
+    public static Enemy enemy;
     RectTransform enemyRect;
     public static int turnCount;
-
-
-    //
     public static Skill playerUseSkill;
     
-    // Use this for initialization
-    void Start ()
-    {
-        player = GameObject.FindGameObjectWithTag("Player");
-    }
-
     public static void SetupBattle(Enemy vswho)
     {
         if (!GameManager.inBattle)
@@ -52,13 +44,15 @@ public class Battle : MonoBehaviour {
         turnCount = -1;
         BattleUI.NextTurn();
         BattleUI.TextReset();
-        BattleUI.ResetAllStatus();
         BattleUI.quickSkillDesc.text = "";
-        EnemyHolder.enemy = new Enemy(vswho);
-        BattleUI.enemyName.text = EnemyHolder.enemy.stats.mingZi;
-        EnemyHolder.enemy.stats.HealFullHP();
-        EnemyHolder.enemy.stats.HealFullMP();
-        EnemyHolder.enemyHolder.GetComponent<Image>().sprite = EnemyHolder.enemy.enemyIMG;
+        player = GameManager.player;
+        Enemy chosenEnemy = new Enemy(vswho);
+        enemy = chosenEnemy;
+        BattleUI.enemyName.text = enemy.mingZi;
+        BattleUI.ResetAllStatus();
+        enemy.HealFullHP();
+        enemy.HealFullMP();
+        BattleUI.enemySprite.sprite = chosenEnemy.enemyIMG;
         BattleUI.UpdateEnemySliders();
         StatusBar.LoseShield();
     }
@@ -66,6 +60,7 @@ public class Battle : MonoBehaviour {
 
     public static void EndBattle()
     {
+        GameObject playr = GameObject.FindGameObjectWithTag("Player");
         DamageCalc.LoseAllPlayerStatusEffects();
         StatusBar.LoseShield();
         GameManager.OpenClosePage("Battle UI");
@@ -74,8 +69,8 @@ public class Battle : MonoBehaviour {
         SkillPage.skillPoints.gameObject.SetActive(true);
         SkillPage.quickSkillsButton.gameObject.SetActive(true);
         SkillPage.quickSkillsInfo.gameObject.SetActive(true);
-        player.transform.position = new Vector3(player.transform.position.x - 0.55f, player.transform.position.y);
-        Camera.main.transform.position = player.transform.position;
+        playr.transform.position = new Vector3(playr.transform.position.x - 0.55f, playr.transform.position.y);
+        Camera.main.transform.position = playr.transform.position;
         Camera.main.GetComponent<CameraFollow>().enabled = true;
         SkillPage.AfterLearnedSkillButtonPress();
         QuickSkills.MoveToSkillPage();

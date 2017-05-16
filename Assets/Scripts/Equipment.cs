@@ -31,44 +31,44 @@ public class Equipment : MonoBehaviour {
 
     public static void AddItemStats(Item item)
     {
-        PlayerStats.stats.strength.buffedAmount += item.itemBonusStr;
-        PlayerStats.stats.intelligence.buffedAmount += item.itemBonusInt;
-        PlayerStats.stats.agility.buffedAmount += item.itemBonusAgi;
-        PlayerStats.stats.luck.buffedAmount += item.itemBonusLuk;
-        PlayerStats.stats.maxHealth.buffedAmount += item.itemBonusHP;
-        PlayerStats.stats.maxMana.buffedAmount += item.itemBonusMP;
-        PlayerStats.stats.physAtk.buffedAmount += item.itemBonusAtk;
-        PlayerStats.stats.magicAtk.buffedAmount += item.itemBonusMAtk;
-        PlayerStats.stats.armor.buffedAmount += item.itemBonusArmor;
-        PlayerStats.stats.resist.buffedAmount += item.itemBonusResist;
-        PlayerStats.stats.hitChance.buffedAmount += item.itemBonusHit;
-        PlayerStats.stats.dodgeChance.buffedAmount += item.itemBonusDodge;
-        PlayerStats.stats.critChance.buffedAmount += item.itemBonusCrit;
-        PlayerStats.stats.critMulti.buffedAmount += item.itemBonusCritMulti;
-        PlayerStats.StatsUpdate();
+        GameManager.player.strength.buffedAmount += item.itemBonusStr;
+        GameManager.player.intelligence.buffedAmount += item.itemBonusInt;
+        GameManager.player.agility.buffedAmount += item.itemBonusAgi;
+        GameManager.player.luck.buffedAmount += item.itemBonusLuk;
+        GameManager.player.maxHealth.buffedAmount += item.itemBonusHP;
+        GameManager.player.maxMana.buffedAmount += item.itemBonusMP;
+        GameManager.player.physAtk.buffedAmount += item.itemBonusAtk;
+        GameManager.player.magicAtk.buffedAmount += item.itemBonusMAtk;
+        GameManager.player.armor.buffedAmount += item.itemBonusArmor;
+        GameManager.player.resist.buffedAmount += item.itemBonusResist;
+        GameManager.player.hitChance.buffedAmount += item.itemBonusHit;
+        GameManager.player.dodgeChance.buffedAmount += item.itemBonusDodge;
+        GameManager.player.critChance.buffedAmount += item.itemBonusCrit;
+        GameManager.player.critMulti.buffedAmount += item.itemBonusCritMulti;
+        GameManager.player.FullUpdate();
         StatusBar.UpdateSliders();
     }
 
     public static void RemoveItemStats(Item item)
     {
-        PlayerStats.stats.strength.buffedAmount -= item.itemBonusStr;
-        PlayerStats.stats.intelligence.buffedAmount -= item.itemBonusInt;
-        PlayerStats.stats.agility.buffedAmount -= item.itemBonusAgi;
-        PlayerStats.stats.luck.buffedAmount -= item.itemBonusLuk;
-        PlayerStats.stats.maxHealth.buffedAmount -= item.itemBonusHP;
-        PlayerStats.stats.maxMana.buffedAmount -= item.itemBonusMP;
-        PlayerStats.stats.physAtk.buffedAmount -= item.itemBonusAtk;
-        PlayerStats.stats.magicAtk.buffedAmount -= item.itemBonusMAtk;
-        PlayerStats.stats.manaComs.buffedAmount -= item.itemBonusMAtk;
-        PlayerStats.stats.dmgOutput.buffedAmount -= item.itemBonusMAtk;
-        PlayerStats.stats.dmgTaken.buffedAmount -= item.itemBonusMAtk;
-        PlayerStats.stats.armor.buffedAmount -= item.itemBonusArmor;
-        PlayerStats.stats.resist.buffedAmount -= item.itemBonusResist;
-        PlayerStats.stats.hitChance.buffedAmount -= item.itemBonusHit;
-        PlayerStats.stats.dodgeChance.buffedAmount -= item.itemBonusDodge;
-        PlayerStats.stats.critChance.buffedAmount -= item.itemBonusCrit;
-        PlayerStats.stats.critMulti.buffedAmount -= item.itemBonusCritMulti;
-        PlayerStats.StatsUpdate();
+        GameManager.player.strength.buffedAmount -= item.itemBonusStr;
+        GameManager.player.intelligence.buffedAmount -= item.itemBonusInt;
+        GameManager.player.agility.buffedAmount -= item.itemBonusAgi;
+        GameManager.player.luck.buffedAmount -= item.itemBonusLuk;
+        GameManager.player.maxHealth.buffedAmount -= item.itemBonusHP;
+        GameManager.player.maxMana.buffedAmount -= item.itemBonusMP;
+        GameManager.player.physAtk.buffedAmount -= item.itemBonusAtk;
+        GameManager.player.magicAtk.buffedAmount -= item.itemBonusMAtk;
+        GameManager.player.manaComs.buffedAmount -= item.itemBonusMAtk;
+        GameManager.player.dmgOutput.buffedAmount -= item.itemBonusMAtk;
+        GameManager.player.dmgTaken.buffedAmount -= item.itemBonusMAtk;
+        GameManager.player.armor.buffedAmount -= item.itemBonusArmor;
+        GameManager.player.resist.buffedAmount -= item.itemBonusResist;
+        GameManager.player.hitChance.buffedAmount -= item.itemBonusHit;
+        GameManager.player.dodgeChance.buffedAmount -= item.itemBonusDodge;
+        GameManager.player.critChance.buffedAmount -= item.itemBonusCrit;
+        GameManager.player.critMulti.buffedAmount -= item.itemBonusCritMulti;
+        GameManager.player.FullUpdate();
         StatusBar.UpdateSliders();
 
     }

@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour {
 
     public GUISkin skin;
+    public static PlayerData player;
     public static string version;
     public static bool invisibleWallOn = false;
     static string showingPage;
@@ -17,7 +18,8 @@ public class GameManager : MonoBehaviour {
 
     void Start()
     {
-        version = "Dev.v2.02";
+        player = new PlayerData();
+        version = "Dev.v3.0";
         OpenClosePage("Skill Page");
         OpenClosePage("Battle UI");
         OpenClosePage("InventoryEquipment");

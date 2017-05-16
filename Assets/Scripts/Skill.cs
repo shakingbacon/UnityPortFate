@@ -81,5 +81,11 @@ public class Skill {
     {
         skillID = -1;
     }
+    public Skill(string name, int id, string desc)
+    {
+        skillName = name;
+        skillID = id;
+        skillDesc = desc;
+    }
 
 }

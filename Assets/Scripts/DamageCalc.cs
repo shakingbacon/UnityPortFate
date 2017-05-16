@@ -15,7 +15,7 @@ public class DamageCalc : MonoBehaviour
         damageCalc = gameObject.GetComponent<DamageCalc>();
     }
 
-    public static int BasicDamageReduction(Stats user, Stats victim, Skill.SkillType skilltype, int damage)
+    public static int BasicDamageReduction(Mortal user, Mortal victim, Skill.SkillType skilltype, int damage)
     {
         int dmg;
         if (skilltype == Skill.SkillType.True)
@@ -37,19 +37,11 @@ public class DamageCalc : MonoBehaviour
         return dmg;
     }
 
-    public static int DmgModifier(Stats user, Stats victim, Skill skill)
+    public static int DmgModifier(Mortal user, Mortal victim, Skill skill)
     {
         int dmg;
         dmg = BasicDamageReduction(user, victim, skill.skillType, skill.skillDamage);
-        Transform who;
-        if (user == PlayerStats.stats)
-        {
-            who = BattleUI.playerStatus;
-        }
-        else
-        {
-            who = BattleUI.enemyStatus;
-        }
+        Transform who = BattleUI.WhoseStatus(user);
         foreach (Transform status in who)
         {
             if (status.GetComponent<StatusHolder>().skill.skillID != -1)
@@ -63,7 +55,7 @@ public class DamageCalc : MonoBehaviour
                             {
                                 dmg = (int)(dmg * (statusSkill.skillDamage / 100f));
                                 BattleUI.TextAdd(user, 18, string.Format("{0} is charged from {1}", skill.skillName, statusSkill.skillName));
-                                BattleUI.RemoveActive(who, statusSkill.skillID);
+                                BattleUI.RemoveStatus(who, statusSkill.skillID);
                             }
                             break;
                         }
@@ -73,38 +65,38 @@ public class DamageCalc : MonoBehaviour
         return dmg;
     }
 
-    public static int HitChanceModifier(Stats user, Stats victim, Skill skill)
+    public static int HitChanceModifier(Mortal user, Mortal victim, Skill skill)
     {
         int hit = user.hitChance.totalAmount + skill.skillHitChance - victim.dodgeChance.totalAmount;
         return hit;
     }
 
-    public static int CritChanceModifier(Stats user, Stats victim, Skill skill)
+    public static int CritChanceModifier(Mortal user, Mortal victim, Skill skill)
     {
         int crit = user.critChance.totalAmount + skill.skillCritChance;
         return crit;
     }
 
-    public static void CheckSkillStatusEff(Stats victim, Skill skill)
+    public static void CheckSkillStatusEff(Mortal victim, Skill skill)
     {
-        foreach (Status status in skill.skillStatusEff.statusList)
+        foreach (Skill status in skill.skillStatusEff.statusList)
         {
-            if (status.statusChance > Random.Range(0, 101))
+            if (status.skillHitChance > Random.Range(0, 101))
             {
                 BattleUI.AddStatus(victim, status);
-                switch (status.statusID)
+                switch (status.skillID)
                 {
-                    case 0:
+                    case 1000:
                         {
                             BattleUI.TextAdd(victim, 26, "red", string.Format("has been Burned!"));
                             break;
                         }
-                    case 1:
+                    case 1001:
                         {
                             BattleUI.TextAdd(victim, 26, "yellow", string.Format("became Paralyzed!"));
                             break;
                         }
-                    case 6:
+                    case 1006:
                         {
                             BattleUI.TextAdd(victim, 26, "orange", string.Format("became Confused!"));
                             break;
@@ -116,13 +108,13 @@ public class DamageCalc : MonoBehaviour
         //BattleUI.UpdateAllStatusHolder(victim);
     }
 
-    public static IEnumerator ApplyStatusEff(Stats user, Stats victim, Status status, bool last)
+    public static IEnumerator ApplyStatusEff(Mortal user, Mortal victim, Skill status, bool last)
     {
-        if (status.statusID != -1)
+        if (status.skillID != -1)
         {
-            switch (status.statusID)
+            switch (status.skillID)
             {
-                case 0:
+                case 1000:
                     {
                         SoundDatabase.PlaySound(35);
                         int damage = (victim.maxHealth.totalAmount / 10 - Random.Range(0, victim.maxHealth.totalAmount / 100))
@@ -134,7 +126,7 @@ public class DamageCalc : MonoBehaviour
                         yield return new WaitForSeconds(1.1f);
                         break;
                     }
-                case 1:
+                case 1001:
                     {
                         SoundDatabase.PlaySound(37);
                         BattleUI.TextAdd(victim, 26, "yellow", string.Format("is Paralyzed"));
@@ -149,7 +141,7 @@ public class DamageCalc : MonoBehaviour
                         }
                         break;
                     }
-                case 6:
+                case 1006:
                     {
                         SoundDatabase.PlaySound(46);
                         BattleUI.TextAdd(victim, 26, "orange", string.Format("is Confused"));
@@ -186,22 +178,10 @@ public class DamageCalc : MonoBehaviour
         return isSkill;
     }
 
-    public static void SkillModifier(Stats user, Stats victim, Skill skill)
+    public static void SkillModifier(Mortal user, Mortal victim, Skill skill)
     {
         // this is should be used for attacking skills, if an attacking skill would have a cooldown, would need to find it in the player skill list and give it as it would only give the copied skill the cooldown.
-        Transform who;
-        Transform victimWho;
-        if (user == PlayerStats.stats)
-        {
-            who = BattleUI.playerStatus;
-            victimWho = BattleUI.enemyStatus;
-        }
-        else
-        {
-            victimWho = BattleUI.playerStatus;
-            who = BattleUI.enemyStatus;
-        }
-        foreach (Transform status in who)
+        foreach (Transform status in BattleUI.WhoseStatus(user))
         {
 
             if (IsSkill(status))
@@ -239,7 +219,8 @@ public class DamageCalc : MonoBehaviour
             //}
 
         }
-        foreach (Transform status in victimWho) // if opponent has debuff
+        Transform victimStatus = BattleUI.WhoseStatus(victim);
+        foreach (Transform status in victimStatus) // if opponent has debuff
         {
             if (IsSkill(status))
             {
@@ -247,16 +228,16 @@ public class DamageCalc : MonoBehaviour
             }
             else
             {
-                Status statusSkill = status.GetComponent<StatusHolder>().status;
-                switch (statusSkill.statusID)
+                Skill statusSkill = status.GetComponent<StatusHolder>().skill;
+                switch (statusSkill.skillID)
                 {
                     case 8:
                         {
                             if (skill.skillID == 4)
                             {
-                                BattleUI.RemoveStatus(victimWho, 8);
-                                skill.skillDamage = (int)(skill.skillDamage * (1 + PlayerSkills.FindSkill(22).skillHitChance / 100f));
-                                BattleUI.TextAdd(user, 17, "yellow", string.Format("dealt more damage from {0}", PlayerSkills.FindSkill(22).skillName));
+                                BattleUI.RemoveStatus(victimStatus, 8);
+                                skill.skillDamage = (int)(skill.skillDamage * (1 + user.FindSkill(22).skillHitChance / 100f));
+                                BattleUI.TextAdd(user, 17, "yellow", string.Format("dealt more damage from {0}", user.FindSkill(22).skillName));
                             }
                             break;
                         }
@@ -266,17 +247,9 @@ public class DamageCalc : MonoBehaviour
     }
 
 
-    public static void AttackingStatusEffectActivations(Stats user, Stats victim, int dmg)
+    public static void AttackingStatusEffectActivations(Mortal user, Mortal victim, int dmg)
     {
-        Transform who;
-        if (user == PlayerStats.stats)
-        {
-            who = BattleUI.playerStatus;
-        }
-        else
-        {
-            who = BattleUI.enemyStatus;
-        }
+        Transform who = BattleUI.WhoseStatus(user);
         foreach (Transform status in who)
         {
             Skill statusSkill = status.GetComponent<StatusHolder>().skill;
@@ -294,54 +267,56 @@ public class DamageCalc : MonoBehaviour
         }       
     }
 
-    public static void AttackingPassiveEffectActivations(Stats user, Stats victim, Skill skill)
+    public static void AttackingPassiveEffectActivations(Mortal user, Mortal victim, Skill skill)
     {
-        for (int i = 0; i < PlayerSkills.learnedSkills.Count; i += 1)
+        if (user == Battle.player)
         {
-            foreach (Skill passiveSkill in PlayerSkills.learnedSkills[i])
+            for (int i = 0; i < user.skills.Count; i += 1)
             {
-                if (passiveSkill.skillType == Skill.SkillType.Passive)
+                foreach (Skill passiveSkill in user.skills[i])
                 {
-                    switch (passiveSkill.skillID)
+                    if (passiveSkill.skillType == Skill.SkillType.Passive)
                     {
-                        case 8:
-                            {
-                                if (Random.Range(0,100) < passiveSkill.skillManaCost)
+                        switch (passiveSkill.skillID)
+                        {
+                            case 8:
                                 {
-                                    int manaHeal = (int)(skill.skillManaCost * (passiveSkill.skillCritChance / 100f));
-                                    user.HealMP(manaHeal);
-                                    BattleUI.TextAdd(user, 17, "black", string.Format("gained {0} Mana from {1}", manaHeal, passiveSkill.skillName));
+                                    if (Random.Range(0, 100) < passiveSkill.skillManaCost)
+                                    {
+                                        int manaHeal = (int)(skill.skillManaCost * (passiveSkill.skillCritChance / 100f));
+                                        user.HealMP(manaHeal);
+                                        BattleUI.TextAdd(user, 17, "black", string.Format("gained {0} Mana from {1}", manaHeal, passiveSkill.skillName));
+                                    }
+                                    break;
                                 }
-                                break;
-                            }
-                        case 22:
-                            {
-                                if (skill.skillID == 2 && Random.Range(0, 100) < passiveSkill.skillDamage)
+                            case 22:
                                 {
-                                    BattleUI.AddStatus(victim, new Status(StatusDatabase.GetStatus(8)));
-                                    BattleUI.TextAdd(user, 17, "blue", string.Format("applied Soaked debuff to enemy"));
+                                    if (skill.skillID == 2 && Random.Range(0, 100) < passiveSkill.skillDamage)
+                                    {
+                                        BattleUI.AddStatus(victim, new Skill(SkillDatabase.GetSkill(1008)));
+                                        BattleUI.TextAdd(user, 17, "blue", string.Format("applied Soaked debuff to enemy"));
+                                    }
+                                    break;
                                 }
-                                break;
-                            }
+                            case 36:
+                                {
+                                    break;
+                                }
+                        }
                     }
                 }
             }
         }
-    }
-
-    public static void FinalCalculationModifier(Stats user, Stats victim, Skill.SkillType skilltype, int dmg)
-    {
-        Transform who;
-        bool doNormalCalculation = true;
-        // defending status effects
-        if (victim == PlayerStats.stats)
-        {
-            who = BattleUI.playerStatus;
-        }
         else
         {
-            who = BattleUI.enemyStatus;
+            
         }
+    }
+
+    public static void FinalCalculationModifier(Mortal user, Mortal victim, Skill.SkillType skilltype, int dmg)
+    {
+        Transform who = BattleUI.WhoseStatus(victim);
+        bool doNormalCalculation = true;
         // defensive damage calculation priorities
         List<Transform> userStatusCount = new List<Transform>();
         foreach (Transform status in who)
@@ -404,7 +379,7 @@ public class DamageCalc : MonoBehaviour
         if (doNormalCalculation)
         {
             victim.health -= dmg;
-            if (user == PlayerStats.stats)
+            if (user == Battle.player)
             {
                 BattleUI.TextAdd(user, 25, "black", string.Format("deal {0} {1} damage", dmg, skilltype));
             }
@@ -415,18 +390,10 @@ public class DamageCalc : MonoBehaviour
         }
     }
 
-    public static IEnumerator TurnEndChecker(Stats user, Stats victim)
+    public static IEnumerator TurnEndChecker(Mortal user, Mortal victim)
     {
-        Transform who;
+        Transform who = BattleUI.WhoseStatus(user);
         // check the duration end on battle status
-        if (user == PlayerStats.stats)
-        {
-            who = BattleUI.playerStatus;
-        }
-        else
-        {
-            who = BattleUI.enemyStatus;
-        }
         foreach (Transform status in who)
         {
             // duration is over
@@ -442,9 +409,9 @@ public class DamageCalc : MonoBehaviour
         }
         // check each skill in learned skill if cooldown is ended
         int i = 0;
-        foreach (List<Skill> page in PlayerSkills.learnedSkills)
+        foreach (List<Skill> page in user.skills)
         {
-            foreach (Skill aSkill in PlayerSkills.learnedSkills[i])
+            foreach (Skill aSkill in user.skills[i])
             {
                 if (aSkill.skillID != -1)
                 {
@@ -458,7 +425,7 @@ public class DamageCalc : MonoBehaviour
         }
     }
 
-    public static void LoseStatusBonus(Stats user, Stats victim, StatusHolder statusholder)
+    public static void LoseStatusBonus(Mortal user, Mortal victim, StatusHolder statusholder)
     {
         // status
         // skills id
@@ -509,25 +476,25 @@ public class DamageCalc : MonoBehaviour
     {
         foreach (Transform status in BattleUI.playerStatus)
         {
-            LoseStatusBonus(PlayerStats.stats, EnemyHolder.enemy.stats, status.GetComponent<StatusHolder>());
+            LoseStatusBonus(GameManager.player, Battle.enemy, status.GetComponent<StatusHolder>());
             Destroy(status.gameObject);
         }
     }
 
-    public static void SkillActive(Stats user, Stats victim, Skill skill)
+    public static void SkillActive(Mortal user, Mortal victim, Skill skill)
     {
-        Transform who;
-        Transform whoVictim;
-        if (user == PlayerStats.stats)
-        {
-            who = BattleUI.playerStatus;
-            whoVictim = BattleUI.enemyStatus;
-        }
-        else
-        {
-            whoVictim = BattleUI.playerStatus;
-            who = BattleUI.enemyStatus;
-        }
+        //Transform who;
+        //Transform whoVictim;
+        //if (user == Battle.player)
+        //{
+        //    who = BattleUI.playerStatus;
+        //    whoVictim = BattleUI.enemyStatus;
+        //}
+        //else
+        //{
+        //    whoVictim = BattleUI.playerStatus;
+        //    who = BattleUI.enemyStatus;
+        //}
         BattleUI.TextAdd(user, 30, "#000000ff", "used " + skill.skillName);
         user.mana -= skill.skillManaCost;
         // actives that dont add status pic
@@ -564,7 +531,7 @@ public class DamageCalc : MonoBehaviour
                 {
                     skill.skillCritChance = 0;
                     int healAmount = 0;
-                    foreach(Transform status in who)
+                    foreach(Transform status in BattleUI.WhoseStatus(user))
                     {
                         skill.skillCritChance += 1;
                     }
@@ -614,7 +581,7 @@ public class DamageCalc : MonoBehaviour
         StatusBar.UpdateSliders();
     }
 
-    public static void SkillAttack(Stats user, Stats victim, Skill skill)
+    public static void SkillAttack(Mortal user, Mortal victim, Skill skill)
     {
         SkillModifier(user, victim, skill);
         // Mana Cost
@@ -663,7 +630,7 @@ public class DamageCalc : MonoBehaviour
     }
 
 
-    public static IEnumerator StartBattle(Stats player, Stats enemy, Skill playeruseskill) // once we know what skill the player wants to use, we can start a battle.
+    public static IEnumerator StartBattle(Mortal player, Mortal enemy, Skill playeruseskill) // once we know what skill the player wants to use, we can start a battle.
     {        
         BattleUI.battling.gameObject.SetActive(true);
         BattleUI.NextTurn();
@@ -678,8 +645,8 @@ public class DamageCalc : MonoBehaviour
         // battle
         // speed calculation goes here
         playerUseSkillCopy = new Skill(playeruseskill);
-        Stats firstAttacker = player;
-        Stats secondAttacker = enemy;
+        Mortal firstAttacker = player;
+        Mortal secondAttacker = enemy;
         if (playerUseSkillCopy.skillType == Skill.SkillType.Active)
         {
             SkillActive(firstAttacker, secondAttacker, playeruseskill);
@@ -697,7 +664,7 @@ public class DamageCalc : MonoBehaviour
         else
         {
             // apply status effects after first attack
-            yield return AfterAttackStatusEffectApply(firstAttacker, player, enemy, playerUseSkillCopy);
+            yield return AfterAttackStatusEffectApply( firstAttacker, secondAttacker, playerUseSkillCopy);
             // enemy attack (second attack, will be changing)
             if (enemy.IsDead())
             {
@@ -708,7 +675,8 @@ public class DamageCalc : MonoBehaviour
                 if (enemyCanAttack)
                 {
                     enemy.SimpleStatUpdate();
-                    SkillAttack(secondAttacker, firstAttacker, EnemyHolder.enemy.skills[Random.Range(0, EnemyHolder.enemy.skills.Count)]);
+                    SkillAttack(secondAttacker, firstAttacker, enemy.skills[0][Random.Range(0, enemy.skills.Count)]);
+                    yield return AfterAttackStatusEffectApply(secondAttacker, firstAttacker, playerUseSkillCopy);
                     // end turn effects
                     yield return EndTurnStatusEffects(BattleUI.playerStatus, player, enemy);
                 }
@@ -736,22 +704,14 @@ public class DamageCalc : MonoBehaviour
         BattleUI.battling.gameObject.SetActive(false);
         // update after effects
         player.SimpleStatUpdate();
-        PlayerSkills.SkillUpdate();
-        EnemyHolder.enemy.UpdateSkills();
+        GameManager.player.FullUpdate();
+        Battle.enemy.UpdateSkills();
         
     }
 
-    static IEnumerator AfterAttackStatusEffectApply(Stats whojustattacked, Stats player, Stats enemy, Skill playeruseskill)
+    static IEnumerator AfterAttackStatusEffectApply(Mortal user, Mortal victim, Skill playeruseskill)
     {
-        Transform whoStatus;
-        if (whojustattacked == PlayerStats.stats)
-        {
-            whoStatus = BattleUI.enemyStatus;
-        }
-        else
-        {
-            whoStatus = BattleUI.playerStatus;
-        }
+        Transform whoStatus = BattleUI.WhoseStatus(victim);
         foreach (Transform status in whoStatus)
         {
             bool lastStatus = false;
@@ -759,15 +719,15 @@ public class DamageCalc : MonoBehaviour
             {
                 lastStatus = true;
             }
-            yield return ApplyStatusEff(player, enemy, status.GetComponent<StatusHolder>().status, lastStatus);
-            if (enemy.IsDead())
+            yield return ApplyStatusEff(user, victim, status.GetComponent<StatusHolder>().skill, lastStatus);
+            if (victim.IsDead())
             {
                 break;
             }
         }
     }
 
-    static IEnumerator EndTurnStatusEffects(Transform who, Stats player, Stats enemy)
+    static IEnumerator EndTurnStatusEffects(Transform who, Mortal player, Mortal enemy)
     {
         List<int> endTurnSkillIDs = new List<int>(new int[] {15});
         foreach (Transform status in who)
@@ -798,7 +758,7 @@ public class DamageCalc : MonoBehaviour
         }
     }
 
-    static IEnumerator EnemyDeadAfter(Stats player, Stats enemy)
+    static IEnumerator EnemyDeadAfter(Mortal player, Mortal enemy)
     {
         if (!GameManager.inTutorial)
         {
@@ -822,7 +782,8 @@ public class DamageCalc : MonoBehaviour
                 SoundDatabase.PlaySound(36);
                 yield return new WaitForSeconds(1.75f);
                 StatPage.OpenCloseCelebration(false);
-                PlayerStats.LevelUp();
+                player.LevelUp();
+                GameManager.player.FullUpdate();
                 StatPage.SetCurrentStats();
                 StatPage.UpdateText();
             }
@@ -844,11 +805,11 @@ public class DamageCalc : MonoBehaviour
     }
 
 
-    static void ActivatePassiveEffectsEnemyDead(Stats player)
+    static void ActivatePassiveEffectsEnemyDead(Mortal player)
     {
-        for (int i = 0; i < PlayerSkills.learnedSkills.Count; i += 1)
+        for (int i = 0; i < player.skills.Count; i += 1)
         {
-            foreach (Skill skill in PlayerSkills.learnedSkills[i])
+            foreach (Skill skill in player.skills[i])
             {
                 if (skill.skillType == Skill.SkillType.Passive)
                 {
@@ -885,7 +846,7 @@ public class DamageCalc : MonoBehaviour
         SkillPage.pageNum.gameObject.SetActive(yes);
     }
 
-    static void ManaGaurdCalc(Stats user, Stats victim, int dmg, Skill.SkillType skilltype)
+    static void ManaGaurdCalc(Mortal user, Mortal victim, int dmg, Skill.SkillType skilltype)
     {
         if (victim.mana - dmg < 0)
         {

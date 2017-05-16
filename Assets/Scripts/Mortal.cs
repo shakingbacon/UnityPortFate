@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class Stats {
+public class Mortal : SkillList {
     public string mingZi;
     public Job job = new Job();
     public Stat strength = new Stat();
@@ -32,11 +32,13 @@ public class Stats {
     public int experience = 0;
     public int maxExperience = 0;
     public int cash = 0;
+    public List<Skill> statuses = new List<Skill>();
     public List<Stat> statsList = new List<Stat>();
 
-    public Stats()
+    public Mortal()
     {
         mingZi = "";
+        skills = new List<List<Skill>>();
         job = new Job();
         strength = new Stat();
         intelligence = new Stat();
@@ -93,6 +95,24 @@ public class Stats {
         }
     }
 
+    public void LevelUp()
+    {
+        level += 1;
+        abilityPoints = 6;
+        if (level % 5 == 0)
+        {
+            skillPoints += 2;
+
+        }
+        else
+        {
+            skillPoints += 1;
+        }
+        experience = 0;
+        HealFullHP();
+        HealFullMP();
+    }
+
     public bool IsDead()
     {
         return health <= 0;
@@ -124,6 +144,13 @@ public class Stats {
     public void HealFullMP()
     {
         mana = maxMana.totalAmount;
+    }
+
+
+
+    public void AddStatus(Skill skill)
+    {
+        statuses.Add(skill);
     }
 
 }

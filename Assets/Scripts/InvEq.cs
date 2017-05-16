@@ -40,7 +40,7 @@ public class InvEq : MonoBehaviour
 
     public static void UpdateCashText()
     {
-        cash.text = "Cash: $" + PlayerStats.stats.cash;
+        cash.text = "Cash: $" + GameManager.player.cash;
     }
 
     public static void UpdateHoldingItem(Item item, bool isholding)
@@ -90,7 +90,7 @@ public class InvEq : MonoBehaviour
     public static void UpdateStatsDesc()
     {
         GameObject.FindGameObjectWithTag("InventoryEquipment").transform.FindChild("Item Desc").GetComponentInChildren<Text>().text
-    = PlayerStats.makeStatsPage();
+    = GameManager.player.makeStatsPage();
     }
 
 }

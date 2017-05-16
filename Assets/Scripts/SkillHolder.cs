@@ -75,23 +75,23 @@ public class SkillHolder : MonoBehaviour {
                 else
                 {
                     // rank up
-                    if (PlayerStats.stats.skillPoints > 0)
+                    if (GameManager.player.skillPoints > 0)
                     {
                         // update skills to check requirement
-                        PlayerSkills.SkillUpdate();
+                        GameManager.player.FullUpdate();
                         if (skill.skillRequire)
                         {
                             // learn new skill
                             if (skill.skillRank == 0)
                             {
                                 // put in learned skill
-                                for (int k = 0; k < PlayerSkills.learnedSkills.Count; k += 1)
+                                for (int k = 0; k < GameManager.player.skills.Count; k += 1)
                                 {
-                                    for (int i = 0; i < PlayerSkills.learnedSkills[k].Count; i += 1)
+                                    for (int i = 0; i < GameManager.player.skills[k].Count; i += 1)
                                     {
-                                        if (PlayerSkills.learnedSkills[k][i].skillID == -1)
+                                        if (GameManager.player.skills[k][i].skillID == -1)
                                         {
-                                            PlayerSkills.learnedSkills[k][i] = skill;
+                                            GameManager.player.skills[k][i] = skill;
                                             k = 5;
                                             break;
                                         }
@@ -102,15 +102,14 @@ public class SkillHolder : MonoBehaviour {
                             {
                                 SoundDatabase.PlaySound(20);
                                 skill.skillRank += 1;
-                                PlayerStats.stats.skillPoints -= 1;
+                                GameManager.player.skillPoints -= 1;
                                 SkillPage.UpdateSkillPoints();
-                                PlayerSkills.SkillUpdate();
                                 //PlayerStats.StatsUpdate();
                                 if (skill.skillType == Skill.SkillType.Passive)
                                 {
-                                    PlayerSkills.GainPassiveBonusEffect(skill.skillID);
-                                    PlayerStats.FullUpdate();
+                                    GameManager.player.GainPassiveBonusEffect(skill.skillID);
                                 }
+                                GameManager.player.FullUpdate();
                                 MouseEnter();// reset desc
                             }
                             else
@@ -145,7 +144,7 @@ public class SkillHolder : MonoBehaviour {
                         SoundDatabase.PlaySound(33);
                         StartCoroutine(showTextForTime(BattleUI.quickSkillNotifier, "Skill not learned!", 1));
                     }
-                    else if (PlayerStats.stats.mana - skill.skillManaCost < 0)
+                    else if (GameManager.player.mana - skill.skillManaCost < 0)
                     {
                         SoundDatabase.PlaySound(33);
                         StartCoroutine(showTextForTime(BattleUI.quickSkillNotifier, "Not enough MP!", 1));
@@ -173,7 +172,7 @@ public class SkillHolder : MonoBehaviour {
                         }
                         if (!alreadyActive && !onCooldown)
                         {
-                            StartCoroutine(DamageCalc.StartBattle(PlayerStats.stats, EnemyHolder.enemy.stats, skill));
+                            StartCoroutine(DamageCalc.StartBattle(GameManager.player, Battle.enemy, skill));
                         }
                         else
                         {
@@ -196,7 +195,7 @@ public class SkillHolder : MonoBehaviour {
                         SoundDatabase.PlaySound(33);
                         StartCoroutine(showTextForTime("Skill not learned!", 1));
                     }
-                    else if (PlayerStats.stats.mana - skill.skillManaCost < 0)
+                    else if (GameManager.player.mana - skill.skillManaCost < 0)
                     {
                         SoundDatabase.PlaySound(33);
                         StartCoroutine(showTextForTime("Not enough MP!", 1));
@@ -224,7 +223,7 @@ public class SkillHolder : MonoBehaviour {
                         }
                         if (!alreadyActive && !onCooldown)
                         {
-                            StartCoroutine(DamageCalc.StartBattle(PlayerStats.stats, EnemyHolder.enemy.stats, skill));
+                            StartCoroutine(DamageCalc.StartBattle(GameManager.player, Battle.enemy, skill));
                         }
                         else
                         {

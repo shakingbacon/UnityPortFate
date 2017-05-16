@@ -18,8 +18,8 @@ public class StatPage : MonoBehaviour {
         levelUpScreen = gameObject.transform.parent;
         statPage = gameObject.transform;
         statPage.FindChild("Finish").GetComponent<Button>().onClick.AddListener(() => GameManager.OpenClosePage("Level Up Screen"));
-        statPage.FindChild("Finish").GetComponent<Button>().onClick.AddListener(PlayerStats.stats.HealFullHP);
-        statPage.FindChild("Finish").GetComponent<Button>().onClick.AddListener(PlayerStats.stats.HealFullMP);
+        statPage.FindChild("Finish").GetComponent<Button>().onClick.AddListener(GameManager.player.HealFullHP);
+        statPage.FindChild("Finish").GetComponent<Button>().onClick.AddListener(GameManager.player.HealFullMP);
         statPage.FindChild("Finish").GetComponent<Button>().onClick.AddListener(StatusBar.UpdateSliders);
         statPage.FindChild("Finish").GetComponent<Button>().onClick.AddListener(() => SoundDatabase.PlaySound(32));
         GameManager.OpenClosePage("Level Up Screen");
@@ -30,25 +30,25 @@ public class StatPage : MonoBehaviour {
         if (stat == "s")
         {
             statPage.FindChild("Strength").GetComponent<Text>().text
-                = string.Format("Strength: {0}. Increases max HP, increases Physical Damage, slightly increases Armor", PlayerStats.stats.strength.totalAmount);
+                = string.Format("Strength: {0}. Increases max HP, increases Physical Damage, slightly increases Armor", GameManager.player.strength.totalAmount);
         }
         else if (stat == "i")
         {
             statPage.FindChild("Intelligence").GetComponent<Text>().text
-                = string.Format("Intelligence: {0}. Increases max MP, increases Magical Damage, slightly increases Resist", PlayerStats.stats.intelligence.totalAmount);
+                = string.Format("Intelligence: {0}. Increases max MP, increases Magical Damage, slightly increases Resist", GameManager.player.intelligence.totalAmount);
         }
         else if (stat == "a")
         {
             statPage.FindChild("Agility").GetComponent<Text>().text
-                = string.Format("Agility: {0}. Slightly increases both max HP/MP, increases Crit Rate and Dodge Rate", PlayerStats.stats.agility.totalAmount);
+                = string.Format("Agility: {0}. Slightly increases both max HP/MP, increases Crit Rate and Dodge Rate", GameManager.player.agility.totalAmount);
         }
         else if (stat == "l")
         {
             statPage.FindChild("Luck").GetComponent<Text>().text
-                = string.Format("Luck: {0}. Slightly increases many different factors, generally gives good fortune", PlayerStats.stats.luck.totalAmount);
+                = string.Format("Luck: {0}. Slightly increases many different factors, generally gives good fortune", GameManager.player.luck.totalAmount);
         }
-        statPage.FindChild("AP").GetComponent<Text>().text = "AP: " + PlayerStats.stats.abilityPoints;
-        if (PlayerStats.stats.abilityPoints == 0)
+        statPage.FindChild("AP").GetComponent<Text>().text = "AP: " + GameManager.player.abilityPoints;
+        if (GameManager.player.abilityPoints == 0)
         {
             statPage.FindChild("Finish").GetComponent<Button>().interactable = true;
         }
@@ -61,15 +61,15 @@ public class StatPage : MonoBehaviour {
     public static void UpdateText()
     {
         statPage.FindChild("Strength").GetComponent<Text>().text
-            = string.Format("Strength: {0}. Increases max HP, increases Physical Damage, slightly increases Armor.", PlayerStats.stats.strength.totalAmount);
+            = string.Format("Strength: {0}. Increases max HP, increases Physical Damage, slightly increases Armor.", GameManager.player.strength.totalAmount);
         statPage.FindChild("Intelligence").GetComponent<Text>().text
-            = string.Format("Intelligence: {0}. Increases max MP, increases Magical Damage, slightly increases Resist", PlayerStats.stats.intelligence.totalAmount);
+            = string.Format("Intelligence: {0}. Increases max MP, increases Magical Damage, slightly increases Resist", GameManager.player.intelligence.totalAmount);
         statPage.FindChild("Agility").GetComponent<Text>().text
-            = string.Format("Agility: {0}. Slightly increases both max HP/MP, increases Crit Rate and Dodge Rate", PlayerStats.stats.agility.totalAmount);
+            = string.Format("Agility: {0}. Slightly increases both max HP/MP, increases Crit Rate and Dodge Rate", GameManager.player.agility.totalAmount);
         statPage.FindChild("Luck").GetComponent<Text>().text
-            = string.Format("Luck: {0}. Slightly increases many different factors, generally gives good fortune", PlayerStats.stats.luck.totalAmount);
-        statPage.FindChild("AP").GetComponent<Text>().text = "AP: " + PlayerStats.stats.abilityPoints;
-        if (PlayerStats.stats.abilityPoints == 0)
+            = string.Format("Luck: {0}. Slightly increases many different factors, generally gives good fortune", GameManager.player.luck.totalAmount);
+        statPage.FindChild("AP").GetComponent<Text>().text = "AP: " + GameManager.player.abilityPoints;
+        if (GameManager.player.abilityPoints == 0)
         {
             statPage.FindChild("Finish").GetComponent<Button>().interactable = true;
         }
@@ -81,70 +81,69 @@ public class StatPage : MonoBehaviour {
 
     public void AddStat(string stat)
     {
-        if (PlayerStats.stats.abilityPoints > 0)
+        if (GameManager.player.abilityPoints > 0)
         {
             if (stat == "s")
             {
-                PlayerStats.stats.strength.baseAmount += 1;
+                GameManager.player.strength.baseAmount += 1;
             }
             else if (stat == "i")
             {
-                PlayerStats.stats.intelligence.baseAmount += 1;
+                GameManager.player.intelligence.baseAmount += 1;
             }
             else if (stat == "a")
             {
-                PlayerStats.stats.agility.baseAmount += 1;
+                GameManager.player.agility.baseAmount += 1;
             }
             else if (stat == "l")
             {
-                PlayerStats.stats.luck.baseAmount += 1;
+                GameManager.player.luck.baseAmount += 1;
             }
             SoundDatabase.PlaySound(20);
-            PlayerStats.stats.abilityPoints -= 1;
-            PlayerStats.StatsUpdate();
+            GameManager.player.abilityPoints -= 1;
+            GameManager.player.FullUpdate();
             UpdateText(stat);
-            StatusBar.UpdateSliders();
         }
         else
         {
             SoundDatabase.PlaySound(33);
         }
-        PlayerStats.stats.HealFullHP();
-        PlayerStats.stats.HealFullMP();
+        GameManager.player.HealFullHP();
+        GameManager.player.HealFullMP();
+        StatusBar.UpdateSliders();
     }
 
     public void RemStat(string stat)
     {
-        if (PlayerStats.stats.abilityPoints >= 0 && !(PlayerStats.stats.abilityPoints == 6))
+        if (GameManager.player.abilityPoints >= 0 && !(GameManager.player.abilityPoints == 6))
         {
             bool canDo = false;
-            if (stat == "s" && PlayerStats.stats.strength.totalAmount > currentStr)
+            if (stat == "s" && GameManager.player.strength.totalAmount > currentStr)
             {
-                PlayerStats.stats.strength.baseAmount -= 1;
+                GameManager.player.strength.baseAmount -= 1;
                 canDo = true;   
             }
-            else if (stat == "i" && currentInt < PlayerStats.stats.intelligence.totalAmount)
+            else if (stat == "i" && currentInt < GameManager.player.intelligence.totalAmount)
             {
-                PlayerStats.stats.intelligence.baseAmount -= 1;
+                GameManager.player.intelligence.baseAmount -= 1;
                 canDo = true;
             }
-            else if (stat == "a" && currentAgi < PlayerStats.stats.agility.totalAmount)
+            else if (stat == "a" && currentAgi < GameManager.player.agility.totalAmount)
             {
-                PlayerStats.stats.agility.baseAmount -= 1;
+                GameManager.player.agility.baseAmount -= 1;
                 canDo = true;
             }
-            else if (stat == "l" && currentLuk < PlayerStats.stats.luck.totalAmount)
+            else if (stat == "l" && currentLuk < GameManager.player.luck.totalAmount)
             {
-                PlayerStats.stats.luck.baseAmount -= 1;
+                GameManager.player.luck.baseAmount -= 1;
                 canDo = true;
             }
             if (canDo)
             {
                 SoundDatabase.PlaySound(0);
-                PlayerStats.stats.abilityPoints += 1;
-                PlayerStats.StatsUpdate();
+                GameManager.player.abilityPoints += 1;
+                GameManager.player.FullUpdate();
                 UpdateText(stat);
-                StatusBar.UpdateSliders();
             }
             else
             {
@@ -155,16 +154,17 @@ public class StatPage : MonoBehaviour {
         {
             SoundDatabase.PlaySound(33);
         }
-        PlayerStats.stats.HealFullHP();
-        PlayerStats.stats.HealFullMP();
+        GameManager.player.HealFullHP();
+        GameManager.player.HealFullMP();
+        StatusBar.UpdateSliders();
     }
 
     public static void SetCurrentStats()
     {
-        currentStr = PlayerStats.stats.strength.totalAmount;
-        currentInt = PlayerStats.stats.intelligence.totalAmount;
-        currentAgi = PlayerStats.stats.agility.totalAmount;
-        currentLuk = PlayerStats.stats.luck.totalAmount;
+        currentStr = GameManager.player.strength.totalAmount;
+        currentInt = GameManager.player.intelligence.totalAmount;
+        currentAgi = GameManager.player.agility.totalAmount;
+        currentLuk = GameManager.player.luck.totalAmount;
     }
 
     public static void OpenCloseCelebration(bool on)

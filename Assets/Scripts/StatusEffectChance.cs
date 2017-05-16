@@ -4,24 +4,29 @@ using UnityEngine;
 
 [System.Serializable]
 public class StatusEffects {
-    public List<Status> statusList = new List<Status>();
-
+    public List<Skill> statusList = new List<Skill>();
+    
     public StatusEffects()
     {
-        statusList = new List<Status>();
+        statusList = new List<Skill>();
     }
 
     public StatusEffects(StatusEffects copy)
     {
-        foreach (Status status in copy.statusList)
+        foreach (Skill status in copy.statusList)
         {
             statusList.Add(status);
         }
     }
 
+    public void ResetAll()
+    {
+        statusList = new List<Skill>();
+    }
+
     public void AddNewStatus(int id)
     {
-        statusList.Add(new Status(StatusDatabase.GetStatus(id)));
+        statusList.Add(new Skill(SkillDatabase.GetSkill(id)));
     }
 
     public void AddNewStatusAndSet(int id, int chance)
@@ -30,29 +35,29 @@ public class StatusEffects {
         SetStatusChance(id, chance);
     }
 
-    public Status GetStatus(int id) 
+    public Skill GetStatus(int id) 
     {
-        return statusList.Find(anID => anID.statusID == id);
+        return statusList.Find(anID => anID.skillID == id);
     }
 
     public void SetStatusChance(int id, int chance)
     {
-        GetStatus(id).statusChance = chance;
+        GetStatus(id).skillHitChance = chance;
     }
 
     public int GetStatusChance(int id)
     {
-        return GetStatus(id).statusChance;
+        return GetStatus(id).skillHitChance;
     }
 
     public void AddStatusChance(int id, int chance)
     {
-        GetStatus(id).statusChance += chance;
+        GetStatus(id).skillHitChance += chance;
     }
 
     public void AddPercentStatusChance(int id, int percent)
     {
-        GetStatus(id).statusChance = (int)(GetStatus(id).statusChance * (1f + (percent / 100f)));
+        GetStatus(id).skillHitChance = (int)(GetStatus(id).skillHitChance * (1f + (percent / 100f)));
     }
 
 }

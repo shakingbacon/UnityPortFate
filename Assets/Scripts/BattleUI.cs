@@ -20,11 +20,13 @@ public class BattleUI : MonoBehaviour {
     public static Text quickSkillDesc;
     public static Text battling;
     public static Transform quickSkills;
+    public static Image enemySprite;
     public Transform statusHolderPrefab;
 
     void Start()
     {
         battleUI = gameObject.transform;
+        enemySprite = gameObject.transform.FindChild("Enemy").GetComponent<Image>();
         battling = battleUI.FindChild("Battling").GetComponent<Text>();
         playerScroll = battleUI.FindChild("Player Text Scroll");
         enemyScroll = battleUI.FindChild("Enemy Text Scroll");
@@ -41,91 +43,63 @@ public class BattleUI : MonoBehaviour {
         quickSkillNotifier = battleUI.FindChild("Player Box").FindChild("Quick Skills Notifier").GetComponent<Text>();
         quickSkillDesc = battleUI.FindChild("Player Box").FindChild("Quick Skills Desc").GetComponent<Text>();
         skills.onClick.AddListener(SkillPage.InstantLearnedSkillPage);
-
         run.onClick.AddListener(Battle.EndBattle);
         //GameManager.OpenClosePage("InventoryEquipment");
     }
-    public static void RemoveStatus(Transform who, int id)
+
+    public static Transform WhoseStatus(Mortal mortal)
     {
-        foreach (Transform status in who)
+        Transform who;
+        if (mortal == Battle.player)
         {
-            if (status.GetComponent<StatusHolder>().status.statusID == id)
-            {
-                Destroy(status.gameObject);
-            }
+            who = playerStatus;
         }
+        else
+        {
+            who = enemyStatus;
+        }
+        return who;
     }
-    public static void RemoveActive(Transform who, int id)
+
+    public static void RemoveStatus(Transform who, int id)
     {
         foreach (Transform skill in who)
         {
             if (skill.GetComponent<StatusHolder>().skill.skillID == id)
             {
                 Destroy(skill.gameObject);
-}
+            }
         }
     }
       
 
-    public static void ResetPlayerStatus()
+    public static void ResetStatus(Mortal mortal)
     {
-        foreach (Transform status in playerStatus)
+        foreach (Transform status in WhoseStatus(mortal))
         {
             status.GetComponent<StatusHolder>().skill.skillOnCooldown = false;
             Destroy(status.gameObject);
         }
-    }
-
-    public static void ResetEnemyStatus()
-    {
-        foreach (Transform status in enemyStatus)
-        {
-            status.GetComponent<StatusHolder>().skill.skillOnCooldown = false;
-            Destroy(status.gameObject);
-        }
-    }
-
-    public static void ResetAllStatus()
-    {
-        ResetPlayerStatus();
-        foreach (List<Skill> page in PlayerSkills.learnedSkills)
+        foreach (List<Skill> page in mortal.skills)
         {
             foreach (Skill skill in page)
             {
                 skill.skillOnCooldown = false;
             }
         }
-        ResetEnemyStatus();
     }
 
-    public static void AddStatus(Stats user, Status status)
+    public static void ResetAllStatus()
     {
-        Transform who;
-        if (user == PlayerStats.stats)
-        {
-            who = playerStatus;
-        }
-        else
-        {
-            who = enemyStatus;
-        }
-        Transform newStatus = Instantiate(battleUI.GetComponent<BattleUI>().statusHolderPrefab, who);
-        newStatus.transform.localScale = new Vector3(1, 1, 1);
-        newStatus.GetComponent<StatusHolder>().status = status;
-        newStatus.GetComponent<StatusHolder>().UpdateStatus();
+        ResetStatus(Battle.player);
+        ResetStatus(Battle.enemy);
     }
-    public static void AddStatus(Stats user, Skill skill)
+
+    public static void AddStatus(Mortal mortal, Skill skill)
     {
-        Transform who;
-        if (user == PlayerStats.stats)
-        {
-            who = playerStatus;
-        }
-        else
-        {
-            who = enemyStatus;
-        }
-        Transform newStatus = Instantiate(battleUI.GetComponent<BattleUI>().statusHolderPrefab, who);
+        //mortal.AddStatus(skill);
+        Transform where = WhoseStatus(mortal);
+        Transform newStatus = Instantiate(battleUI.GetComponent<BattleUI>().statusHolderPrefab, where);
         newStatus.transform.localScale = new Vector3(1, 1, 1);
         newStatus.GetComponent<StatusHolder>().skill = skill;
         newStatus.GetComponent<StatusHolder>().turnEnd = Battle.turnCount + skill.skillDuration;
@@ -192,10 +166,10 @@ public class BattleUI : MonoBehaviour {
         enemyScroll.GetComponentInChildren<Text>().text = "\n";
     }
 
-    public static void TextAdd(Stats who, int size, string color, string desc)
+    public static void TextAdd(Mortal who, int size, string color, string desc)
     {
         Transform whoScroll;
-        if (who == PlayerStats.stats)
+        if (playerStatus == WhoseStatus(who))
         {
             whoScroll = playerScroll;
             playerScroll.GetComponentInChildren<Text>().text += string.Format("<size={0}><color={1}>You {2}</color></size>\n", size, color, desc);
@@ -209,10 +183,10 @@ public class BattleUI : MonoBehaviour {
         ScrollBump(whoScroll);
     }
 
-    public static void TextAdd(Stats who, int size, string desc)
+    public static void TextAdd(Mortal who, int size, string desc)
     {
         Transform whoScroll;
-        if (who == PlayerStats.stats)
+        if (playerStatus == WhoseStatus(who))
         {
             whoScroll = playerScroll;
         }
@@ -248,7 +222,7 @@ public class BattleUI : MonoBehaviour {
 
     public static void UpdateEnemySliders()
     {
-        SliderUtilities.UpdateSliderFillWithText(enemyHP, EnemyHolder.enemy.stats.health, EnemyHolder.enemy.stats.maxHealth.totalAmount, "HP: ", "Enemy HP Text");
-        SliderUtilities.UpdateSliderFillWithText(enemyMP, EnemyHolder.enemy.stats.mana, EnemyHolder.enemy.stats.maxMana.totalAmount, "MP: ", "Enemy MP Text");
+        SliderUtilities.UpdateSliderFillWithText(enemyHP, Battle.enemy.health, Battle.enemy.maxHealth.totalAmount, "HP: ", "Enemy HP Text");
+        SliderUtilities.UpdateSliderFillWithText(enemyMP, Battle.enemy.mana, Battle.enemy.maxMana.totalAmount, "MP: ", "Enemy MP Text");
     }
 }

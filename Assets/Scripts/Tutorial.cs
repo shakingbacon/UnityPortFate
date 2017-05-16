@@ -118,7 +118,7 @@ public class Tutorial : MonoBehaviour {
 
     public static void FinishTutorial()
     {
-        PlayerStats.stats.skillPoints = 100; // so player cant rank them during tutorial
+        GameManager.player.skillPoints = 100; // so player cant rank them during tutorial
         GameManager.inTutorial = false;
         if (!Inventory.HasItem(1000))
         {
@@ -130,8 +130,8 @@ public class Tutorial : MonoBehaviour {
         {
             Destroy(tutorial);
         }
-        PlayerStats.stats.HealFullHP();
-        PlayerStats.stats.HealFullMP();
+        GameManager.player.HealFullHP();
+        GameManager.player.HealFullMP();
         SoundDatabase.PauseMusic();
         SoundDatabase.PlaySound(36);
 
