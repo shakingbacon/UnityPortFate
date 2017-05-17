@@ -83,7 +83,6 @@
      <Compile Include="Assets\Scripts\SoundDatabase.cs" />
      <Compile Include="Assets\Scripts\Stat.cs" />
      <Compile Include="Assets\Scripts\StatPage.cs" />
-     <Compile Include="Assets\Scripts\StatUtilities.cs" />
      <Compile Include="Assets\Scripts\StaticCoroutine.cs" />
      <Compile Include="Assets\Scripts\Status.cs" />
      <Compile Include="Assets\Scripts\StatusBar.cs" />

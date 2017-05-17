@@ -19,12 +19,12 @@ public class JobSelect : MonoBehaviour {
         GameManager.player.HealFullHP();
         GameManager.player.HealFullMP();
         GameManager.player.SetMaxExp();
-        //InvEq.UpdateCashText();
         StatusBar.UpdateStatusBar();
     }
 
     public void SelectMage()
     {
+        //GameManager.OpenClosePage("InventoryEquipment");
         SoundDatabase.PlaySound(43);
         GameManager.player.job = JobDatabase.GetJob(0);
         AddBaseStats();
@@ -36,6 +36,7 @@ public class JobSelect : MonoBehaviour {
         Tutorial.skip.gameObject.transform.parent.gameObject.SetActive(true);
         StatusBar.statusBar.gameObject.SetActive(true);
         SoundDatabase.PlayMusic(0);
+        InvEq.UpdateCashText();
         Destroy(gameObject);
     }
     public void SelectRogue()

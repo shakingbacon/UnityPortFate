@@ -57,6 +57,7 @@ public class Skill {
         skillMaxRank = maxrank;
         skillType = type;
     }
+
     public Skill(Skill skill)
     {
         skillName = skill.skillName;
@@ -86,6 +87,7 @@ public class Skill {
         skillName = name;
         skillID = id;
         skillDesc = desc;
+        skillDuration = -1;
     }
 
 }

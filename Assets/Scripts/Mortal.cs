@@ -34,6 +34,7 @@ public class Mortal : SkillList {
     public int cash = 0;
     public List<Skill> statuses = new List<Skill>();
     public List<Stat> statsList = new List<Stat>();
+    public List<int> specialPassives = new List<int>();
 
     public Mortal()
     {
@@ -111,6 +112,15 @@ public class Mortal : SkillList {
         experience = 0;
         HealFullHP();
         HealFullMP();
+    }
+
+    public void SetHP(int amount)
+    {
+        health = amount;
+        if (health > maxHealth.totalAmount)
+        {
+            health = maxHealth.totalAmount;
+        }
     }
 
     public bool IsDead()

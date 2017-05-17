@@ -37,6 +37,14 @@ public class SoundDatabase : MonoBehaviour {
         return;
     }
 
+    public static void PlayMusic(int id, bool loop)
+    {
+        bgmSource.clip = bgm[id];
+        bgmSource.loop = loop;
+        bgmSource.Play();
+        return;
+    }
+
     public static void PauseMusic()
     {
         bgmSource.Pause();

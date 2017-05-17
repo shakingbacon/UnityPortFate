@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
 public class SkillList {
 
     public List<List<Skill>> skills;
@@ -27,6 +26,24 @@ public class SkillList {
                 skills[i].Add((new Skill(tocopyskills[i][k])));
         }
     }
+
+
+    public List<Skill> GetSkillList()
+    {
+        List<Skill> returning = new List<Skill>();
+        for (int i = 0; i < skills.Count; i++)
+        {
+            foreach (Skill skill in skills[i])
+            {
+                if (skill.skillID != -1)
+                {
+                    returning.Add(skill);
+                }
+            }
+        }
+        return returning;
+    }
+
 
     public void MakeNewBlankPage(int pages, int skillcount)
     {

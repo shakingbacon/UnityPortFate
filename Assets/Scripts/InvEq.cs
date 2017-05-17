@@ -24,7 +24,6 @@ public class InvEq : MonoBehaviour
         statsButton = gameObject.transform.FindChild("Stats Button");
         statsButton.GetComponent<Button>().onClick.AddListener(() => ShowStats(!showStats));
         inventoryEquipment.FindChild("Close Button").GetComponent<Button>().onClick.AddListener(() => GameManager.OpenClosePage("InventoryEquipment"));
-        UpdateCashText();
     }
 
     void OnGUI()

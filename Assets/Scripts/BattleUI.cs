@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class BattleUI : MonoBehaviour {
+    public static Transform deathScreen;
     public static GameObject playerCopy;
     public static Transform battleUI;
     public static Button run;
@@ -26,6 +27,7 @@ public class BattleUI : MonoBehaviour {
     void Start()
     {
         battleUI = gameObject.transform;
+        deathScreen = gameObject.transform.FindChild("Death Screen");
         enemySprite = gameObject.transform.FindChild("Enemy").GetComponent<Image>();
         battling = battleUI.FindChild("Battling").GetComponent<Text>();
         playerScroll = battleUI.FindChild("Player Text Scroll");

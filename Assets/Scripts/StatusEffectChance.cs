@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
 public class StatusEffects {
     public List<Skill> statusList = new List<Skill>();
     
@@ -17,6 +16,11 @@ public class StatusEffects {
         {
             statusList.Add(status);
         }
+    }
+
+    public bool HasStatus(int id)
+    {
+        return statusList.Exists(aSkill => aSkill.skillID == id);
     }
 
     public void ResetAll()

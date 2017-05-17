@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour {
     void Start()
     {
         player = new PlayerData();
-        version = "Dev.v3.0";
+        version = "Dev.v3.10";
         OpenClosePage("Skill Page");
         OpenClosePage("Battle UI");
         OpenClosePage("InventoryEquipment");
@@ -71,6 +71,11 @@ public class GameManager : MonoBehaviour {
                 InvEq.UpdateHoldingItem(new Item(), false);
             }
         }
+    }
+
+    public static void QuitGame()
+    {
+        Application.Quit();
     }
 
     public static void CheckSkillPage()

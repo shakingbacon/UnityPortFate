@@ -77,13 +77,12 @@ public class DamageCalc : MonoBehaviour
         return crit;
     }
 
-    public static void CheckSkillStatusEff(Mortal victim, Skill skill)
+    public static void CheckSkillStatusEff(Mortal user, Mortal victim, Skill skill)
     {
         foreach (Skill status in skill.skillStatusEff.statusList)
         {
             if (status.skillHitChance > Random.Range(0, 101))
             {
-                BattleUI.AddStatus(victim, status);
                 switch (status.skillID)
                 {
                     case 1000:
@@ -99,9 +98,24 @@ public class DamageCalc : MonoBehaviour
                     case 1006:
                         {
                             BattleUI.TextAdd(victim, 26, "orange", string.Format("became Confused!"));
+                            foreach (Skill aSkill in user.GetSkillList())
+                            {
+                                switch (aSkill.skillID)
+                                {
+                                    case 37:
+                                        {
+                                            print("leggo");
+                                            victim.dmgTaken.buffedAmount += aSkill.skillHitChance;
+                                            victim.SimpleStatUpdate();
+                                            print(victim.dmgTaken.totalAmount);
+                                            break;
+                                        }
+                                }
+                            }
                             break;
                         }
                 }
+                BattleUI.AddStatus(victim, status);
             }
 
         }
@@ -160,6 +174,18 @@ public class DamageCalc : MonoBehaviour
                         }
                         break;
                     }
+                case 1007:
+                    {
+                        SoundDatabase.PlaySound(12);
+                        int damage = (victim.maxHealth.totalAmount / 6 - Random.Range(0, victim.maxHealth.totalAmount / 100))
+                            + Random.Range(0, 10 + victim.maxHealth.totalAmount / 80);
+                        victim.health -= damage;
+                        BattleUI.TextAdd(victim, 26, "red", string.Format("took {0} curse damage", damage));
+                        BattleUI.UpdateEnemySliders();
+                        StatusBar.UpdateSliders();
+                        yield return new WaitForSeconds(1.1f);
+                        break;
+                    }
             }
         }
     }
@@ -180,10 +206,44 @@ public class DamageCalc : MonoBehaviour
 
     public static void SkillModifier(Mortal user, Mortal victim, Skill skill)
     {
+        // passives
+        foreach (Skill passive in victim.GetSkillList())
+        {
+            if (passive.skillType == Skill.SkillType.Passive)
+            {
+                switch (passive.skillID)
+                {
+                    case 38:
+                        {
+                            int reduce = Battle.turnCount * passive.skillHitChance;
+                            skill.skillDamage = (int)(skill.skillDamage * (1 - reduce/ 100f));
+                            break;
+                        }
+                    case 40:
+                        {
+                            skill.skillDamage = (int)(skill.skillDamage * (1 + passive.skillDamage / 100f));
+                            break;
+                        }
+                }
+            }
+        }
+        foreach (Skill passive in user.GetSkillList())
+        {
+            if (passive.skillType == Skill.SkillType.Passive)
+            {
+                switch (passive.skillID)
+                {
+                    case 40:
+                        {
+                            skill.skillDamage = (int)(skill.skillDamage * (1 + passive.skillDamage / 100f));
+                            break;
+                        }
+                }
+            }
+        }
         // this is should be used for attacking skills, if an attacking skill would have a cooldown, would need to find it in the player skill list and give it as it would only give the copied skill the cooldown.
         foreach (Transform status in BattleUI.WhoseStatus(user))
         {
-
             if (IsSkill(status))
             {
                 Skill statusSkill = status.GetComponent<StatusHolder>().skill;
@@ -199,7 +259,10 @@ public class DamageCalc : MonoBehaviour
                         }
                     case 32:
                         {
-                            skill.skillStatusEff.AddPercentStatusChance(0, statusSkill.skillManaCost);
+                            if (skill.skillStatusEff.HasStatus(0))
+                            {
+                                skill.skillStatusEff.AddPercentStatusChance(0, statusSkill.skillManaCost);
+                            }
                             break;
                         }
                     case 33:
@@ -298,10 +361,6 @@ public class DamageCalc : MonoBehaviour
                                     }
                                     break;
                                 }
-                            case 36:
-                                {
-                                    break;
-                                }
                         }
                     }
                 }
@@ -309,7 +368,29 @@ public class DamageCalc : MonoBehaviour
         }
         else
         {
-            
+            for (int i = 0; i < victim.skills.Count; i += 1)
+            {
+                foreach (Skill passiveSkill in victim.skills[i])
+                {
+                    if (passiveSkill.skillType == Skill.SkillType.Passive)
+                    {
+                        switch (passiveSkill.skillID)
+                        {
+                            case 36:
+                                {
+                                    if (skill.skillType == Skill.SkillType.Physical && Random.Range(0, 100) < passiveSkill.skillDamage)
+                                    {
+                                        Skill burn = new Skill(SkillDatabase.GetSkill(1000));
+                                        burn.skillDuration = -1;
+                                        BattleUI.AddStatus(user, burn);
+                                        BattleUI.TextAdd(user, 22, "red", string.Format("has been by Burned Scorched Touch!"));
+                                    }
+                                    break;
+                                }
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -417,6 +498,14 @@ public class DamageCalc : MonoBehaviour
                 {
                     if (Battle.turnCount == aSkill.skillCooldownEnd)
                     {
+                        switch (aSkill.skillID)
+                        {
+                            case 39:
+                                {
+                                    user.SetHP(0);
+                                    break;
+                                }
+                        }
                         aSkill.skillOnCooldown = false; // removing cooldown in skills
                     }
                 }
@@ -466,6 +555,14 @@ public class DamageCalc : MonoBehaviour
                 {
                     user.dodgeChance.buffedAmount -= skill.skillDamage;
                     user.critChance.buffedAmount -= skill.skillHitChance;
+                    break;
+                }
+            case 1006:
+                {
+                    if (victim.GetSkillList().Exists(aSkill => aSkill.skillID == 37))
+                    {
+                        user.dmgTaken.buffedAmount -= victim.FindSkill(37).skillHitChance;
+                    }
                     break;
                 }
         }
@@ -581,8 +678,31 @@ public class DamageCalc : MonoBehaviour
         StatusBar.UpdateSliders();
     }
 
+    public static void VictimModifier(Mortal user, Mortal victim)
+    {
+        foreach (Skill skill in user.GetSkillList())
+        {
+            switch (skill.skillID)
+            {
+                case 37:
+                    {
+                        foreach (Skill status in BattleUI.WhoseStatus(victim))
+                        {
+                            if (status.skillID == 1006)
+                            {
+                                victim.dmgTaken.buffedAmount += skill.skillHitChance;
+                                break;
+                            }
+                        }
+                        break;
+                    }
+            }
+        }
+    }
+
     public static void SkillAttack(Mortal user, Mortal victim, Skill skill)
     {
+        
         SkillModifier(user, victim, skill);
         // Mana Cost
         BattleUI.TextAdd(user, 30, "#000000ff", "used " + skill.skillName);
@@ -595,7 +715,7 @@ public class DamageCalc : MonoBehaviour
             ////// Damage
             int damage = DmgModifier(user, victim, skill);
             // Apply Status effects ex. Burn
-            CheckSkillStatusEff(victim, skill);
+            CheckSkillStatusEff(user, victim, skill);
             // Crit Chance
             int critChance = CritChanceModifier(user, victim, skill);
             //// Check if Crit
@@ -664,7 +784,8 @@ public class DamageCalc : MonoBehaviour
         else
         {
             // apply status effects after first attack
-            yield return AfterAttackStatusEffectApply( firstAttacker, secondAttacker, playerUseSkillCopy);
+            yield return AfterAttackPassiveEffects(firstAttacker, secondAttacker);
+            yield return AfterAttackStatusEffectApply(firstAttacker, secondAttacker, playerUseSkillCopy);
             // enemy attack (second attack, will be changing)
             if (enemy.IsDead())
             {
@@ -676,9 +797,14 @@ public class DamageCalc : MonoBehaviour
                 {
                     enemy.SimpleStatUpdate();
                     SkillAttack(secondAttacker, firstAttacker, enemy.skills[0][Random.Range(0, enemy.skills.Count)]);
-                    yield return AfterAttackStatusEffectApply(secondAttacker, firstAttacker, playerUseSkillCopy);
-                    // end turn effects
-                    yield return EndTurnStatusEffects(BattleUI.playerStatus, player, enemy);
+                    DeathTriggers(firstAttacker);
+                    yield return CheckPlayerDeath(player);
+                    if (!player.IsDead())
+                    {
+                        yield return AfterAttackStatusEffectApply(secondAttacker, firstAttacker, playerUseSkillCopy);
+                        // end turn effects
+                        yield return EndTurnStatusEffects(BattleUI.playerStatus, player, enemy);
+                    }
                 }
                 if (enemy.IsDead())
                 {
@@ -707,6 +833,70 @@ public class DamageCalc : MonoBehaviour
         GameManager.player.FullUpdate();
         Battle.enemy.UpdateSkills();
         
+    }
+
+    static void DeathTriggers(Mortal user)
+    {
+        if (user.IsDead())
+        {
+            foreach(Skill skill in user.GetSkillList())
+            {
+                switch (skill.skillID)
+                {
+                    case 39:
+                        {
+                            if (skill.skillManaCost != 1)
+                            {
+                                SoundDatabase.PlaySound(55);
+                                BattleUI.TextAdd(user, 25, "red", string.Format("are brought back to life from {0}!", skill.skillName));
+                                BattleUI.AddStatus(user, skill);
+                                skill.skillCooldownEnd = skill.skillDuration + Battle.turnCount;
+                                user.SetHP(skill.skillDamage);
+                                skill.skillManaCost = 1;
+                            }
+                            break;
+                        }
+                }
+            }
+        }
+    }
+
+    static IEnumerator CheckPlayerDeath(Mortal player)
+    {
+        if (player.IsDead())
+        {
+            BattleUI.TextAdd(player, 25, "red", string.Format("died!"));
+            yield return new WaitForSeconds(1.1f);
+            SoundDatabase.PlayMusic(13, false);
+            BattleUI.deathScreen.gameObject.SetActive(true);
+        }
+    }
+
+    static IEnumerator AfterAttackPassiveEffects(Mortal user, Mortal victim)
+    {
+        foreach (Skill skill in user.GetSkillList())
+        {
+            if (skill.skillType == Skill.SkillType.Passive)
+            {
+                switch (skill.skillID)
+                {
+                    case 38:
+                        {
+                            int heal = Battle.turnCount * skill.skillDamage;
+                            user.HealHP(heal);
+                            SoundDatabase.PlaySound(14);
+                            BattleUI.TextAdd(user, 25, "green", string.Format("healed {0} HP from {1}", heal, skill.skillName));
+                            StatusBar.UpdateSliders();
+                            yield return new WaitForSeconds(1.1f);
+                            break;
+                        }
+                }
+                if (victim.IsDead())
+                {
+                    break;
+                }
+            }
+        }
     }
 
     static IEnumerator AfterAttackStatusEffectApply(Mortal user, Mortal victim, Skill playeruseskill)
@@ -747,7 +937,7 @@ public class DamageCalc : MonoBehaviour
                                     SoundDatabase.PlaySound(38);
                                     enemy.health -= statusSkill.skillDamage;
                                     BattleUI.TextAdd(enemy, 17, "red", string.Format("took {0} {1} damage from exploded Volcano Shield", statusSkill.skillDamage, statusSkill.skillType));
-                                    CheckSkillStatusEff(enemy, statusSkill);
+                                    CheckSkillStatusEff(player, enemy, statusSkill);
                                 }
                                 break;
                             }
@@ -784,6 +974,8 @@ public class DamageCalc : MonoBehaviour
                 StatPage.OpenCloseCelebration(false);
                 player.LevelUp();
                 GameManager.player.FullUpdate();
+                player.HealFullHP();
+                player.HealFullMP();
                 StatPage.SetCurrentStats();
                 StatPage.UpdateText();
             }
@@ -821,7 +1013,7 @@ public class DamageCalc : MonoBehaviour
                                 {
                                     int manaHeal = (int)(player.maxMana.totalAmount * (skill.skillHitChance / 100f));
                                     player.HealMP(manaHeal);
-                                    VictoryScreen.AddDetails(string.Format("Gain {0} Mana from {1}", manaHeal, skill.skillName));
+                                    VictoryScreen.AddDetails(string.Format("Gained {0} Mana from {1}", manaHeal, skill.skillName));
                                 }
                                 break;
                             }

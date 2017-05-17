@@ -39,6 +39,7 @@ public class Battle : MonoBehaviour {
             SkillPage.quickSkillsButton.gameObject.SetActive(false);
             SkillPage.quickSkillsInfo.gameObject.SetActive(false);
         }
+        BattleUI.deathScreen.gameObject.SetActive(false);
         VictoryScreen.ResetDetails();
         SoundDatabase.PlayMusic(Random.Range(2, 9));
         turnCount = -1;

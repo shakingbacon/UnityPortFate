@@ -118,7 +118,7 @@ public class Tutorial : MonoBehaviour {
 
     public static void FinishTutorial()
     {
-        GameManager.player.skillPoints = 100; // so player cant rank them during tutorial
+        GameManager.player.skillPoints = 1; // so player cant rank them during tutorial
         GameManager.inTutorial = false;
         if (!Inventory.HasItem(1000))
         {
