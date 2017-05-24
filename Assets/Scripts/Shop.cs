@@ -1,170 +1,166 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Shop : MonoBehaviour
 {
-    //private Page page = new Page(2, 0,0, 325,450,50);
-    //public float slotsX, slotsY;
-    //public GUISkin skin;
-    //public GameManager manager;
-    //private ItemDatabase database;
-    ////public SlotButton slotButton;
-    //public Inventory inventory;
-    //public Equipment equipment;
-    //public Tooltip tooltip;
-    //public Item itemToBuy;
+    public static Transform shop;
+    public static Transform shopItems;
+    public static Transform itemDesc;
+    public static Button prev;
+    public static Button next;
+    public static Transform rest;
+    public static Image clerk;
+    public static Text greeting;
+    public static Button exit;
+    public static Text numText;
+    public static Transform buying;
+    public static Item buyingItem;
+    public static bool showBuying = false;
+    //
+    public static List<List<Item>> items = new List<List<Item>>();
+    public static  int pageNum;
 
-    //public int pageIndex;
-    //private string buyResult;
-    //private Transform player;
-    //public bool showingShopTool;
-    //public bool draggingShop;
-    //public bool showShop;
-    //public bool buyingItem = false;
-    //public bool purchaseFailed = false;
+    void Awake()
+    {
+        shop = gameObject.transform;
+        shopItems = gameObject.transform.FindChild("Shop Items");
+        itemDesc = gameObject.transform.FindChild("Item Desc");
+        prev = gameObject.transform.FindChild("Prev").GetComponent<Button>();
+        next = gameObject.transform.FindChild("Next").GetComponent<Button>();
+        clerk = gameObject.transform.FindChild("Clerk").GetComponent<Image>();
+        greeting = gameObject.transform.FindChild("Greeting").GetComponent<Text>();
+        exit = gameObject.transform.FindChild("Exit").GetComponent<Button>();
+        numText = gameObject.transform.FindChild("Page Num").GetComponent<Text>();
+        buying = gameObject.transform.FindChild("Buying");
+        buying.FindChild("Yes").GetComponent<Button>().onClick.AddListener(BuyingYes);
+        buying.FindChild("No").GetComponent<Button>().onClick.AddListener(BuyingNo);
+        rest = gameObject.transform.FindChild("Rest");
+        prev.onClick.AddListener(PrevButton);
+        next.onClick.AddListener(NextButton);
+        exit.onClick.AddListener(CloseButton);
+        rest.GetComponentInChildren<Button>().onClick.AddListener(RestButton);
+    }
 
-    //public Rect windowRect0;
-    
-    //void Start()
-    //{
-    //    database = GameObject.FindGameObjectWithTag("Item Database").GetComponent<ItemDatabase>();
-    //    slotButton = slotButton.GetComponent<SlotButton>();
-    //    inventory = inventory.GetComponent<Inventory>();
-    //    equipment = equipment.GetComponent<Equipment>();
-    //    tooltip = tooltip.GetComponent<Tooltip>();
-    //    manager = manager.GetComponent<GameManager>();
-    //    player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
-    //}
+    public static void IsHospital(bool yes)
+    {
+        rest.gameObject.SetActive(yes);
+    }
 
-    //void Update()
-    //{
-    //    if (showShop && Input.GetButtonDown("Cancel"))
-    //    {
-    //        showShop = false;
-    //        slotButton.showTooltip = false;
-    //    }
-    //    if (showShop)
-    //    {
-    //        float displacement = 1.75f;
-    //        if (player.transform.position.x > gameObject.transform.position.x + displacement || player.transform.position.x < gameObject.transform.position.x - displacement ||
-    //            player.transform.position.y > gameObject.transform.position.y + displacement || player.transform.position.y < gameObject.transform.position.y - displacement)
-    //        {
-    //            showShop = false;
-    //        }
-    //    }
+    public static void RestButton()
+    {
+        SoundDatabase.PlaySound(19);
+        if (GameManager.player.GetMaxHP(50) > GameManager.player.health)
+        {
+            GameManager.player.SetHP(GameManager.player.GetMaxHP(50));
+        }
+        if (GameManager.player.GetMaxMP(50) > GameManager.player.mana)
+        {
+            GameManager.player.SetMP(GameManager.player.GetMaxMP(50));
+        }
+        StatusBar.UpdateSliders();
+    }
 
-    //}
+    public static void BuyingYes()
+    {
+        SoundDatabase.PlaySound(9);
+        GameManager.player.cash -= buyingItem.itemCost;
+        Inventory.AddItem(buyingItem.itemID);
+        BuyingShow(false);
+    }
 
-    //void OnTriggerEnter2D(Collider2D other)
-    //{
-    //    if (!showShop)
-    //    {
-    //        showShop = true;
-    //    }
-    //}
+    public static void BuyingNo()
+    {
+        SoundDatabase.PlaySound(21);
+        BuyingShow(false);
+    }
 
-    //void OnGUI()
-    //{
-    //    if (showShop)
-    //    {
-    //        slotButton.hoveringCurrentItem = new Item();
-    //        DrawShop();
-    //        if (tooltip.DrawTooltip(slotButton.hoveringCurrentItem) && (manager.showingPageTooltipID == -1 || manager.showingPageTooltipID == page.id))
-    //        {
-    //            manager.showingPageTooltipID = page.id;
-    //        }
-    //        else
-    //        {
-    //            manager.showingPageTooltipID = -1;
-    //        }
-    //        if (slotButton.draggingItem)
-    //        {
-    //            GUI.DrawTexture(new Rect(Event.current.mousePosition.x, Event.current.mousePosition.y - 100, 100, 100), slotButton.draggedItem.itemImg);
-    //        }
-    //    }
-    //    if (buyingItem)
-    //    {
-    //        windowRect0 = GUI.Window(0, windowRect0, DoMyWindow, "Buying:\n" + itemToBuy.itemName, skin.GetStyle("Panel Brown"));
-    //    }
-    //    if (purchaseFailed)
-    //    {
-    //        windowRect0 = GUI.Window(1, windowRect0, DoMyWindow, buyResult, skin.GetStyle("Panel Brown"));
-    //    }
+    public static void BuyingShow(bool yes)
+    {
+        showBuying = yes;
+        buying.gameObject.SetActive(yes);
+        if (yes)
+        {
+            buying.FindChild("Text").GetComponent<Text>().text = "";
+            buying.FindChild("Item IMG").GetComponent<Image>().sprite = buyingItem.itemImg;
+            if (GameManager.player.cash -
+                buyingItem.itemCost < 0)
+            {
+                buying.FindChild("Text").GetComponent<Text>().text += string.Format("You cant afford this item!\n");
+                buying.FindChild("Yes").GetComponent<Button>().interactable = false;
+            }
+            else
+            {
+                buying.FindChild("Text").GetComponent<Text>().text += string.Format("Do you want to buy this item?\n{0}\n",buyingItem.itemName);
+                buying.FindChild("Text").GetComponent<Text>().text += string.Format("{0}$ - {1}$ = {2}$", GameManager.player.cash, buyingItem.itemCost, GameManager.player.cash - buyingItem.itemCost);
+                buying.FindChild("Yes").GetComponent<Button>().interactable = true;
+            }
+        }
+    }
 
-    //}
-    //void DoMyWindow(int windowID)
-    //{
-    //    if (windowID == 0)  
-    //    {
-    //        GUI.DrawTexture(new Rect(64 , 90 , 80,80), Resources.Load<Texture2D>("Item Icons/"+itemToBuy.itemName));
-    //        if (GUI.Button(new Rect(65 - 25, 200, 50, 50), "Buy"))
-    //        {
-    //            buyResult = inventory.BuyItem(itemToBuy.itemID);
-    //            if (buyResult == "")
-    //            {
-    //                buyingItem = false;
-    //            }
-    //            else
-    //            {
-    //                buyingItem = false;
-    //                purchaseFailed = true;
-    //            }
-    //        }
-    //        if (GUI.Button(new Rect(140 - 25,200, 50, 50), "Close"))
-    //        {
-    //            buyingItem = false;
-    //        }
-    //        GUI.DragWindow();
-    //    }
-    //    else if (windowID == 1)
-    //    {
-    //        if (GUI.Button(new Rect(78, 200, 50, 50), "Cancel"))
-    //        {
-    //            purchaseFailed = false;
-    //        }
-    //        GUI.DragWindow();
-    //    }
+    public static void PrevButton()
+    {
+        SoundDatabase.PlaySound(18);
+        pageNum -= 1;
+        numText.text = (pageNum + 1).ToString();
+        UpdatePage(pageNum);
+    }
 
-    //}
+    public static void NextButton()
+    {
+        SoundDatabase.PlaySound(18);
+        pageNum += 1;
+        numText.text = (pageNum + 1).ToString();
+        UpdatePage(pageNum);
 
+    }
 
-    //void DrawShop()
-    //{
-    //    Event e = Event.current;
-    //    // title drag
+    public static void CloseButton()
+    {
+        SoundDatabase.PlaySound(34);
+        GameManager.thereIsShop = false;
+        pageNum = 0;
+        Destroy(shop.gameObject);
+    }
 
-    //    if ((manager.draggingPageID == -1 || manager.draggingPageID == page.id) &&
-    //        !slotButton.draggingItem && new Rect(page.x, page.y, page.w, page.titleh).Contains(Event.current.mousePosition) && e.type == EventType.mouseDrag) // title drag
-    //    {
-    //        manager.draggingPageID = page.id;
-    //        page.x = Event.current.mousePosition.x - page.w / 2;
-    //        page.y= Event.current.mousePosition.y - page.titleh / 2;
-    //    }
-    //    if (e.type == EventType.mouseUp)
-    //    {
-    //        manager.draggingPageID = -1;
-    //    }
-    //    // Background
-    //    GUI.Box(new Rect(page.x, page.y, page.w, page.h), "", skin.GetStyle("Panel Brown"));
-    //    // Title
-    //    GUI.Box(new Rect(page.x, page.y, page.w, page.titleh), "Shop", skin.GetStyle("Button Long Brown"));
-    //    // Close button
-    //    if (GUI.Button(new Rect(page.x + page.w - 45, page.y + 5, 35, 35), Resources.Load<Texture2D>("GUI/Cross Brown")))
-    //    {
-    //        showShop = false;
-    //    }
-    //    if (pageIndex + 1 < database.shop.Count)
-    //    { 
-    //        if (GUI.Button(new Rect(page.x + 200, page.y + page.h-50 , 30,30), Resources.Load<Texture2D>("GUI/Arrow Right")))
-    //        {
-    //            pageIndex += 1;
-    //        }
-    //    }
-    //    if (pageIndex != 0 && GUI.Button(new Rect(page.x + 100, page.y + page.h - 50, 30, 30), Resources.Load<Texture2D>("GUI/Arrow Left")))
-    //    {
-    //        pageIndex -= 1;
-    //    }
-    //    // Inventory Slots
-    //    slotButton.MatrixSlot(slotsX, slotsY, database.shop[pageIndex], page.x + 32, page.y+ 65, 67, 67);
-    //}
+    public static void UpdatePage(int index)
+    {
+        int i = 0;
+        foreach(Transform item in shop.GetChild(0))
+        {
+            ShopItemHolder holder = item.GetComponent<ShopItemHolder>();
+            holder.item = items[pageNum][i];
+            if (items[pageNum][i].itemID == -1)
+            {
+                item.GetComponent<Button>().interactable = false;
+                item.GetComponent<Image>().sprite = Resources.Load<Sprite>("unity_builtin_extra/UISprite");
+            }
+            else
+            {
+                item.GetComponent<Button>().interactable = true;
+                item.GetComponent<Image>().sprite
+                    = holder.item.itemImg;
+            }
+            i += 1;
+        }
+        if (pageNum == 0)
+        {
+            prev.interactable = false;
+        }
+        else
+        {
+            prev.interactable = true;
+        }
+        if (pageNum + 1 < items.Count)
+        {
+            next.interactable = true;
+        }
+        else
+        {
+            next.interactable = false;
+        }
+        numText.text = (1 + pageNum).ToString(); 
+    }
+
 }

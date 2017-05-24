@@ -50,6 +50,17 @@ public class Inventory : MonoBehaviour
         return false;
     }
     
+    public static void RemoveItem(int id)
+    {
+        for(int i = 0; i < inventory.childCount; i++)
+        {
+            if (inventory.GetChild(i).GetComponentInChildren<ItemHolder>().item.itemID == id)
+            {
+                InvEq.CleanSlot(inventory, i);
+                break;
+            }
+        }
+    }
 
     //private Page page = new Page(0, 100, 100, 325, 460, 50);
     //public float slotsX, slotsY;

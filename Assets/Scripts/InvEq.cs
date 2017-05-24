@@ -74,8 +74,11 @@ public class InvEq : MonoBehaviour
 
     public static void ShowStats(bool show)
     {
+        SoundDatabase.PlaySound(21);
         showStats = show;
-        GameObject.FindGameObjectWithTag("InventoryEquipment").transform.FindChild("Item Desc").gameObject.SetActive(show);
+        GameObject.FindGameObjectWithTag("InventoryEquipment").transform.FindChild("Desc").gameObject.SetActive(show);
+        GameObject.FindGameObjectWithTag("InventoryEquipment").transform.FindChild("Desc").FindChild("Stats").gameObject.SetActive(show);
+        GameObject.FindGameObjectWithTag("InventoryEquipment").transform.FindChild("Desc").FindChild("Item Desc").gameObject.SetActive(false);
         UpdateStatsDesc();
         if (!showStats)
         {
@@ -88,8 +91,33 @@ public class InvEq : MonoBehaviour
     }
     public static void UpdateStatsDesc()
     {
-        GameObject.FindGameObjectWithTag("InventoryEquipment").transform.FindChild("Item Desc").GetComponentInChildren<Text>().text
-    = GameManager.player.makeStatsPage();
+        Mortal stats = GameManager.player;
+        List<string> stringList = new List<string>(new string[]
+        {
+            string.Format("<color=#C40D0D>Strength: {0} + {1} = {2}</color>", stats.strength.baseAmount, stats.strength.buffedAmount, stats.strength.totalAmount),
+            string.Format("<color=#0000FF>Intelligence: {0} + {1} = {2}</color>", stats.intelligence.baseAmount, stats.intelligence.buffedAmount, stats.intelligence.totalAmount),
+            string.Format("<color=#00FF00>Agility: {0} + {1} = {2}</color>", stats.agility.baseAmount, stats.agility.buffedAmount, stats.agility.totalAmount),
+            string.Format("<color=#F3F335>  Luck: {0} + {1} = {2}</color>", stats.luck.baseAmount, stats.luck.buffedAmount, stats.luck.totalAmount),
+            string.Format("<color=#F00000>Max HP: {0} + {1} = {2}</color>", stats.maxHealth.baseAmount, stats.maxHealth.buffedAmount, stats.maxHealth.totalAmount),
+            string.Format("<color=#2BF2F2>  Max MP: {0} + {1} = {2}</color>", stats.maxMana.baseAmount, stats.maxMana.buffedAmount, stats.maxMana.totalAmount),
+            string.Format("<color=#EC2E2F>Phys Atk: {0} + {1} = {2}</color>", stats.physAtk.baseAmount, stats.physAtk.buffedAmount, stats.physAtk.totalAmount),
+            string.Format("<color=#2200FF>  Magic Atk: {0} + {1} = {2}</color>", stats.magicAtk.baseAmount, stats.magicAtk.buffedAmount, stats.magicAtk.totalAmount),
+            string.Format("<color=#000000>Defense: {0} + {1} = {2}</color>", stats.armor.baseAmount, stats.armor.buffedAmount, stats.armor.totalAmount),
+            string.Format("<color=#04007f>  Resist: {0} + {1} = {2}</color>", stats.resist.baseAmount, stats.resist.buffedAmount, stats.resist.totalAmount),
+            string.Format("<color=#2EEC61>Hit%: {0}% + {1}% = {2}%</color>", stats.hitChance.baseAmount, stats.hitChance.buffedAmount, stats.hitChance.totalAmount),
+            string.Format("<color=#2EED8E>Dodge%: {0}% + {1}% = {2}%</color>", stats.dodgeChance.baseAmount, stats.dodgeChance.buffedAmount, stats.dodgeChance.totalAmount),
+            string.Format("<color=#2EEDED>Crit% : {0}% + {1}% = {2}%</color>", stats.critChance.baseAmount, stats.critChance.buffedAmount, stats.critChance.totalAmount),
+            string.Format("<color=#DEAB71>Crit Multi: {0}% + {1}% = {2}%</color>", stats.critMulti.baseAmount, stats.critMulti.buffedAmount, stats.critMulti.totalAmount),
+            string.Format("<color=#2EEC61>DMG Output: {0}% + {1}% = {2}%</color>", stats.dmgOutput.baseAmount, stats.dmgOutput.buffedAmount, stats.dmgOutput.totalAmount),
+            string.Format("<color=#2EEC61>DMG Taken: {0}% + {1}% = {2}%</color>", stats.dmgTaken.baseAmount, stats.dmgTaken.buffedAmount, stats.dmgTaken.totalAmount),
+            string.Format("<color=#2EEC61>Mana Coms: {0}% + {1}% = {2}%</color>", stats.manaComs.baseAmount, stats.manaComs.buffedAmount, stats.manaComs.totalAmount)
+    });
+        int i = 0;
+        foreach (Transform text in GameObject.FindGameObjectWithTag("InventoryEquipment").transform.FindChild("Desc").FindChild("Stats"))
+        {
+            text.GetComponent<Text>().text = stringList[i];
+            i += 1;
+        }
     }
 
 }

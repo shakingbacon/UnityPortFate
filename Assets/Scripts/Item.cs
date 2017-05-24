@@ -29,7 +29,8 @@ public class Item {
     public ItemType itemType;
     public WeaponType weaponType;
     public ArmorType armorType;
-    public string itemTooltip = "";
+    public List<string> itemRegularText = new List<string>();
+    public List<string> itemStatText = new List<string>();
 
 
     public enum ItemType

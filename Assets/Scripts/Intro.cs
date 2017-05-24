@@ -11,6 +11,14 @@ public class Intro : MonoBehaviour {
         gameObject.transform.FindChild("Version").GetComponent<Text>().text = GameManager.version;
     }
 
+    void Update()
+    {
+        if (Input.GetButtonDown("Submit"))
+        {
+            StartButtonPress();
+        }
+    }
+
     public void StartButtonPress()
     {
         if (gameObject.transform.FindChild("Input Name").GetComponent<InputField>().text.Length != 0)

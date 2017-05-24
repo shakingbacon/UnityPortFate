@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class ItemDatabase : MonoBehaviour
 {
     public static List<Item> items = new List<Item>();
-    public static List<List<Item>> shop = new List<List<Item>>();
+    public static List<ShopList> shopList = new List<ShopList>();
     // Use this for initialization
     void Start()
     {
@@ -90,22 +90,50 @@ public class ItemDatabase : MonoBehaviour
         items.Add(new Item("Luck Necklace", 9103, "A necklace that increases your LUK",  Item.ArmorType.Accessory));
 
         AddBonusStatsToItems();
-
-        shop.Add(new List<Item>());
-        shop.Add(new List<Item>());
-        shop.Add(new List<Item>());
-
-        List<List<int>> shopItems =
-            new List<List<int>>(new[]{
-            new List<int>(new []{1000, 1001, 1002, 1003, 1050, 1051, 1052, 1053, 1100, 1200, 1201,1300, 1400, 1500, 1600, 1700}),
-            new List<int>(new []{9100,9101, 9102, 9103}),
-            new List<int>(new []{1, 2, 3, 4, 5, 6, 7})});
-        // ADD ITEM TOOLTIPS
         for (int index = 0; index < items.Count; index += 1)
         {
-            items[index].itemTooltip = CreateTooltip(items[index]);
+            CreateTooltip(items[index]);
         }
-        AddItems(shop, shopItems);
+
+        List<List<int>> shopItems =
+            new List<List<int>>(new List<int>[]{
+            new List<int>(new int []{
+                1000, 1001, 1002, 1003, 1050,
+                1051, 1052, 1053, 1100, 1200,
+                1201,1300, 1400, 1500, 1600,
+                1700, -1, -1, -1, -1,
+                 -1, -1, -1, -1, -1
+            }),
+            new List<int>(new int[]{
+                9100, 9101, 9102, 9103, -1,
+                -1, -1, -1, -1, -1,
+                -1, -1, -1, -1, -1,
+                -1, -1, -1, -1, -1,
+                -1, -1, -1, -1, -1
+            }) });
+        List<List<int>> hospital =
+            new List<List<int>>(new List<int>[]{
+            new List<int>(new int []{
+                9000, 9001, 9002, -1, -1,
+                -1, -1, -1, -1, -1,
+                -1, -1, -1, -1, -1,
+                -1, -1, -1, -1, -1,
+                 -1, -1, -1, -1, -1
+            }),
+            new List<int>(new int []{
+                9100, 9101, 9102, 9103, -1,
+                -1, -1, -1, -1, -1,
+                -1, -1, -1, -1, -1,
+                -1, -1, -1, -1, -1,
+                -1, -1, -1, -1, -1
+            }) });
+        shopList.Add(new ShopList(MakeShopList(shopItems), 0));
+        shopList.Add(new ShopList(MakeShopList(hospital), 1, true));
+    }
+    
+    public static ShopList GetShop(int id)
+    {
+        return shopList.Find(aList => aList.listID == id);
     }
 
     public static Item GetItem(int id)
@@ -113,159 +141,123 @@ public class ItemDatabase : MonoBehaviour
         return items.Find(anItem => anItem.itemID == id);
     }
 
-    private void AddItems(List<List<Item>> listToAdd, List<List<int>> listOfItems)
+
+    public List<List<Item>> MakeShopList(List<List<int>> listOfItems)
     {
-        for (int k = 0; k < listOfItems.Count; k += 1)
+        List<List<Item>> makeItemList = new List<List<Item>>();
+        foreach(List<int> pages in listOfItems)
         {
-            while (shop[k].Count < 20)
+            makeItemList.Add(new List<Item>());
+        }
+        for (int i = 0; i < listOfItems.Count; i++)
+        {
+            foreach (int itemID in listOfItems[i])
             {
-                shop[k].Add(new Item());
-            }
-            for (int l = 0; l < listOfItems[k].Count; l += 1)
-            {
-                for (int j = 0; j < items.Count; j += 1)
-                {
-                    if (items[j].itemID == listOfItems[k][l])
-                    {
-                        listToAdd[k][l] = items[j];
-                        break;
-                    }
-                }
+                makeItemList[i].Add(GetItem(itemID));
             }
         }
+        return makeItemList;
     }
 
-    private string CreateTooltip(Item item)
+    private void CreateTooltip(Item item)
     {
-        string tooltip;
-        // NAME
-        tooltip = "<size=30><color=#000000>" + item.itemName + "</color></size>\n";
-        // ITEM TYPE
-        tooltip += "<size=25>";
+        item.itemRegularText.Add(item.itemName);
+        string type = "";
         if (item.itemType == Item.ItemType.Armor)
         {
             if (item.armorType == Item.ArmorType.Accessory)
             {
-                tooltip += "(<color=#FFABAB>" + item.itemType.ToString() + "</color>)\n";
+                type += "(<color=#FFABAB>" + item.itemType.ToString() + "</color>)";
             }
             else if (item.armorType == Item.ArmorType.Head)
             {
-                tooltip += "(<color=#3BCD58>" + item.armorType.ToString() + "</color>)\n";
+                type += "(<color=#3BCD58>" + item.armorType.ToString() + "</color>)";
             }
             else if (item.armorType == Item.ArmorType.Neck)
             {
-                tooltip += "(<color=#C40D0D>" + item.armorType.ToString() + "</color>)\n";
+                type += "(<color=#C40D0D>" + item.armorType.ToString() + "</color>)";
             }
             else if (item.armorType == Item.ArmorType.Body)
             {
-                tooltip += "(<color=#F7CA34>" + item.armorType.ToString() + "</color>)\n";
+                type += "(<color=#F7CA34>" + item.armorType.ToString() + "</color>)";
             }
             else if (item.armorType == Item.ArmorType.Bottom)
             {
-                tooltip += "(<color=#F78F34>" + item.armorType.ToString() + "</color>)\n";
+                type += "(<color=#F78F34>" + item.armorType.ToString() + "</color>)";
             }
             else if (item.armorType == Item.ArmorType.Shield)
             {
-                tooltip += "(<color=#E57E18>" + item.armorType.ToString() + "</color>)\n";
+                type += "(<color=#E57E18>" + item.armorType.ToString() + "</color>)";
             }
             else if (item.armorType == Item.ArmorType.Boots)
             {
-                tooltip += "(<color=#FF8000>" + item.armorType.ToString() + "</color>)\n";
+                type += "(<color=#FF8000>" + item.armorType.ToString() + "</color>)";
             }
             else if (item.armorType == Item.ArmorType.Hands)
             {
-                tooltip += "(<color=#18E418>" + item.armorType.ToString() + "</color>)\n";
+                type += "(<color=#18E418>" + item.armorType.ToString() + "</color>)";
             }
         }
         else if (item.itemType == Item.ItemType.Weapon)
         {
             if (item.weaponType == Item.WeaponType.Sword)
             {
-                tooltip += "(<color=#FF0000>" + item.weaponType.ToString() + "</color>)\n";
+                type += "(<color=#FF0000>" + item.weaponType.ToString() + "</color>)";
             }
             else if (item.weaponType == Item.WeaponType.Axe)
             {
-                tooltip += "(<color=#0000CB>" + item.weaponType.ToString() + "</color>)\n";
+                type += "(<color=#0000CB>" + item.weaponType.ToString() + "</color>)";
             }
             else if (item.weaponType == Item.WeaponType.Dagger)
             {
-                tooltip += "(<color=#8B00A1>" + item.weaponType.ToString() + "</color>)\n";
+                type += "(<color=#8B00A1>" + item.weaponType.ToString() + "</color>)";
             }
             else if (item.weaponType == Item.WeaponType.Shuriken)
             {
-                tooltip += "(<color=#900000>" + item.weaponType.ToString() + "</color>)\n";
+                type += "(<color=#900000>" + item.weaponType.ToString() + "</color>)";
             }
             else if (item.weaponType == Item.WeaponType.Wand)
             {
-                tooltip += "(<color=#914800>" + item.weaponType.ToString() + "</color>)\n";
+                type += "(<color=#914800>" + item.weaponType.ToString() + "</color>)";
             }
             else if (item.weaponType == Item.WeaponType.Staff)
             {
-                tooltip += "(<color=#463811>" + item.weaponType.ToString() + "</color>)\n";
+                type += "(<color=#463811>" + item.weaponType.ToString() + "</color>)";
 
             }
         }
         else if (item.itemType == Item.ItemType.Consumable)
         {
-            tooltip += "(<color=#81CAE1>" + item.itemType.ToString() + "</color>)\n";
+            type += "(<color=#81CAE1>" + item.itemType.ToString() + "</color>)";
         }
-        tooltip += "</size>";
-        // COST
-        tooltip += "<size=22><color=#ECF32A>COST: $" + item.itemCost.ToString() + "</color></size>\n";
-        // DESCRIPTION
-        tooltip += "<size=20>" + item.itemDesc + "</size>\n";
-        // BONUS STATS
+        item.itemRegularText.Add(type);
+        item.itemRegularText.Add("<color=#ECF32A>COST: $" + item.itemCost.ToString() + "</color>");
+        item.itemRegularText.Add(item.itemDesc);
         List<int> values = new List<int>
             (new int[] {item.itemBonusStr, item.itemBonusInt, item.itemBonusAgi, item.itemBonusLuk,
-            item.itemBonusHP, item.itemBonusMP, item.itemBonusAtk, item.itemBonusMAtk,
-            item.itemBonusArmor, item.itemBonusResist,
-            item.itemBonusHit, item.itemBonusDodge, item.itemBonusCrit, item.itemBonusCritMulti, item.itemBonusManaComs, item.itemBonusDmgOutput, item.itemBonusDmgTaken, 0});
+                item.itemBonusHP, item.itemBonusMP, item.itemBonusAtk, item.itemBonusMAtk,
+                item.itemBonusArmor, item.itemBonusResist,
+                item.itemBonusHit, item.itemBonusDodge, item.itemBonusCrit, item.itemBonusCritMulti, item.itemBonusManaComs, item.itemBonusDmgOutput, item.itemBonusDmgTaken});
         List<string> desc = new List<string>
             (new string[] {"<color=#C40D0D>STR: " , "<color=#0000FF>INT: ", "<color=#00FF00>AGI: ",
-                "<color=#F3F335>LUK: ", "<color=#F00000>HP: ", "<color=#2BF2F2>MP: ",
-                "<color=#EC2E2F>ATK: ", "<color=#2200FF>MATK: ", "<color=#FFB811>DEF: ",
-            "<color=#04007F>RES: ", "<color=#2EEC61>HIT: ", "<color=#2EED8E>DODGE: ",
-                "<color=#2EEDED>CRIT: ", "<color=#DEAB71>CRITMULTI: ", "<color=#>DMGOUT" , "<color=#>DMGTAKE", "<color=#>MANACOMS", ""});
-        for (int i = 0; i < values.Count; i += 2)
+                    "<color=#F3F335>LUK: ", "<color=#F00000>HP: ", "<color=#2BF2F2>MP: ",
+                    "<color=#EC2E2F>ATK: ", "<color=#2200FF>MATK: ", "<color=#FFB811>DEF: ",
+                "<color=#04007F>RES: ", "<color=#2EEC61>HIT: ", "<color=#2EED8E>DODGE: ",
+                    "<color=#2EEDED>CRIT: ", "<color=#DEAB71>CRITMULTI: ", "<color=#>DMGOUT" , "<color=#>DMGTAKE", "<color=#>MANACOMS"});
+        for(int i = 0;  i < values.Count; i++)
         {
-            string string1 = "";
-            string string2 = "";
             if (values[i] != 0)
             {
                 if (values[i] > 0)
                 {
-                    string1 = "<size=20>" + desc[i] + "+" + values[i].ToString() + "</color></size>     ";
+                    item.itemStatText.Add(desc[i] + "+" + values[i] + "</color>");
                 }
                 else
                 {
-                    string1 = "<size=20>" + desc[i] + values[i].ToString() + "</color></size>     ";
+                    item.itemStatText.Add(desc[i] + values[i] + "</color>");
                 }
-            }
-            if (values[i + 1] != 0)
-            {
-                if (values[i + 1] > 0)
-                {
-                    string2 = "<size=20>" + desc[i + 1] + "+" + values[i + 1].ToString() + "</color></size>";
-                }
-                else
-                {
-                    string2 = "<size=20>" + desc[i + 1] + values[i + 1].ToString() + "</color></size>";
-                }
-            }
-            if (string1 != "" && string2 != "")
-            {
-                tooltip += string1 + string2 + "\n";
-            }
-            else if (string1 != "" && string2 == "")
-            {
-                tooltip += string1 + "\n";
-            }
-            else if (string1 == "" && string2 != "")
-            {
-                tooltip += string2 + "\n";
             }
         }
-        return tooltip;
     }
 
     private void AddBonusStatsToItems()
@@ -291,5 +283,20 @@ public class ItemDatabase : MonoBehaviour
                     }
             }
         }
+    }
+
+    public static void ActivateConsumable(int id)
+    {
+        SoundDatabase.PlaySound(14);
+        Item item = GetItem(id);
+        switch (id)
+        {
+            case 9000:
+                {
+                    GameManager.player.HealHP(100);
+                    break;
+                }
+        }
+        Inventory.RemoveItem(id);
     }
 }

@@ -795,44 +795,5 @@ public class PlayerData : Mortal
         SpecialPassivesEffects();
         StatusBar.UpdateStatusBar();
     }
-    public string makeStatsPage()
-    {
-        string text = "";
-        //string lv = "<color=#FFFFFF>LV: " + FindStat(16).totalAmount + "</color></size>\n";
-        string str = string.Format("<size=15><color=#C40D0D>Strength: {0} + {1} = {2}</color></size>", strength.baseAmount, strength.buffedAmount, strength.totalAmount);
-        string intel = string.Format("<size=15><color=#0000FF>  Intelligence: {0} + {1} = {2}</color></size>\n", intelligence.baseAmount, intelligence.buffedAmount, intelligence.totalAmount);
-        text += str + intel;
-        string agi = string.Format("<size=17><color=#00FF00>Agility: {0} + {1} = {2}</color></size>", agility.baseAmount, agility.buffedAmount, agility.totalAmount);
-        text += agi;
-        string luk = string.Format("<size=17><color=#F3F335>  Luck: {0} + {1} = {2}</color></size>\n", luck.baseAmount, luck.buffedAmount, luck.totalAmount);
-        text += luk;
-        string hp = string.Format("<size=14><color=#F00000>Max HP: {0} + {1} = {2}</color></size>", maxHealth.baseAmount, maxHealth.buffedAmount, maxHealth.totalAmount);
-        text += hp;
-        string mp = string.Format("<size=14><color=#2BF2F2>  Max MP: {0} + {1} = {2}</color></size>\n", maxMana.baseAmount, maxMana.buffedAmount, maxMana.totalAmount);
-        text += mp;
-        string atk = string.Format("<size=14><color=#EC2E2F>Phys Atk: {0} + {1} = {2}</color></size>", physAtk.baseAmount, physAtk.buffedAmount, physAtk.totalAmount);
-        text += atk;
-        string matk = string.Format("<size=14><color=#2200FF>  Magic Atk: {0} + {1} = {2}</color></size>\n", magicAtk.baseAmount, magicAtk.buffedAmount, magicAtk.totalAmount);
-        text += matk;
-        string ar = string.Format("<size=16><color=#000000>Defense: {0} + {1} = {2}</color></size>", armor.baseAmount, armor.buffedAmount, armor.totalAmount);
-        text += ar;
-        string res = string.Format("<size=16><color=#04007f>  Resist: {0} + {1} = {2}</color></size>\n", resist.baseAmount, resist.buffedAmount, resist.totalAmount);
-        text += res;
-        string hit = string.Format("<size=17><color=#2EEC61>Hit%: {0}% + {1}% = {2}%</color></size>\n", hitChance.baseAmount, hitChance.buffedAmount, hitChance.totalAmount);
-        text += hit;
-        string dodge = string.Format("<size=17><color=#2EED8E>Dodge%: {0}% + {1}% = {2}%</color></size>\n", dodgeChance.baseAmount, dodgeChance.buffedAmount, dodgeChance.totalAmount);
-        text += dodge;
-        string crit = string.Format("<size=17><color=#2EEDED>Crit% : {0}% + {1}% = {2}%</color></size>\n", critChance.baseAmount, critChance.buffedAmount, critChance.totalAmount);
-        text += crit;
-        string multi = string.Format("<size=17><color=#DEAB71>Crit Multi: {0}% + {1}% = {2}%</color></size>\n", critMulti.baseAmount, critMulti.buffedAmount, critMulti.totalAmount);
-        text += multi;
-        string dmgOut = string.Format("<size=17><color=#2EEC61>DMG Output: {0}% + {1}% = {2}%</color></size>\n", dmgOutput.baseAmount, dmgOutput.buffedAmount, dmgOutput.totalAmount);
-        text += dmgOut;
-        string dmgTake = string.Format("<size=17><color=#2EEC61>DMG Taken: {0}% + {1}% = {2}%</color></size>\n", dmgTaken.baseAmount, dmgTaken.buffedAmount, dmgTaken.totalAmount);
-        text += dmgTake;
-        string com = string.Format("<size=17><color=#2EEC61>Mana Coms: {0}% + {1}% = {2}%</color></size>\n", manaComs.baseAmount, manaComs.buffedAmount, manaComs.totalAmount);
-        text += com;
-        return text;
-    }
 }
 

@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour {
     public static bool inBattle;
     public static bool inTutorial;
     public static bool inIntro;
+    public static bool thereIsShop = false;
     public bool setupBattle;
     public static bool hoveringBattleStatus;
     public static Transform hoveringBattleStatusParent;
@@ -19,7 +20,7 @@ public class GameManager : MonoBehaviour {
     void Start()
     {
         player = new PlayerData();
-        version = "Dev.v3.10";
+        version = "Dev.v3.20";
         OpenClosePage("Skill Page");
         OpenClosePage("Battle UI");
         OpenClosePage("InventoryEquipment");
@@ -51,6 +52,14 @@ public class GameManager : MonoBehaviour {
                 {
                     InvEqOpen();
                 }
+                if (Shop.showBuying)
+                {
+                    Shop.BuyingNo();
+                }
+                else if (thereIsShop)
+                {
+                    Shop.CloseButton();
+                }
             }
         }
     }
@@ -64,8 +73,8 @@ public class GameManager : MonoBehaviour {
             {
                 InvEq.ShowStats(false);
             }
-            GameObject.FindGameObjectWithTag("InventoryEquipment").transform.FindChild("Item Desc").gameObject.SetActive(false);
-            if (InvEq.holdingItem.itemID != -1)
+            GameObject.FindGameObjectWithTag("InventoryEquipment").transform.FindChild("Desc").gameObject.SetActive(false);
+            if (InvEq.holdingItem.itemID != -1)                                                                                                                   
             {
                 Inventory.AddItem(InvEq.holdingItem.itemID);
                 InvEq.UpdateHoldingItem(new Item(), false);

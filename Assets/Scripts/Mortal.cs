@@ -114,12 +114,50 @@ public class Mortal : SkillList {
         HealFullMP();
     }
 
+    public int GetHP()
+    {
+        return health;
+    }
+
+    public int GetMaxHP(int percent)
+    {
+        return (int)(maxHealth.totalAmount * (percent / 100f));
+    }
+
+    public int GetMaxMP(int percent)
+    {
+        return (int)(maxMana.totalAmount * (percent / 100f));
+    }
+
+    public int GetHP(int percent)
+    {
+        return (int)(health * (percent / 100f));
+    }
+
+    public int GetMP()
+    {
+        return mana;
+    }
+
+    public int GetMP(int percent)
+    {
+        return (int)(mana * (percent / 100f));
+    }
+
     public void SetHP(int amount)
     {
         health = amount;
         if (health > maxHealth.totalAmount)
         {
             health = maxHealth.totalAmount;
+        }
+    }
+    public void SetMP(int amount)
+    {
+        mana = amount;
+        if (mana > maxMana.totalAmount)
+        {
+            mana = maxMana.totalAmount;
         }
     }
 
