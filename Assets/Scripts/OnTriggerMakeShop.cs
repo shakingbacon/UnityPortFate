@@ -28,6 +28,11 @@ public class OnTriggerMakeShop : MonoBehaviour {
             Shop.BuyingShow(false);
             GameManager.thereIsShop = true;
             Shop.IsHospital(items.canRest);
+            Shop.position = gameObject.transform.position;
+            float walkDis = 0.75f;
+            Shop.boundary = new Vector3((gameObject.transform.GetComponent<BoxCollider2D>().size.x/2) * gameObject.transform.lossyScale.x + walkDis, 
+                 (gameObject.transform.GetComponent<BoxCollider2D>().size.y / 2) * gameObject.transform.lossyScale.y + walkDis + 0.5f);
+
         }
     }
 }

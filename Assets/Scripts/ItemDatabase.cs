@@ -89,6 +89,10 @@ public class ItemDatabase : MonoBehaviour
         items.Add(new Item("Agility Necklace", 9102, "A necklace that increases your AGI", Item.ArmorType.Accessory));
         items.Add(new Item("Luck Necklace", 9103, "A necklace that increases your LUK",  Item.ArmorType.Accessory));
 
+        // Food
+
+        items.Add(new Item("Pizza", 10000, "Can't go wrong", 100));
+
         AddBonusStatsToItems();
         for (int index = 0; index < items.Count; index += 1)
         {
@@ -127,8 +131,18 @@ public class ItemDatabase : MonoBehaviour
                 -1, -1, -1, -1, -1,
                 -1, -1, -1, -1, -1
             }) });
+        List<List<int>> restuarant =
+            new List<List<int>>(new List<int>[]{
+            new List<int>(new int []{
+                10000, -1, -1, -1, -1,
+                -1, -1, -1, -1, -1,
+                -1, -1, -1, -1, -1,
+                -1, -1, -1, -1, -1,
+                 -1, -1, -1, -1, -1
+            }) });
         shopList.Add(new ShopList(MakeShopList(shopItems), 0));
         shopList.Add(new ShopList(MakeShopList(hospital), 1, true));
+        shopList.Add(new ShopList(MakeShopList(restuarant), 2));
     }
     
     public static ShopList GetShop(int id)
@@ -230,6 +244,10 @@ public class ItemDatabase : MonoBehaviour
         {
             type += "(<color=#81CAE1>" + item.itemType.ToString() + "</color>)";
         }
+        else if (item.itemType == Item.ItemType.Food)
+        {
+            type += "(<color=#81CAE1>" + item.itemType.ToString() + "</color>)";
+        }
         item.itemRegularText.Add(type);
         item.itemRegularText.Add("<color=#ECF32A>COST: $" + item.itemCost.ToString() + "</color>");
         item.itemRegularText.Add(item.itemDesc);
@@ -281,6 +299,11 @@ public class ItemDatabase : MonoBehaviour
                         item.itemBonusResist = 11;
                         break;
                     }
+                case 9000:
+                    {
+                        item.itemCost = 25;
+                        break;
+                    }
             }
         }
     }
@@ -298,5 +321,21 @@ public class ItemDatabase : MonoBehaviour
                 }
         }
         Inventory.RemoveItem(id);
+    }
+
+
+    public static void ActivateFood(int id)
+    {
+        SoundDatabase.PlaySound(51);
+        Item item = GetItem(id);
+        switch (id)
+        {
+            case 10000:
+                {
+                    GameManager.player.HealHP(175);
+                    break;
+                }
+        }
+        StatusBar.UpdateSliders();
     }
 }

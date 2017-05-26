@@ -6,12 +6,14 @@ public class GameManager : MonoBehaviour {
 
     public GUISkin skin;
     public static PlayerData player;
+    public static GameObject playerGameObject;
     public static string version;
     public static bool invisibleWallOn = false;
     static string showingPage;
     public static bool inBattle;
     public static bool inTutorial;
     public static bool inIntro;
+    public static bool cantMove;
     public static bool thereIsShop = false;
     public bool setupBattle;
     public static bool hoveringBattleStatus;
@@ -19,18 +21,20 @@ public class GameManager : MonoBehaviour {
 
     void Start()
     {
+        playerGameObject = GameObject.FindGameObjectWithTag("Player");
         player = new PlayerData();
         version = "Dev.v3.20";
         OpenClosePage("Skill Page");
         OpenClosePage("Battle UI");
         OpenClosePage("InventoryEquipment");
         OpenClosePage("Status Bar");
-        OpenClosePage("Tutorial");
+        //OpenClosePage("Tutorial");
+        OpenClosePage("Computer Screen");
     }
 
     void Update()
     {
-        if (!invisibleWallOn && !inIntro)
+        if (!invisibleWallOn && !inIntro && !ComputerScreen.computer.gameObject.activeInHierarchy)
         {
             if (Input.GetButtonDown("Skill"))
             {
@@ -60,6 +64,20 @@ public class GameManager : MonoBehaviour {
                 {
                     Shop.CloseButton();
                 }
+            }
+            if (Input.GetMouseButtonDown(1))
+            {
+                if (Shop.showBuying)
+                {
+                    Shop.BuyingNo();
+                }
+            }
+        }
+        if (Input.GetButtonDown("Cancel"))
+        {
+            if (ComputerScreen.computer.gameObject.activeInHierarchy)
+            {
+                OpenClosePage("Computer Screen");
             }
         }
     }
@@ -116,6 +134,44 @@ public class GameManager : MonoBehaviour {
         GameObject.FindGameObjectWithTag("Canvas").transform.FindChild(name).gameObject.SetActive(
             !(GameObject.FindGameObjectWithTag("Canvas").transform.FindChild(name).gameObject.activeInHierarchy));
         return !(GameObject.FindGameObjectWithTag("Canvas").transform.FindChild(name).gameObject.activeInHierarchy);
+    }
+
+    public static void CreateSavePage(bool saving)
+    {
+        SoundDatabase.PlayMusic(14);
+        Transform loadPage = Instantiate(Resources.Load<Transform>("Prefabs/Save Page"), GameObject.FindGameObjectWithTag("Canvas").transform);
+        loadPage.localScale = new Vector3(1, 1, 1);
+        loadPage.GetComponent<RectTransform>().offsetMin = new Vector2(0, 0);
+        loadPage.GetComponent<RectTransform>().offsetMax = new Vector2(0, 0);
+        loadPage.SetAsLastSibling();
+        SavePage.UpdateSavePage(saving);
+    }
+
+    public static void CreateIntro()
+    {
+        SoundDatabase.PlayMusic(10);
+        Transform intro = Instantiate(Resources.Load<Transform>("Prefabs/Intro"), GameObject.FindGameObjectWithTag("Canvas").transform);
+        intro.localScale = new Vector3(1, 1, 1);
+        intro.GetComponent<RectTransform>().offsetMin = new Vector2(0, 0);
+        intro.GetComponent<RectTransform>().offsetMax = new Vector2(0, 0);
+    }
+
+    public static void CreateJobSelect()
+    {
+        Transform jobSelect = Instantiate(Resources.Load<Transform>("Prefabs/Job Select"), GameObject.FindGameObjectWithTag("Canvas").transform);
+        jobSelect.localScale = new Vector3(1, 1, 1);
+        jobSelect.GetComponent<RectTransform>().offsetMin = new Vector2(0, 0);
+        jobSelect.GetComponent<RectTransform>().offsetMax = new Vector2(0, 0);
+        jobSelect.SetAsLastSibling();
+    }
+
+    public static void CreateTutorialUI()
+    {
+        Transform tutorial = Instantiate(Resources.Load<Transform>("Prefabs/Tutorial UI"), GameObject.FindGameObjectWithTag("Canvas").transform);
+        tutorial.localScale = new Vector3(1, 1, 1);
+        tutorial.GetComponent<RectTransform>().offsetMin = new Vector2(0, 0);
+        tutorial.GetComponent<RectTransform>().offsetMax = new Vector2(0, 0);
+        tutorial.SetSiblingIndex(1);
     }
 
 }

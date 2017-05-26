@@ -5,6 +5,8 @@ using System.Collections.Generic;
 
 public class Shop : MonoBehaviour
 {
+    public static Vector3 boundary;
+    public static Vector3 position;
     public static Transform shop;
     public static Transform shopItems;
     public static Transform itemDesc;
@@ -24,6 +26,7 @@ public class Shop : MonoBehaviour
 
     void Awake()
     {
+        boundary = new Vector3(2f, 2f);
         shop = gameObject.transform;
         shopItems = gameObject.transform.FindChild("Shop Items");
         itemDesc = gameObject.transform.FindChild("Item Desc");
@@ -41,6 +44,19 @@ public class Shop : MonoBehaviour
         next.onClick.AddListener(NextButton);
         exit.onClick.AddListener(CloseButton);
         rest.GetComponentInChildren<Button>().onClick.AddListener(RestButton);
+    }
+
+    void Update()
+    {
+        Vector3 playerPos = GameManager.playerGameObject.transform.position;
+        if (GameManager.thereIsShop)
+        {
+            if (position.x + boundary.x < playerPos.x || position.x - boundary.x > playerPos.x ||
+                position.y + boundary.y < playerPos.y || position.y - boundary.y > playerPos.y)
+            {
+                CloseButton();
+            }
+        }
     }
 
     public static void IsHospital(bool yes)
@@ -64,10 +80,19 @@ public class Shop : MonoBehaviour
 
     public static void BuyingYes()
     {
-        SoundDatabase.PlaySound(9);
-        GameManager.player.cash -= buyingItem.itemCost;
-        Inventory.AddItem(buyingItem.itemID);
-        BuyingShow(false);
+        if (buyingItem.itemType == Item.ItemType.Food)
+        {
+            GameManager.player.cash -= buyingItem.itemCost;
+            ItemDatabase.ActivateFood(buyingItem.itemID);
+            BuyingShow(false);
+        }
+        else
+        {
+            SoundDatabase.PlaySound(9);
+            GameManager.player.AddCash(-(buyingItem.itemCost));
+            Inventory.AddItem(buyingItem.itemID);
+            BuyingShow(false);
+        }
     }
 
     public static void BuyingNo()
@@ -88,6 +113,11 @@ public class Shop : MonoBehaviour
                 buyingItem.itemCost < 0)
             {
                 buying.FindChild("Text").GetComponent<Text>().text += string.Format("You cant afford this item!\n");
+                buying.FindChild("Yes").GetComponent<Button>().interactable = false;
+            }
+            else if (Inventory.CountItems() == 15)
+            {
+                buying.FindChild("Text").GetComponent<Text>().text += string.Format("Your Inventory is full!\n");
                 buying.FindChild("Yes").GetComponent<Button>().interactable = false;
             }
             else

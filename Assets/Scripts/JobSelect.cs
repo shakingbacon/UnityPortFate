@@ -33,7 +33,9 @@ public class JobSelect : MonoBehaviour {
         SkillPage.UpdateSkillPage(0);
         SkillPage.UpdateSkillPoints();
         GameManager.inIntro = false;
+        GameManager.CreateTutorialUI();
         Tutorial.skip.gameObject.transform.parent.gameObject.SetActive(true);
+        GameManager.playerGameObject.transform.position = GameObject.Find("Tutorial Area").transform.position;
         StatusBar.statusBar.gameObject.SetActive(true);
         SoundDatabase.PlayMusic(0);
         InvEq.UpdateCashText();

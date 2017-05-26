@@ -49,6 +49,7 @@
      <Compile Include="Assets\Scripts\Battle.cs" />
      <Compile Include="Assets\Scripts\BattleUI.cs" />
      <Compile Include="Assets\Scripts\CameraFollow.cs" />
+     <Compile Include="Assets\Scripts\ComputerScreen.cs" />
      <Compile Include="Assets\Scripts\DamageCalc.cs" />
      <Compile Include="Assets\Scripts\Danger.cs" />
      <Compile Include="Assets\Scripts\Enemy.cs" />
@@ -67,6 +68,7 @@
      <Compile Include="Assets\Scripts\JobDatabase.cs" />
      <Compile Include="Assets\Scripts\JobSelect.cs" />
      <Compile Include="Assets\Scripts\Mortal.cs" />
+     <Compile Include="Assets\Scripts\OnTriggerMakeComputer.cs" />
      <Compile Include="Assets\Scripts\OnTriggerMakeShop.cs" />
      <Compile Include="Assets\Scripts\Page.cs" />
      <Compile Include="Assets\Scripts\PlayerData.cs" />
@@ -74,6 +76,7 @@
      <Compile Include="Assets\Scripts\PlayerMovement.cs" />
      <Compile Include="Assets\Scripts\Prefabs.cs" />
      <Compile Include="Assets\Scripts\QuickSkills.cs" />
+     <Compile Include="Assets\Scripts\SavePage.cs" />
      <Compile Include="Assets\Scripts\Shop.cs" />
      <Compile Include="Assets\Scripts\ShopItemHolder.cs" />
      <Compile Include="Assets\Scripts\ShopList.cs" />

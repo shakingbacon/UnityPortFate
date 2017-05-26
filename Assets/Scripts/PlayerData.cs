@@ -13,6 +13,12 @@ public class PlayerData : Mortal
 
     }
 
+    public void AddCash(int amount)
+    {
+        cash += amount;
+        InvEq.UpdateCashText();
+    }
+
     public void SetMaxExp()
     {
         maxExperience = (9 + level) * level + 11 * level;
@@ -59,7 +65,7 @@ public class PlayerData : Mortal
                 case 14:
                     {
                         List<int> skills = new List<int>(new int[] { 1, 2, 3, 4 });
-                         foreach (int id in skills)
+                        foreach (int id in skills)
                         {
                             Skill skill = FindSkill(id);
                             skill.skillDamage = (int)(skill.skillDamage * (1f + (passive.skillDamage / 100f)));
@@ -212,7 +218,7 @@ public class PlayerData : Mortal
                     maxHealth.baseAmount = 225 + strength.totalAmount * 11 + level * 32;
                     maxHealth.totalAmount = maxHealth.baseAmount + maxHealth.buffedAmount;
                     //
-                    maxMana.baseAmount = 325 + intelligence.totalAmount * 26 + level * 60;
+                    maxMana.baseAmount = 475 + intelligence.totalAmount * 26 + level * 60;
                     maxMana.totalAmount = maxMana.baseAmount + maxMana.buffedAmount;
                     //
                     physAtk.baseAmount = 35 + strength.totalAmount * 3 + level * 3;

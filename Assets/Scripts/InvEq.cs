@@ -24,6 +24,7 @@ public class InvEq : MonoBehaviour
         statsButton = gameObject.transform.FindChild("Stats Button");
         statsButton.GetComponent<Button>().onClick.AddListener(() => ShowStats(!showStats));
         inventoryEquipment.FindChild("Close Button").GetComponent<Button>().onClick.AddListener(() => GameManager.OpenClosePage("InventoryEquipment"));
+        inventoryEquipment.FindChild("Garbage Button").GetComponent<Button>().onClick.AddListener(GarbageButton);
     }
 
     void OnGUI()
@@ -52,6 +53,23 @@ public class InvEq : MonoBehaviour
     {
         holdingItem = item;
     }
+
+    public static void GarbageButton()
+    {
+        if (isHoldingitem)
+        {
+            SoundDatabase.PlaySound(0);
+            holdingItem = new Item();
+            isHoldingitem = false;
+            GameManager.player.AddCash(holdingItem.itemCost / 3);
+        }
+        else
+        {
+            SoundDatabase.PlaySound(33);
+        }
+
+    }
+
     // slots are inventory or equipment
     public static void InsertItem(Transform slots, int slotindex, int itemindex)
     {

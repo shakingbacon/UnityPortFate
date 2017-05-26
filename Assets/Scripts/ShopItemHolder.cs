@@ -28,7 +28,7 @@ public class ShopItemHolder : MonoBehaviour {
             {
                 desc.GetChild(4).GetChild(i).GetComponent<Text>().text = "";
             }
-            i = 0;
+            i = 0;   
         }
     }
     

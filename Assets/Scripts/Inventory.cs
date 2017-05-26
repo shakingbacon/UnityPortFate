@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class Inventory : MonoBehaviour
 {
     public static Transform inventory;
+    public static List<ItemHolder> inventoryItems = new List<ItemHolder>(); 
     void Start()
     {
         inventory = gameObject.transform;
@@ -13,6 +14,10 @@ public class Inventory : MonoBehaviour
         for (int i = 0; i < inventory.childCount; i += 1)
         {
             InvEq.CleanSlot(inventory, i);
+        }
+        foreach(Transform slot in inventory)
+        {
+            inventoryItems.Add(slot.GetComponentInChildren<ItemHolder>());
         }
         //AddItem(1000);
         //AddItem(1001);
@@ -60,6 +65,19 @@ public class Inventory : MonoBehaviour
                 break;
             }
         }
+    }
+
+    public static int CountItems()
+    {
+        int count = 0;
+        foreach(ItemHolder itemHolder in inventoryItems)
+        {
+            if (itemHolder.item.itemID != -1)
+            {
+                count += 1;
+            }
+        }
+        return count;
     }
 
     //private Page page = new Page(0, 100, 100, 325, 460, 50);

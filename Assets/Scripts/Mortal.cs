@@ -32,7 +32,6 @@ public class Mortal : SkillList {
     public int experience = 0;
     public int maxExperience = 0;
     public int cash = 0;
-    public List<Skill> statuses = new List<Skill>();
     public List<Stat> statsList = new List<Stat>();
     public List<int> specialPassives = new List<int>();
 
@@ -192,13 +191,6 @@ public class Mortal : SkillList {
     public void HealFullMP()
     {
         mana = maxMana.totalAmount;
-    }
-
-
-
-    public void AddStatus(Skill skill)
-    {
-        statuses.Add(skill);
     }
 
 }

@@ -14,7 +14,7 @@ public class Tutorial : MonoBehaviour {
     public static bool equippedItem = false;
     public static bool pressedLearnedSkills = false;
 
-    void Start()
+    void Awake()
     {
         skip = gameObject.transform.FindChild("Skip").GetComponent<Button>();
         skip.onClick.AddListener(FinishTutorial);
@@ -124,8 +124,6 @@ public class Tutorial : MonoBehaviour {
         {
             Inventory.AddItem(1000);
         }
-        GameObject.FindGameObjectWithTag("Player").transform.position = new Vector3(GameObject.FindGameObjectWithTag("Hometown").transform.FindChild("After Tutorial Position").position.x, GameObject.FindGameObjectWithTag("Hometown").transform.FindChild("After Tutorial Position").position.y);
-        Camera.main.transform.position = GameObject.FindGameObjectWithTag("Player").transform.position;
         foreach (GameObject tutorial in GameObject.FindGameObjectsWithTag("Tutorial"))
         {
             Destroy(tutorial);
@@ -133,8 +131,12 @@ public class Tutorial : MonoBehaviour {
         GameManager.player.HealFullHP();
         GameManager.player.HealFullMP();
         SoundDatabase.PauseMusic();
-        SoundDatabase.PlaySound(36);
-
+        if (!GameManager.inIntro)
+        {
+            SoundDatabase.PlaySound(36);
+            GameObject.FindGameObjectWithTag("Player").transform.position = new Vector3(GameObject.FindGameObjectWithTag("Hometown").transform.FindChild("After Tutorial Position").position.x, GameObject.FindGameObjectWithTag("Hometown").transform.FindChild("After Tutorial Position").position.y);
+            Camera.main.transform.position = GameObject.FindGameObjectWithTag("Player").transform.position;
+        }
     }
 
     public static void GotItButtonPress()

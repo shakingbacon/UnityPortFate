@@ -38,6 +38,7 @@ public class Item {
         Weapon,
         Armor,
         Consumable,
+        Food,
         None
     }
     public enum WeaponType
@@ -96,6 +97,19 @@ public class Item {
         weaponType = WeaponType.None;
         armorType = ArmorType.None;
     }
+
+    public Item(string name, int id, string desc, int cost)
+    {
+        itemName = name;
+        itemID = id;
+        itemImg = Resources.Load<Sprite>("Food Icons/" + name);
+        itemDesc = desc;
+        itemCost = cost;
+        itemType = ItemType.Food;
+        weaponType = WeaponType.None;
+        armorType = ArmorType.None;
+    }
+
     // Empty Item
     public Item()
     {

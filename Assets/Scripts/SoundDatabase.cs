@@ -10,6 +10,7 @@ public class SoundDatabase : MonoBehaviour {
     public static List<AudioClip> sounds = new List<AudioClip>();
     public static AudioSource bgmSource;
     public static List<AudioSource> soundSourceList = new List<AudioSource>();
+    public static AudioClip previousMusic;
 
 
     void Start()
@@ -29,9 +30,16 @@ public class SoundDatabase : MonoBehaviour {
         }
     }
 
+    public static void PlayMusicPrevious()
+    {
+        bgmSource.clip = previousMusic;
+        bgmSource.Play();
+        return;
+    }
 
     public static void PlayMusic(int id)
     {
+        previousMusic = bgmSource.clip;
         bgmSource.clip = bgm[id];
         bgmSource.Play();
         return;
@@ -39,6 +47,7 @@ public class SoundDatabase : MonoBehaviour {
 
     public static void PlayMusic(int id, bool loop)
     {
+        previousMusic = bgmSource.clip;
         bgmSource.clip = bgm[id];
         bgmSource.loop = loop;
         bgmSource.Play();
