@@ -37,14 +37,14 @@ public class SavePage : MonoBehaviour {
             {
                 if (saving)
                 {
-                    desc.text = string.Format("Slot {0}\nNew Save", saveSlot.GetSiblingIndex());
+                    desc.text = string.Format("Slot {0}\nNo Save Data\nNew Save", saveSlot.GetSiblingIndex());
                     saveSlot.GetComponent<Button>().onClick.AddListener(() => ShowSavePageNotifier(() => SaveGame(saveSlot.GetSiblingIndex()), true));
                     saveSlot.GetComponent<Button>().onClick.AddListener(() => SavePageNotifierText(
                         string.Format("There is currently no data in this slot.\nSave to Slot {0}?", saveSlot.GetSiblingIndex())));
                 }
                 else
                 {
-                    desc.text = string.Format("Slot {0}\nNo Save File\nCannot load", saveSlot.GetSiblingIndex());
+                    desc.text = string.Format("Slot {0}\nNo Save File\nCannot be loaded", saveSlot.GetSiblingIndex());
                     saveSlot.GetComponent<Button>().onClick.AddListener(() => SoundDatabase.PlaySound(33));
                 }
             }
@@ -91,6 +91,7 @@ public class SavePage : MonoBehaviour {
         {
             savePageNotifier.FindChild("Yes").GetComponent<Button>().onClick.RemoveAllListeners();
             savePageNotifier.FindChild("Yes").GetComponent<Button>().onClick.AddListener(call);
+            savePageNotifier.FindChild("Yes").GetComponent<Button>().onClick.AddListener(SoundDatabase.PlayMusicPrevious);
             savePageNotifier.FindChild("Yes").GetComponent<Button>().onClick.AddListener(() => Destroy(savePage.gameObject));
             savePageNotifier.FindChild("Yes").GetComponent<Button>().onClick.AddListener(() => savePageNotifier.gameObject.SetActive(false));
             if (GameManager.inIntro)
@@ -130,30 +131,29 @@ public class SavePage : MonoBehaviour {
                 if (skill.skillID != -1)
                 {
                     PlayerPrefs.SetInt(string.Format("slot_{0}.skill_{1}", i, f), skill.skillID);
+                    PlayerPrefs.SetInt(string.Format("slot_{0}.skill_{1}.rank", i, f), skill.skillRank);
                     f += 1;
                 }
             }
         f = 0;
         foreach (ItemHolder holder in Inventory.inventoryItems)
         {
-            if (holder.item.itemID != 1)
-            {
-                PlayerPrefs.SetInt(string.Format("slot_{0}.inv_{1}", i, f), holder.item.itemID);
-            }
+            PlayerPrefs.SetInt(string.Format("slot_{0}.inv_{1}", i, f), holder.item.itemID);
+            f++;
         }
+        f = 0;
         foreach (Transform eq in Equipment.equipment)
         {
             Item item = eq.GetComponentInChildren<ItemHolder>().item;
-            if (item.itemID != 1)
-            {
-                PlayerPrefs.SetInt(string.Format("slot_{0}.eq_{1}", i, f), item.itemID);
-            }
+            PlayerPrefs.SetInt(string.Format("slot_{0}.eq_{1}", i, f), item.itemID);
+            f++;
         }
         UpdateSavePage(true);
     }
 
     public static void LoadGame(int i)
     {
+        GameManager.player = new PlayerData();
         SoundDatabase.PlaySound(9);
         PlayerData player = GameManager.player;
         Transform playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
@@ -174,33 +174,80 @@ public class SavePage : MonoBehaviour {
         player.mana = PlayerPrefs.GetInt(string.Format("slot_{0}.mana", i));
         player.level = PlayerPrefs.GetInt(string.Format("slot_{0}.level", i));
         player.skillPoints = PlayerPrefs.GetInt(string.Format("slot_{0}.sp", i));
+        print(player.skillPoints);
         player.experience = PlayerPrefs.GetInt(string.Format("slot_{0}.exp", i));
         player.cash = PlayerPrefs.GetInt(string.Format("slot_{0}.cash", i));
         int f = 0;
+        SkillPage.currentPage = GameManager.player.skillsJob.skills;
+        SkillPage.UpdateSkillPage(0);
+        for (; ; f++)
+        {
+            if (PlayerPrefs.HasKey(string.Format("slot_{0}.skill_{1}", i, f)))
+            {
+                Skill skill = GameManager.player.skillsJob.FindSkill(PlayerPrefs.GetInt(string.Format("slot_{0}.skill_{1}", i, f)));
+                GameManager.player.LearnSkill(skill);
+                skill.skillRank = PlayerPrefs.GetInt(string.Format("slot_{0}.skill_{1}.rank", i, f));
+            }
+            else
+                break;
+        }
+        f = 0;
         for (; ; f++)
         {
             if (PlayerPrefs.HasKey(string.Format("slot_{0}.inv_{1}", i, f)))
             {
-                Inventory.AddItem(PlayerPrefs.GetInt(string.Format("slot_{0}.inv_{1}", i, f)));
+                Item item = ItemDatabase.GetItem(PlayerPrefs.GetInt(string.Format("slot_{0}.inv_{1}", i, f)));
+                if (item.itemID == -1)
+                {
+                    InvEq.CleanSlot(Inventory.inventory, f);
+                }
+                else
+                {
+                    Inventory.AddItem(item.itemID, f);
+                }
+
             }
             else
                 break;
         }
+        f = 0;
         for (f = 0; ; f++)
         {
             if (PlayerPrefs.HasKey(string.Format("slot_{0}.eq_{1}", i, f)))
             {
-                //(string.Format("slot_{0}.eq_{1}", i, f));
+                Item item = ItemDatabase.GetItem(PlayerPrefs.GetInt(string.Format("slot_{0}.eq_{1}", i, f)));
+                if (item.itemID != -1)
+                {
+                    InvEq.InsertItem(Equipment.equipment, f, item.itemID);
+                    PlayerImage.UpdateImage(Equipment.equipment.GetChild(f).name, item.itemName + ItemHolder.CheckIsSecondHandWeapon(Equipment.equipment.GetChild(f)), true);
+                    //InvEq.UpdateHoldingItem(new Item(), false);
+                    Equipment.AddItemStats(item);
+                }
+                else
+                {
+                    InvEq.InsertItem(Equipment.equipment, f, -1);
+                    Equipment.equipment.GetChild(f).GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("Default Equip/" + Equipment.equipment.GetChild(f).name);
+                    Equipment.equipment.GetChild(f).GetChild(0).GetComponent<Image>().enabled = true;
+                }
             }
             else
                 break;
+            QuickSkills.ResetQuickSkills();
         }
 
+        StatusBar.statusBar.gameObject.SetActive(true);
+        GameManager.player.FullUpdate();
         InvEq.UpdateCashText();
         player.dmgOutput.baseAmount = 100;
         player.dmgTaken.baseAmount = 100;
         player.manaComs.baseAmount = 100;
         player.FullUpdate();
         UpdateSavePage(false);
+        DeathScreen.deathScreen.gameObject.SetActive(false);
+        GameManager.cantMove = false;
+        if (GameManager.inBattle)
+        {
+            Battle.EndBattle();
+        }
     }
 }

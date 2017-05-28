@@ -14,7 +14,8 @@ public class JobSelect : MonoBehaviour {
         GameManager.player.dmgOutput.baseAmount = 100;
         GameManager.player.dmgTaken.baseAmount = 100;
         GameManager.player.manaComs.baseAmount = 100;
-        GameManager.player.cash = 100;
+        //GameManager.player.cash = 100;
+        GameManager.player.cash = 99999999;
         GameManager.player.FullUpdate();
         GameManager.player.HealFullHP();
         GameManager.player.HealFullMP();
@@ -40,6 +41,9 @@ public class JobSelect : MonoBehaviour {
         SoundDatabase.PlayMusic(0);
         InvEq.UpdateCashText();
         Destroy(gameObject);
+        GameManager.cantMove = false;
+        GameManager.player.LearnSkill(GameManager.player.skillsJob.FindSkill(0));
+        GameManager.player.LearnSkill(GameManager.player.skillsJob.FindSkill(24));
     }
     public void SelectRogue()
     {

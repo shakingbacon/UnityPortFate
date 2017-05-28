@@ -23,13 +23,15 @@ public class GameManager : MonoBehaviour {
     {
         playerGameObject = GameObject.FindGameObjectWithTag("Player");
         player = new PlayerData();
-        version = "Dev.v3.20";
+        version = "Dev.v4.00";
         OpenClosePage("Skill Page");
         OpenClosePage("Battle UI");
         OpenClosePage("InventoryEquipment");
         OpenClosePage("Status Bar");
         //OpenClosePage("Tutorial");
         OpenClosePage("Computer Screen");
+        OpenClosePage("Death Screen");
+
     }
 
     void Update()
@@ -77,7 +79,7 @@ public class GameManager : MonoBehaviour {
         {
             if (ComputerScreen.computer.gameObject.activeInHierarchy)
             {
-                OpenClosePage("Computer Screen");
+                ComputerScreen.CloseButton();
             }
         }
     }
@@ -172,6 +174,15 @@ public class GameManager : MonoBehaviour {
         tutorial.GetComponent<RectTransform>().offsetMin = new Vector2(0, 0);
         tutorial.GetComponent<RectTransform>().offsetMax = new Vector2(0, 0);
         tutorial.SetSiblingIndex(1);
+    }
+
+    public static void IsPlayerDead()
+    {
+        if (player.IsDead())
+        {
+            OpenClosePage("Death Screen");
+            cantMove = true;
+        }
     }
 
 }

@@ -35,8 +35,10 @@ public class Equipment : MonoBehaviour {
         GameManager.player.intelligence.buffedAmount += item.itemBonusInt;
         GameManager.player.agility.buffedAmount += item.itemBonusAgi;
         GameManager.player.luck.buffedAmount += item.itemBonusLuk;
+        GameManager.player.health += item.itemBonusHP;
         GameManager.player.maxHealth.buffedAmount += item.itemBonusHP;
         GameManager.player.maxMana.buffedAmount += item.itemBonusMP;
+        GameManager.player.mana += item.itemBonusMP;
         GameManager.player.physAtk.buffedAmount += item.itemBonusAtk;
         GameManager.player.magicAtk.buffedAmount += item.itemBonusMAtk;
         GameManager.player.armor.buffedAmount += item.itemBonusArmor;
@@ -56,7 +58,15 @@ public class Equipment : MonoBehaviour {
         GameManager.player.agility.buffedAmount -= item.itemBonusAgi;
         GameManager.player.luck.buffedAmount -= item.itemBonusLuk;
         GameManager.player.maxHealth.buffedAmount -= item.itemBonusHP;
+        if (GameManager.player.health > GameManager.player.maxHealth.totalAmount + GameManager.player.maxHealth.baseAmount)
+        {
+            GameManager.player.health = GameManager.player.maxHealth.totalAmount + GameManager.player.maxHealth.baseAmount;
+        }
         GameManager.player.maxMana.buffedAmount -= item.itemBonusMP;
+        if (GameManager.player.mana > GameManager.player.maxMana.buffedAmount + GameManager.player.maxMana.baseAmount)
+        {
+            GameManager.player.mana = GameManager.player.maxMana.buffedAmount + GameManager.player.maxMana.baseAmount;
+        }
         GameManager.player.physAtk.buffedAmount -= item.itemBonusAtk;
         GameManager.player.magicAtk.buffedAmount -= item.itemBonusMAtk;
         GameManager.player.manaComs.buffedAmount -= item.itemBonusMAtk;

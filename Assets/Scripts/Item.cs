@@ -30,7 +30,7 @@ public class Item {
     public WeaponType weaponType;
     public ArmorType armorType;
     public List<string> itemRegularText = new List<string>();
-    public List<string> itemStatText = new List<string>();
+    public string itemStatText = "";
 
 
     public enum ItemType

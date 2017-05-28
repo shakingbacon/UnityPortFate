@@ -164,10 +164,11 @@ public class Shop : MonoBehaviour
             if (items[pageNum][i].itemID == -1)
             {
                 item.GetComponent<Button>().interactable = false;
-                item.GetComponent<Image>().sprite = Resources.Load<Sprite>("unity_builtin_extra/UISprite");
+                item.GetComponent<Image>().enabled = false;
             }
             else
             {
+                item.GetComponent<Image>().enabled = true;
                 item.GetComponent<Button>().interactable = true;
                 item.GetComponent<Image>().sprite
                     = holder.item.itemImg;

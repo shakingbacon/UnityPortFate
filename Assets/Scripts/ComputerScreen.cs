@@ -22,11 +22,17 @@ public class ComputerScreen : MonoBehaviour {
         intro = computer.FindChild("Intro").GetComponent<Button>();
         save.onClick.AddListener(() => GameManager.CreateSavePage(true));
         load.onClick.AddListener(() => GameManager.CreateSavePage(false));
-        close.onClick.AddListener(() => computer.gameObject.SetActive(false));
-        close.onClick.AddListener(() => SoundDatabase.PlaySound(34));
+        close.onClick.AddListener(CloseButton);
         quit.onClick.AddListener(Application.Quit);
         intro.onClick.AddListener(GameManager.CreateIntro);
         intro.onClick.AddListener(() => GameManager.OpenClosePage("Computer Screen"));
+    }
+
+    public static void CloseButton()
+    {
+        SoundDatabase.PlaySound(34);
+        computer.gameObject.SetActive(false);
+        GameManager.cantMove = false;
     }
 
 

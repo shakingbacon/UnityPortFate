@@ -148,10 +148,11 @@ public class SkillPage : MonoBehaviour {
             if (currentPage[pageInt][i].skillID == -1)
             {
                 skillPage.FindChild("Skills").transform.GetChild(i).GetComponent<Button>().interactable = false;
-                skillPage.FindChild("Skills").transform.GetChild(i).GetComponent<Image>().sprite = Resources.Load<Sprite>("unity_builtin_extra/UISprite");
+                skillPage.FindChild("Skills").transform.GetChild(i).GetComponent<Image>().enabled = false;
             }
             else
             {
+                skillPage.FindChild("Skills").transform.GetChild(i).GetComponent<Image>().enabled = true;
                 skillPage.FindChild("Skills").transform.GetChild(i).GetComponent<Button>().interactable = true;
                 skillPage.FindChild("Skills").transform.GetChild(i).GetComponent<Image>().sprite
                     = skillPage.FindChild("Skills").transform.GetChild(i).GetComponent<SkillHolder>().skill.skillIMG;

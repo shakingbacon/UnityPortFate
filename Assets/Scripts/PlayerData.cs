@@ -30,10 +30,9 @@ public class PlayerData : Mortal
         {
             case 0:
                 {
+                    job = JobDatabase.GetJob(job.jobID);
                     skillsJob = new SkillList(SkillDatabase.mageSkills);
                     MakeNewBlankPage(3, 40);
-                    LearnSkill(skillsJob.FindSkill(0));
-                    LearnSkill(skillsJob.FindSkill(24));
                     SkillUpdate();
                     break;
                 }
@@ -799,6 +798,7 @@ public class PlayerData : Mortal
         StatsUpdate();
         SkillUpdate();
         SpecialPassivesEffects();
+        SetMaxExp();
         StatusBar.UpdateStatusBar();
     }
 }

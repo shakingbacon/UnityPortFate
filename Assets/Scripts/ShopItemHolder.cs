@@ -12,23 +12,14 @@ public class ShopItemHolder : MonoBehaviour {
         if (item.itemID != -1)
         {
             GameObject.FindGameObjectWithTag("Shop").transform.FindChild("Item Desc").gameObject.SetActive(true);
-            Transform desc = GameObject.FindGameObjectWithTag("Shop").transform.FindChild("Item Desc").FindChild("Item Desc Text");
+            Transform desc = GameObject.FindGameObjectWithTag("Shop").transform.FindChild("Item Desc");
             int i = 0;
             for (; i < 4; i++)
             {
                 desc.GetChild(i).GetComponent<Text>().text = item.itemRegularText[i];
             }
-            i = 0;
-            foreach (string text in item.itemStatText)
-            {
-                desc.GetChild(4).GetChild(i).GetComponent<Text>().text = text;
-                i++;
-            }
-            for (; i < desc.GetChild(4).childCount; i++)
-            {
-                desc.GetChild(4).GetChild(i).GetComponent<Text>().text = "";
-            }
-            i = 0;   
+            desc.GetChild(4).GetComponent<Text>().text 
+                = item.itemStatText;
         }
     }
     

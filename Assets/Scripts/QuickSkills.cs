@@ -31,7 +31,7 @@ public class QuickSkills : MonoBehaviour {
     {
         foreach (Transform skill in quickSkillGameObject)
         {
-            skill.GetComponent<SkillHolder>().skill = new Skill();
+            Destroy(skill.gameObject);
         }
     }
 

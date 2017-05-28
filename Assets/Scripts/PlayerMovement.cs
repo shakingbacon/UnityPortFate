@@ -5,6 +5,7 @@ public class PlayerMovement : MonoBehaviour {
     //private SpriteRenderer spriteRenderer;
     private Rigidbody2D rbody;
     Animator anim;
+    public float moveSpeed;
 
 	// Use this for initialization
 	void Start () {
@@ -16,7 +17,7 @@ public class PlayerMovement : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (!GameManager.inBattle && !GameManager.inIntro)
+        if (!GameManager.inBattle && !GameManager.inIntro && !GameManager.cantMove)
         {
             Vector2 moveVect = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
             if (moveVect != Vector2.zero)
@@ -32,12 +33,11 @@ public class PlayerMovement : MonoBehaviour {
             {
                 anim.SetBool("isWalking", false);
             }
-            rbody.MovePosition(rbody.position + moveVect * Time.deltaTime * 1.4f);
+            rbody.MovePosition(rbody.position + moveVect * Time.deltaTime * moveSpeed);
         }
         else
         {
             anim.SetBool("isWalking", false);
         }
-
 	}
 }

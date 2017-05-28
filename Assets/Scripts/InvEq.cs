@@ -29,7 +29,6 @@ public class InvEq : MonoBehaviour
 
     void OnGUI()
     {
-        //print(Input.mousePosition.x);
         if (holdingItem.itemID != -1)
         {
             float width = 80 * (Screen.width / 800f);

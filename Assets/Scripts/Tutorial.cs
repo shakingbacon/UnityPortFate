@@ -118,23 +118,25 @@ public class Tutorial : MonoBehaviour {
 
     public static void FinishTutorial()
     {
-        GameManager.player.skillPoints = 1; // so player cant rank them during tutorial
         GameManager.inTutorial = false;
-        if (!Inventory.HasItem(1000))
-        {
-            Inventory.AddItem(1000);
-        }
         foreach (GameObject tutorial in GameObject.FindGameObjectsWithTag("Tutorial"))
         {
             Destroy(tutorial);
         }
-        GameManager.player.HealFullHP();
-        GameManager.player.HealFullMP();
         SoundDatabase.PauseMusic();
         if (!GameManager.inIntro)
         {
             SoundDatabase.PlaySound(36);
-            GameObject.FindGameObjectWithTag("Player").transform.position = new Vector3(GameObject.FindGameObjectWithTag("Hometown").transform.FindChild("After Tutorial Position").position.x, GameObject.FindGameObjectWithTag("Hometown").transform.FindChild("After Tutorial Position").position.y);
+            GameManager.player.HealFullHP();
+            GameManager.player.HealFullMP();
+            if (!Inventory.HasItem(1000))
+            {
+                Inventory.AddItem(1000);
+            }
+            GameObject.FindGameObjectWithTag("Player").transform.position = new Vector3(
+    GameObject.FindGameObjectWithTag("Hometown").transform.FindChild("Warps").FindChild("After Tutorial Position").position.x,
+    GameObject.FindGameObjectWithTag("Hometown").transform.FindChild("Warps").FindChild("After Tutorial Position").position.y);
+            GameManager.player.skillPoints = 1; // so player cant rank them during tutorial
             Camera.main.transform.position = GameObject.FindGameObjectWithTag("Player").transform.position;
         }
     }

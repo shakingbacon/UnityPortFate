@@ -868,7 +868,7 @@ public class DamageCalc : MonoBehaviour
             BattleUI.TextAdd(player, 25, "red", string.Format("died!"));
             yield return new WaitForSeconds(1.1f);
             SoundDatabase.PlayMusic(13, false);
-            BattleUI.deathScreen.gameObject.SetActive(true);
+            GameManager.OpenClosePage("Death Screen");
         }
     }
 

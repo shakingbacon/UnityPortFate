@@ -43,6 +43,11 @@ public class Inventory : MonoBehaviour
         }
     }
 
+    public static void AddItem(int itemindex, int slotindex)
+    {
+        InvEq.InsertItem(inventory, slotindex, itemindex);
+    }
+
     public static bool HasItem(int itemindex)
     {
         for (int i = 0; i < inventory.childCount; i += 1)
@@ -55,16 +60,9 @@ public class Inventory : MonoBehaviour
         return false;
     }
     
-    public static void RemoveItem(int id)
+    public static void RemoveItem(int id, int slotindex)
     {
-        for(int i = 0; i < inventory.childCount; i++)
-        {
-            if (inventory.GetChild(i).GetComponentInChildren<ItemHolder>().item.itemID == id)
-            {
-                InvEq.CleanSlot(inventory, i);
-                break;
-            }
-        }
+        InvEq.CleanSlot(inventory, slotindex);
     }
 
     public static int CountItems()

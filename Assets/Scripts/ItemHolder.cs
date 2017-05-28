@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class ItemHolder : MonoBehaviour {
-    public int index;
     public Item item;
     Transform desc;
 
@@ -17,10 +16,10 @@ public class ItemHolder : MonoBehaviour {
     {
         if (!GameManager.inBattle)
         {
+            Transform secondParent = gameObject.transform.parent.parent; // Inventory or equipemnt name
+            Transform parent = gameObject.transform.parent; //slots
             if (item.itemType != Item.ItemType.Consumable)
             {
-                Transform secondParent = gameObject.transform.parent.parent; // Inventory or equipemnt name
-                Transform parent = gameObject.transform.parent; //slots
                 if (!InvEq.isHoldingitem && item.itemID != -1)
                 {
                     SoundDatabase.PlaySound(18);
@@ -30,14 +29,14 @@ public class ItemHolder : MonoBehaviour {
                         Equipment.RemoveItemStats(item);
                         PlayerImage.UpdateImage(parent.name, new Item(), false);
                         InvEq.UpdateHoldingItem(item, true);
-                        InvEq.CleanSlot(secondParent, index);
+                        InvEq.CleanSlot(secondParent, parent.GetSiblingIndex());
                         gameObject.GetComponent<Image>().sprite = Resources.Load<Sprite>("Default Equip/" + parent.name);
                         gameObject.GetComponent<Image>().enabled = true;
                     }
                     else
                     {
                         InvEq.UpdateHoldingItem(item, true);
-                        InvEq.CleanSlot(secondParent, index);
+                        InvEq.CleanSlot(secondParent, parent.GetSiblingIndex());
                     }
                     InvEq.UpdateStatsDesc();
                     MouseLeave();// no item will be in the slot so no desc
@@ -56,7 +55,7 @@ public class ItemHolder : MonoBehaviour {
                             }
                             SoundDatabase.PlaySound(0);
                             //print("equip");
-                            InvEq.InsertItem(secondParent, index, InvEq.holdingItem.itemID);
+                            InvEq.InsertItem(secondParent, parent.GetSiblingIndex(), InvEq.holdingItem.itemID);
                             PlayerImage.UpdateImage(parent.name, item.itemName + CheckIsSecondHandWeapon(parent), true);
                             InvEq.UpdateHoldingItem(new Item(), false);
                             Equipment.AddItemStats(item);
@@ -71,7 +70,7 @@ public class ItemHolder : MonoBehaviour {
                     {
                         SoundDatabase.PlaySound(0);
                         //print("regular");
-                        InvEq.InsertItem(secondParent, index, InvEq.holdingItem.itemID);
+                        InvEq.InsertItem(secondParent, parent.GetSiblingIndex(), InvEq.holdingItem.itemID);
                         InvEq.UpdateHoldingItem(new Item(), false);
                     }
                     InvEq.UpdateStatsDesc();
@@ -80,13 +79,13 @@ public class ItemHolder : MonoBehaviour {
                 else if (InvEq.isHoldingitem && item.itemID != -1)
                 {
                     //print("换");
-                    Item willBeReplaceItem = InvEq.GetItem(secondParent, index);
+                    Item willBeReplaceItem = InvEq.GetItem(secondParent, parent.GetSiblingIndex());
                     if (secondParent.name == "Equipment")
                     {
                         if (Equipment.CheckEquip(parent))
                         {
                             SoundDatabase.PlaySound(0);
-                            InvEq.InsertItem(secondParent, index, InvEq.holdingItem.itemID);
+                            InvEq.InsertItem(secondParent, parent.GetSiblingIndex(), InvEq.holdingItem.itemID);
                             PlayerImage.UpdateImage(parent.name, item.itemName + CheckIsSecondHandWeapon(parent), true);
 
                             Equipment.AddItemStats(item);
@@ -102,7 +101,7 @@ public class ItemHolder : MonoBehaviour {
                     else
                     {
                         SoundDatabase.PlaySound(0);
-                        InvEq.InsertItem(secondParent, index, InvEq.holdingItem.itemID);
+                        InvEq.InsertItem(secondParent, parent.GetSiblingIndex(), InvEq.holdingItem.itemID);
                         InvEq.UpdateHoldingItem(willBeReplaceItem);
                     }
                     InvEq.UpdateStatsDesc();
@@ -116,7 +115,7 @@ public class ItemHolder : MonoBehaviour {
             }
             else
             {
-                ItemDatabase.ActivateConsumable(item.itemID);
+                ItemDatabase.ActivateConsumable(item.itemID, parent.GetSiblingIndex());
                 StatusBar.UpdateSliders();
             }
         }
@@ -143,16 +142,17 @@ public class ItemHolder : MonoBehaviour {
                 {
                     desc.GetChild(i).GetComponent<Text>().text = item.itemRegularText[i];
                 }
-                i = 0;
-                foreach (string text in item.itemStatText)
-                {
-                    desc.GetChild(4).GetChild(i).GetComponent<Text>().text = text;
-                    i++;
-                }
-                for (; i < desc.GetChild(4).childCount; i++)
-                {
-                    desc.GetChild(4).GetChild(i).GetComponent<Text>().text = "";
-                }
+                desc.GetChild(4).GetComponent<Text>().text = item.itemStatText;
+                //i = 0;
+                //foreach (string text in item.itemStatText)
+                //{
+                //    desc.GetChild(4).GetChild(i).GetComponent<Text>().text = text;
+                //    i++;
+                //}
+                //for (; i < desc.GetChild(4).childCount; i++)
+                //{
+                //    desc.GetChild(4).GetChild(i).GetComponent<Text>().text = "";
+                //}
                 GameObject.FindGameObjectWithTag("InventoryEquipment").transform.FindChild("Desc").gameObject.SetActive(true);
                 GameObject.FindGameObjectWithTag("InventoryEquipment").transform.FindChild("Desc").FindChild("Item Desc").gameObject.SetActive(true);
             }

@@ -5,6 +5,6 @@ public class Danger : MonoBehaviour {
 
     void OnTriggerEnter2D()
     {
-        Battle.SetupBattle(new Enemy(EnemyDatabase.enemies[Random.Range(0, 4)]));
+        Battle.SetupBattle(new Enemy(EnemyDatabase.enemies[Random.Range(0, EnemyDatabase.enemies.Count)]));
     }
 }
