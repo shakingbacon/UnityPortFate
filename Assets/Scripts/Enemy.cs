@@ -7,17 +7,6 @@ public class Enemy : Mortal
     public int enemyID;
     public Sprite enemyIMG;
 
-    public Enemy(string name, int id)
-    {
-        enemyID = id;
-        enemyIMG = Resources.Load<Sprite>("Enemy Icons/" + name);
-        mingZi = name;
-        critMulti.baseAmount = 225;
-        dmgOutput.baseAmount = 100;
-        dmgTaken.baseAmount = 100;
-        manaComs.baseAmount = 100;
-    }
-
     public Enemy(string name, int id, int hp, int mp, int phys, int mag, int ar, int re, int hit, int dodge, int crit, int exp, int loot)
     {
         enemyID = id;

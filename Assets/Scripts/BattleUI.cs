@@ -43,7 +43,7 @@ public class BattleUI : MonoBehaviour {
         quickSkillNotifier = battleUI.FindChild("Player Box").FindChild("Quick Skills Notifier").GetComponent<Text>();
         quickSkillDesc = battleUI.FindChild("Player Box").FindChild("Quick Skills Desc").GetComponent<Text>();
         skills.onClick.AddListener(SkillPage.InstantLearnedSkillPage);
-        run.onClick.AddListener(Battle.EndBattle);
+        run.onClick.AddListener(() => StartCoroutine(DamageCalc.StartBattle(GameManager.player, Battle.enemy, new Skill(SkillDatabase.GetSkill(43)))));
         //GameManager.OpenClosePage("InventoryEquipment");
     }
 

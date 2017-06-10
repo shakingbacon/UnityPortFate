@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour {
     public static bool inTutorial;
     public static bool inIntro;
     public static bool cantMove;
+    public static bool inMonsterArea;
     public static bool thereIsShop = false;
     public bool setupBattle;
     public static bool hoveringBattleStatus;
@@ -21,9 +22,10 @@ public class GameManager : MonoBehaviour {
 
     void Start()
     {
+        //StartCoroutine(ScreenFader.FadeToClear());
         playerGameObject = GameObject.FindGameObjectWithTag("Player");
         player = new PlayerData();
-        version = "Dev.v4.00";
+        version = "Dev.v4.2";
         OpenClosePage("Skill Page");
         OpenClosePage("Battle UI");
         OpenClosePage("InventoryEquipment");
@@ -31,7 +33,6 @@ public class GameManager : MonoBehaviour {
         //OpenClosePage("Tutorial");
         OpenClosePage("Computer Screen");
         OpenClosePage("Death Screen");
-
     }
 
     void Update()
@@ -81,6 +82,10 @@ public class GameManager : MonoBehaviour {
             {
                 ComputerScreen.CloseButton();
             }
+        }
+        if (inMonsterArea)
+        {
+
         }
     }
 

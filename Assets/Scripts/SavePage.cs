@@ -174,7 +174,6 @@ public class SavePage : MonoBehaviour {
         player.mana = PlayerPrefs.GetInt(string.Format("slot_{0}.mana", i));
         player.level = PlayerPrefs.GetInt(string.Format("slot_{0}.level", i));
         player.skillPoints = PlayerPrefs.GetInt(string.Format("slot_{0}.sp", i));
-        print(player.skillPoints);
         player.experience = PlayerPrefs.GetInt(string.Format("slot_{0}.exp", i));
         player.cash = PlayerPrefs.GetInt(string.Format("slot_{0}.cash", i));
         int f = 0;

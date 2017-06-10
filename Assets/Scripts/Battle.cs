@@ -75,7 +75,7 @@ public class Battle : MonoBehaviour {
         SkillPage.AfterLearnedSkillButtonPress();
         QuickSkills.MoveToSkillPage();
         BattleUI.MovePlayer(InvEq.playerImage.transform);
-        SoundDatabase.PlayMusic(9);
+        SoundDatabase.PlayMusicPrevious();
     }
 
 }

@@ -595,7 +595,7 @@ public class DamageCalc : MonoBehaviour
         BattleUI.TextAdd(user, 30, "#000000ff", "used " + skill.skillName);
         user.mana -= skill.skillManaCost;
         // actives that dont add status pic
-        List<int> dontAddToStatus = new List<int>(new int[] {6, 16, 17});
+        List<int> dontAddToStatus = new List<int>(new int[] {6, 16, 17, 43});
         if (!dontAddToStatus.Exists(id => id == skill.skillID))
         {
             BattleUI.AddStatus(user, skill);
@@ -751,7 +751,7 @@ public class DamageCalc : MonoBehaviour
 
 
     public static IEnumerator StartBattle(Mortal player, Mortal enemy, Skill playeruseskill) // once we know what skill the player wants to use, we can start a battle.
-    {        
+    {
         BattleUI.battling.gameObject.SetActive(true);
         BattleUI.NextTurn();
         BattleUI.ResetScrollsPosition();
@@ -765,74 +765,84 @@ public class DamageCalc : MonoBehaviour
         // battle
         // speed calculation goes here
         playerUseSkillCopy = new Skill(playeruseskill);
-        Mortal firstAttacker = player;
-        Mortal secondAttacker = enemy;
-        if (playerUseSkillCopy.skillType == Skill.SkillType.Active)
+        print(playerUseSkillCopy.skillID);
+
+        // run
+        if (playeruseskill.skillID == 43)
         {
-            SkillActive(firstAttacker, secondAttacker, playeruseskill);
+            print("LOL");
+            yield return RunAway(player);
         }
-        else
+        if (GameManager.inBattle)
         {
-            SkillAttack(firstAttacker, secondAttacker, playerUseSkillCopy);
-        }
-        yield return new WaitForSeconds(1.1f);
-        // checking if dead after first move
-        if (enemy.IsDead())
-        {
-            yield return EnemyDeadAfter(player, enemy);
-        }
-        else
-        {
-            // apply status effects after first attack
-            yield return AfterAttackPassiveEffects(firstAttacker, secondAttacker);
-            yield return AfterAttackStatusEffectApply(firstAttacker, secondAttacker, playerUseSkillCopy);
-            // enemy attack (second attack, will be changing)
+            Mortal firstAttacker = player;
+            Mortal secondAttacker = enemy;
+            if (playerUseSkillCopy.skillType == Skill.SkillType.Active)
+            {
+                SkillActive(firstAttacker, secondAttacker, playeruseskill);
+            }
+            else
+            {
+                SkillAttack(firstAttacker, secondAttacker, playerUseSkillCopy);
+            }
+            yield return new WaitForSeconds(1.1f);
+            // checking if dead after first move
             if (enemy.IsDead())
             {
                 yield return EnemyDeadAfter(player, enemy);
             }
             else
             {
-                if (enemyCanAttack)
-                {
-                    enemy.SimpleStatUpdate();
-                    SkillAttack(secondAttacker, firstAttacker, enemy.skills[0][Random.Range(0, enemy.skills.Count)]);
-                    DeathTriggers(firstAttacker);
-                    yield return CheckPlayerDeath(player);
-                    if (!player.IsDead())
-                    {
-                        yield return AfterAttackStatusEffectApply(secondAttacker, firstAttacker, playerUseSkillCopy);
-                        // end turn effects
-                        yield return EndTurnStatusEffects(BattleUI.playerStatus, player, enemy);
-                    }
-                }
+                // apply status effects after first attack
+                yield return AfterAttackPassiveEffects(firstAttacker, secondAttacker);
+                yield return AfterAttackStatusEffectApply(firstAttacker, secondAttacker, playerUseSkillCopy);
+                // enemy attack (second attack, will be changing)
                 if (enemy.IsDead())
                 {
                     yield return EnemyDeadAfter(player, enemy);
                 }
                 else
                 {
-                    yield return EndTurnStatusEffects(BattleUI.enemyStatus, player, enemy);
+                    if (enemyCanAttack)
+                    {
+                        enemy.SimpleStatUpdate();
+                        SkillAttack(secondAttacker, firstAttacker, enemy.skills[0][Random.Range(0, enemy.skills.Count)]);
+                        DeathTriggers(firstAttacker);
+                        yield return CheckPlayerDeath(player);
+                        if (!player.IsDead())
+                        {
+                            yield return AfterAttackStatusEffectApply(secondAttacker, firstAttacker, playerUseSkillCopy);
+                            // end turn effects
+                            yield return EndTurnStatusEffects(BattleUI.playerStatus, player, enemy);
+                        }
+                    }
+                    if (enemy.IsDead())
+                    {
+                        yield return EnemyDeadAfter(player, enemy);
+                    }
+                    else
+                    {
+                        yield return EndTurnStatusEffects(BattleUI.enemyStatus, player, enemy);
+                    }
                 }
+                yield return TurnEndChecker(player, enemy);
+                yield return TurnEndChecker(enemy, player);
             }
-            yield return TurnEndChecker(player, enemy);
-            yield return TurnEndChecker(enemy, player);
+            // return to normals
+            SkillPageImagesOn(true);
+            GameManager.InvisibleWallOn(false);
+            if (SkillPage.skillPage.gameObject.activeInHierarchy)
+            {
+                GameManager.OpenClosePage("Skill Page");
+            }
+            enemyCanAttack = true;
+            enemyDead = false;
+            BattleUI.battling.gameObject.SetActive(false);
+            // update after effects
+            player.SimpleStatUpdate();
+            GameManager.player.FullUpdate();
+            Battle.enemy.UpdateSkills();
         }
-        // return to normals
-        SkillPageImagesOn(true);
-        GameManager.InvisibleWallOn(false);
-        if (SkillPage.skillPage.gameObject.activeInHierarchy)
-        {
-            GameManager.OpenClosePage("Skill Page");
-        }
-        enemyCanAttack = true;
-        enemyDead = false;
-        BattleUI.battling.gameObject.SetActive(false);
-        // update after effects
-        player.SimpleStatUpdate();
-        GameManager.player.FullUpdate();
-        Battle.enemy.UpdateSkills();
-        
     }
 
     static void DeathTriggers(Mortal user)
@@ -858,6 +868,24 @@ public class DamageCalc : MonoBehaviour
                         }
                 }
             }
+        }
+    }
+
+    static IEnumerator RunAway(Mortal user)
+    {
+        int chance = 30;
+        if (Random.Range(0,101) <= chance)
+        {
+            SoundDatabase.PlaySound(23);
+            BattleUI.TextAdd(user, 25, "green", string.Format("successfully ran away!"));
+            yield return new WaitForSeconds(1.1f);
+            Battle.EndBattle();
+        }
+        else
+        {
+            SoundDatabase.PlaySound(33);
+            BattleUI.TextAdd(user, 25, "red", string.Format("failed to ran away!"));
+            yield return new WaitForSeconds(1.1f);
         }
     }
 

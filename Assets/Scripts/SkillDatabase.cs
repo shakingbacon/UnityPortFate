@@ -54,7 +54,7 @@ public class SkillDatabase : MonoBehaviour {
         skills.Add(new Skill("Night's Shadow", 41, "Darkness", 3, Skill.SkillType.Passive));
         //
         skills.Add(new Skill("Rising Tide", 42, "High tide", 3, Skill.SkillType.Passive));
-        skills.Add(new Skill("Shield", 43, "", 0, Skill.SkillType.Active));
+        skills.Add(new Skill("Run", 43, "", 0, Skill.SkillType.Active));
         //skills.Add(new Skill("", 43, "", , Skill.SkillType.));
         //skills.Add(new Skill("", 44, "", , Skill.SkillType.));
         //skills.Add(new Skill("", 45, "", , Skill.SkillType.));

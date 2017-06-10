@@ -69,6 +69,7 @@
      <Compile Include="Assets\Scripts\Job.cs" />
      <Compile Include="Assets\Scripts\JobDatabase.cs" />
      <Compile Include="Assets\Scripts\JobSelect.cs" />
+     <Compile Include="Assets\Scripts\MonsterArea.cs" />
      <Compile Include="Assets\Scripts\Mortal.cs" />
      <Compile Include="Assets\Scripts\OnTriggerMakeComputer.cs" />
      <Compile Include="Assets\Scripts\OnTriggerMakeShop.cs" />
@@ -79,6 +80,7 @@
      <Compile Include="Assets\Scripts\Prefabs.cs" />
      <Compile Include="Assets\Scripts\QuickSkills.cs" />
      <Compile Include="Assets\Scripts\SavePage.cs" />
+     <Compile Include="Assets\Scripts\ScreenFader.cs" />
      <Compile Include="Assets\Scripts\Shop.cs" />
      <Compile Include="Assets\Scripts\ShopItemHolder.cs" />
      <Compile Include="Assets\Scripts\ShopList.cs" />
@@ -103,6 +105,37 @@
      <Compile Include="Assets\Scripts\Tutorial.cs" />
      <Compile Include="Assets\Scripts\VictoryScreen.cs" />
      <Compile Include="Assets\Scripts\Warp.cs" />
+     <Compile Include="Assets\Tiled2Unity\Scripts\Runtime\CircleObject.cs" />
+     <Compile Include="Assets\Tiled2Unity\Scripts\Runtime\GroupLayer.cs" />
+     <Compile Include="Assets\Tiled2Unity\Scripts\Runtime\ImportBehaviour.cs" />
+     <Compile Include="Assets\Tiled2Unity\Scripts\Runtime\Layer.cs" />
+     <Compile Include="Assets\Tiled2Unity\Scripts\Runtime\ObjectLayer.cs" />
+     <Compile Include="Assets\Tiled2Unity\Scripts\Runtime\PolygonObject.cs" />
+     <Compile Include="Assets\Tiled2Unity\Scripts\Runtime\PolylineObject.cs" />
+     <Compile Include="Assets\Tiled2Unity\Scripts\Runtime\RectangleObject.cs" />
+     <Compile Include="Assets\Tiled2Unity\Scripts\Runtime\SortingLayerExposed.cs" />
+     <Compile Include="Assets\Tiled2Unity\Scripts\Runtime\SpriteDepthInMap.cs" />
+     <Compile Include="Assets\Tiled2Unity\Scripts\Runtime\TileAnimator.cs" />
+     <Compile Include="Assets\Tiled2Unity\Scripts\Runtime\TileLayer.cs" />
+     <Compile Include="Assets\Tiled2Unity\Scripts\Runtime\TileObject.cs" />
+     <Compile Include="Assets\Tiled2Unity\Scripts\Runtime\TiledInitialShaderProperties.cs" />
+     <Compile Include="Assets\Tiled2Unity\Scripts\Runtime\TiledMap.cs" />
+     <Compile Include="Assets\Tiled2Unity\Scripts\Runtime\TmxObject.cs" />
+     <None Include="Assets\Tiled2Unity\Shaders\shaDefault.shader" />
+     <None Include="Assets\Tiled2Unity\Prefabs\_ReadMe.txt" />
+     <None Include="Assets\Tiled2Unity\Shaders\shaTiledMap.shader" />
+     <None Include="Assets\Tiled2Unity\Shaders\Tiled2Unity.cginc" />
+     <None Include="Assets\Tiled2Unity\Tiled2Unity.export.txt" />
+     <None Include="Assets\Tiled2Unity\Shaders\shaDepth.shader" />
+     <None Include="Assets\Tiled2Unity\Shaders\shaDiffuseDepth.shader" />
+     <None Include="Assets\Tiled2Unity\Imported\test1.tiled2unity.xml" />
+     <None Include="Assets\Tiled2Unity\Materials\_ReadMe.txt" />
+     <None Include="Assets\Tiled2Unity\Textures\_ReadMe.txt" />
+     <None Include="Assets\Tiled2Unity\Shaders\shaColorKey.shader" />
+     <None Include="Assets\Tiled2Unity\Shaders\shaDepthColorKey.shader" />
+     <None Include="Assets\Tiled2Unity\License.txt" />
+     <None Include="Assets\Tiled2Unity\Imported\_ReadMe.txt" />
+     <None Include="Assets\Tiled2Unity\Meshes\_ReadMe.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
