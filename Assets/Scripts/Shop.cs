@@ -23,6 +23,14 @@ public class Shop : MonoBehaviour
     //
     public static List<List<Item>> items = new List<List<Item>>();
     public static  int pageNum;
+    public static ShopType shopType;
+
+    public enum ShopType
+    {
+        Items,
+        Glyphs
+    }
+
 
     void Awake()
     {

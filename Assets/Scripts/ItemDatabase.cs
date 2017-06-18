@@ -15,6 +15,10 @@ public class ItemDatabase : MonoBehaviour
         ///////////////////////////////
         //// Mage
         items.Add(new Item());
+        items.Add(GlyphDatabase.GetGlyph(0));
+        items.Add(GlyphDatabase.GetGlyph(1));
+        items.Add(GlyphDatabase.GetGlyph(2));
+        items.Add(GlyphDatabase.GetGlyph(3));
         //// Wands
         items.Add(new Item("Wooden Wand", 1000, "Wand made from wood", Item.WeaponType.Wand));
         items.Add(new Item("Magic Wand", 1001, "A wand powered up by magic", Item.WeaponType.Wand));
@@ -150,7 +154,7 @@ public class ItemDatabase : MonoBehaviour
         return makeItemList;
     }
 
-    private void CreateTooltip(Item item)
+    public static void CreateTooltip(Item item)
     {
         item.itemRegularText.Add(item.itemName);
         string type = "";
@@ -225,10 +229,14 @@ public class ItemDatabase : MonoBehaviour
         {
             type += "(<color=#81CAE1>" + item.itemType.ToString() + "</color>)";
         }
+        else if (item.itemType == Item.ItemType.Glyph)
+        {
+            type += "(<color=#81CAE1>" + item.itemType.ToString() + "</color>)";
+        }
         item.itemRegularText.Add(type);
         item.itemRegularText.Add("<color=#ECF32A>COST: $" + item.itemCost.ToString() + "</color>");
         item.itemRegularText.Add(item.itemDesc);
-        if (item.itemType != Item.ItemType.Consumable || item.itemType != Item.ItemType.Food)
+        if (item.itemType != Item.ItemType.Consumable || item.itemType != Item.ItemType.Food || item.itemType != Item.ItemType.Glyph)
         {
             List<int> values = new List<int>(new int[] {
                 item.itemBonusStr, item.itemBonusInt, item.itemBonusAgi, item.itemBonusLuk,

@@ -11,7 +11,8 @@ public class VictoryScreen : MonoBehaviour {
     void Start()
     {
         victoryScreen = gameObject.transform;
-        victoryScreen.FindChild("Yes").GetComponent<Button>().onClick.AddListener(YesClick);
+        //victoryScreen.FindChild("Yes").GetComponent<Button>().onClick.AddListener(YesClick);
+        victoryScreen.FindChild("Yes").GetComponent<Button>().onClick.AddListener(NoClick);
         victoryScreen.FindChild("No").GetComponent<Button>().onClick.AddListener(NoClick);
         OpenCloseVictoryScreen();
     }
@@ -34,7 +35,7 @@ public class VictoryScreen : MonoBehaviour {
 
     public static void AddDetails(string text)
     {
-        victoryScreen.FindChild("Details").GetComponent<Text>().text += "\n" + text;
+        victoryScreen.FindChild("Details").GetComponent<Text>().text += text;
     }
     public static void ResetDetails()
     {

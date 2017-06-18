@@ -33,6 +33,7 @@ public class GameManager : MonoBehaviour {
         //OpenClosePage("Tutorial");
         OpenClosePage("Computer Screen");
         OpenClosePage("Death Screen");
+        OpenClosePage("Glyph Page");
     }
 
     void Update()
@@ -48,8 +49,17 @@ public class GameManager : MonoBehaviour {
             {
                 InvEqOpen();
             }
+            if (Input.GetButtonDown("Glyph"))
+            {
+                OpenClosePage("Glyph Page");
+                GlyphPage.desc.gameObject.SetActive(false);
+            }
             if (Input.GetButtonDown("Cancel"))
             {
+                if (GlyphPage.glyphPage.gameObject.activeInHierarchy)
+                {
+                    OpenClosePage("Glyph Page");
+                }
                 if (SkillPage.skillPage.gameObject.activeInHierarchy)
                 {
                     SkillPage.UpdateSkillPoints();
@@ -78,6 +88,7 @@ public class GameManager : MonoBehaviour {
         }
         if (Input.GetButtonDown("Cancel"))
         {
+            Battle.SetupBattle(EnemyDatabase.GetEnemy(0));
             if (ComputerScreen.computer.gameObject.activeInHierarchy)
             {
                 ComputerScreen.CloseButton();

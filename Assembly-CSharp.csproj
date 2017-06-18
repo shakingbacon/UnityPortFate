@@ -51,6 +51,7 @@
      <Compile Include="Assets\Scripts\CameraFollow.cs" />
      <Compile Include="Assets\Scripts\ComputerScreen.cs" />
      <Compile Include="Assets\Scripts\DamageCalc.cs" />
+     <Compile Include="Assets\Scripts\DamageCalcOld.cs" />
      <Compile Include="Assets\Scripts\Danger.cs" />
      <Compile Include="Assets\Scripts\DeathScreen.cs" />
      <Compile Include="Assets\Scripts\Enemy.cs" />
@@ -59,6 +60,10 @@
      <Compile Include="Assets\Scripts\Equipment.cs" />
      <Compile Include="Assets\Scripts\FinalScript.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
+     <Compile Include="Assets\Scripts\Glyph.cs" />
+     <Compile Include="Assets\Scripts\GlyphDatabase.cs" />
+     <Compile Include="Assets\Scripts\GlyphHolder.cs" />
+     <Compile Include="Assets\Scripts\GlyphPage.cs" />
      <Compile Include="Assets\Scripts\Instructions.cs" />
      <Compile Include="Assets\Scripts\Intro.cs" />
      <Compile Include="Assets\Scripts\InvEq.cs" />

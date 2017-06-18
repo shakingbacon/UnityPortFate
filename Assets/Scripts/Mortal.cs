@@ -32,6 +32,9 @@ public class Mortal : SkillList {
     public int experience = 0;
     public int maxExperience = 0;
     public int cash = 0;
+    public int speed = 0;
+    public Skill battleUseSkill;
+    public bool battleCanAttack;
     public List<Stat> statsList = new List<Stat>();
     public List<int> specialPassives = new List<int>();
 
@@ -66,6 +69,7 @@ public class Mortal : SkillList {
         experience = 0;
         maxExperience = 0;
         cash = 0;
+        speed = 0;
         statsList.Add(strength);
         statsList.Add(intelligence);
         statsList.Add(agility);

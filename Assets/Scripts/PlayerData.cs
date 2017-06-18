@@ -240,6 +240,7 @@ public class PlayerData : Mortal
                     //
                     critChance.baseAmount = 3 + agility.totalAmount/5 + luck.totalAmount/4;
                     critChance.totalAmount = critChance.baseAmount + critChance.buffedAmount;
+                    speed = agility.totalAmount / 2;
                     break;
                 }
         }

@@ -39,6 +39,7 @@ public class Item {
         Armor,
         Consumable,
         Food,
+        Glyph,
         None
     }
     public enum WeaponType

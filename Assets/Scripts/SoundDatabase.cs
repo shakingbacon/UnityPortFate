@@ -80,7 +80,11 @@ public class SoundDatabase : MonoBehaviour {
 
     public static void PlaySound(int id)
     {
-        if (id == -1)
+        if (id == -2)
+        {
+
+        }
+        else if (id == -1)
         {
             soundDatabase.StartCoroutine(soundDatabase.MakeSound(Random.Range(1, 8)));
         }

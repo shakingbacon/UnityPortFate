@@ -24,6 +24,7 @@ public class Skill {
     public int skillDuration;
     public int skillCooldownEnd;
     public bool skillOnCooldown;
+    public int skillPriority = 0;
     public StatusEffects skillStatusEff = new StatusEffects();
     public SkillType skillType;
 
@@ -45,6 +46,7 @@ public class Skill {
         skillDesc = desc;
         skillMaxRank = maxrank;
         skillType = type;
+        skillPriority = 0;
     }
 
     public Skill(string name, int id, string desc, int maxrank, SkillType type)
@@ -56,6 +58,7 @@ public class Skill {
         skillDesc = desc;
         skillMaxRank = maxrank;
         skillType = type;
+        skillPriority = 0;
     }
 
     public Skill(Skill skill)
@@ -76,13 +79,14 @@ public class Skill {
         skillDuration = skill.skillDuration;
         skillCooldownEnd = skill.skillCooldownEnd;
         skillType = skill.skillType;
+        skillPriority = skill.skillPriority;
         skillStatusEff = new StatusEffects(skill.skillStatusEff);
     }
     public Skill()
     {
         skillID = -1;
     }
-    public Skill(string name, int id, string desc)
+    public Skill(string name, int id, string desc)// usually a status effect 
     {
         skillName = name;
         skillID = id;
