@@ -12,7 +12,19 @@ public class GlyphHolder : MonoBehaviour {
         if (glyph.itemID != -1)
         {
             GlyphPage.desc.gameObject.SetActive(true);
-            GlyphPage.desc1.text = string.Format("{0} ({1})\nLevel Req: {2}\n{3}", glyph.itemName, glyph.glyphColor, glyph.glyphReqLevel, glyph.itemDesc);
+            string colors = "";
+            for (int i = 0; i < glyph.glyphColor.Count; i++)
+            {
+                if (i + 1 == glyph.glyphColor.Count)
+                {
+                    colors += glyph.glyphColor[i].ToString();
+                }
+                else
+                {
+                    colors += glyph.glyphColor[i].ToString() + ", ";
+                }
+            }
+            GlyphPage.desc1.text = string.Format("{0} ({1})\nLevel Req: {2}\n{3}", glyph.itemName, colors, glyph.glyphReqLevel, glyph.itemDesc);
             GlyphPage.desc2.text = string.Format("Equipped:\n{0}\nNot used (Battle):\n{1}", glyph.glyphEqDesc, glyph.glyphNotUseDesc);
         }
     }
@@ -25,9 +37,17 @@ public class GlyphHolder : MonoBehaviour {
         }
     }
 
+
+    public void GlyphPageInBattleSelect()
+    {
+        GlyphPage.glyphPage.gameObject.SetActive(false);
+        BattleUI.AddBattleGlyph(glyph);
+        SkillPage.skillPage.gameObject.SetActive(false);
+    }
+
     public void GlyphPageEquipClick()
     {
-        if (glyph.itemID != -1 && !GameManager.inBattle)
+        if (glyph.itemID != -1 && !GameManager.inBattle && gameObject.transform.GetSiblingIndex() != 0)
         {
             if (GlyphPage.AddInvGlyph(glyph.itemID))
             {
@@ -39,6 +59,22 @@ public class GlyphHolder : MonoBehaviour {
                 if (InvEq.showStats)
                     InvEq.UpdateStatsDesc();
                 glyph = new Glyph();
+            }
+            else
+            {
+                SoundDatabase.PlaySound(33);
+            }
+        }
+        else if (GameManager.inBattle && GlyphPage.battleOpen)
+        {
+            if (glyph.itemID != -1 && !GlyphPage.usedGlyphsBattle.Exists(anInt => anInt == transform.GetSiblingIndex()))
+            {
+                SoundDatabase.PlaySound(10);
+                //Color temp = gameObject.GetComponent<Image>().color;
+                //temp.a = 100;
+                //gameObject.GetComponent<Image>().color = temp;
+                GlyphPage.usedGlyphsBattle.Add(transform.GetSiblingIndex());
+                GlyphPageInBattleSelect();
             }
             else
             {

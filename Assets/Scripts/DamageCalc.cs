@@ -27,6 +27,7 @@ public class DamageCalc : MonoBehaviour {
         {
             SkillPage.skillPage.FindChild("Skills").transform.GetChild(i).GetComponent<Image>().enabled = yes;
         }
+        SkillPage.startBattle.gameObject.SetActive(yes);
         SkillPage.skillPage.GetComponent<Image>().enabled = yes;
         SkillPage.learnedSkillsButton.gameObject.SetActive(yes);
         //SkillPage.skillPoints.gameObject.SetActive(yes);
@@ -663,12 +664,12 @@ public class DamageCalc : MonoBehaviour {
                 {
                     case 38:
                         {
+                            yield return new WaitForSeconds(1.1f);
                             int heal = Battle.turnCount * skill.skillDamage;
                             user.HealHP(heal);
                             SoundDatabase.PlaySound(14);
                             BattleUI.TextAdd(user, 25, "green", string.Format("healed {0} HP from {1}", heal, skill.skillName));
                             StatusBar.UpdateSliders();
-                            yield return new WaitForSeconds(1.1f);
                             break;
                         }
                 }
@@ -857,10 +858,10 @@ public class DamageCalc : MonoBehaviour {
         }
     }
 
-    public static IEnumerator StartBattle(Mortal player, Mortal enemy, Skill playeruseskill)
+    public static IEnumerator StartBattle(Mortal player, Mortal enemy, Skill playeuseskill)
     {
         StartBattleBeginReset();
-        Skill playerUseSkillCopy = new Skill(playeruseskill);
+        Skill playerUseSkillCopy = new Skill(playeuseskill);
         Skill enemyUseSkill = new Skill(enemy.skills[0][Random.Range(0, enemy.skills.Count)]);
         if (GameManager.inBattle)
         {
@@ -901,7 +902,6 @@ public class DamageCalc : MonoBehaviour {
             secondAttacker.battleCanAttack = true;
             // Start Battle
             yield return AttackingTurn(firstAttacker, secondAttacker);
-            yield return new WaitForSeconds(1.1f);
             if (runAway)
             {
                 Battle.EndBattle();
@@ -909,16 +909,28 @@ public class DamageCalc : MonoBehaviour {
             }
             else
             {
+                yield return new WaitForSeconds(1.1f);
                 yield return AttackingTurn(secondAttacker, firstAttacker);
             }
             //
             yield return TurnEndChecker(firstAttacker, secondAttacker);
             yield return TurnEndChecker(secondAttacker, firstAttacker);
-            ReturnToNormal();
-
-
         }
     }
+
+    public static IEnumerator StartFullBattle(Mortal player, Mortal enemy)
+    {
+        foreach(Transform skill in BattleUI.playerGlyph)
+        {
+            if (skill.GetComponent<GlyphHolder>() != null)
+            {
+                yield return StartBattle(player, enemy, skill.GetComponent<SimpleSkillHolder>().skill);
+            }
+        }
+        ReturnToNormal();
+    }
+
+
 
     static void ReturnToNormal()
     {
@@ -928,6 +940,11 @@ public class DamageCalc : MonoBehaviour {
         if (SkillPage.skillPage.gameObject.activeInHierarchy)
         {
             GameManager.OpenClosePage("Skill Page");
+        }
+        GlyphPage.usedGlyphsBattle = new List<int>();
+        foreach (Transform child in BattleUI.playerGlyph)
+        {
+            Destroy(child.gameObject);
         }
         BattleUI.battling.gameObject.SetActive(false);
         // update after effects

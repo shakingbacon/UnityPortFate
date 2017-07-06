@@ -27,6 +27,7 @@ public class Skill {
     public int skillPriority = 0;
     public StatusEffects skillStatusEff = new StatusEffects();
     public SkillType skillType;
+    public SkillHitboxData skillHitboxData = new SkillHitboxData();
 
     public enum SkillType
     {

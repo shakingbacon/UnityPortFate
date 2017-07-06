@@ -31,6 +31,11 @@ public class Inventory : MonoBehaviour
         //AddItem(1700);
     }
 
+    public static void AddInvItem()
+    {
+        AddItem(1000);
+    }
+
     public static void AddItem(int itemindex)
     {
         for (int i = 0; i < inventory.childCount; i += 1)

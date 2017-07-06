@@ -23,14 +23,6 @@ public class Shop : MonoBehaviour
     //
     public static List<List<Item>> items = new List<List<Item>>();
     public static  int pageNum;
-    public static ShopType shopType;
-
-    public enum ShopType
-    {
-        Items,
-        Glyphs
-    }
-
 
     void Awake()
     {
@@ -86,12 +78,20 @@ public class Shop : MonoBehaviour
         StatusBar.UpdateSliders();
     }
 
+
     public static void BuyingYes()
     {
         if (buyingItem.itemType == Item.ItemType.Food)
         {
             GameManager.player.cash -= buyingItem.itemCost;
             ItemDatabase.ActivateFood(buyingItem.itemID);
+            BuyingShow(false);
+        }
+        else if (buyingItem.itemType == Item.ItemType.Glyph)
+        {
+            SoundDatabase.PlaySound(9);
+            GameManager.player.AddCash(-(buyingItem.itemCost));
+            GlyphPage.AddInvGlyph(buyingItem.itemID);
             BuyingShow(false);
         }
         else

@@ -15,10 +15,10 @@ public class ItemDatabase : MonoBehaviour
         ///////////////////////////////
         //// Mage
         items.Add(new Item());
-        items.Add(GlyphDatabase.GetGlyph(0));
-        items.Add(GlyphDatabase.GetGlyph(1));
-        items.Add(GlyphDatabase.GetGlyph(2));
-        items.Add(GlyphDatabase.GetGlyph(3));
+        foreach(Glyph glyph in GlyphDatabase.glyphs)
+        {
+            items.Add(glyph);
+        }
         //// Wands
         items.Add(new Item("Wooden Wand", 1000, "Wand made from wood", Item.WeaponType.Wand));
         items.Add(new Item("Magic Wand", 1001, "A wand powered up by magic", Item.WeaponType.Wand));

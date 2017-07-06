@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class StatusBar : MonoBehaviour {
 
-    public static Transform statusBar;
+    public static GameObject statusBar;
     public static Slider healthBar;
     public static Slider manaBar;
     public static Slider expBar;
@@ -16,7 +16,7 @@ public class StatusBar : MonoBehaviour {
 
     void Start()
     {
-        statusBar = gameObject.transform;
+        statusBar = gameObject;
         healthBar = gameObject.transform.FindChild("HP Bar").GetComponent<Slider>();
         manaBar = gameObject.transform.FindChild("MP Bar").GetComponent<Slider>();
         expBar = gameObject.transform.FindChild("EXP Bar").GetComponent<Slider>();
@@ -30,7 +30,7 @@ public class StatusBar : MonoBehaviour {
     {
         hasShield = true;
         shieldMax = GameManager.player.shield;
-        statusBar.FindChild("Shield Bar").gameObject.SetActive(true);
+        shieldBar.gameObject.SetActive(true);
         UpdateShield();
     }
 
@@ -43,7 +43,7 @@ public class StatusBar : MonoBehaviour {
     {
         GameManager.player.shield = 0;
         hasShield = false;
-        statusBar.FindChild("Shield Bar").gameObject.SetActive(false);
+        shieldBar.gameObject.SetActive(false);
     }
 
     public static void UpdateDescription()

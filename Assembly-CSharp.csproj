@@ -54,6 +54,7 @@
      <Compile Include="Assets\Scripts\DamageCalcOld.cs" />
      <Compile Include="Assets\Scripts\Danger.cs" />
      <Compile Include="Assets\Scripts\DeathScreen.cs" />
+     <Compile Include="Assets\Scripts\DialogueSystem.cs" />
      <Compile Include="Assets\Scripts\Enemy.cs" />
      <Compile Include="Assets\Scripts\EnemyDatabase.cs" />
      <Compile Include="Assets\Scripts\EnviromentHazard.cs" />
@@ -64,7 +65,7 @@
      <Compile Include="Assets\Scripts\GlyphDatabase.cs" />
      <Compile Include="Assets\Scripts\GlyphHolder.cs" />
      <Compile Include="Assets\Scripts\GlyphPage.cs" />
-     <Compile Include="Assets\Scripts\Instructions.cs" />
+     <Compile Include="Assets\Scripts\Hitbox.cs" />
      <Compile Include="Assets\Scripts\Intro.cs" />
      <Compile Include="Assets\Scripts\InvEq.cs" />
      <Compile Include="Assets\Scripts\Inventory.cs" />
@@ -76,6 +77,7 @@
      <Compile Include="Assets\Scripts\JobSelect.cs" />
      <Compile Include="Assets\Scripts\MonsterArea.cs" />
      <Compile Include="Assets\Scripts\Mortal.cs" />
+     <Compile Include="Assets\Scripts\NPC.cs" />
      <Compile Include="Assets\Scripts\OnTriggerMakeComputer.cs" />
      <Compile Include="Assets\Scripts\OnTriggerMakeShop.cs" />
      <Compile Include="Assets\Scripts\Page.cs" />
@@ -90,9 +92,11 @@
      <Compile Include="Assets\Scripts\ShopItemHolder.cs" />
      <Compile Include="Assets\Scripts\ShopList.cs" />
      <Compile Include="Assets\Scripts\ShopMaker.cs" />
+     <Compile Include="Assets\Scripts\SimpleSkillHolder.cs" />
      <Compile Include="Assets\Scripts\Skill.cs" />
      <Compile Include="Assets\Scripts\SkillButton.cs" />
      <Compile Include="Assets\Scripts\SkillDatabase.cs" />
+     <Compile Include="Assets\Scripts\SkillHitboxData.cs" />
      <Compile Include="Assets\Scripts\SkillHolder.cs" />
      <Compile Include="Assets\Scripts\SkillList.cs" />
      <Compile Include="Assets\Scripts\SkillPage.cs" />

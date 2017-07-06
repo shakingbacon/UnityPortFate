@@ -15,6 +15,7 @@ public class SkillPage : MonoBehaviour {
     public static List<List<Skill>> currentPage;
     public static Transform quickSkillsButton;
     public static Transform quickSkillsInfo;
+    public static Button startBattle;
 
     public static bool quickSkillsPressed;
 
@@ -37,8 +38,23 @@ public class SkillPage : MonoBehaviour {
         quickSkillsButton.GetComponent<Button>().onClick.AddListener(QuickSkillButtonPress);
         quickSkillsButton.gameObject.SetActive(false);
         pageNum.GetComponent<Text>().text = (pageInt + 1).ToString();
+        startBattle = skillPage.FindChild("Start Battle").GetComponent<Button>();
+        startBattle.onClick.AddListener(StartBattleButtonClick);
     }
-    
+
+    public static void StartBattleButtonClick()
+    {
+        if (BattleUI.playerGlyph.childCount != 0)
+        {
+            SkillPage.skillPage.gameObject.SetActive(true);
+            skillPage.GetComponent<SkillPage>().StartCoroutine(DamageCalc.StartFullBattle(GameManager.player, Battle.enemy));
+        }
+        else
+        {
+            SoundDatabase.PlaySound(33);
+        }
+    }
+
     public static void UpdateSkillPoints()
     {
         skillPoints.GetComponent<Text>().text = "SP: " + GameManager.player.skillPoints.ToString();

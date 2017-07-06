@@ -7,12 +7,12 @@ public class VictoryScreen : MonoBehaviour {
 
     public static Transform victoryScreen;
 
-
     void Start()
     {
         victoryScreen = gameObject.transform;
         //victoryScreen.FindChild("Yes").GetComponent<Button>().onClick.AddListener(YesClick);
         victoryScreen.FindChild("Yes").GetComponent<Button>().onClick.AddListener(NoClick);
+        victoryScreen.FindChild("Yes").GetComponent<Button>().onClick.AddListener(() => SoundDatabase.PlaySound(43));
         victoryScreen.FindChild("No").GetComponent<Button>().onClick.AddListener(NoClick);
         OpenCloseVictoryScreen();
     }

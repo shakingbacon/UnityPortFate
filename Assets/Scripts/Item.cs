@@ -4,10 +4,12 @@ using System.Collections.Generic;
 
 [System.Serializable]
 public class Item {
+    [Header("Info")]
     public string itemName;
     public int itemID;
     public Sprite itemImg;
     public string itemDesc;
+    [Header("Bonus Stats")]
     public int itemBonusStr;
     public int itemBonusInt;
     public int itemBonusAgi;
@@ -26,9 +28,11 @@ public class Item {
     public int itemBonusCrit;
     public int itemBonusCritMulti;
     public int itemCost;
+    [Header("Type")]
     public ItemType itemType;
     public WeaponType weaponType;
     public ArmorType armorType;
+    [Space]
     public List<string> itemRegularText = new List<string>();
     public string itemStatText = "";
 

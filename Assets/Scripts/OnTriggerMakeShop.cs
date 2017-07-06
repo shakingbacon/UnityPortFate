@@ -7,7 +7,6 @@ public class OnTriggerMakeShop : MonoBehaviour {
     Transform shop;
     public int itemListID;
     public ShopList items;
-    public Shop.ShopType shopType;
 
 
     void Start()
@@ -19,7 +18,6 @@ public class OnTriggerMakeShop : MonoBehaviour {
     {
         if (!GameManager.thereIsShop)
         {
-            Shop.shopType = shopType;
             SoundDatabase.PlaySound(18);
             Transform newShop = Instantiate(shop, GameObject.FindGameObjectWithTag("Canvas").transform);
             newShop.GetComponent<RectTransform>().offsetMin = new Vector2(0, 68);

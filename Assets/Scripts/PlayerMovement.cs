@@ -20,6 +20,14 @@ public class PlayerMovement : MonoBehaviour {
         if (!GameManager.inBattle && !GameManager.inIntro && !GameManager.cantMove)
         {
             Vector2 moveVect = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+            if (moveVect.x == -1)
+            {
+                GameManager.playerGameObject.transform.localScale = new Vector3(-1, 1, 1);
+            }
+            else if (moveVect.x == 1)
+            {
+                GameManager.playerGameObject.transform.localScale= new Vector3(1, 1, 1);
+            }
             if (moveVect != Vector2.zero)
             {
                 anim.SetBool("isWalking", true);

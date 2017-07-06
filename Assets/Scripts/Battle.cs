@@ -35,6 +35,7 @@ public class Battle : MonoBehaviour {
             BattleUI.MovePlayer(BattleUI.battleUI.FindChild("Player Image Box"));
             //player.transform.position = BattleUI.playerPosition;
             // Enemy Texts
+            SkillPage.startBattle.gameObject.SetActive(true);
             SkillPage.skillPoints.gameObject.SetActive(false);
             SkillPage.quickSkillsButton.gameObject.SetActive(false);
             SkillPage.quickSkillsInfo.gameObject.SetActive(false);
@@ -66,6 +67,7 @@ public class Battle : MonoBehaviour {
         GameManager.OpenClosePage("Battle UI");
         DestroyImmediate(BattleUI.playerCopy);
         GameManager.inBattle = false;
+        SkillPage.startBattle.gameObject.SetActive(false);
         SkillPage.skillPoints.gameObject.SetActive(true);
         SkillPage.quickSkillsButton.gameObject.SetActive(true);
         SkillPage.quickSkillsInfo.gameObject.SetActive(true);

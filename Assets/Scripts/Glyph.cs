@@ -4,7 +4,8 @@ using UnityEngine;
 
 [System.Serializable]
 public class Glyph : Item {
-    public GlyphColor glyphColor;
+    [Header("Glyph Info")]
+    public List<GlyphColor> glyphColor;
     public int glyphReqLevel;
     public string glyphEqDesc;
     public string glyphNotUseDesc;
@@ -14,20 +15,22 @@ public class Glyph : Item {
         Red,
         Blue,
         Green,
-        Yellow
+        Yellow,
+        Rainbow,
     }
 
-    public Glyph(string name, int id, GlyphColor color, int level, string desc, string eqdesc, string notdesc)
+    public Glyph(string name, int id, int level, string desc, string eqdesc, string notdesc, int cost, List<GlyphColor> colors)
     {
         itemName = name;
         itemImg = Resources.Load<Sprite>("Item Icons/" + name);
         itemID = id;
-        glyphColor = color;
+        glyphColor = colors;
         glyphReqLevel = level ;
         itemDesc = desc;
         glyphEqDesc = eqdesc;
         glyphNotUseDesc = notdesc;
         itemType = ItemType.Glyph;
+        itemCost = cost;
     }
 
     public Glyph()

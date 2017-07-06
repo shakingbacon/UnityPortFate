@@ -15,7 +15,7 @@ public class SkillHolder : MonoBehaviour {
         gameObject.GetComponent<Button>().onClick.AddListener(ButtonClick);
     }
 
-    void ButtonClick()
+    public void ButtonClick()
     {
         if (!GameManager.inBattle)
         {
@@ -172,7 +172,7 @@ public class SkillHolder : MonoBehaviour {
                         }
                         if (!alreadyActive && !onCooldown)
                         {
-                            StartCoroutine(DamageCalc.StartBattle(GameManager.player, Battle.enemy, skill));
+                            //StartCoroutine(DamageCalc.StartBattle(GameManager.player, Battle.enemy, skill));
                         }
                         else
                         {
@@ -223,7 +223,10 @@ public class SkillHolder : MonoBehaviour {
                         }
                         if (!alreadyActive && !onCooldown)
                         {
-                            StartCoroutine(DamageCalc.StartBattle(GameManager.player, Battle.enemy, skill));
+                            SoundDatabase.PlaySound(34);
+                            GlyphPage.selectedSkill = skill;
+                            GlyphPage.OpenBattleGlyphPage();
+                            //StartCoroutine(DamageCalc.StartBattle(GameManager.player, Battle.enemy, skill));
                         }
                         else
                         {

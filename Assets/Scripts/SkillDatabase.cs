@@ -75,6 +75,8 @@ public class SkillDatabase : MonoBehaviour {
         skills.Add(new Skill("Confuse", 1006, ""));
         skills.Add(new Skill("Curse", 1007, ""));
         skills.Add(new Skill("Soaked", 1008, ""));
+
+        AddAllHitboxData();
         //// Mage Skills
         // add pages
         AddPage(mageSkills, 2);
@@ -102,6 +104,21 @@ public class SkillDatabase : MonoBehaviour {
         AddSkills(mageSkills, mage);
     }
 
+    private void AddAllHitboxData()
+    {
+        foreach(Skill skill in skills)
+        {
+            switch (skill.skillID)
+            {
+                case 0: { GiveHitbox(skill, 0, 1.25f); break; }
+            }
+        }
+    }
+
+    private void GiveHitbox(Skill skill, int id, float timer)
+    {
+        skill.skillHitboxData = new SkillHitboxData(id, timer);
+    }
 
     private void AddPage(List<List<Skill>> page, int pages)
     {

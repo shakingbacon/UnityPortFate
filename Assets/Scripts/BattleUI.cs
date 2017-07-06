@@ -21,11 +21,16 @@ public class BattleUI : MonoBehaviour {
     public static Text battling;
     public static Transform quickSkills;
     public static Image enemySprite;
+    public static Transform playerGlyph;
+    public static Transform startBattle;
     public Transform statusHolderPrefab;
+    public Transform glyphHolderPrefab;
 
     void Start()
     {
         battleUI = gameObject.transform;
+        startBattle = battleUI.FindChild("Player Box").FindChild("Start Battle");
+        startBattle.GetComponent<Button>().onClick.AddListener(SkillPage.StartBattleButtonClick);
         enemySprite = gameObject.transform.FindChild("Enemy").GetComponent<Image>();
         battling = battleUI.FindChild("Battling").GetComponent<Text>();
         playerScroll = battleUI.FindChild("Player Text Scroll");
@@ -43,8 +48,24 @@ public class BattleUI : MonoBehaviour {
         quickSkillNotifier = battleUI.FindChild("Player Box").FindChild("Quick Skills Notifier").GetComponent<Text>();
         quickSkillDesc = battleUI.FindChild("Player Box").FindChild("Quick Skills Desc").GetComponent<Text>();
         skills.onClick.AddListener(SkillPage.InstantLearnedSkillPage);
-        run.onClick.AddListener(() => StartCoroutine(DamageCalc.StartBattle(GameManager.player, Battle.enemy, new Skill(SkillDatabase.GetSkill(43)))));
+        //run.onClick.AddListener(() => StartCoroutine(DamageCalc.StartBattle(GameManager.player, Battle.enemy, new Skill(SkillDatabase.GetSkill(43)))));
+        playerGlyph = battleUI.FindChild("Player Glyph");
         //GameManager.OpenClosePage("InventoryEquipment");
+    }
+
+    public static void AddBattleGlyph(Glyph glyph)
+    {
+        Transform newGlyph = Instantiate(battleUI.GetComponent<BattleUI>().glyphHolderPrefab, playerGlyph);
+        GameObject newSkill = new GameObject("Glyph Skill pic");
+        newSkill.transform.SetParent(playerGlyph);
+        newSkill.AddComponent<Image>();
+        newSkill.transform.localScale = new Vector3(1, 1, 1);
+        newGlyph.transform.localScale = new Vector3(1, 1, 1);
+        newGlyph.GetComponent<GlyphHolder>().glyph = glyph;
+        newGlyph.GetComponent<SimpleSkillHolder>().skill = GlyphPage.selectedSkill;
+        newGlyph.GetComponent<Image>().sprite = glyph.itemImg;
+        newSkill.GetComponent<Image>().sprite = newGlyph.GetComponent<SimpleSkillHolder>().skill.skillIMG;
+
     }
 
     public static Transform WhoseStatus(Mortal mortal)
@@ -112,27 +133,6 @@ public class BattleUI : MonoBehaviour {
         skill.skillCooldownEnd = Battle.turnCount + skill.skillCooldown;
         skill.skillOnCooldown = true;
     }
-
-    //public static void UpdateAllStatusHolder(Stats victim)
-    //{
-    //    Transform who;
-    //    if (victim == EnemyHolder.enemy.stats)
-    //    {
-    //        who = enemyStatus;
-    //    }
-    //    else
-    //    {
-    //        who = playerStatus;
-    //    }
-    //    int i = 0;
-    //    foreach(Status status in victim.statuses)
-    //    {
-    //        who.GetChild(i).GetComponent<StatusHolder>().status = status;
-    //        who.GetChild(i).GetComponent<StatusHolder>().UpdateStatus();
-    //        i += 1;
-    //     }
-
-    //}
 
     public static void MovePlayer(Transform parent)
     {

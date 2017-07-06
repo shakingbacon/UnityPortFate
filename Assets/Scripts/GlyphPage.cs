@@ -8,8 +8,12 @@ public class GlyphPage : MonoBehaviour {
     public static Transform glyphEquip;
     public static Transform glyphInv;
     public static Transform desc;
+    public static Button close;
     public static Text desc1;
     public static Text desc2;
+    public static bool battleOpen = false;
+    public static List<int> usedGlyphsBattle = new List<int>();
+    public static Skill selectedSkill;
 
     void Start()
     {
@@ -19,7 +23,10 @@ public class GlyphPage : MonoBehaviour {
         desc = glyphPage.FindChild("Desc");
         desc1 = glyphPage.FindChild("Desc").GetChild(0).GetComponent<Text>();
         desc2 = glyphPage.FindChild("Desc").GetChild(1).GetComponent<Text>();
-        AddInvGlyph(0);
+        close = glyphPage.FindChild("Close").GetComponent<Button>();
+        close.onClick.AddListener(() => glyphPage.gameObject.SetActive(false));
+        close.onClick.AddListener(() => SoundDatabase.PlaySound(34));
+        EquipGlyph(8); // this is the base glyph
     }
 
     public static void EquipGlyph(int id)
@@ -44,6 +51,13 @@ public class GlyphPage : MonoBehaviour {
         return false;
     }
 
+    public static void OpenBattleGlyphPage()
+    {
+        glyphInv.gameObject.SetActive(false);
+        glyphPage.gameObject.SetActive(true);
+        battleOpen = true;
+    }
+
     public static bool AddInvGlyph(int id)
     {
         foreach (Transform holders in glyphInv)
@@ -66,7 +80,7 @@ public class GlyphPage : MonoBehaviour {
         PlayerData player = GameManager.player;
         switch (id)
         {
-            case 0: { player.intelligence.buffedAmount += 3; break; }
+            case 0: { player.intelligence.buffedAmount += 2; break; }
         }
     }
 
@@ -75,7 +89,7 @@ public class GlyphPage : MonoBehaviour {
         PlayerData player = GameManager.player;
         switch (id)
         {
-            case 0: { player.intelligence.buffedAmount -= 3; break; }
+            case 0: { player.intelligence.buffedAmount -= 2; break; }
         }
     }
 

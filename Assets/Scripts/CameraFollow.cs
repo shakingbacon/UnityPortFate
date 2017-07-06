@@ -21,7 +21,7 @@ public class CameraFollow : MonoBehaviour {
         //myCam.orthographicSize = (Screen.height / 100f) / 2.3f;
         if (target && !GameManager.inBattle)
         {
-            transform.position = Vector3.Lerp(transform.position, target.position, moveSpeed) + new Vector3(0, 0, -10); //from, to ,howfast
+            transform.position = Vector3.Lerp(transform.position, target.position, moveSpeed) + new Vector3(0, 0, -11); //from, to ,howfast
         }
         
 	}

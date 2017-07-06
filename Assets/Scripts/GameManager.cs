@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour {
     public static bool inTutorial;
     public static bool inIntro;
     public static bool cantMove;
+    public static bool inSkillAnimation;
     public static bool inMonsterArea;
     public static bool thereIsShop = false;
     public bool setupBattle;
@@ -21,11 +22,11 @@ public class GameManager : MonoBehaviour {
     public static Transform hoveringBattleStatusParent;
 
     void Start()
-    {
+    {  
         //StartCoroutine(ScreenFader.FadeToClear());
         playerGameObject = GameObject.FindGameObjectWithTag("Player");
         player = new PlayerData();
-        version = "Dev.v4.2";
+        version = "Dev.v6.0";
         OpenClosePage("Skill Page");
         OpenClosePage("Battle UI");
         OpenClosePage("InventoryEquipment");
@@ -38,6 +39,11 @@ public class GameManager : MonoBehaviour {
 
     void Update()
     {
+        if (Input.GetButtonDown("Skill1"))
+        {
+            StartCoroutine(Hitbox.SummonHitbox(SkillDatabase.GetSkill(0)));
+        }
+
         if (!invisibleWallOn && !inIntro && !ComputerScreen.computer.gameObject.activeInHierarchy)
         {
             if (Input.GetButtonDown("Skill"))
@@ -52,6 +58,12 @@ public class GameManager : MonoBehaviour {
             if (Input.GetButtonDown("Glyph"))
             {
                 OpenClosePage("Glyph Page");
+                SoundDatabase.PlaySound(34);
+                if (GlyphPage.battleOpen)
+                {
+                    GlyphPage.battleOpen = false;
+                    GlyphPage.glyphInv.gameObject.SetActive(true);
+                }
                 GlyphPage.desc.gameObject.SetActive(false);
             }
             if (Input.GetButtonDown("Cancel"))
@@ -99,6 +111,8 @@ public class GameManager : MonoBehaviour {
 
         }
     }
+
+
 
     void InvEqOpen()
     {
