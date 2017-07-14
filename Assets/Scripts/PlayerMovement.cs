@@ -17,7 +17,7 @@ public class PlayerMovement : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (!GameManager.inBattle && !GameManager.inIntro && !GameManager.cantMove)
+        if (!GameManager.inBattle && !GameManager.inIntro && !GameManager.cantMove && !PlayerController.inSkillAnimation)
         {
             Vector2 moveVect = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
             if (moveVect.x == -1)
@@ -35,7 +35,6 @@ public class PlayerMovement : MonoBehaviour {
                 {
                     anim.SetFloat("input_x", moveVect.x);
                 }
-
             }
             else
             {

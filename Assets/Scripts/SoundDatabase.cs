@@ -4,6 +4,7 @@ using UnityEngine;
 using System.IO;
 
 public class SoundDatabase : MonoBehaviour {
+
     public static SoundDatabase soundDatabase;
     public Transform sound;
     public static List<AudioClip> bgm = new List<AudioClip>();
@@ -93,6 +94,5 @@ public class SoundDatabase : MonoBehaviour {
             soundDatabase.StartCoroutine(soundDatabase.MakeSound(id));
         }
     }
-
 
 }

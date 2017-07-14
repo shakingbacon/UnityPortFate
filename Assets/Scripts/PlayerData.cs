@@ -13,6 +13,7 @@ public class PlayerData : Mortal
 
     }
 
+
     public void AddCash(int amount)
     {
         cash += amount;

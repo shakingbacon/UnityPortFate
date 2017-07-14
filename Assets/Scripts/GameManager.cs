@@ -14,7 +14,6 @@ public class GameManager : MonoBehaviour {
     public static bool inTutorial;
     public static bool inIntro;
     public static bool cantMove;
-    public static bool inSkillAnimation;
     public static bool inMonsterArea;
     public static bool thereIsShop = false;
     public bool setupBattle;
@@ -39,11 +38,6 @@ public class GameManager : MonoBehaviour {
 
     void Update()
     {
-        if (Input.GetButtonDown("Skill1"))
-        {
-            StartCoroutine(Hitbox.SummonHitbox(SkillDatabase.GetSkill(0)));
-        }
-
         if (!invisibleWallOn && !inIntro && !ComputerScreen.computer.gameObject.activeInHierarchy)
         {
             if (Input.GetButtonDown("Skill"))
@@ -111,7 +105,6 @@ public class GameManager : MonoBehaviour {
 
         }
     }
-
 
 
     void InvEqOpen()

@@ -46,10 +46,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\BaseStat.cs" />
      <Compile Include="Assets\Scripts\Battle.cs" />
      <Compile Include="Assets\Scripts\BattleUI.cs" />
      <Compile Include="Assets\Scripts\CameraFollow.cs" />
+     <Compile Include="Assets\Scripts\CharacterStats.cs" />
      <Compile Include="Assets\Scripts\ComputerScreen.cs" />
+     <Compile Include="Assets\Scripts\ConsumableController.cs" />
      <Compile Include="Assets\Scripts\DamageCalc.cs" />
      <Compile Include="Assets\Scripts\DamageCalcOld.cs" />
      <Compile Include="Assets\Scripts\Danger.cs" />
@@ -60,15 +63,22 @@
      <Compile Include="Assets\Scripts\EnviromentHazard.cs" />
      <Compile Include="Assets\Scripts\Equipment.cs" />
      <Compile Include="Assets\Scripts\FinalScript.cs" />
+     <Compile Include="Assets\Scripts\Fireball.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
+     <Compile Include="Assets\Scripts\Gator.cs" />
      <Compile Include="Assets\Scripts\Glyph.cs" />
      <Compile Include="Assets\Scripts\GlyphDatabase.cs" />
      <Compile Include="Assets\Scripts\GlyphHolder.cs" />
      <Compile Include="Assets\Scripts\GlyphPage.cs" />
-     <Compile Include="Assets\Scripts\Hitbox.cs" />
+     <Compile Include="Assets\Scripts\IConsumable.cs" />
+     <Compile Include="Assets\Scripts\IEnemy.cs" />
+     <Compile Include="Assets\Scripts\IProjectileWeapon.cs" />
+     <Compile Include="Assets\Scripts\IWeapon.cs" />
+     <Compile Include="Assets\Scripts\Interactable.cs" />
      <Compile Include="Assets\Scripts\Intro.cs" />
      <Compile Include="Assets\Scripts\InvEq.cs" />
      <Compile Include="Assets\Scripts\Inventory.cs" />
+     <Compile Include="Assets\Scripts\InventoryController.cs" />
      <Compile Include="Assets\Scripts\Item.cs" />
      <Compile Include="Assets\Scripts\ItemDatabase.cs" />
      <Compile Include="Assets\Scripts\ItemHolder.cs" />
@@ -78,12 +88,18 @@
      <Compile Include="Assets\Scripts\MonsterArea.cs" />
      <Compile Include="Assets\Scripts\Mortal.cs" />
      <Compile Include="Assets\Scripts\NPC.cs" />
+     <Compile Include="Assets\Scripts\NewItem.cs" />
+     <Compile Include="Assets\Scripts\NewItemDatabase.cs" />
      <Compile Include="Assets\Scripts\OnTriggerMakeComputer.cs" />
      <Compile Include="Assets\Scripts\OnTriggerMakeShop.cs" />
      <Compile Include="Assets\Scripts\Page.cs" />
+     <Compile Include="Assets\Scripts\PlayerController.cs" />
      <Compile Include="Assets\Scripts\PlayerData.cs" />
      <Compile Include="Assets\Scripts\PlayerImage.cs" />
      <Compile Include="Assets\Scripts\PlayerMovement.cs" />
+     <Compile Include="Assets\Scripts\PlayerWeapon.cs" />
+     <Compile Include="Assets\Scripts\PlayerWeaponController.cs" />
+     <Compile Include="Assets\Scripts\PotionLog.cs" />
      <Compile Include="Assets\Scripts\Prefabs.cs" />
      <Compile Include="Assets\Scripts\QuickSkills.cs" />
      <Compile Include="Assets\Scripts\SavePage.cs" />
@@ -102,7 +118,9 @@
      <Compile Include="Assets\Scripts\SkillPage.cs" />
      <Compile Include="Assets\Scripts\SliderUtilities.cs" />
      <Compile Include="Assets\Scripts\SoundDatabase.cs" />
+     <Compile Include="Assets\Scripts\Staff.cs" />
      <Compile Include="Assets\Scripts\Stat.cs" />
+     <Compile Include="Assets\Scripts\StatBonus.cs" />
      <Compile Include="Assets\Scripts\StatPage.cs" />
      <Compile Include="Assets\Scripts\StaticCoroutine.cs" />
      <Compile Include="Assets\Scripts\Status.cs" />
@@ -110,6 +128,7 @@
      <Compile Include="Assets\Scripts\StatusDatabase.cs" />
      <Compile Include="Assets\Scripts\StatusEffectChance.cs" />
      <Compile Include="Assets\Scripts\StatusHolder.cs" />
+     <Compile Include="Assets\Scripts\Sword.cs" />
      <Compile Include="Assets\Scripts\Tooltip.cs" />
      <Compile Include="Assets\Scripts\Tutorial.cs" />
      <Compile Include="Assets\Scripts\VictoryScreen.cs" />
@@ -130,6 +149,7 @@
      <Compile Include="Assets\Tiled2Unity\Scripts\Runtime\TiledInitialShaderProperties.cs" />
      <Compile Include="Assets\Tiled2Unity\Scripts\Runtime\TiledMap.cs" />
      <Compile Include="Assets\Tiled2Unity\Scripts\Runtime\TmxObject.cs" />
+     <Compile Include="Assets\UnityPackages\JsonNetSample\JsonNetSample.cs" />
      <None Include="Assets\Tiled2Unity\Shaders\shaDefault.shader" />
      <None Include="Assets\Tiled2Unity\Prefabs\_ReadMe.txt" />
      <None Include="Assets\Tiled2Unity\Shaders\shaTiledMap.shader" />
@@ -162,6 +182,9 @@
  </Reference>
  <Reference Include="UnityEngine.VR">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityVR/RuntimeEditor/UnityEngine.VR.dll</HintPath>
+ </Reference>
+ <Reference Include="Newtonsoft.Json">
+ <HintPath>C:/Users/Camer/Desktop/Unity Projects/Booga's Welcome of Fate/Assets/UnityPackages/JsonNet/Newtonsoft.Json.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

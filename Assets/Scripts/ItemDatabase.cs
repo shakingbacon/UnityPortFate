@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
+using UnityEditor;
 using System.Collections;
 using System.Collections.Generic;
 
 public class ItemDatabase : MonoBehaviour
 {
     public static List<Item> items = new List<Item>();
+    public static List<PlayerWeapon> playerWeapons = new List<PlayerWeapon>();
     public static List<ShopList> shopList = new List<ShopList>();
     // Use this for initialization
     void Start()
@@ -117,6 +119,7 @@ public class ItemDatabase : MonoBehaviour
         items.Add(new Item("Pizza", 10000, "Can't go wrong", 100));
 
         AddBonusStatsToItems();
+        MakeWeaponObjects();
         for (int index = 0; index < items.Count; index += 1)
         {
             CreateTooltip(items[index]);
@@ -126,6 +129,20 @@ public class ItemDatabase : MonoBehaviour
         shopList.Add(new ShopList(MakeShopList(ShopMaker.restuarant), 2));
     }
     
+    void MakeWeaponObjects()
+    {
+        foreach(Item item in items)
+        {
+            if (item.itemType == Item.ItemType.Weapon)
+            {
+                string fileName = item.itemName;
+                Object emptyObj;
+
+            }
+        }
+    }
+
+
     public static ShopList GetShop(int id)
     {
         return shopList.Find(aList => aList.listID == id);
