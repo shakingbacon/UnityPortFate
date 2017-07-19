@@ -9,7 +9,7 @@ public class NewItemDatabase : MonoBehaviour {
     private List<NewItem> Items { get; set; }
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 		if (Instance != null && Instance != this)
         {
             Destroy(gameObject);

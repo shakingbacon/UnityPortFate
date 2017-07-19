@@ -8,6 +8,9 @@ public class Staff : MonoBehaviour, IWeapon, IProjectileWeapon
     Animator animator;
     public List<BaseStat> Stats{get;set;}
     public Transform ProjectileSpawn { get; set; }
+
+    public CharacterStats CharacterStats { get; set; }
+
     Fireball fireball;
 
     void Start()

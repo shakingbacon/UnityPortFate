@@ -8,14 +8,14 @@
     "itemModifier": 0,
     "Stats": [
       {
-        "StatType":  "Power",
+        "StatType":  "Physical",
         "BaseValue": 25,
-        "StatName": "Power"
+        "StatName": "Physical Attack"
       },
       {
-        "StatType": "Toughness",
+        "StatType": "Armor",
         "BaseValue": 4,
-        "StatName": "Tougness"
+        "StatName": "Armor"
       },
       {
         "StatType":  "AttackSpeed",
@@ -25,7 +25,7 @@
     ]
   },
   {
-    "objectSlug": "potion_log",
+    "objectSlug": "potionlog",
     "itemName": "Log Potion",
     "description": "A potion that logs something to the console.",
     "itemType": "Consumable",

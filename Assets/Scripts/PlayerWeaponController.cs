@@ -14,7 +14,7 @@ public class PlayerWeaponController : MonoBehaviour {
     void Start()
     {
         spawnProjectile = transform.FindChild("ProjectileSpawn");
-        characterStats = GetComponent<CharacterStats>();
+        characterStats = GetComponent<Player>().characterStats;
     }
 
     public void EquipWeapon(NewItem itemToEquip)
@@ -30,14 +30,15 @@ public class PlayerWeaponController : MonoBehaviour {
         {
             EquippedWeapon.GetComponent<IProjectileWeapon>().ProjectileSpawn = spawnProjectile;
         }
-        equippedWeapon = EquippedWeapon.GetComponent<IWeapon>();
         if (EquippedWeapon.GetComponent<IProjectileWeapon>() != null)
         {
             EquippedWeapon.GetComponent<IProjectileWeapon>().ProjectileSpawn = spawnProjectile;
         }
+        characterStats.AddStatBonus(itemToEquip.Stats);
+        equippedWeapon = EquippedWeapon.GetComponent<IWeapon>();
+        equippedWeapon.CharacterStats = characterStats;
         equippedWeapon.Stats = itemToEquip.Stats;
         EquippedWeapon.transform.SetParent(playerHand.transform);
-        //characterStats.AddStatBonus(itemToEquip.Stats);
         //Debug.Log(equippedWeapon.Stats[0].GetCalcStatValue());
     }
 

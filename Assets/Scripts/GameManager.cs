@@ -45,10 +45,10 @@ public class GameManager : MonoBehaviour {
                 SkillPage.UpdateSkillPoints();
                 CheckSkillPage();
             }
-            if (Input.GetButtonDown("Inventory"))
-            {
-                InvEqOpen();
-            }
+            //if (Input.GetButtonDown("Inventory"))
+            //{
+            //    InvEqOpen();
+            //}
             if (Input.GetButtonDown("Glyph"))
             {
                 OpenClosePage("Glyph Page");

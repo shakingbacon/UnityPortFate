@@ -78,7 +78,13 @@
      <Compile Include="Assets\Scripts\Intro.cs" />
      <Compile Include="Assets\Scripts\InvEq.cs" />
      <Compile Include="Assets\Scripts\Inventory.cs" />
-     <Compile Include="Assets\Scripts\InventoryController.cs" />
+     <Compile Include="Assets\Scripts\Inventory\InventoryController.cs" />
+     <Compile Include="Assets\Scripts\Inventory\InventoryUI.cs" />
+     <Compile Include="Assets\Scripts\Inventory\InventoryUIDetails.cs" />
+     <Compile Include="Assets\Scripts\Inventory\InventoryUIItem.cs" />
+     <Compile Include="Assets\Scripts\Inventory\NewItem.cs" />
+     <Compile Include="Assets\Scripts\Inventory\NewItemDatabase.cs" />
+     <Compile Include="Assets\Scripts\Inventory\UIEventHandler.cs" />
      <Compile Include="Assets\Scripts\Item.cs" />
      <Compile Include="Assets\Scripts\ItemDatabase.cs" />
      <Compile Include="Assets\Scripts\ItemHolder.cs" />
@@ -88,11 +94,10 @@
      <Compile Include="Assets\Scripts\MonsterArea.cs" />
      <Compile Include="Assets\Scripts\Mortal.cs" />
      <Compile Include="Assets\Scripts\NPC.cs" />
-     <Compile Include="Assets\Scripts\NewItem.cs" />
-     <Compile Include="Assets\Scripts\NewItemDatabase.cs" />
      <Compile Include="Assets\Scripts\OnTriggerMakeComputer.cs" />
      <Compile Include="Assets\Scripts\OnTriggerMakeShop.cs" />
      <Compile Include="Assets\Scripts\Page.cs" />
+     <Compile Include="Assets\Scripts\Player.cs" />
      <Compile Include="Assets\Scripts\PlayerController.cs" />
      <Compile Include="Assets\Scripts\PlayerData.cs" />
      <Compile Include="Assets\Scripts\PlayerImage.cs" />
