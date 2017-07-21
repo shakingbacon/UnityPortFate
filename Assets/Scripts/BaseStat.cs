@@ -27,7 +27,6 @@ public class BaseStat
     public BaseStat (int baseval, string name, string desc)
     {
         this.BaseAdditives = new List<StatBonus>();
-
         this.BaseValue = baseval;
         this.StatName = name;
         this.StatDescription = desc;
@@ -49,12 +48,14 @@ public class BaseStat
 
     public void RemoveStatBonus(StatBonus statBonus)
     {
-        this.BaseAdditives.Remove(statBonus);
+        this.BaseAdditives.Remove(BaseAdditives.Find(x => x.BonusValue == statBonus.BonusValue));
     }
 
     public int GetCalcStatValue()
     {
+        FinalValue = 0;
         this.BaseAdditives.ForEach(x => this.FinalValue += x.BonusValue);
+    
         FinalValue += BaseValue;
         return FinalValue;
     }

@@ -72,8 +72,6 @@
      <Compile Include="Assets\Scripts\GlyphPage.cs" />
      <Compile Include="Assets\Scripts\IConsumable.cs" />
      <Compile Include="Assets\Scripts\IEnemy.cs" />
-     <Compile Include="Assets\Scripts\IProjectileWeapon.cs" />
-     <Compile Include="Assets\Scripts\IWeapon.cs" />
      <Compile Include="Assets\Scripts\Interactable.cs" />
      <Compile Include="Assets\Scripts\Intro.cs" />
      <Compile Include="Assets\Scripts\InvEq.cs" />
@@ -123,7 +121,6 @@
      <Compile Include="Assets\Scripts\SkillPage.cs" />
      <Compile Include="Assets\Scripts\SliderUtilities.cs" />
      <Compile Include="Assets\Scripts\SoundDatabase.cs" />
-     <Compile Include="Assets\Scripts\Staff.cs" />
      <Compile Include="Assets\Scripts\Stat.cs" />
      <Compile Include="Assets\Scripts\StatBonus.cs" />
      <Compile Include="Assets\Scripts\StatPage.cs" />
@@ -133,11 +130,15 @@
      <Compile Include="Assets\Scripts\StatusDatabase.cs" />
      <Compile Include="Assets\Scripts\StatusEffectChance.cs" />
      <Compile Include="Assets\Scripts\StatusHolder.cs" />
-     <Compile Include="Assets\Scripts\Sword.cs" />
      <Compile Include="Assets\Scripts\Tooltip.cs" />
      <Compile Include="Assets\Scripts\Tutorial.cs" />
      <Compile Include="Assets\Scripts\VictoryScreen.cs" />
      <Compile Include="Assets\Scripts\Warp.cs" />
+     <Compile Include="Assets\Scripts\Weapons\IProjectileWeapon.cs" />
+     <Compile Include="Assets\Scripts\Weapons\IWeapon.cs" />
+     <Compile Include="Assets\Scripts\Weapons\Longsword.cs" />
+     <Compile Include="Assets\Scripts\Weapons\Staff.cs" />
+     <Compile Include="Assets\Scripts\Weapons\Sword.cs" />
      <Compile Include="Assets\Tiled2Unity\Scripts\Runtime\CircleObject.cs" />
      <Compile Include="Assets\Tiled2Unity\Scripts\Runtime\GroupLayer.cs" />
      <Compile Include="Assets\Tiled2Unity\Scripts\Runtime\ImportBehaviour.cs" />

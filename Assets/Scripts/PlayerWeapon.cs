@@ -4,9 +4,11 @@ using UnityEngine;
 public class PlayerWeapon : MonoBehaviour {
 
     private Animator animator;
+    private PlayerController playerController;
 
     void Start()
     {
+        playerController = GetComponent<PlayerController>();
         animator= GetComponent<Animator>();
     }
 
@@ -21,7 +23,7 @@ public class PlayerWeapon : MonoBehaviour {
 
     public void PlayerWeaponAttack()
     {   
-        if (!PlayerController.inSkillAnimation)
+        if (!playerController.inSkillAnimation)
         {
             animator.SetTrigger("Basic Attack");
         }
@@ -29,14 +31,13 @@ public class PlayerWeapon : MonoBehaviour {
 
     public void InAnimation()
     {
-        PlayerController.inSkillAnimation = true;
+        playerController.inSkillAnimation = true;
     }
 
     public void NotInAnimation()
     {
-        PlayerController.inSkillAnimation = false;
+        playerController.inSkillAnimation = false;
     }
-
     //public IEnumerator SummonHitbox(Skill skill)
     //{
     //    if (!GameManager.inSkillAnimation)

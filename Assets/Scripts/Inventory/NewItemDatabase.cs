@@ -24,19 +24,18 @@ public class NewItemDatabase : MonoBehaviour {
 	private void BuildDatabase()
     {
         Items = JsonConvert.DeserializeObject<List<NewItem>>(Resources.Load<TextAsset>("JSON/Items").ToString());
-        Debug.Log(Items[0].Stats[0].StatName);
     }
 
-    public NewItem GetItem(string itemSlug)
+    public NewItem GetItem(string itemName)
     {
         foreach(NewItem item in Items)
         {
-            if (item.ObjectSlug == itemSlug)
+            if (item.ItemName == itemName)
             {
                 return item;
             }
         }
-        Debug.LogWarning("COULDNT FIND ITEM: " + itemSlug);
+        Debug.LogWarning("COULDNT FIND ITEM");
         return null;
     }
 

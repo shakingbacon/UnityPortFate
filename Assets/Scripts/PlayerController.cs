@@ -5,19 +5,19 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour {
 
     GameObject playerGameObject;
-    public static bool inSkillAnimation;
+    public bool inSkillAnimation;
 
     void Start()
     {
         playerGameObject = GameManager.playerGameObject;
     }
 
-    void Update()
-    {
-        if (Input.GetButtonDown("BasicAttack"))
-        {
-            playerGameObject.transform.FindChild("Hand").GetComponentInChildren<PlayerWeapon>().PlayerWeaponAttack();
-        }
-    }
+    //void Update()
+    //{
+    //    if (Input.GetButtonDown("BasicAttack"))
+    //    {
+    //        playerGameObject.transform.FindChild("Hand").GetComponentInChildren<PlayerWeapon>().PlayerWeaponAttack();
+    //    }
+    //}
 
 }

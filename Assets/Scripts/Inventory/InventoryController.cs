@@ -22,21 +22,23 @@ public class InventoryController : MonoBehaviour {
 
         consumableController = GetComponent<ConsumableController>();
         playerWeaponController = GetComponent<PlayerWeaponController>();
-        GiveItem("sword");
-        GiveItem("potionlog");
+        GiveItem("Sword");
+        GiveItem("Log Potion");
+        GiveItem("Longsword");
+        GiveItem("Wooden Staff");
     }
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.V))
-        {
-            playerWeaponController.EquipWeapon(new NewItem(new List<BaseStat>(), "staff"));
-        }
-    }
+    //void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.V))
+    //    {
+    //        playerWeaponController.EquipWeapon(new NewItem(new List<BaseStat>(), "staff"));
+    //    }
+    //}
 	
-    public void GiveItem(string itemSlug)
+    public void GiveItem(string itemName)
     {
-        NewItem item = NewItemDatabase.Instance.GetItem(itemSlug);
+        NewItem item = NewItemDatabase.Instance.GetItem(itemName);
         //print(item.ItemName);
         playerItems.Add(item);
         UIEventHandler.ItemAddedToInventory(item);

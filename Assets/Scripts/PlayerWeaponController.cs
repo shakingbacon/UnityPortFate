@@ -8,24 +8,27 @@ public class PlayerWeaponController : MonoBehaviour {
     public GameObject EquippedWeapon { get; set; }
 
     Transform spawnProjectile;
+    NewItem currentlyEquippedItem;
     IWeapon equippedWeapon;
     CharacterStats characterStats;
+    InventoryController inventoryController;
 
     void Start()
     {
         spawnProjectile = transform.FindChild("ProjectileSpawn");
         characterStats = GetComponent<Player>().characterStats;
+        inventoryController = GetComponent<InventoryController>();
     }
 
     public void EquipWeapon(NewItem itemToEquip)
     {
         if (EquippedWeapon != null)
         {
-            characterStats.RemoveStatBonus(EquippedWeapon.GetComponent<IWeapon>().Stats);
+            characterStats.RemoveStatBonus(equippedWeapon.Stats);
+            inventoryController.GiveItem(currentlyEquippedItem.ItemName);
             Destroy(playerHand.transform.GetChild(0).gameObject);
         }
-        EquippedWeapon = (GameObject)Instantiate(Resources.Load<GameObject>("Weapons/" + itemToEquip.ObjectSlug), playerHand.transform);
-        
+        EquippedWeapon = (GameObject)Instantiate(Resources.Load<GameObject>("Items/Weapons/" + itemToEquip.ItemName), playerHand.transform);
         if (EquippedWeapon.GetComponent<IProjectileWeapon>() != null)
         {
             EquippedWeapon.GetComponent<IProjectileWeapon>().ProjectileSpawn = spawnProjectile;
@@ -36,10 +39,10 @@ public class PlayerWeaponController : MonoBehaviour {
         }
         characterStats.AddStatBonus(itemToEquip.Stats);
         equippedWeapon = EquippedWeapon.GetComponent<IWeapon>();
-        equippedWeapon.CharacterStats = characterStats;
         equippedWeapon.Stats = itemToEquip.Stats;
+        currentlyEquippedItem = itemToEquip;
         EquippedWeapon.transform.SetParent(playerHand.transform);
-        //Debug.Log(equippedWeapon.Stats[0].GetCalcStatValue());
+        UIEventHandler.ItemEquipped(itemToEquip);
     }
 
     void Update()
@@ -50,10 +53,27 @@ public class PlayerWeaponController : MonoBehaviour {
         }
     }
 
-
     public void PerformWeaponAttack()
     {
-        equippedWeapon.PerformAttack();
+        equippedWeapon.PerformAttack(CalculateDamage());
     }
 
+    private int CalculateDamage()
+    {
+        int damageToDeal = 0;
+        damageToDeal = ((characterStats.GetStat(BaseStat.BaseStatType.Physical).GetCalcStatValue() * 2) +
+            Random.Range(2,8));
+        damageToDeal += CalculateCrit(damageToDeal);
+        return damageToDeal;
+    }
+
+    private int CalculateCrit(int damage)
+    {
+        if (Random.value <= .1f)
+        {
+            int critDamage = (int)(damage * Random.Range(.5f, .75f));
+            return critDamage;
+        }
+        return 0;
+    }
 }

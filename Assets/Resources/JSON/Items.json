@@ -9,17 +9,52 @@
     "Stats": [
       {
         "StatType":  "Physical",
+        "BaseValue": 15,
+        "StatName": "Physical Attack"
+      },
+      {
+        "StatType":  "AttackSpeed",
+        "BaseValue": 2,
+        "StatName": "Attack Speed"
+      }
+    ]
+  },
+  {
+    "objectSlug": "sword",
+    "itemName": "Longsword",
+    "description": "A longer, sharper blade.",
+    "itemType":  "Weapon",
+    "actionName": "Equip",
+    "itemModifier": 0,
+    "Stats": [
+      {
+        "StatType":  "Physical",
         "BaseValue": 25,
         "StatName": "Physical Attack"
       },
       {
-        "StatType": "Armor",
+        "StatType":  "AttackSpeed",
         "BaseValue": 4,
-        "StatName": "Armor"
+        "StatName": "Attack Speed"
+      }
+    ]
+  },
+  {
+    "objectSlug": "staff",
+    "itemName": "Wooden Staff",
+    "description": "A big stick of wood",
+    "itemType":  "Weapon",
+    "actionName": "Equip",
+    "itemModifier": 0,
+    "Stats": [
+      {
+        "StatType":  "Physical",
+        "BaseValue": 50,
+        "StatName": "Physical Attack"
       },
       {
         "StatType":  "AttackSpeed",
-        "BaseValue": 4,
+        "BaseValue": 1,
         "StatName": "Attack Speed"
       }
     ]

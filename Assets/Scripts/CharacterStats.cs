@@ -28,7 +28,7 @@ public class CharacterStats {
     {
         foreach(BaseStat bonus in statBonuses)
         {
-           GetStat(bonus.StatType).AddStatBonus(new StatBonus(bonus.BaseValue));
+            GetStat(bonus.StatType).AddStatBonus(new StatBonus(bonus.BaseValue));
         }
     }
 
