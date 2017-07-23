@@ -11,7 +11,7 @@ public class UIEventHandler : MonoBehaviour {
     public delegate void PlayerHealhEventHandler(int currentHealth, int maxHealth);
     public static event PlayerHealhEventHandler OnPlayerHealthChanged;
 
-    public 
+    // public 
 
     public static void ItemAddedToInventory(NewItem item)
     {

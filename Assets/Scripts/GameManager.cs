@@ -94,10 +94,9 @@ public class GameManager : MonoBehaviour {
         }
         if (Input.GetButtonDown("Cancel"))
         {
-            Battle.SetupBattle(EnemyDatabase.GetEnemy(0));
+            //Battle.SetupBattle(EnemyDatabase.GetEnemy(0));
             if (ComputerScreen.computer.gameObject.activeInHierarchy)
             {
-                ComputerScreen.CloseButton();
             }
         }
         if (inMonsterArea)

@@ -73,7 +73,7 @@ public class Item {
     {
         itemName = name;
         itemID = id;
-        itemImg = Resources.Load<Sprite>("Item Icons/" + name);
+        itemImg = Resources.Load<Sprite>("Items/Icons/" + name);
         itemDesc = desc;
         itemType = ItemType.Weapon;
         weaponType = type;
@@ -84,7 +84,7 @@ public class Item {
     {
         itemName = name;
         itemID = id;
-        itemImg = Resources.Load<Sprite>("Item Icons/" + name);
+        itemImg = Resources.Load<Sprite>("Items/Icons/" + name);
         itemDesc = desc;
         itemType = ItemType.Armor;
         weaponType = WeaponType.None;
@@ -96,7 +96,7 @@ public class Item {
     {
         itemName = name;
         itemID = id;
-        itemImg = Resources.Load<Sprite>("Item Icons/" + name);
+        itemImg = Resources.Load<Sprite>("Items/Icons/" + name);
         itemDesc = desc;
         itemType = type;
         weaponType = WeaponType.None;
@@ -107,7 +107,7 @@ public class Item {
     {
         itemName = name;
         itemID = id;
-        itemImg = Resources.Load<Sprite>("Food Icons/" + name);
+        itemImg = Resources.Load<Sprite>("UI/Icons/Food" + name);
         itemDesc = desc;
         itemCost = cost;
         itemType = ItemType.Food;

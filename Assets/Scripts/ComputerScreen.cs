@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ComputerScreen : MonoBehaviour {
+public class ComputerScreen : Interactable {
 
     public static Transform computer;
     public static Button save;
@@ -22,13 +22,13 @@ public class ComputerScreen : MonoBehaviour {
         intro = computer.FindChild("Intro").GetComponent<Button>();
         save.onClick.AddListener(() => GameManager.CreateSavePage(true));
         load.onClick.AddListener(() => GameManager.CreateSavePage(false));
-        close.onClick.AddListener(CloseButton);
+        close.onClick.AddListener(() => gameObject.SetActive(false));
         quit.onClick.AddListener(Application.Quit);
         intro.onClick.AddListener(GameManager.CreateIntro);
         intro.onClick.AddListener(() => GameManager.OpenClosePage("Computer Screen"));
     }
 
-    public static void CloseButton()
+    public override void Interact()
     {
         SoundDatabase.PlaySound(34);
         computer.gameObject.SetActive(false);

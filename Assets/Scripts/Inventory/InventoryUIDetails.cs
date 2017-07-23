@@ -35,7 +35,7 @@ public class InventoryUIDetails : MonoBehaviour {
         itemInteractButton.onClick.RemoveAllListeners();
         selectedItemButton = selectedButton;
         itemNameText.text = item.ItemName;
-        itemDescriptionText.text = item.Description;
+        itemDescriptionText.text = item.Description + "\nCost: $" + item.ItemCost;
         itemInteractButtonText.text = item.ActionName;
         itemInteractButton.onClick.AddListener(OnItemInteract);
     }

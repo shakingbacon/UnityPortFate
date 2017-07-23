@@ -42,7 +42,7 @@ public class PlayerWeaponController : MonoBehaviour {
         equippedWeapon.Stats = itemToEquip.Stats;
         currentlyEquippedItem = itemToEquip;
         EquippedWeapon.transform.SetParent(playerHand.transform);
-        UIEventHandler.ItemEquipped(itemToEquip);
+        //UIEventHandler.ItemEquipped(itemToEquip);
     }
 
     void Update()

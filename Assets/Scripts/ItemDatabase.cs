@@ -6,7 +6,6 @@ using System.Collections.Generic;
 public class ItemDatabase : MonoBehaviour
 {
     public static List<Item> items = new List<Item>();
-    public static List<PlayerWeapon> playerWeapons = new List<PlayerWeapon>();
     public static List<ShopList> shopList = new List<ShopList>();
     // Use this for initialization
     void Start()

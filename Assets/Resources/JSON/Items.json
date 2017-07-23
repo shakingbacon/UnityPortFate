@@ -1,22 +1,77 @@
 [
+// Head
+  {
+    "objectSlug": "head",
+    "itemName": "Leather Hat",
+    "description": "A basic hat for mages",
+    "itemType":  "Armor",
+    "actionName": "Equip",
+	"itemCost": 450,
+    "itemModifier": 0,
+    "Stats": [
+		{
+		"StatType":  "Intelligence",
+		"BaseValue": 3,
+		"StatName": "Int"
+		},
+		{
+		"StatType":  "Armor",
+		"BaseValue": 14,
+		"StatName": "Armor"
+		},
+		{
+		"StatType":  "Resist",
+		"BaseValue": 37,
+		"StatName": "Resist"
+		}
+    ]
+  },
+// Hands
+	{
+    "objectSlug": "stand_glove",
+    "itemName": "Leather Gloves",
+    "description": "Useful for handling objects",
+    "itemType":  "Armor",
+    "actionName": "Equip",
+	"itemCost": 280,
+    "itemModifier": 0,
+    "Stats": [
+		{
+		"StatType":  "Agility",
+		"BaseValue": 1,
+		"StatName": "Agi"
+		},
+		{
+		"StatType":  "Armor",
+		"BaseValue": 20,
+		"StatName": "Armor"
+		},
+		{
+		"StatType":  "Resist",
+		"BaseValue": 30,
+		"StatName": "Resist"
+		}
+    ]
+  },
   {
     "objectSlug": "sword",
-    "itemName": "Sword",
+    "itemName": "Test Sword",
     "description": "A long, sharp blade.",
     "itemType":  "Weapon",
     "actionName": "Equip",
+	"itemCost": 0,
     "itemModifier": 0,
     "Stats": [
-      {
-        "StatType":  "Physical",
-        "BaseValue": 15,
-        "StatName": "Physical Attack"
-      },
-      {
-        "StatType":  "AttackSpeed",
-        "BaseValue": 2,
-        "StatName": "Attack Speed"
-      }
+		{
+		"StatType":  "Physical",
+		"BaseValue": 15,
+		"StatName": "Phys Atk"
+		},
+		{
+		"StatType":  "AttackSpeed",
+		"BaseValue": 2,
+		"StatName": "Atk Spd"
+		}
     ]
   },
   {
@@ -25,18 +80,19 @@
     "description": "A longer, sharper blade.",
     "itemType":  "Weapon",
     "actionName": "Equip",
+	"itemCost": 555,
     "itemModifier": 0,
     "Stats": [
-      {
-        "StatType":  "Physical",
-        "BaseValue": 25,
-        "StatName": "Physical Attack"
-      },
-      {
-        "StatType":  "AttackSpeed",
-        "BaseValue": 4,
-        "StatName": "Attack Speed"
-      }
+		{
+		"StatType":  "Physical",
+		"BaseValue": 25,
+		"StatName": "Phys Atk"
+		},
+		{
+		"StatType":  "AttackSpeed",
+		"BaseValue": 4,
+		"StatName": "Atk Spd"
+		}
     ]
   },
   {
@@ -45,22 +101,29 @@
     "description": "A big stick of wood",
     "itemType":  "Weapon",
     "actionName": "Equip",
+	"itemCost": 625,
     "itemModifier": 0,
     "Stats": [
-      {
-        "StatType":  "Physical",
-        "BaseValue": 50,
-        "StatName": "Physical Attack"
-      },
-      {
-        "StatType":  "AttackSpeed",
-        "BaseValue": 1,
-        "StatName": "Attack Speed"
-      }
+		{
+		"StatType":  "Physical",
+		"BaseValue": 45,
+		"StatName": "Phys Atk"
+		},
+		{
+		"StatType":  "Magical",
+		"BaseValue": 85,
+		"StatName": "Mag Atk"
+		},
+		{
+		"StatType":  "AttackSpeed",
+		"BaseValue": 1,
+		"StatName": "Atk Spd"
+		}
     ]
   },
+  // Potions
   {
-    "objectSlug": "potionlog",
+    "objectSlug": "potion",
     "itemName": "Log Potion",
     "description": "A potion that logs something to the console.",
     "itemType": "Consumable",

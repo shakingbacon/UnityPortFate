@@ -9,12 +9,14 @@ public class NewItem  {
     public string Description { get; set; }
     public string ActionName { get; set; }
     public string ItemName { get; set; }
+    public string ItemCost { get; set; }
     public bool ItemModifier { get; set; } 
     [JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
     public ItemTypes ItemType { get; set; }
 
     public enum ItemTypes
     {
+        Armor,
         Weapon,
         Consumable,
         Quest

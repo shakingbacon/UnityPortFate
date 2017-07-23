@@ -11,7 +11,8 @@ public class Player : MonoBehaviour {
     void Start()
     {
         this.currentHealth = this.maxHealth;
-        characterStats = new CharacterStats(10, 10, 10, 10);
+        characterStats = new CharacterStats(2, 5, 3, 3, 0, 0, 0, 0, 0, 0, 95, 95, 3, 1);
+
     }
 
     public void TakeDamage(int amount)

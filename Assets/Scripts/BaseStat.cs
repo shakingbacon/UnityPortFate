@@ -9,10 +9,19 @@ public class BaseStat
     public enum BaseStatType
     {
         Strength,
-        Intellegince,
+        Intelligence,
+        Agility,
+        Luck,
+        Health,
+        Mana,
         Physical,
         Magical,
         Armor,
+        Resist,
+        Hit,
+        Dodge,
+        Crit,
+        CritMulti,
         AttackSpeed
     }
 

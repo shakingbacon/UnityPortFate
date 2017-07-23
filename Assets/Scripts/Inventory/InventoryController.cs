@@ -22,10 +22,12 @@ public class InventoryController : MonoBehaviour {
 
         consumableController = GetComponent<ConsumableController>();
         playerWeaponController = GetComponent<PlayerWeaponController>();
-        GiveItem("Sword");
+        GiveItem("Test Sword");
         GiveItem("Log Potion");
         GiveItem("Longsword");
         GiveItem("Wooden Staff");
+        GiveItem("Leather Hat");
+        GiveItem("Leather Gloves");
     }
 
     //void Update()
