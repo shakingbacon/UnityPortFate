@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class Interactable : MonoBehaviour {
 
-    void OnTriggerEnter2D()
+    void OnTriggerEnter2D(Collider2D player)
     {
-        Interact();
+        if (player.tag == "Player")
+        {
+            Interact();
+        }
     }
 
     public virtual void Interact()

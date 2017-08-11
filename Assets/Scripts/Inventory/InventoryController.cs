@@ -41,7 +41,12 @@ public class InventoryController : MonoBehaviour {
     public void GiveItem(string itemName)
     {
         NewItem item = NewItemDatabase.Instance.GetItem(itemName);
-        //print(item.ItemName);
+        playerItems.Add(item);
+        UIEventHandler.ItemAddedToInventory(item);
+    }
+
+    public void GiveItem(NewItem item)
+    {
         playerItems.Add(item);
         UIEventHandler.ItemAddedToInventory(item);
 

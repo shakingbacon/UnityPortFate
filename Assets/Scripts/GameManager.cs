@@ -38,6 +38,10 @@ public class GameManager : MonoBehaviour {
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            OpenClosePage("Panel_Character");
+        }
         if (!invisibleWallOn && !inIntro && !ComputerScreen.computer.gameObject.activeInHierarchy)
         {
             if (Input.GetButtonDown("Skill"))

@@ -11,6 +11,12 @@ public class UIEventHandler : MonoBehaviour {
     public delegate void PlayerHealhEventHandler(int currentHealth, int maxHealth);
     public static event PlayerHealhEventHandler OnPlayerHealthChanged;
 
+    public delegate void StatsEventHandler();
+    public static event StatsEventHandler OnStatsChanged;
+
+    public delegate void PlayerLevelEventHandler();
+    public static event PlayerLevelEventHandler OnPlayerLevelChanged;
+
     // public 
 
     public static void ItemAddedToInventory(NewItem item)
@@ -23,10 +29,18 @@ public class UIEventHandler : MonoBehaviour {
         onItemEquipped(item);
     }
 
-    public static void HealthChanged(int maxHealth, int currentHealth)
+    public static void HealthChanged(int currentHealth, int maxHealth)
     {
-        OnPlayerHealthChanged(maxHealth, currentHealth);
+        OnPlayerHealthChanged(currentHealth, maxHealth);
     }
 
+    public static void StatsChanged()
+    {
+        OnStatsChanged();
+    }
 
+    public static void PlayerLevelChanged()
+    {
+        OnPlayerLevelChanged();
+    }
 }
