@@ -1,0 +1,32 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class EquipmentUIItem : MonoBehaviour {
+
+    public Item item;
+    public Image itemImage;
+
+    void Awake()
+    {
+        itemImage.sprite = Resources.Load<Sprite>("General/Sprites/Default Equip/" + name);
+    }
+
+    public void SetItem(Item item)
+    {
+        this.item = item;
+        SetupItemValues();
+    }
+
+    void SetupItemValues()
+    {
+        itemImage.sprite = Resources.Load<Sprite>("Icons/Items/" + item.ItemName);
+    }
+
+    public void OnSelectItemButton()
+    {
+        InventoryController.Instance.SetItemDetails(item, GetComponent<Button>());
+    }
+
+}

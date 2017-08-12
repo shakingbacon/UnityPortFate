@@ -5,6 +5,7 @@
     "itemName": "Leather Hat",
     "description": "A basic hat for mages",
     "itemType":  "Armor",
+	"armorType": "Head",
     "actionName": "Equip",
 	"itemCost": 450,
     "itemModifier": 0,
@@ -32,6 +33,7 @@
     "itemName": "Leather Gloves",
     "description": "Useful for handling objects",
     "itemType":  "Armor",
+	"armorType": "Hands",
     "actionName": "Equip",
 	"itemCost": 280,
     "itemModifier": 0,
@@ -58,6 +60,7 @@
     "itemName": "Test Sword",
     "description": "A long, sharp blade.",
     "itemType":  "Weapon",
+	"weaponType": "Sword",
     "actionName": "Equip",
 	"itemCost": 0,
     "itemModifier": 0,
@@ -100,6 +103,7 @@
     "itemName": "Wooden Staff",
     "description": "A big stick of wood",
     "itemType":  "Weapon",
+	"weaponType": "Staff",
     "actionName": "Equip",
 	"itemCost": 625,
     "itemModifier": 0,
@@ -128,6 +132,7 @@
     "description": "A potion that logs something to the console.",
     "itemType": "Consumable",
     "actionName": "Drink",
+	"itemCost": 0,
     "itemModifier": 0
   }
 ]
