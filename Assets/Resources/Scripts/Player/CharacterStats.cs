@@ -11,7 +11,7 @@ public class CharacterStats {
     {
         stats = new List<BaseStat>()
         {
-            new BaseStat(BaseStat.BaseStatType.Strength, strength, "Stength"),
+            new BaseStat(BaseStat.BaseStatType.Strength, strength, "Strength"),
             new BaseStat(BaseStat.BaseStatType.Intelligence, intel, "Intelligence"),
             new BaseStat(BaseStat.BaseStatType.Agility, agi, "Agility"),
             new BaseStat(BaseStat.BaseStatType.Luck, luck, "Luck"),

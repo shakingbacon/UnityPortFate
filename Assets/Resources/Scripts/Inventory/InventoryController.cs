@@ -30,6 +30,8 @@ public class InventoryController : MonoBehaviour {
         GiveItem("Wooden Staff");
         GiveItem("Leather Hat");
         GiveItem("Leather Gloves");
+        GiveItem("Strength Necklace");
+
     }
 
     //void Update()
@@ -52,6 +54,11 @@ public class InventoryController : MonoBehaviour {
         playerItems.Add(item);
         UIEventHandler.ItemAddedToInventory(item);
 
+    }
+
+    public void SetUnequipItemDetails(Item item, Button selectedButton, GameObject gameobj)
+    {
+        inventoryDetailsPanel.SetUnequipItem(item, selectedButton, gameobj);
     }
 
     public void SetItemDetails(Item item, Button selectedButton)

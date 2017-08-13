@@ -22,6 +22,21 @@ public class InventoryPanel : MonoBehaviour {
         UIEventHandler.OnItemEquipped += UpdateEquipment;
     }
 
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            if (!onInv)
+            {
+                InventoryButtonPress();
+            }
+            else
+            {
+                EquipmentButtonPress();
+            }
+        }
+    }
+
     public void InventoryButtonPress()
     {
         if (!onInv)
@@ -42,33 +57,18 @@ public class InventoryPanel : MonoBehaviour {
                 if (equip.name == item.ItemType.ToString())
                 {
                     equip.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("Icons/Items/" + item.ItemName);
+                   // equip.GetChild(0).GetComponent<Image>().SetNativeSize();
 
                 }
             }
             else if (equip.name == item.ArmorType.ToString())
             {
                 equip.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("Icons/Items/" + item.ItemName);
+                break;
+                //equip.GetChild(0).GetComponent<Image>().SetNativeSize();
             }
         }
     }
-
-
-    public void UnequipEquipmentButtonPress(GameObject equipment)
-    {
-        if (equipment.name != "Accessory")
-        {
-            if (equipment.name == "Weapon")
-            {
-                playerWeaponController.UnequipWeapon();
-            }
-            else if (playerArmorController.FindArmor(equipment.name).transform.childCount != 0)
-            {
-                playerArmorController.UnequipArmor(equipment.name);
-            }
-            equipment.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("General/Sprites/Default Equip/" + equipment.name);
-        }
-    }
-
 
     public void EquipmentButtonPress()
     {

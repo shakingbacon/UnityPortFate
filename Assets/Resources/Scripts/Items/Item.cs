@@ -42,7 +42,9 @@ public class Item  {
         Shield,
         Bottom,
         Boots,
-        Accessory
+        Necklace,
+        Ring,
+        Glyph
     }
 
 

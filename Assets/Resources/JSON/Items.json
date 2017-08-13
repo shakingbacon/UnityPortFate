@@ -41,7 +41,7 @@
 		{
 		"StatType":  "Agility",
 		"BaseValue": 1,
-		"StatName": "Agi"
+		"StatName": "Agility"
 		},
 		{
 		"StatType":  "Armor",
@@ -55,6 +55,26 @@
 		}
     ]
   },
+  // Accessory
+  	{
+    "objectSlug": "str_neck",
+    "itemName": "Strength Necklace",
+    "description": "Feel the strength",
+    "itemType":  "Armor",
+	"armorType": "Necklace",
+    "actionName": "Equip",
+	"itemCost": 1000,
+    "itemModifier": 0,
+    "Stats": [
+		{
+		"StatType":  "Strength",
+		"BaseValue": 10,
+		"StatName": "Strength"
+		}
+    ]
+  },
+
+  // Sword
   {
     "objectSlug": "sword",
     "itemName": "Test Sword",

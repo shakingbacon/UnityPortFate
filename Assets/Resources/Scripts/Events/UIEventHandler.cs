@@ -10,6 +10,7 @@ public class UIEventHandler : MonoBehaviour {
 
     public delegate void ItemNoneEventHandler();
     public static event ItemNoneEventHandler OnItemRemovedFromInventory;
+    public static event ItemNoneEventHandler OnItemUnequipped;
 
     public delegate void PlayerHealhEventHandler(int currentHealth, int maxHealth);
     public static event PlayerHealhEventHandler OnPlayerHealthChanged;
