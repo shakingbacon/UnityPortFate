@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Fireball : Projectile {
 
-
     void Start()
     {
         Range = 3f;
@@ -12,8 +11,6 @@ public class Fireball : Projectile {
         spawnPosition = transform.position;
         GetComponent<Rigidbody2D>().AddForce(Direction * 150f * GameManager.player.transform.localScale.x);
     }
-
-
 
     void OnTriggerEnter2D(Collider2D col)
     {

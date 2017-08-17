@@ -5,17 +5,18 @@ using UnityEngine.UI;
 
 
 public class PanelSkill : MonoBehaviour {
-    public Skill skill = new Skill();
+    public Skill skill = null;
     public Image skillImage;
     public Image cooldownCircle;
 
+    Sprite skillNullSprite;
     private float cooldownTotal;
     public float cooldownRemain;
-    //public float timer;
 
     void Start()
     {
-        skill = SkillDatabase.Instance.GetSkill("Fireball");
+        skillNullSprite = Resources.Load<Sprite>("Icons/UI/CrossBlue");
+        skillImage.sprite = skillNullSprite;
     }
 
     void Update()
@@ -30,6 +31,17 @@ public class PanelSkill : MonoBehaviour {
         }
     }
 
+    public void UpdateImage()
+    {
+        if (skill == null)
+        {
+            skillImage.sprite = skillNullSprite;
+        }
+        else
+        {
+            skillImage.sprite = Resources.Load<Sprite>("Icons/Skills/" + skill.skillName);
+        }
+    }
 
     public void SkillUsed()
     {

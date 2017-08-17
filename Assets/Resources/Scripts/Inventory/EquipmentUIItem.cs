@@ -27,7 +27,7 @@ public class EquipmentUIItem : MonoBehaviour {
     public void OnSelectItemButton()
     {
         if (itemImage.sprite.name != name)
-            InventoryController.Instance.SetUnequipItemDetails(ItemDatabase.Instance.GetItem(this.itemImage.sprite.name), GetComponent<Button>(), gameObject);
+            InventoryController.Instance.SetUnequipItemDetails(ItemDatabase.Instance.GetItem(itemImage.sprite.name), GetComponent<Button>());
     }
 
 }

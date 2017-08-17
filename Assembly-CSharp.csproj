@@ -71,10 +71,12 @@
      <Compile Include="Assets\Resources\Scripts\Inventory\PlayerArmorController.cs" />
      <Compile Include="Assets\Resources\Scripts\Items\Item.cs" />
      <Compile Include="Assets\Resources\Scripts\Items\ItemDatabase.cs" />
+     <Compile Include="Assets\Resources\Scripts\Items\ItemHolder.cs" />
      <Compile Include="Assets\Resources\Scripts\Items\Weapons\IProjectileWeapon.cs" />
      <Compile Include="Assets\Resources\Scripts\Items\Weapons\IWeapon.cs" />
      <Compile Include="Assets\Resources\Scripts\Items\Weapons\Staff.cs" />
      <Compile Include="Assets\Resources\Scripts\Items\Weapons\Sword.cs" />
+     <Compile Include="Assets\Resources\Scripts\Items\Weapons\Weapon.cs" />
      <Compile Include="Assets\Resources\Scripts\Player\BaseStat.cs" />
      <Compile Include="Assets\Resources\Scripts\Player\CameraFollow.cs" />
      <Compile Include="Assets\Resources\Scripts\Player\CharacterStats.cs" />
@@ -88,9 +90,13 @@
      <Compile Include="Assets\Resources\Scripts\Player\StatBonus.cs" />
      <Compile Include="Assets\Resources\Scripts\Skill\PlayerSkillController.cs" />
      <Compile Include="Assets\Resources\Scripts\Skill\Projectiles\Fireball.cs" />
+     <Compile Include="Assets\Resources\Scripts\Skill\Projectiles\MagicShot.cs" />
      <Compile Include="Assets\Resources\Scripts\Skill\Projectiles\Projectile.cs" />
      <Compile Include="Assets\Resources\Scripts\Skill\Skill.cs" />
      <Compile Include="Assets\Resources\Scripts\Skill\SkillDatabase.cs" />
+     <Compile Include="Assets\Resources\Scripts\Skill\SkillPanelContainer.cs" />
+     <Compile Include="Assets\Resources\Scripts\Skill\SkillPanelDetails.cs" />
+     <Compile Include="Assets\Resources\Scripts\Skill\SkillUI.cs" />
      <Compile Include="Assets\Resources\Scripts\UI\CharacterPanel.cs" />
      <Compile Include="Assets\Resources\Scripts\UI\DeathScreen.cs" />
      <Compile Include="Assets\Resources\Scripts\UI\DialogueSystem.cs" />

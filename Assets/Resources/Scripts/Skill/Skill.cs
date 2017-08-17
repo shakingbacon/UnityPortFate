@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 public class Skill {
 
     public string skillName;
-    public string skillDesc;
+    public string skillEffDesc;
     public int skillRank;
     public int skillMaxRank;
     public float skillCooldown;
@@ -20,10 +20,10 @@ public class Skill {
     }
 
     [Newtonsoft.Json.JsonConstructor]
-    public Skill(string name, string desc, int maxrank, SkillType type, SkillStyle style)
+    public Skill(string name, string effdesc, int maxrank, SkillType type, SkillStyle style)
     {
         this.skillName = name;
-        this.skillDesc = desc;
+        this.skillEffDesc = effdesc;
         this.skillRank = 0;
         this.skillMaxRank = maxrank;
         this.skillType = type;

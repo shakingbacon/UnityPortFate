@@ -1,7 +1,7 @@
 [
 	{
 		"skillName": "Fireball",
-		"skillDesc": "Big ball of Fire",
+		"skillEffDesc": "Shoot a straight ball of fire.\nDeals Magical Fire Damage",
 		"skillRank": 0,
 		"skillMaxRank": 5,
 		"skillCooldown": 3,

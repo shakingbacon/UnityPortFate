@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class InventoryUIItem : MonoBehaviour
 {
     public Item item;
-
     public Text itemText;
     public Image itemImage;
 

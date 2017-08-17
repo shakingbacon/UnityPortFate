@@ -20,6 +20,7 @@ public class InventoryPanel : MonoBehaviour {
         onInv = false;
         InventoryButtonPress();
         UIEventHandler.OnItemEquipped += UpdateEquipment;
+        UIEventHandler.OnItemUnequipped += UpdateItemUnequipped;
     }
 
     void Update()
@@ -69,6 +70,31 @@ public class InventoryPanel : MonoBehaviour {
             }
         }
     }
+    
+    public void UpdateItemUnequipped(Item item)
+    {
+        foreach (Transform equip in equipmentPanel.transform)
+        {
+            if (item.ItemType == Item.ItemTypes.Weapon)
+            {
+                if (equip.name == item.ItemType.ToString())
+                {
+                    equip.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("General/Sprites/Default Equip/" + item.ItemType);
+                    break;
+                }
+            }
+            else if (item.ItemType == Item.ItemTypes.Armor)
+            {
+                if (equip.name == item.ArmorType.ToString())
+                {
+                    equip.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("General/Sprites/Default Equip/" + item.ArmorType);
+                    break;
+                }
+            }
+        }
+    }
+
+
 
     public void EquipmentButtonPress()
     {

@@ -40,7 +40,7 @@ public class InventoryUIDetails : MonoBehaviour {
         itemInteractButton.onClick.AddListener(OnItemInteract);
     }
 
-    public void SetUnequipItem(Item item, Button selectedButton, GameObject gameobj)
+    public void SetUnequipItem(Item item, Button selectedButton)
     {
         gameObject.SetActive(true);
         statText.text = "";
@@ -57,21 +57,20 @@ public class InventoryUIDetails : MonoBehaviour {
         itemNameText.text = item.ItemName;
         itemDescriptionText.text = item.Description + "\nCost: $" + item.ItemCost;
         itemInteractButtonText.text = "Unequip";
-        itemInteractButton.onClick.AddListener(() => OnItemUnequip(gameobj));
+        itemInteractButton.onClick.AddListener(() => OnItemUnequip());
     }
 
 
-    public void OnItemUnequip(GameObject gameobj)
+    public void OnItemUnequip()
     {
         if (item.ItemType == Item.ItemTypes.Weapon)
         {
-            InventoryController.Instance.playerWeaponController.UnequipWeapon();
+            InventoryController.Instance.playerWeaponController.UnequipWeapon(item);
         }
         else if (item.ItemType == Item.ItemTypes.Armor)
         {
-            InventoryController.Instance.playerArmorController.UnequipArmor(gameobj);
+            InventoryController.Instance.playerArmorController.UnequipArmor(item);
         }
-        UIEventHandler.ItemAddedToInventory(item);
         item = null;
         gameObject.SetActive(false);
 

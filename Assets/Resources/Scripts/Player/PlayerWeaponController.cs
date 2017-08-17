@@ -12,40 +12,60 @@ public class PlayerWeaponController : MonoBehaviour {
     IWeapon equippedWeapon;
     CharacterStats characterStats;
     InventoryController inventoryController;
-    PlayerSkillController playerSkillController;
+    public PlayerSkillController playerSkillController;
 
     void Start()
     {
         spawnProjectile = transform.FindChild("ProjectileSpawn");
         characterStats = GetComponent<Player>().characterStats;
         inventoryController = GetComponent<InventoryController>();
-        playerSkillController = GetComponent<PlayerSkillController>();
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            if (!EquippedWeapon.GetComponent<Animator>().GetBool("IsLastAnimation"))
-            {
-                PanelSkill panel = playerSkillController.skillPanel.transform.GetChild(0).GetComponent<PanelSkill>();
-                if (!(panel.cooldownRemain > 0))
-                {
-                    playerSkillController.usingSkillName = panel.skill.skillName;
-                    panel.SkillUsed();
-                    PerformSkill();
-                }
-            }
-        }
+        if (Input.GetKeyDown(KeyCode.Q)) ActivateHotKeySkill(0);
+        if (Input.GetKeyDown(KeyCode.W)) ActivateHotKeySkill(1);
+        if (Input.GetKeyDown(KeyCode.E)) ActivateHotKeySkill(2);
+        if (Input.GetKeyDown(KeyCode.R)) ActivateHotKeySkill(3);
+        if (Input.GetKeyDown(KeyCode.A)) ActivateHotKeySkill(4);
+        if (Input.GetKeyDown(KeyCode.S)) ActivateHotKeySkill(5);
+        if (Input.GetKeyDown(KeyCode.D)) ActivateHotKeySkill(6);
+        if (Input.GetKeyDown(KeyCode.F)) ActivateHotKeySkill(7);
+
         if (Input.GetKeyDown(KeyCode.X) && EquippedWeapon != null)
         {
             PerformWeaponAttack();
         }
     }
 
+    public void ActivateHotKeySkill(int index)
+    {
+        PanelSkill panel = playerSkillController.skillPanel.transform.GetChild(index).GetComponent<PanelSkill>();
+        if (EquippedWeapon != null && panel.skill != null && !EquippedWeapon.GetComponent<Animator>().GetBool("IsLastAnimation"))
+        {
+            if (!(panel.cooldownRemain > 0))
+            {
+                playerSkillController.UsingSkill = panel.skill;
+                foreach (Transform skill in playerSkillController.skillPanel.transform)
+                {
+                    if (skill.GetComponent<PanelSkill>().skill != null)
+                    {
+                        if (skill.GetComponent<PanelSkill>().skill.skillName == panel.skill.skillName)
+                        {
+                            skill.GetComponent<PanelSkill>().SkillUsed();
+                        }
+                    }
+
+                }
+                    PerformSkill();
+            }
+        }
+    }
+
+
     public void EquipWeapon(Item itemToEquip)
     {
-        UnequipWeapon();
+        UnequipWeapon(itemToEquip);
         EquippedWeapon = (GameObject)Instantiate(Resources.Load<GameObject>("Prefabs/Items/Weapons/" + itemToEquip.ItemName), playerHand.transform);
         if (EquippedWeapon.GetComponent<IProjectileWeapon>() != null)
         {
@@ -62,7 +82,7 @@ public class PlayerWeaponController : MonoBehaviour {
         UIEventHandler.StatsChanged();
     }
 
-    public void UnequipWeapon()
+    public void UnequipWeapon(Item item)
     {
         if (EquippedWeapon != null)
         {
@@ -70,6 +90,7 @@ public class PlayerWeaponController : MonoBehaviour {
             characterStats.RemoveStatBonus(equippedWeapon.Stats);
             inventoryController.GiveItem(currentlyEquippedItem.ItemName);
             Destroy(playerHand.transform.GetChild(0).gameObject);
+            UIEventHandler.ItemUnequipped(item);
             UIEventHandler.StatsChanged();
         }
     }

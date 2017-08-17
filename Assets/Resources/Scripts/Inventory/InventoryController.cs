@@ -56,9 +56,9 @@ public class InventoryController : MonoBehaviour {
 
     }
 
-    public void SetUnequipItemDetails(Item item, Button selectedButton, GameObject gameobj)
+    public void SetUnequipItemDetails(Item item, Button selectedButton)
     {
-        inventoryDetailsPanel.SetUnequipItem(item, selectedButton, gameobj);
+        inventoryDetailsPanel.SetUnequipItem(item, selectedButton);
     }
 
     public void SetItemDetails(Item item, Button selectedButton)

@@ -21,6 +21,7 @@ public class CharacterPanel : MonoBehaviour {
         UIEventHandler.OnPlayerLevelChanged += UpdateLevel;
         InitializeStats();
         player.TakeDamage(5);
+        gameObject.SetActive(false);
     }
 
 

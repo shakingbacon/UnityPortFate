@@ -3,38 +3,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Staff : MonoBehaviour, IWeapon, IProjectileWeapon
+public class Staff : Weapon, IProjectileWeapon
 {
-    Animator animator;
-    public bool InAnimation { get; set; }
-    public List<BaseStat> Stats { get; set; }
     public Transform ProjectileSpawn { get; set; }
-    public int CurrentDamage { get; set; }
 
-    public PlayerSkillController playerSkillController { get; set; }
-    Fireball fireball;
+    MagicShot magicShot;
 
     void Start()
     {
-        fireball = Resources.Load<Fireball>("Prefabs/Items/Projectiles/Fireball");
-        animator = GetComponent<Animator>();
-    }
-
-    public void PerformAttack(int damage)
-    {
-        
-        animator.SetTrigger("Basic Attack");
-    }
-
-    public void PerformSkillAnimation()
-    {
-        animator.SetTrigger("");
+        magicShot = Resources.Load<MagicShot>("Prefabs/Projectiles/MagicShot");
     }
 
     public void CastProjectile()
     {
-        Fireball fireballInstance = (Fireball)Instantiate(fireball, ProjectileSpawn.position, ProjectileSpawn.rotation);
-        fireballInstance.Direction = ProjectileSpawn.right;
-        fireballInstance.transform.localScale = GameManager.player.transform.localScale;
+        MagicShot shotProj = Instantiate(magicShot, ProjectileSpawn.position, ProjectileSpawn.rotation);
+        shotProj.Damage = (int)(CurrentDamage * 0.45f);
+        shotProj.Direction = ProjectileSpawn.right;
+        shotProj.transform.localScale = GameManager.player.transform.localScale;
     }
 }
