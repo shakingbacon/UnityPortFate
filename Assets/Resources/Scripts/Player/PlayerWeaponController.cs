@@ -12,12 +12,35 @@ public class PlayerWeaponController : MonoBehaviour {
     IWeapon equippedWeapon;
     CharacterStats characterStats;
     InventoryController inventoryController;
+    PlayerSkillController playerSkillController;
 
     void Start()
     {
         spawnProjectile = transform.FindChild("ProjectileSpawn");
         characterStats = GetComponent<Player>().characterStats;
         inventoryController = GetComponent<InventoryController>();
+        playerSkillController = GetComponent<PlayerSkillController>();
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            if (!EquippedWeapon.GetComponent<Animator>().GetBool("IsLastAnimation"))
+            {
+                PanelSkill panel = playerSkillController.skillPanel.transform.GetChild(0).GetComponent<PanelSkill>();
+                if (!(panel.cooldownRemain > 0))
+                {
+                    playerSkillController.usingSkillName = panel.skill.skillName;
+                    panel.SkillUsed();
+                    PerformSkill();
+                }
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.X) && EquippedWeapon != null)
+        {
+            PerformWeaponAttack();
+        }
     }
 
     public void EquipWeapon(Item itemToEquip)
@@ -33,6 +56,7 @@ public class PlayerWeaponController : MonoBehaviour {
         equippedWeapon.Stats = itemToEquip.Stats;
         currentlyEquippedItem = itemToEquip;
         EquippedWeapon.transform.SetParent(playerHand.transform);
+        equippedWeapon.playerSkillController = playerSkillController;
         SoundDatabase.PlaySound(0);
         UIEventHandler.ItemEquipped(itemToEquip);
         UIEventHandler.StatsChanged();
@@ -50,17 +74,14 @@ public class PlayerWeaponController : MonoBehaviour {
         }
     }
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.X) && EquippedWeapon != null)
-        {
-            PerformWeaponAttack();
-        }
-    }
-
     public void PerformWeaponAttack()
     {
         equippedWeapon.PerformAttack(CalculateDamage());
+    }
+    
+    public void PerformSkill()
+    {
+        equippedWeapon.PerformSkillAnimation();
     }
 
     private int CalculateDamage()

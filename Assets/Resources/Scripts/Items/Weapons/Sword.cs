@@ -9,10 +9,16 @@ public class Sword : MonoBehaviour, IWeapon
     public List<BaseStat> Stats { get; set; }
     public CharacterStats CharacterStats { get; set; }
     public int CurrentDamage { get; set; }
+    public PlayerSkillController playerSkillController { get; set; }
 
     void Start()
     {
         animator = GetComponent<Animator>();
+    }
+
+    public void ActivateSkill()
+    {
+        playerSkillController.ActivateSkill(playerSkillController.usingSkillName);
     }
 
     public void PerformAttack(int damage)
@@ -25,9 +31,12 @@ public class Sword : MonoBehaviour, IWeapon
         }
     }
 
-    public void PerformSpecialAttack()
+    public void PerformSkillAnimation()
     {
-        animator.SetTrigger("");
+        if (!animator.GetBool("IsLastAnimation"))
+        {
+            animator.SetTrigger("Skill");
+        }
     }
 
     void OnTriggerEnter2D(Collider2D col)
@@ -35,7 +44,7 @@ public class Sword : MonoBehaviour, IWeapon
         if (col.tag == "Enemy")
         {
             col.GetComponent<IEnemy>().TakeDamage((int)(CurrentDamage * animator.GetFloat("DamageOutput")));
-;        }
+        }
     }
 
     public void IsLastAnimation()
@@ -46,6 +55,16 @@ public class Sword : MonoBehaviour, IWeapon
     public void EndLastAnimation()
     {
         animator.SetBool("IsLastAnimation", false);
+    }
+
+    public void PlayerCantMove()
+    {
+        PlayerMovement.cantMove = true;
+    }
+
+    public void PlayerCanMove()
+    {
+        PlayerMovement.cantMove = false;
     }
 
     public void SetDamageOutput(float dmg)

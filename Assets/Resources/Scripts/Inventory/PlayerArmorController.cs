@@ -74,7 +74,7 @@ public class PlayerArmorController : MonoBehaviour {
 
     public void UnequipArmor(GameObject equipment)
     {
-        print(equipment.transform.GetChild(0).GetComponent<Image>().sprite.name);
+        //print(equipment.transform.GetChild(0).GetComponent<Image>().sprite.name);
         Item item = ItemDatabase.Instance.GetItem(equipment.transform.GetChild(0).GetComponent<Image>().sprite.name);
         string type = equipment.name;
         GameObject place;

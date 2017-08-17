@@ -1,0 +1,12 @@
+[
+	{
+		"skillName": "Fireball",
+		"skillDesc": "Big ball of Fire",
+		"skillRank": 0,
+		"skillMaxRank": 5,
+		"skillCooldown": 3,
+		"skillType": "Magical",
+		"skillStyle": "Projectile"
+	}
+
+]

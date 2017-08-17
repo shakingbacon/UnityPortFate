@@ -12,13 +12,13 @@ public class Warp : MonoBehaviour {
         {
             ScreenFader.img.enabled = true;
             SoundDatabase.PlaySound(16);
-            GameManager.cantMove = true;
+            PlayerMovement.cantMove = true;
             yield return StartCoroutine(ScreenFader.FadeToBlack());
             SoundDatabase.PlayMusic(musicID);
             other.gameObject.transform.position = goToTarget.position;
             Camera.main.transform.position = goToTarget.position;
             yield return StartCoroutine(ScreenFader.FadeToClear());
-            GameManager.cantMove = false;
+            PlayerMovement.cantMove = false;
             ScreenFader.img.enabled = false;    
         }
     }

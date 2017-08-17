@@ -6,7 +6,8 @@ public class PlayerMovement : MonoBehaviour {
     private Rigidbody2D rbody;
     Animator anim;
     public float moveSpeed;
-
+    public static bool cantMove = false;
+    
 	// Use this for initialization
 	void Start () {
         rbody = GetComponent<Rigidbody2D>();
@@ -17,7 +18,7 @@ public class PlayerMovement : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (!GameManager.inBattle && !GameManager.inIntro && !GameManager.cantMove)
+        if (!GameManager.inBattle && !GameManager.inIntro && !cantMove)
         {
             Vector2 moveVect = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
             if (moveVect.x == -1)

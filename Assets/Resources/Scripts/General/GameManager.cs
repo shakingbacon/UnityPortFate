@@ -11,7 +11,6 @@ public class GameManager : MonoBehaviour {
     public static bool inBattle;
     public static bool inTutorial;
     public static bool inIntro;
-    public static bool cantMove;
     public static bool inMonsterArea;
     public static bool thereIsShop = false;
     public bool setupBattle;
