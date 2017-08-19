@@ -8,6 +8,7 @@ public class PanelSkill : MonoBehaviour {
     public Skill skill = null;
     public Image skillImage;
     public Image cooldownCircle;
+    public Text key;
 
     Sprite skillNullSprite;
     private float cooldownTotal;
@@ -17,6 +18,7 @@ public class PanelSkill : MonoBehaviour {
     {
         skillNullSprite = Resources.Load<Sprite>("Icons/UI/CrossBlue");
         skillImage.sprite = skillNullSprite;
+        key.text = gameObject.name;
     }
 
     void Update()
@@ -54,5 +56,4 @@ public class PanelSkill : MonoBehaviour {
         cooldownCircle.fillAmount = cooldownRemain / cooldownTotal;
         cooldownRemain -= Time.deltaTime;
     }
-
 }

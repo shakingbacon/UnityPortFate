@@ -51,6 +51,7 @@
      <Compile Include="Assets\Resources\Scripts\Enemies\Gator.cs" />
      <Compile Include="Assets\Resources\Scripts\Enemies\IEnemy.cs" />
      <Compile Include="Assets\Resources\Scripts\Events\CombatEvents.cs" />
+     <Compile Include="Assets\Resources\Scripts\Events\SkillEvents.cs" />
      <Compile Include="Assets\Resources\Scripts\Events\UIEventHandler.cs" />
      <Compile Include="Assets\Resources\Scripts\General\DropTable\DropTable.cs" />
      <Compile Include="Assets\Resources\Scripts\General\GameManager.cs" />

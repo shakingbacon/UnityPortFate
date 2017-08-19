@@ -57,4 +57,5 @@ public class PlayerSkillController : MonoBehaviour {
         }
         projectile.transform.localScale = new Vector3(1, 1, 1);
     }
+
 }

@@ -64,8 +64,9 @@ public class SkillPanelDetails : MonoBehaviour {
         panelSkill.skill = skill;
         panelSkill.UpdateImage();
         hotkeyAssign.SetActive(!hotkeyAssign.activeInHierarchy);
-        
     }
+
+
 
 
 }

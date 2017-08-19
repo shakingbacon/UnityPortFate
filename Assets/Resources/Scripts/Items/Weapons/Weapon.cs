@@ -12,6 +12,7 @@ public class Weapon : MonoBehaviour, IWeapon {
     void Awake()
     {
         Animator = GetComponent<Animator>();
+        Animator.SetFloat("AttackSpeed", 2f);
     }
 
     public virtual void SetDamageOutput(float dmg)
@@ -61,6 +62,7 @@ public class Weapon : MonoBehaviour, IWeapon {
     public virtual void ActivateSkill()
     {
         playerSkillController.ActivateSkill(playerSkillController.UsingSkill);
+        UIEventHandler.SkillUsed();
     }
 
     // Collider

@@ -19,6 +19,7 @@ public class PlayerWeaponController : MonoBehaviour {
         spawnProjectile = transform.FindChild("ProjectileSpawn");
         characterStats = GetComponent<Player>().characterStats;
         inventoryController = GetComponent<InventoryController>();
+        UIEventHandler.OnSkillUse += UpdatePanelCooldowns;
     }
 
     void Update()
@@ -46,18 +47,22 @@ public class PlayerWeaponController : MonoBehaviour {
             if (!(panel.cooldownRemain > 0))
             {
                 playerSkillController.UsingSkill = panel.skill;
-                foreach (Transform skill in playerSkillController.skillPanel.transform)
-                {
-                    if (skill.GetComponent<PanelSkill>().skill != null)
-                    {
-                        if (skill.GetComponent<PanelSkill>().skill.skillName == panel.skill.skillName)
-                        {
-                            skill.GetComponent<PanelSkill>().SkillUsed();
-                        }
-                    }
+                PerformSkill();
+            }
+        }
+    }
 
+
+    public void UpdatePanelCooldowns()
+    {
+        foreach (Transform skill in playerSkillController.skillPanel.transform)
+        {
+            if (skill.GetComponent<PanelSkill>().skill != null)
+            {
+                if (skill.GetComponent<PanelSkill>().skill.skillID == playerSkillController.UsingSkill.skillID)
+                {
+                    skill.GetComponent<PanelSkill>().SkillUsed();
                 }
-                    PerformSkill();
             }
         }
     }

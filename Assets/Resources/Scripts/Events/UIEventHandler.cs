@@ -25,7 +25,10 @@ public class UIEventHandler : MonoBehaviour {
     public delegate void SkillEventHandler(Skill skill);
     public static event SkillEventHandler OnSkillLearn;
 
-    // public 
+    public delegate void SkillNoneEventHandler();
+    public static event SkillNoneEventHandler OnSkillUse;
+
+    public static void SkillUsed() { OnSkillUse(); }
 
     public static void SkillLearned(Skill skill)
     {

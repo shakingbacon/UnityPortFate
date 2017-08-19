@@ -39,4 +39,17 @@ public class SkillDatabase : MonoBehaviour {
         Debug.LogWarning("COULDNT FIND ITEM: " + skillName);
         return null;
     }
+
+    public Skill GetSkill(int id)
+    {
+        foreach (Skill skill in Skills)
+        {
+            if (skill.skillID == id)
+            {
+                return skill;
+            }
+        }
+        Debug.LogWarning("COULDNT FIND ITEM WITH ID" + id);
+        return null;
+    }
 }
