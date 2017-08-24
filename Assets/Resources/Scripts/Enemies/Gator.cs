@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class Gator : MonoBehaviour, IEnemy
 {
+    public Animator Animator { get; set; }
     //public LayerMask aggroLayerMask;
     public int currentHealth, strength, defense;
     public int maxHealth;
@@ -17,11 +18,16 @@ public class Gator : MonoBehaviour, IEnemy
     public int Experience { get; set; }
     public DropTable DropTable { get; set; }
     public PickupItem pickupItem;
+
+    public EnemyHealthBar healthBar;
     //private Collider2D[] withinAggroCollider;
 
 
     void Awake()
     {
+        healthBar = EnemyHealthBarController.CreateHealthBar(transform);
+        print("GG");
+        Animator = GetComponent<Animator>();
         DropTable = new DropTable();
         DropTable.loot = new List<LootDrop>
         {
@@ -34,7 +40,6 @@ public class Gator : MonoBehaviour, IEnemy
         characterStats = new CharacterStats(5,1,5,5, 275, 100, 100, 25, 40, 10, 95, 5, 4, 1);
         maxHealth = currentHealth;
     }
-
     //void FixedUpdate()
     //{
     //    withinAggroCollider = Physics2D.OverlapCircleAll(new Vector2(transform.position.x, transform.position.y), 5, aggroLayerMask);
@@ -53,9 +58,12 @@ public class Gator : MonoBehaviour, IEnemy
     public void TakeDamage(int amount)
     {
         currentHealth -= amount;
+        healthBar.SetSliderValue(currentHealth, maxHealth);
+        FloatingTextController.CreateFloatingText(amount.ToString(), gameObject.transform);
         if (currentHealth <= 0)
         {
-            Die();
+            Destroy(healthBar.gameObject);
+            PlayDeathAnim();
         }
     }
 
@@ -64,6 +72,11 @@ public class Gator : MonoBehaviour, IEnemy
     //    this.player = player;
     //    navAgent.destination = (player.transform.position);
     //}
+
+    public void PlayDeathAnim()
+    {
+        Animator.SetTrigger("Die");
+    }
 
     public void Die()
     {

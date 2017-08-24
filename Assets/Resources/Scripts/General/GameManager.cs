@@ -17,12 +17,14 @@ public class GameManager : MonoBehaviour {
     public static bool hoveringBattleStatus;
     public static Transform hoveringBattleStatusParent;
 
-    void Start()
+    void Awake()
     {  
         //StartCoroutine(ScreenFader.FadeToClear());
         player = GameObject.FindGameObjectWithTag("Player");
         Camera.main.transform.position = player.transform.position;
         version = "Dev.v6.0";
+        FloatingTextController.Initialize();
+        EnemyHealthBarController.Initialize();
 
     }
 

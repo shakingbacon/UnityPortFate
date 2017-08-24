@@ -8,6 +8,8 @@ public class Projectile : MonoBehaviour {
     public int Damage { get; set; }
     [HideInInspector]public Vector3 spawnPosition;
 
+    int soundID;
+
     void Update()
     {
         if (Vector3.Distance(spawnPosition, transform.position) >= Range)
@@ -15,6 +17,13 @@ public class Projectile : MonoBehaviour {
             Extinguish();
         }
     }
+
+    public virtual void SoundHit()
+    {
+        SoundDatabase.PlaySound(soundID);
+    }
+
+    public void SetSound(int id) { soundID = id; }
 
     public virtual void Extinguish()
     {
@@ -25,7 +34,9 @@ public class Projectile : MonoBehaviour {
     {
         if (col.transform.tag == "Enemy")
         {
-            Debug.Log("Hit an Enemy");
+            //Debug.Log("Hit an Enemy");
+            SoundHit();
+            col.gameObject.GetComponent<IEnemy>().TakeDamage(Damage);
             Extinguish();
         }
     }

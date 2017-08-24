@@ -99,6 +99,10 @@
      <Compile Include="Assets\Resources\Scripts\Skill\SkillPanelDetails.cs" />
      <Compile Include="Assets\Resources\Scripts\Skill\SkillUI.cs" />
      <Compile Include="Assets\Resources\Scripts\UI\CharacterPanel.cs" />
+     <Compile Include="Assets\Resources\Scripts\UI\Damage Popup\EnemyHealthBar.cs" />
+     <Compile Include="Assets\Resources\Scripts\UI\Damage Popup\EnemyHealthBarController.cs" />
+     <Compile Include="Assets\Resources\Scripts\UI\Damage Popup\FloatingText.cs" />
+     <Compile Include="Assets\Resources\Scripts\UI\Damage Popup\FloatingTextController.cs" />
      <Compile Include="Assets\Resources\Scripts\UI\DeathScreen.cs" />
      <Compile Include="Assets\Resources\Scripts\UI\DialogueSystem.cs" />
      <Compile Include="Assets\Resources\Scripts\UI\Intro.cs" />

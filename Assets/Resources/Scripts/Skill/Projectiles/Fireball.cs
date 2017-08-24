@@ -10,16 +10,7 @@ public class Fireball : Projectile {
         Damage = 15;
         spawnPosition = transform.position;
         GetComponent<Rigidbody2D>().AddForce(Direction * 150f * GameManager.player.transform.localScale.x);
-    }
-
-    void OnTriggerEnter2D(Collider2D col)
-    {
-        if (col.transform.tag == "Enemy")
-        {
-            SoundDatabase.PlaySound(13);
-            col.gameObject.GetComponent<IEnemy>().TakeDamage(Damage);
-            Extinguish();
-        }
+        SetSound(13);
     }
 
 }

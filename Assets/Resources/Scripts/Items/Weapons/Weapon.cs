@@ -9,6 +9,9 @@ public class Weapon : MonoBehaviour, IWeapon {
     public PlayerSkillController playerSkillController { get; set; }
     public int CurrentDamage { get; set; }
 
+
+    int collideSoundID = -1;
+
     void Awake()
     {
         Animator = GetComponent<Animator>();
@@ -65,11 +68,22 @@ public class Weapon : MonoBehaviour, IWeapon {
         UIEventHandler.SkillUsed();
     }
 
+    public void SetCollideSound(int id)
+    {
+        collideSoundID = id;
+    }
+
+    public virtual void SoundHit()
+    {
+        SoundDatabase.PlaySound(collideSoundID);
+    }
     // Collider
     void OnTriggerEnter2D(Collider2D col)
     {
         if (col.tag == "Enemy")
         {
+            SoundHit();
+            print((int)(CurrentDamage * Animator.GetFloat("DamageOutput")));
             col.GetComponent<IEnemy>().TakeDamage((int)(CurrentDamage * Animator.GetFloat("DamageOutput")));
         }
     }
