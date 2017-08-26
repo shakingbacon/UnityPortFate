@@ -6,52 +6,84 @@ using UnityEngine.UI;
 public class DialogueSystem : MonoBehaviour {
     public static DialogueSystem Instance { get; set; }
     public GameObject dialoguePanel;
-    public string npcName;
-    public static List<string> dialogueLines = new List<string>();
+    public NPCInfo CurrentNPC { get; set; }
+    //public string npcName;
+    public List<string> dialogueLines = new List<string>();
+    public bool canContinueDialouge = true;
 
-    Button continueButton;
     Text dialogueText, nameText;
-    public int dialogueIndex;
+    int dialogueIndex;
+    bool shownQuest;
+    //int questID;
 
 	void Awake()
     {
-        continueButton = dialoguePanel.transform.FindChild("Continue").GetComponent<Button>();
-        continueButton.onClick.AddListener(ContinueDialogue);
         dialogueText = dialoguePanel.transform.FindChild("Dialogue Text").GetComponent<Text>();
         nameText = dialoguePanel.transform.FindChild("NPC Name").GetComponentInChildren<Text>();
         dialoguePanel.SetActive(false);
         Instance = dialoguePanel.GetComponent<DialogueSystem>();
 	}
     
-    public void AddNewDialogue(string[] lines, string npcname)
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            ContinueDialogue();
+        }
+    }
+
+    public void AddNewNPC(NPCInfo npc, string[] lines)
     {
         SoundDatabase.PlaySound(18);
-        dialogueIndex = 0;
-        dialogueLines = new List<string>(lines.Length);
-        npcName = npcname;
-        dialogueLines.AddRange(lines);
+        shownQuest = false;
+        CurrentNPC = npc;
+        MakeDialouge(lines);
+    }
+
+    public void MakeDialouge(string[] lines)
+    {
+        PlayerMovement.cantMove = true;
+        canContinueDialouge = true;
+        SetDialouge(lines);
         CreateDialogue();
     }
 
-    public void CreateDialogue()
+    void SetDialouge(string[] lines)
+    {
+        dialogueIndex = 0;
+        dialogueLines = new List<string>(lines.Length);
+        dialogueLines.AddRange(lines);
+    }
+
+    void CreateDialogue()
     {
         dialogueText.text = dialogueLines[dialogueIndex];
-        nameText.text = npcName;
+        nameText.text = CurrentNPC.npcName;
         dialoguePanel.SetActive(true);
     }
 
     public void ContinueDialogue()
     {
-        SoundDatabase.PlaySound(34);
-        if (dialogueIndex < dialogueLines.Count - 1 || dialogueLines.Count == 1)
+        if (canContinueDialouge)
         {
-            dialogueIndex += 1;
-            dialogueText.text = dialogueLines[dialogueIndex];
-        }
-        else
-        {
-            dialoguePanel.SetActive(false);
-            npcName = "";
+            SoundDatabase.PlaySound(34);
+            if (dialogueIndex < dialogueLines.Count - 1)
+            {
+                dialogueIndex += 1;
+                string text = dialogueLines[dialogueIndex];
+                dialogueText.text = text;
+                if (!shownQuest && dialogueLines.Count - 1 == dialogueIndex && CurrentNPC.npcQuestID != -1)
+                {
+                    PlayerQuestController.Instance.CreateQuestAgreement(CurrentNPC.npcQuestID);
+                    canContinueDialouge = false;
+                    shownQuest = true;
+                }
+            }
+            else
+            {
+                PlayerMovement.cantMove = false;
+                dialoguePanel.SetActive(false);
+            }
         }
     }
 }

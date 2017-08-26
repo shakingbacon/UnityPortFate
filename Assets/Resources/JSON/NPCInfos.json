@@ -1,0 +1,14 @@
+[
+	{
+		"npcName": "Clean Booga",
+		"npcID": 0,
+        "npcQuestID": 0,
+        "defaultText": ["What's up?"],
+        "questAskText":  ["Hey, I need you to kill those Gators.", "There should be a lot on the right side.", "Compelete this quest and I'll reward you."],
+        "questAcceptText": ["Alright then, let me teach you some basics.", "Press the I key to open your inventory. You can equip items from here.", 
+		"You should equip the weapon in your inventory.", "While holding a weapon, press the X key to perform a basic attack", "Tap repeatedly to combo!"],
+        "questDeclineText": ["You are a fucking retard.", "Do you not want to progress in this game?"],
+        "questInProgressText": ["Go kill the Gators then come back to me."]
+	}
+
+]

@@ -7,7 +7,7 @@ public class Weapon : MonoBehaviour, IWeapon {
     public Animator Animator { get; set; }
     public List<BaseStat> Stats { get; set; }
     public PlayerSkillController playerSkillController { get; set; }
-    public int CurrentDamage { get; set; }
+    public Damage CurrentDamage { get; set; }
 
 
     int collideSoundID = -1;
@@ -15,7 +15,7 @@ public class Weapon : MonoBehaviour, IWeapon {
     void Awake()
     {
         Animator = GetComponent<Animator>();
-        Animator.SetFloat("AttackSpeed", 2f);
+        //Animator.SetFloat("AttackSpeed", 2f);
     }
 
     public virtual void SetDamageOutput(float dmg)
@@ -23,12 +23,12 @@ public class Weapon : MonoBehaviour, IWeapon {
         Animator.SetFloat("DamageOutput", dmg);
     }
 
-    public virtual void PerformAttack(int damage)
+    public virtual void PerformAttack(Damage damage)
     {
         if (!Animator.GetBool("IsLastAnimation"))
         {
             CurrentDamage = damage;
-            Debug.Log("damage dealt: " + damage);
+            //Debug.Log("damage dealt: " + damage);
             Animator.SetTrigger("Basic Attack");
         }
     }
@@ -73,18 +73,21 @@ public class Weapon : MonoBehaviour, IWeapon {
         collideSoundID = id;
     }
 
-    public virtual void SoundHit()
+    public virtual void OnHit()
     {
-        SoundDatabase.PlaySound(collideSoundID);
+        if (CurrentDamage.DidCrit)
+            SoundDatabase.PlaySound(11);
+        else
+            SoundDatabase.PlaySound(collideSoundID);
     }
     // Collider
     void OnTriggerEnter2D(Collider2D col)
     {
         if (col.tag == "Enemy")
         {
-            SoundHit();
-            print((int)(CurrentDamage * Animator.GetFloat("DamageOutput")));
-            col.GetComponent<IEnemy>().TakeDamage((int)(CurrentDamage * Animator.GetFloat("DamageOutput")));
+            OnHit();
+           // print((int)(CurrentDamage * Animator.GetFloat("DamageOutput")));
+            col.GetComponent<IEnemy>().TakeDamage((int)(CurrentDamage.Amount * Animator.GetFloat("DamageOutput")));
         }
     }
 }

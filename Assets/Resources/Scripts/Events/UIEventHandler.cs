@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class UIEventHandler : MonoBehaviour {
 
+    // Inventory Equipment
     public delegate void ItemEventHandler(Item item);
     public static event ItemEventHandler OnItemAddedToInventory;
     public static event ItemEventHandler OnItemEquipped;
@@ -13,6 +14,7 @@ public class UIEventHandler : MonoBehaviour {
     public delegate void ItemNoneEventHandler();
     public static event ItemNoneEventHandler OnItemRemovedFromInventory;
 
+    // Player
     public delegate void PlayerHealhEventHandler(int currentHealth, int maxHealth);
     public static event PlayerHealhEventHandler OnPlayerHealthChanged;
 
@@ -22,11 +24,21 @@ public class UIEventHandler : MonoBehaviour {
     public delegate void PlayerLevelEventHandler();
     public static event PlayerLevelEventHandler OnPlayerLevelChanged;
 
+    // Skill
     public delegate void SkillEventHandler(Skill skill);
     public static event SkillEventHandler OnSkillLearn;
 
     public delegate void SkillNoneEventHandler();
     public static event SkillNoneEventHandler OnSkillUse;
+
+    // Quest
+    public delegate void QuestEventHandler(Quest quest);
+    public static event QuestEventHandler OnQuestAccepted;
+
+    public static void QuestAccepted(Quest quest)
+    {
+        OnQuestAccepted(quest);
+    }
 
     public static void SkillUsed() { OnSkillUse(); }
 

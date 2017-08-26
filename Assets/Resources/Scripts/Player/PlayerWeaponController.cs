@@ -110,22 +110,24 @@ public class PlayerWeaponController : MonoBehaviour {
         equippedWeapon.PerformSkillAnimation();
     }
 
-    private int CalculateDamage()
+    private Damage CalculateDamage()
     {
-        int damageToDeal = 0;
-        damageToDeal = ((characterStats.GetStat(BaseStat.BaseStatType.Physical).GetCalcStatValue() * 2) +
+        Damage dmg = new Damage();
+        dmg.DidHit = true;
+        dmg.Amount = ((characterStats.GetStat(BaseStat.BaseStatType.Physical).GetCalcStatValue() * 2) +
             Random.Range(2,8));
-        damageToDeal += CalculateCrit(damageToDeal);
-        return damageToDeal;
+        // Calculate Crit
+        if (Random.value <= .1f)
+        {
+            dmg.Amount += CalculateCrit(dmg.Amount);
+            dmg.DidCrit = true;
+       }
+        return dmg;
     }
 
     private int CalculateCrit(int damage)
     {
-        if (Random.value <= .1f)
-        {
-            int critDamage = (int)(damage * Random.Range(.5f, .75f));
-            return critDamage;
-        }
-        return 0;
+        int critDamage = (int)(damage * Random.Range(.5f, .75f));
+        return critDamage;
     }
 }

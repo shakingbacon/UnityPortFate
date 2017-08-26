@@ -26,4 +26,6 @@ public class InventoryUIItem : MonoBehaviour
     {
         InventoryController.Instance.SetItemDetails(item , GetComponent<Button>());
     }
+
+
 }

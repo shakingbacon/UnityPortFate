@@ -26,7 +26,6 @@ public class Gator : MonoBehaviour, IEnemy
     void Awake()
     {
         healthBar = EnemyHealthBarController.CreateHealthBar(transform);
-        print("GG");
         Animator = GetComponent<Animator>();
         DropTable = new DropTable();
         DropTable.loot = new List<LootDrop>
@@ -62,7 +61,7 @@ public class Gator : MonoBehaviour, IEnemy
         FloatingTextController.CreateFloatingText(amount.ToString(), gameObject.transform);
         if (currentHealth <= 0)
         {
-            Destroy(healthBar.gameObject);
+            DestroyHealthBar();
             PlayDeathAnim();
         }
     }
@@ -73,11 +72,16 @@ public class Gator : MonoBehaviour, IEnemy
     //    navAgent.destination = (player.transform.position);
     //}
 
+    public void DestroyHealthBar()
+    {
+        Destroy(healthBar.gameObject);
+    }
+
     public void PlayDeathAnim()
     {
         Animator.SetTrigger("Die");
     }
-
+     // this function is event animation of die animation
     public void Die()
     {
         DropLoot();

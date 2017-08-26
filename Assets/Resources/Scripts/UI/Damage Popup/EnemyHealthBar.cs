@@ -16,10 +16,10 @@ public class EnemyHealthBar : MonoBehaviour {
         //    new Vector2(location.GetComponent<SpriteRenderer>().sprite.border.w, gameObject.GetComponent<RectTransform>().sizeDelta.y);
     }
 
-    void FixedUpdate()
+    void Update()
     {
-        gameObject.transform.position = new Vector2(location.position.x, location.position.y + location.GetComponent<SpriteRenderer>().bounds.size.y/2);
-        gameObject.GetComponent<RectTransform>().sizeDelta =
+        this.gameObject.transform.position = new Vector2(location.position.x, location.position.y + location.GetComponent<SpriteRenderer>().bounds.size.y/2);
+        this.gameObject.GetComponent<RectTransform>().sizeDelta =
             new Vector2((location.GetComponent<SpriteRenderer>().sprite.rect.size.x * location.localScale.x) * 0.70f, gameObject.GetComponent<RectTransform>().sizeDelta.y);
 
     }

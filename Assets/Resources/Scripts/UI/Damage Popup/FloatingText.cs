@@ -20,7 +20,7 @@ public class FloatingText : MonoBehaviour {
         bonusY = Random.Range(0f, 0.6f);
     }
 
-    void FixedUpdate()
+    void LateUpdate()
     {
         gameObject.transform.position = new Vector2 (location.position.x + bonusX, location.position.y + bonusY);
     }
