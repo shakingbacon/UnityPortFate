@@ -13,7 +13,7 @@ public class DialogueSystem : MonoBehaviour {
 
     Text dialogueText, nameText;
     int dialogueIndex;
-    bool shownQuest;
+    public bool ShowQuest { get; set; } // show a quest at last dialouge
     //int questID;
 
 	void Awake()
@@ -32,10 +32,10 @@ public class DialogueSystem : MonoBehaviour {
         }
     }
 
-    public void AddNewNPC(NPCInfo npc, string[] lines)
+    public void AddNewNPC(NPCInfo npc, string[] lines, bool showquest)
     {
         SoundDatabase.PlaySound(18);
-        shownQuest = false;
+        ShowQuest = showquest;
         CurrentNPC = npc;
         MakeDialouge(lines);
     }
@@ -72,11 +72,10 @@ public class DialogueSystem : MonoBehaviour {
                 dialogueIndex += 1;
                 string text = dialogueLines[dialogueIndex];
                 dialogueText.text = text;
-                if (!shownQuest && dialogueLines.Count - 1 == dialogueIndex && CurrentNPC.npcQuestID != -1)
+                if (ShowQuest && dialogueLines.Count - 1 == dialogueIndex && CurrentNPC.npcQuestID != -1)
                 {
                     PlayerQuestController.Instance.CreateQuestAgreement(CurrentNPC.npcQuestID);
                     canContinueDialouge = false;
-                    shownQuest = true;
                 }
             }
             else

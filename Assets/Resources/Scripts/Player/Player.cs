@@ -8,11 +8,13 @@ public class Player : MonoBehaviour {
     public int currentHealth;
     public int maxHealth;
     public PlayerLevel PlayerLevel { get; set; }
+    public int Cash { get; private set; }
     void Awake()
     {
         PlayerLevel = GetComponent<PlayerLevel>();
         //this.currentHealth = this.maxHealth;
         characterStats = new CharacterStats(2, 5, 3, 3, 0, 0, 0, 0, 0, 0, 95, 95, 3, 1);
+        AddCash(10);
     }
 
     public void TakeDamage(int amount)
@@ -23,6 +25,12 @@ public class Player : MonoBehaviour {
             Die();
         }
         UIEventHandler.HealthChanged(this.currentHealth, this.maxHealth);
+    }
+
+    
+    public void AddCash(int amount)
+    {
+        Cash += amount;
     }
 
     private void Die()

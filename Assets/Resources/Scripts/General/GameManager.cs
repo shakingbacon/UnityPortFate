@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
 
-    public static GameObject player;
+    public static Player player;
     public static string version;
     public static bool invisibleWallOn = false;
     static string showingPage;
@@ -13,14 +13,13 @@ public class GameManager : MonoBehaviour {
     public static bool inIntro;
     public static bool inMonsterArea;
     public static bool thereIsShop = false;
-    public bool setupBattle;
     public static bool hoveringBattleStatus;
     public static Transform hoveringBattleStatusParent;
 
     void Awake()
     {  
         //StartCoroutine(ScreenFader.FadeToClear());
-        player = GameObject.FindGameObjectWithTag("Player");
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         Camera.main.transform.position = player.transform.position;
         version = "Dev.v6.0";
         FloatingTextController.Initialize();

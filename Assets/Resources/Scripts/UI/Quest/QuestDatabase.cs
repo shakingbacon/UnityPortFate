@@ -25,6 +25,13 @@ public class QuestDatabase : MonoBehaviour {
     private void BuildDatabase()
     {
         Quests = JsonConvert.DeserializeObject<List<Quest>>(Resources.Load<TextAsset>("JSON/Quests").ToString());
+        foreach(Quest quest in Quests)
+        {
+            for (int i = 0; i < quest.questMonsterNeeds.Length; i++)
+            {
+                quest.questAmountDids[i] = 0;
+            }
+        }
     }
 
     public Quest GetQuest(int id)
@@ -39,4 +46,15 @@ public class QuestDatabase : MonoBehaviour {
         Debug.LogWarning("COULDNT FIND quest WITH ID" + id);
         return null;
     }
+
+    public void GiveQuestReward(int id)
+    {
+        switch (id)
+        {
+            case 0: { PlayerUtilities.AddCash(100); break; }
+        }
+    }
+
+
+
 }

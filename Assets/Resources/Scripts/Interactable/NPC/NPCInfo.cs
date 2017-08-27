@@ -14,9 +14,10 @@ public class NPCInfo {
     public string[] questAcceptText;
     public string[] questDeclineText;
     public string[] questInProgressText;
+    public string[] questCompletionText; 
 
     [JsonConstructor]
-    public NPCInfo(string name, int npcid, int questid, string[] defualt, string[] ask, string[] accept, string[] decline, string[] inprog)
+    public NPCInfo(string name, int npcid, int questid, string[] defualt, string[] ask, string[] accept, string[] decline, string[] inprog, string[] complete)
     {
         npcName = name;
         npcID = npcid;
@@ -26,6 +27,7 @@ public class NPCInfo {
         questAcceptText = accept;
         questDeclineText = decline;
         questInProgressText = inprog;
+        questCompletionText = complete;
     }
 
 }

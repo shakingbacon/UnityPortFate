@@ -31,18 +31,26 @@ public class NPC : Interactable {
             //{
             //    DialogueSystem.Instance.AddNewNPC(npcInfo, npcInfo.defaultText);
             //}
-            //else 
-            if (PlayerQuestController.Instance.HasQuest(npcInfo.npcQuestID))
+            //
+            if (PlayerQuestController.Instance.HasQuestInProgress(npcInfo.npcQuestID))
             {
-                DialogueSystem.Instance.AddNewNPC(npcInfo, npcInfo.questInProgressText);
+                Quest npcQuest = PlayerQuestController.Instance.inProgressQuests.Find(aQuest => aQuest.questID == npcInfo.npcQuestID);
+                if (npcQuest.QuestCompleted)
+                {
+                    DialogueSystem.Instance.AddNewNPC(npcInfo, npcInfo.questCompletionText, false);
+                    QuestDatabase.Instance.GiveQuestReward(npcInfo.npcQuestID);
+                    PlayerQuestController.Instance.QuestCompleted(npcInfo.npcQuestID);
+                }
+                else
+                    DialogueSystem.Instance.AddNewNPC(npcInfo, npcInfo.questInProgressText, false);
             }
-            else if (npcInfo.npcQuestID != -1)
+            else if (npcInfo.npcQuestID != -1 && !PlayerQuestController.Instance.HasQuestCompleted(npcInfo.npcQuestID))
             {
-                DialogueSystem.Instance.AddNewNPC(npcInfo, npcInfo.questAskText);
+                DialogueSystem.Instance.AddNewNPC(npcInfo, npcInfo.questAskText, true);
             }
             else
             {
-                DialogueSystem.Instance.AddNewNPC(npcInfo, npcInfo.defaultText);
+                DialogueSystem.Instance.AddNewNPC(npcInfo, npcInfo.defaultText, false);
             }
         }
     }

@@ -112,6 +112,7 @@
      <Compile Include="Assets\Resources\Scripts\UI\Inventory\PlayerArmorController.cs" />
      <Compile Include="Assets\Resources\Scripts\UI\Panel_Skills\PanelSkill.cs" />
      <Compile Include="Assets\Resources\Scripts\UI\Quest\PlayerQuestController.cs" />
+     <Compile Include="Assets\Resources\Scripts\UI\Quest\PlayerUtilities.cs" />
      <Compile Include="Assets\Resources\Scripts\UI\Quest\Quest.cs" />
      <Compile Include="Assets\Resources\Scripts\UI\Quest\QuestAgreementPanel.cs" />
      <Compile Include="Assets\Resources\Scripts\UI\Quest\QuestDatabase.cs" />

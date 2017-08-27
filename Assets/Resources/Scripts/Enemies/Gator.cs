@@ -15,6 +15,8 @@ public class Gator : MonoBehaviour, IEnemy
     //private NavMeshAgent navAgent;
     public CharacterStats characterStats;
 
+
+    [SerializeField] public int MonsterID { get; set; }
     public int Experience { get; set; }
     public DropTable DropTable { get; set; }
     public PickupItem pickupItem;
@@ -25,6 +27,7 @@ public class Gator : MonoBehaviour, IEnemy
 
     void Awake()
     {
+        MonsterID = 0;
         healthBar = EnemyHealthBarController.CreateHealthBar(transform);
         Animator = GetComponent<Animator>();
         DropTable = new DropTable();
@@ -87,6 +90,7 @@ public class Gator : MonoBehaviour, IEnemy
         DropLoot();
         CombatEvents.EnemyDied(this);
         Destroy(gameObject);
+        print("died");
     }
 
     void DropLoot()

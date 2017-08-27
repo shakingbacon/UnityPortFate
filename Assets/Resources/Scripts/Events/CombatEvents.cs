@@ -8,7 +8,7 @@ public class CombatEvents : MonoBehaviour {
 
     public static void EnemyDied(IEnemy enemy)
     {
-        if (OnEnemyDeath != null)
+        //if (OnEnemyDeath != null)
             OnEnemyDeath(enemy);
     }
 }

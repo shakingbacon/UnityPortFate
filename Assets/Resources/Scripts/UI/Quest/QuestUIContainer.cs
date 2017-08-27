@@ -17,6 +17,7 @@ public class QuestUIContainer : MonoBehaviour {
 
     public void UpdateClick()
     {
+        PlayerQuestController.Instance.questPanel.CurrentQuest = quest;
         PlayerQuestController.Instance.UpdateQuestPanelDesc(quest);
     }
 	

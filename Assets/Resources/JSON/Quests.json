@@ -3,8 +3,14 @@
 		"questName": "Slay the Gators",
 		"questNPC": "Clean Booga",
 		"questID": 0,
-		"questGoal": "Slay 5 Gators",
+		"questGoals": ["Slay 5 Gators"],
+		"questReward": "100 gold",
 		"questMemory": "Clean Booga wants me to slay the Gators around here.",
+		"questMonsterNeeds": [0],
+		"questAmountNeeds": [5],
+		// always 0 with index count
+		"questAmountDids": [0],
+		"questObjectiveTypes": [0],
 		"questType": "Slay"
 	}
 ]

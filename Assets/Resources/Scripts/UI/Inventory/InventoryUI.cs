@@ -33,12 +33,12 @@ public class InventoryUI : MonoBehaviour {
         emptyItem.transform.localPosition = new Vector3(1, 1, 1);
         emptyItem.SetItem(item);
         // emptyItem.transform.SetParent(scrollViewContent);
-        scrollViewContent.sizeDelta = new Vector2(scrollViewContent.rect.width, scrollViewContent.rect.height + emptyItem.GetComponent<RectTransform>().rect.height);
+        scrollViewContent.sizeDelta = new Vector2(scrollViewContent.rect.width, scrollViewContent.rect.height + itemContainer.GetComponent<RectTransform>().rect.height);
         emptyItem.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
     }
 
     public void ItemRemoved()
     {
-        scrollViewContent.sizeDelta = new Vector2(scrollViewContent.rect.width, scrollViewContent.rect.height - 80);
+        scrollViewContent.sizeDelta = new Vector2(scrollViewContent.rect.width, scrollViewContent.rect.height - itemContainer.GetComponent<RectTransform>().rect.height);
     }
 }
