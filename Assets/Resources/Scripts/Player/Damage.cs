@@ -5,6 +5,7 @@ using UnityEngine;
 public class Damage {
 
     public int Amount { get; set; }
+    public int FinalAmount { get; set; }
     public bool DidCrit { get; set; }
     public bool DidHit { get; set; }
 

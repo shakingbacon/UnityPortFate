@@ -5,7 +5,7 @@ using UnityEngine;
 public class Projectile : MonoBehaviour {
     public Vector3 Direction { get; set; }
     public float Range { get; set; }
-    public int Damage { get; set; }
+    public Damage Damage { get; set; }
     [HideInInspector]public Vector3 spawnPosition;
 
     int soundID;

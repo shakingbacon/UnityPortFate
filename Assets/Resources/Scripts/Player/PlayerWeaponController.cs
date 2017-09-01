@@ -113,7 +113,10 @@ public class PlayerWeaponController : MonoBehaviour {
     private Damage CalculateDamage()
     {
         Damage dmg = new Damage();
-        dmg.DidHit = true;
+        //if (Random.Range(0f, 1f) < 0.5f)
+        //    dmg.DidHit = false;
+        //else
+            dmg.DidHit = true;
         dmg.Amount = ((characterStats.GetStat(BaseStat.BaseStatType.Physical).GetCalcStatValue() * 2) +
             Random.Range(2,8));
         // Calculate Crit

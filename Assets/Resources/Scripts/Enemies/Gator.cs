@@ -56,12 +56,25 @@ public class Gator : MonoBehaviour, IEnemy
     {
         player.TakeDamage(5);
     }
-
-    public void TakeDamage(int amount)
+    
+    public void TakeDamage(Damage damage)
     {
-        currentHealth -= amount;
-        healthBar.SetSliderValue(currentHealth, maxHealth);
-        FloatingTextController.CreateFloatingText(amount.ToString(), gameObject.transform);
+        if (!damage.DidHit)
+        {
+            FloatingText floatingText = FloatingTextController.CreateFloatingText("MISS", gameObject.transform);
+            floatingText.transform.localScale = new Vector3(1.25f, 1.25f);
+        }
+        else
+        {
+            FloatingText floatingText = FloatingTextController.CreateFloatingText(damage.FinalAmount.ToString(), gameObject.transform);
+            if (damage.DidCrit)
+            {
+                floatingText.transform.localScale = new Vector3(1.3f, 1.3f);
+                floatingText.SetCritColor();
+            }
+            currentHealth -= damage.FinalAmount;
+            healthBar.SetSliderValue(currentHealth, maxHealth);
+        }
         if (currentHealth <= 0)
         {
             DestroyHealthBar();
@@ -69,7 +82,7 @@ public class Gator : MonoBehaviour, IEnemy
         }
     }
 
-    //void ChasePlayer(Player player)
+    //void ChasePlayer(Player player
     //{
     //    this.player = player;
     //    navAgent.destination = (player.transform.position);

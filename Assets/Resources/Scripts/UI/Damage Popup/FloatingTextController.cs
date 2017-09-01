@@ -12,13 +12,14 @@ public class FloatingTextController : MonoBehaviour {
         popText = Resources.Load<FloatingText>("Prefabs/UI/Damage Popup/DmgPopParent");
     }
 
-    public static void CreateFloatingText(string text, Transform location)
+    public static FloatingText CreateFloatingText(string text, Transform location)
     {
         FloatingText instance = Instantiate(popText);
         instance.location = location;
         instance.transform.SetParent(canvas.transform, false);
         instance.transform.SetSiblingIndex(0);
         instance.SetText(text);
+        return instance;
     }
-	
+
 }

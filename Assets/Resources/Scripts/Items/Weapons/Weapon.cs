@@ -20,7 +20,7 @@ public class Weapon : MonoBehaviour, IWeapon {
 
     public virtual void SetDamageOutput(float dmg)
     {
-        Animator.SetFloat("DamageOutput", dmg);
+        Animator.SetFloat("DamageMultiplier", dmg);
     }
 
     public virtual void PerformAttack(Damage damage)
@@ -86,8 +86,8 @@ public class Weapon : MonoBehaviour, IWeapon {
         if (col.tag == "Enemy")
         {
             OnHit();
-           // print((int)(CurrentDamage * Animator.GetFloat("DamageOutput")));
-            col.GetComponent<IEnemy>().TakeDamage((int)(CurrentDamage.Amount * Animator.GetFloat("DamageOutput")));
+            CurrentDamage.FinalAmount = (int)(CurrentDamage.Amount * Animator.GetFloat("DamageMultiplier"));
+            col.GetComponent<IEnemy>().TakeDamage(CurrentDamage);
         }
     }
 }
