@@ -8,17 +8,25 @@ public class Weapon : MonoBehaviour, IWeapon {
     public List<BaseStat> Stats { get; set; }
     public PlayerSkillController playerSkillController { get; set; }
     public Damage CurrentDamage { get; set; }
+    public int Pierce { get; private set; }
+    public int EnemiesHit { get; set; }
 
 
     int collideSoundID = -1;
 
-    void Awake()
+    void Start()
     {
-        Animator = GetComponent<Animator>();
-        //Animator.SetFloat("AttackSpeed", 2f);
+        StartActivations();
+        Pierce = 1;
+        EnemiesHit = 0;
     }
 
-    public virtual void SetDamageOutput(float dmg)
+    public virtual void StartActivations()
+    {
+        Animator = GetComponent<Animator>();
+    }
+
+    public virtual void SetDamageMultiplier(float dmg)
     {
         Animator.SetFloat("DamageMultiplier", dmg);
     }
@@ -80,14 +88,5 @@ public class Weapon : MonoBehaviour, IWeapon {
         else
             SoundDatabase.PlaySound(collideSoundID);
     }
-    // Collider
-    void OnTriggerEnter2D(Collider2D col)
-    {
-        if (col.tag == "Enemy")
-        {
-            OnHit();
-            CurrentDamage.FinalAmount = (int)(CurrentDamage.Amount * Animator.GetFloat("DamageMultiplier"));
-            col.GetComponent<IEnemy>().TakeDamage(CurrentDamage);
-        }
-    }
+
 }

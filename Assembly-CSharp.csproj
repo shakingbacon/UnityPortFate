@@ -74,6 +74,7 @@
      <Compile Include="Assets\Resources\Scripts\Items\Weapons\Staff.cs" />
      <Compile Include="Assets\Resources\Scripts\Items\Weapons\Sword.cs" />
      <Compile Include="Assets\Resources\Scripts\Items\Weapons\Weapon.cs" />
+     <Compile Include="Assets\Resources\Scripts\Items\Weapons\WeaponHitbox.cs" />
      <Compile Include="Assets\Resources\Scripts\Player\BaseStat.cs" />
      <Compile Include="Assets\Resources\Scripts\Player\CameraFollow.cs" />
      <Compile Include="Assets\Resources\Scripts\Player\CharacterStats.cs" />

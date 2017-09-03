@@ -72,14 +72,19 @@ public class Gator : MonoBehaviour, IEnemy
                 floatingText.transform.localScale = new Vector3(1.3f, 1.3f);
                 floatingText.SetCritColor();
             }
-            currentHealth -= damage.FinalAmount;
-            healthBar.SetSliderValue(currentHealth, maxHealth);
+            HealthDamaged(damage.FinalAmount);
         }
         if (currentHealth <= 0)
         {
             DestroyHealthBar();
             PlayDeathAnim();
         }
+    }
+
+    public void HealthDamaged(int amount)
+    {
+        currentHealth -= amount;
+        healthBar.SetSliderValue(currentHealth, maxHealth);
     }
 
     //void ChasePlayer(Player player
