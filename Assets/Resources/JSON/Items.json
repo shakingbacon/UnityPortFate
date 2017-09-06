@@ -144,6 +144,28 @@
 		"StatName": "Atk Spd"
 		}
     ]
+  },  
+  // Axe
+  {
+    "objectSlug": "axe",
+    "itemName": "Big Axe",
+    "description": "A huge axe",
+    "itemType":  "Weapon",
+    "actionName": "Equip",
+	"itemCost": 1500,
+    "itemModifier": 0,
+    "Stats": [
+		{
+		"StatType":  "Physical",
+		"BaseValue": 175,
+		"StatName": "Phys Atk"
+		},
+		{
+		"StatType":  "AttackSpeed",
+		"BaseValue": 1,
+		"StatName": "Atk Spd"
+		}
+    ]
   },
   // Potions
   {

@@ -11,13 +11,4 @@ public class MagicShot : Projectile {
         GetComponent<Rigidbody2D>().AddForce(Direction * 125f * GameManager.player.transform.localScale.x);
         SetSound(56);
     }
-
-    //void OnTriggerEnter2D(Collider2D col)
-    //{
-    //    if (col.transform.tag == "Enemy")
-    //    {
-    //        col.gameObject.GetComponent<IEnemy>().TakeDamage(Damage);
-    //        Extinguish();
-    //    }
-    //}
 }

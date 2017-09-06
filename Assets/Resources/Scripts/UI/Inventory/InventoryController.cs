@@ -31,6 +31,7 @@ public class InventoryController : MonoBehaviour {
         GiveItem("Leather Hat");
         GiveItem("Leather Gloves");
         GiveItem("Strength Necklace");
+        GiveItem("Big Axe");
 
     }
 

@@ -66,13 +66,13 @@ public class Gator : MonoBehaviour, IEnemy
         }
         else
         {
-            FloatingText floatingText = FloatingTextController.CreateFloatingText(damage.FinalAmount.ToString(), gameObject.transform);
+            FloatingText floatingText = FloatingTextController.CreateFloatingText(damage.Amount.ToString(), gameObject.transform);
             if (damage.DidCrit)
             {
                 floatingText.transform.localScale = new Vector3(1.3f, 1.3f);
                 floatingText.SetCritColor();
             }
-            HealthDamaged(damage.FinalAmount);
+            HealthDamaged(damage.Amount);
         }
         if (currentHealth <= 0)
         {
@@ -108,7 +108,6 @@ public class Gator : MonoBehaviour, IEnemy
         DropLoot();
         CombatEvents.EnemyDied(this);
         Destroy(gameObject);
-        print("died");
     }
 
     void DropLoot()

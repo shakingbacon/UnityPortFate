@@ -32,7 +32,6 @@ public class PlayerWeaponController : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.S)) ActivateHotKeySkill(5);
         if (Input.GetKeyDown(KeyCode.D)) ActivateHotKeySkill(6);
         if (Input.GetKeyDown(KeyCode.F)) ActivateHotKeySkill(7);
-
         if (Input.GetKeyDown(KeyCode.X) && EquippedWeapon != null)
         {
             PerformWeaponAttack();
@@ -82,6 +81,7 @@ public class PlayerWeaponController : MonoBehaviour {
         currentlyEquippedItem = itemToEquip;
         EquippedWeapon.transform.SetParent(playerHand.transform);
         equippedWeapon.playerSkillController = playerSkillController;
+        equippedWeapon.CharacterStats = characterStats;
         SoundDatabase.PlaySound(0);
         UIEventHandler.ItemEquipped(itemToEquip);
         UIEventHandler.StatsChanged();
@@ -102,35 +102,11 @@ public class PlayerWeaponController : MonoBehaviour {
 
     public void PerformWeaponAttack()
     {
-        equippedWeapon.PerformAttack(CalculateDamage());
+        equippedWeapon.PerformAttack();
     }
     
     public void PerformSkill()
     {
         equippedWeapon.PerformSkillAnimation();
-    }
-
-    private Damage CalculateDamage()
-    {
-        Damage dmg = new Damage();
-        //if (Random.Range(0f, 1f) < 0.5f)
-        //    dmg.DidHit = false;
-        //else
-            dmg.DidHit = true;
-        dmg.Amount = ((characterStats.GetStat(BaseStat.BaseStatType.Physical).GetCalcStatValue() * 2) +
-            Random.Range(2,8));
-        // Calculate Crit
-        if (Random.value <= .1f)
-        {
-            dmg.Amount += CalculateCrit(dmg.Amount);
-            dmg.DidCrit = true;
-       }
-        return dmg;
-    }
-
-    private int CalculateCrit(int damage)
-    {
-        int critDamage = (int)(damage * Random.Range(.5f, .75f));
-        return critDamage;
     }
 }

@@ -7,9 +7,9 @@ public class Weapon : MonoBehaviour, IWeapon {
     public Animator Animator { get; set; }
     public List<BaseStat> Stats { get; set; }
     public PlayerSkillController playerSkillController { get; set; }
-    public Damage CurrentDamage { get; set; }
-    public int Pierce { get; private set; }
-    public int EnemiesHit { get; set; }
+    public CharacterStats CharacterStats { get; set; }
+    public int Pierce { get; set; }
+    public List<GameObject> EnemiesHit { get; set; }
 
 
     int collideSoundID = -1;
@@ -17,8 +17,8 @@ public class Weapon : MonoBehaviour, IWeapon {
     void Start()
     {
         StartActivations();
-        Pierce = 1;
-        EnemiesHit = 0;
+        Pierce = 2;
+        ResetEnemiesHit();
     }
 
     public virtual void StartActivations()
@@ -31,11 +31,11 @@ public class Weapon : MonoBehaviour, IWeapon {
         Animator.SetFloat("DamageMultiplier", dmg);
     }
 
-    public virtual void PerformAttack(Damage damage)
+    public virtual void PerformAttack()
     {
         if (!Animator.GetBool("IsLastAnimation"))
         {
-            CurrentDamage = damage;
+            //CurrentDamage = damage;
             //Debug.Log("damage dealt: " + damage);
             Animator.SetTrigger("Basic Attack");
         }
@@ -81,12 +81,18 @@ public class Weapon : MonoBehaviour, IWeapon {
         collideSoundID = id;
     }
 
-    public virtual void OnHit()
+    public virtual void OnHit(Damage dmg)
     {
-        if (CurrentDamage.DidCrit)
+        if (dmg.DidCrit)
             SoundDatabase.PlaySound(11);
         else
             SoundDatabase.PlaySound(collideSoundID);
     }
+
+    public void ResetEnemiesHit()
+    {
+        EnemiesHit = new List<GameObject>();
+    }
+
 
 }

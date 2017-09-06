@@ -30,7 +30,7 @@ public class Projectile : MonoBehaviour {
         Destroy(gameObject);
     }
 
-    void OnTriggerEnter2D(Collider2D col)
+    public virtual void OnHitActivations(Collider2D col)
     {
         if (col.transform.tag == "Enemy")
         {
@@ -39,5 +39,10 @@ public class Projectile : MonoBehaviour {
             col.gameObject.GetComponent<IEnemy>().TakeDamage(Damage);
             Extinguish();
         }
+    }
+
+    void OnTriggerEnter2D(Collider2D col)
+    {
+        OnHitActivations(col);
     }
 }

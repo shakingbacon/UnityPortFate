@@ -13,18 +13,20 @@ public class WeaponHitbox : MonoBehaviour {
     }
 
 
+    
     public void OnTriggerEnter2D(Collider2D col)
     {
         if (col.tag == "Enemy")
         {
-            if (parentWeapon.EnemiesHit < parentWeapon.Pierce)
+            if (!parentWeapon.EnemiesHit.Exists(aGameObject => aGameObject == col.gameObject)
+                && parentWeapon.EnemiesHit.Count < parentWeapon.Pierce)
             {
-                parentWeapon.EnemiesHit += 1;
-                parentWeapon.OnHit();
-                parentWeapon.CurrentDamage.FinalAmount
-                    = (int)(parentWeapon.CurrentDamage.Amount * parentWeapon.Animator.GetFloat("DamageMultiplier")
-                    * DamageMultiplier);
-                col.GetComponent<IEnemy>().TakeDamage(parentWeapon.CurrentDamage);
+                print(name);
+                parentWeapon.EnemiesHit.Add(col.gameObject);
+                Damage damage = new Damage((int)(parentWeapon.CharacterStats.GetStat(BaseStat.BaseStatType.Physical).FinalValue
+                    * parentWeapon.Animator.GetFloat("DamageMultiplier") * DamageMultiplier));
+                parentWeapon.OnHit(damage);
+                col.GetComponent<IEnemy>().TakeDamage(damage);
             }
         }
     }

@@ -69,6 +69,7 @@
      <Compile Include="Assets\Resources\Scripts\Items\Item.cs" />
      <Compile Include="Assets\Resources\Scripts\Items\ItemDatabase.cs" />
      <Compile Include="Assets\Resources\Scripts\Items\ItemHolder.cs" />
+     <Compile Include="Assets\Resources\Scripts\Items\Weapons\Axe.cs" />
      <Compile Include="Assets\Resources\Scripts\Items\Weapons\IProjectileWeapon.cs" />
      <Compile Include="Assets\Resources\Scripts\Items\Weapons\IWeapon.cs" />
      <Compile Include="Assets\Resources\Scripts\Items\Weapons\Staff.cs" />
