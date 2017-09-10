@@ -19,7 +19,7 @@ public class WeaponHitbox : MonoBehaviour {
         if (col.tag == "Enemy")
         {
             if (!parentWeapon.EnemiesHit.Exists(aGameObject => aGameObject == col.gameObject)
-                && parentWeapon.EnemiesHit.Count < parentWeapon.Pierce)
+                && parentWeapon.EnemiesHit.Count < parentWeapon.pierce)
             {
                 print(name);
                 parentWeapon.EnemiesHit.Add(col.gameObject);

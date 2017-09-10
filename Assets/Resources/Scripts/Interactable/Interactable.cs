@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Collider2D))]
 public class Interactable : MonoBehaviour {
 
-    public string interactKey = "Z";
-    public string interactString = "Interact";
+    protected string interactKey = "Z";
+    protected string interactString = "Interact";
 
     void OnTriggerEnter2D(Collider2D player)
     {

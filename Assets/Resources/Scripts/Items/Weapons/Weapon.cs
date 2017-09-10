@@ -8,7 +8,7 @@ public class Weapon : MonoBehaviour, IWeapon {
     public List<BaseStat> Stats { get; set; }
     public PlayerSkillController playerSkillController { get; set; }
     public CharacterStats CharacterStats { get; set; }
-    public int Pierce { get; set; }
+    [SerializeField] public int pierce;
     public List<GameObject> EnemiesHit { get; set; }
 
 
@@ -17,7 +17,7 @@ public class Weapon : MonoBehaviour, IWeapon {
     void Start()
     {
         StartActivations();
-        Pierce = 2;
+        pierce = 2;
         ResetEnemiesHit();
     }
 

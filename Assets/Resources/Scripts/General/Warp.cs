@@ -1,25 +1,41 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Warp : MonoBehaviour {
+[DisallowMultipleComponent]
+[RequireComponent(typeof(SpriteRenderer))]
+[RequireComponent(typeof(PolygonCollider2D))]
+[ExecuteInEditMode] // make sure to reset polygon collider in editor
+public class Warp : Interactable {
 
-    public Transform goToTarget;
+    public string goToMapName;
     public int musicID;
 
-    IEnumerator OnTriggerEnter2D(Collider2D other)
+    void Start()
     {
-        if (other.tag == "Player")
-        {
-            ScreenFader.img.enabled = true;
-            SoundDatabase.PlaySound(16);
-            PlayerMovement.cantMove = true;
-            yield return StartCoroutine(ScreenFader.FadeToBlack());
-            SoundDatabase.PlayMusic(musicID);
-            other.gameObject.transform.position = goToTarget.position;
-            Camera.main.transform.position = goToTarget.position;
-            yield return StartCoroutine(ScreenFader.FadeToClear());
-            PlayerMovement.cantMove = false;
-            ScreenFader.img.enabled = false;    
-        }
+        interactString = "Warp";
+        GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("General/Game/Warp Portal");
+        GetComponent<Collider2D>().isTrigger = true;
+        transform.transform.localScale = new Vector3(2, 2, 1);
     }
+
+    public override void Interact()
+    {
+        StartCoroutine(WarpPlayer());
+    }
+
+    IEnumerator WarpPlayer()
+    {
+        ScreenFader.img.enabled = true;
+        SoundDatabase.PlaySound(16);
+        PlayerMovement.cantMove = true;
+        yield return StartCoroutine(ScreenFader.FadeToBlack()); 
+        CurrentMap.Instance.WarpPlayerToMap(goToMapName, musicID);
+        yield return StartCoroutine(ScreenFader.FadeToClear());
+        PlayerMovement.cantMove = false;
+        Destroy(CurrentMap.Instance.area.GetChild(0).gameObject);
+    }
+
+
+
+
 }

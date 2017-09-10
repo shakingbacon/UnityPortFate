@@ -76,7 +76,6 @@ public class Gator : MonoBehaviour, IEnemy
         }
         if (currentHealth <= 0)
         {
-            DestroyHealthBar();
             PlayDeathAnim();
         }
     }
@@ -102,11 +101,17 @@ public class Gator : MonoBehaviour, IEnemy
     {
         Animator.SetTrigger("Die");
     }
-     // this function is event animation of die animation
+    // this function is event animation of die animation
     public void Die()
     {
         DropLoot();
         CombatEvents.EnemyDied(this);
+        DestroySelf();
+    }
+
+    public void DestroySelf()
+    {
+        DestroyHealthBar();
         Destroy(gameObject);
     }
 

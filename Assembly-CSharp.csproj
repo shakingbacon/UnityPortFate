@@ -48,11 +48,13 @@
   <ItemGroup>
      <Compile Include="Assets\Resources\Scripts\Enemies\Consumables\IConsumable.cs" />
      <Compile Include="Assets\Resources\Scripts\Enemies\Consumables\LogPotion.cs" />
+     <Compile Include="Assets\Resources\Scripts\Enemies\EnemyFollow.cs" />
      <Compile Include="Assets\Resources\Scripts\Enemies\Gator.cs" />
      <Compile Include="Assets\Resources\Scripts\Enemies\IEnemy.cs" />
      <Compile Include="Assets\Resources\Scripts\Events\CombatEvents.cs" />
      <Compile Include="Assets\Resources\Scripts\Events\SkillEvents.cs" />
      <Compile Include="Assets\Resources\Scripts\Events\UIEventHandler.cs" />
+     <Compile Include="Assets\Resources\Scripts\General\CurrentMap.cs" />
      <Compile Include="Assets\Resources\Scripts\General\DropTable\DropTable.cs" />
      <Compile Include="Assets\Resources\Scripts\General\GameManager.cs" />
      <Compile Include="Assets\Resources\Scripts\General\SoundDatabase.cs" />

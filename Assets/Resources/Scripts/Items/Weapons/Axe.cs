@@ -4,19 +4,20 @@ using UnityEngine;
 
 public class Axe : Weapon {
 
-    WeaponHitbox axeCut;
+    WeaponHitbox axeBlade;
     WeaponHitbox axeHandle;
 
     [SerializeField]
-    float cutDamage;
-    [SerializeField] float handleDamage;
+    float bladeDamage;
+    [SerializeField]
+    float handleDamage;
 
     public override void StartActivations()
     {
         base.StartActivations();
-        axeCut = transform.GetChild(0).GetComponent<WeaponHitbox>();
+        axeBlade = transform.GetChild(0).GetComponent<WeaponHitbox>();
         axeHandle = transform.GetChild(1).GetComponent<WeaponHitbox>();
-        axeCut.DamageMultiplier = cutDamage;
+        axeBlade.DamageMultiplier = bladeDamage;
         axeHandle.DamageMultiplier = handleDamage;
     }
 
