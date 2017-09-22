@@ -6,9 +6,8 @@ using UnityEngine;
 public class CurrentMap : MonoBehaviour {
     public static CurrentMap Instance { get; set; }
 
-    public Transform area;
-    public Transform enemies;
-
+    [HideInInspector] public Transform area;
+    [HideInInspector] public Transform enemies;
 
 	// Use this for initialization
 	void Start () {
@@ -20,15 +19,16 @@ public class CurrentMap : MonoBehaviour {
         enemies = transform.FindChild("Enemies");
     }
 
-    public void WarpPlayerToMap(string mapName, int musicid)
+    public void WarpPlayerToMap(string mapName)
     {
-        SoundDatabase.PlayMusic(musicid);
         Transform currentMap = area.GetChild(0);
         currentMap.localScale = new Vector3(0, 0, 0);
         string fromMapName = currentMap.name;
-        Transform map = Instantiate(Resources.Load<Transform>("Prefabs/Maps/" + mapName));
+        Map map = Instantiate(Resources.Load<Map>("Prefabs/Maps/" + mapName));
+        map.name = map.name.Substring(0, map.name.Length - 7);
+        SoundDatabase.PlayMusic(map.mapMusicID);
         map.transform.transform.SetParent(area);
-        Vector3 goToPos = map.FindChild("From Targets").FindChild(fromMapName).position;
+        Vector3 goToPos = map.transform.FindChild("From Targets").FindChild(fromMapName).position;
         GameManager.player.transform.position = goToPos;
         Camera.main.transform.position = goToPos;
         DestroyAllEnemies();
@@ -38,7 +38,9 @@ public class CurrentMap : MonoBehaviour {
     {
         foreach(Transform enemy in enemies)
         {
-            enemy.GetComponent<IEnemy>().DestroySelf();
+            IEnemy enemyComp = enemy.GetComponent<IEnemy>();
+            if (enemyComp != null)
+                enemy.GetComponent<IEnemy>().DestroySelf();
         }
     }
 }

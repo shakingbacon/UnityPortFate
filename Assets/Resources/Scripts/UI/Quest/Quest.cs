@@ -8,6 +8,12 @@ public class Quest {
     public string questName;
     public string questNPC;
     public int questID;
+    // Talking
+    public string[] questAskText;
+    public string[] questAcceptText;
+    public string[] questDeclineText;
+    public string[] questInProgressText;
+    public string[] questCompletionText;
     // Details
     public string[] questGoals;
     public string questReward;
@@ -39,10 +45,17 @@ public class Quest {
     }
 
     [JsonConstructor]
-    public Quest(string name, int id, string[] goal, string reward,  string memory, int[] kill, int[] amountneed, int[] objectivetype, QuestType type)
+    public Quest(string name, int id, string[] ask, string[] accept, string[] decline, string[] inprog, string[] complete, string[] goal, string reward,  string memory, int[] kill, int[] amountneed, int[] objectivetype, QuestType type)
     {
         this.questName = name;
         this.questID = id;
+        //
+        questAskText = ask;
+        questAcceptText = accept;
+        questDeclineText = decline;
+        questInProgressText = inprog;
+        questCompletionText = complete;
+        //
         this.questGoals = goal;
         this.questMemory = memory;
         this.questReward = reward;

@@ -29,19 +29,18 @@ public class QuestUI : MonoBehaviour {
 
     public void QuestAdd(Quest quest)
     {
-        print("added");
         PlayerQuestController.Instance.inProgressQuests.Add(quest);
         QuestUIContainer emptyItem = Instantiate(questContainer, questScrollContent);
         emptyItem.transform.localPosition = new Vector3(1, 1, 1);
         emptyItem.SetQuest(quest);
         // emptyItem.transform.SetParent(scrollViewContent);
-        questScrollContent.sizeDelta = new Vector2(questScrollContent.rect.width, questScrollContent.rect.height + 50); // height of container
+        questScrollContent.sizeDelta = new Vector2(questScrollContent.rect.width, questScrollContent.rect.height + questContainer.GetComponent<RectTransform>().rect.height); // height of container
         emptyItem.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
     }
 
     public void QusetRemoved()
     {
-        questScrollContent.sizeDelta = new Vector2(questScrollContent.rect.width, questScrollContent.rect.height - 50);
+        questScrollContent.sizeDelta = new Vector2(questScrollContent.rect.width, questScrollContent.rect.height - questContainer.GetComponent<RectTransform>().rect.height);
     }
 
     public void OpenCloseQuestPanel()

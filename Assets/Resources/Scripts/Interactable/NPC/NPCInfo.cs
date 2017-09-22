@@ -7,27 +7,39 @@ public class NPCInfo {
 
     public string npcName;
     public int npcID;
-    public int npcQuestID;
 
+    public int[][] npcDialogueOptionsText;
+    public List<DialogueOption> dialogueOptions;
     public string[] defaultText;
-    public string[] questAskText;
-    public string[] questAcceptText;
-    public string[] questDeclineText;
-    public string[] questInProgressText;
-    public string[] questCompletionText; 
+
 
     [JsonConstructor]
-    public NPCInfo(string name, int npcid, int questid, string[] defualt, string[] ask, string[] accept, string[] decline, string[] inprog, string[] complete)
+    public NPCInfo(string name, int npcid, int[][] option, string[] defualt)
     {
         npcName = name;
         npcID = npcid;
-        npcQuestID = questid;
+        npcDialogueOptionsText = option;    
         defaultText = defualt;
-        questAskText = ask;
-        questAcceptText = accept;
-        questDeclineText = decline;
-        questInProgressText = inprog;
-        questCompletionText = complete;
+
     }
 
+
+}
+
+public class DialogueOption {
+
+    public OptionType optionType;
+    public int optionID;
+
+	public enum OptionType{
+		Talk, 
+		Shop,
+		Quest
+	}
+
+    public DialogueOption(int type, int id)
+    {
+        optionType = (OptionType)type;
+        optionID = id;
+    }
 }

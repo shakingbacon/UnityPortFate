@@ -24,6 +24,19 @@ public class NPCInfoDatabase : MonoBehaviour {
     private void BuildDatabase()
     {
         NPCInfos = JsonConvert.DeserializeObject<List<NPCInfo>>(Resources.Load<TextAsset>("JSON/NPCInfos").ToString());
+        MakeDialogueOptions();
+    }
+
+    void MakeDialogueOptions()
+    {
+        int i = 0;
+        int j = 0;
+        for (; j < NPCInfos.Count; j++)
+            for (; i < NPCInfos[j].npcDialogueOptionsText.Length; i += 1)
+            {
+                NPCInfos[j].dialogueOptions = new List<DialogueOption>();
+                NPCInfos[j].dialogueOptions.Add(new DialogueOption(NPCInfos[j].npcDialogueOptionsText[i][0], NPCInfos[j].npcDialogueOptionsText[i][1]));
+            }
     }
 
     public NPCInfo GetNPCInfo(int id)

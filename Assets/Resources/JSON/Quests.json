@@ -3,6 +3,14 @@
 		"questName": "Slay the Gators",
 		"questNPC": "Clean Booga",
 		"questID": 0,
+
+		"questAskText":  ["Hey, I need you to kill those Gators.", "There should be a lot on the right side.", "Compelete this quest and I'll reward you."],
+        "questAcceptText": ["Alright then, let me teach you some basics.", "Press the I key to open your inventory. You can equip items from here.", 
+		"You should equip the weapon in your inventory.", "While holding a weapon, press the X key to perform a basic attack", "Tap repeatedly to combo!"],
+        "questDeclineText": ["You are a fucking retard.", "Do you not want to progress in this game?"],
+        "questInProgressText": ["Go kill the Gators then come back to me."],
+		"questCompletionText": ["Nice job!", "Here's your reward"],
+		
 		"questGoals": ["Slay 5 Gators"],
 		"questReward": "100 gold",
 		"questMemory": "Clean Booga wants me to slay the Gators around here.",

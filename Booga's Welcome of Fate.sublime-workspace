@@ -1,0 +1,240 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"coss",
+				"cosSequenceThree"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "/C/Users/Camer/Desktop/lab1.cpp",
+			"settings":
+			{
+				"buffer_size": 3541,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 392.0,
+		"last_filter": "Snippet: trans",
+		"selected_items":
+		[
+			[
+				"Snippet: trans",
+				"Snippet: Transform.*()"
+			],
+			[
+				"Package Control: ",
+				"Package Control: List Packages"
+			],
+			[
+				"",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 945.0
+	},
+	"console":
+	{
+		"height": 267.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = '6f4c264a24d933ce70df5dedcf1dcaee' + 'ebe013ee18cced0ef93d5f746d80ef60'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/C/Users/Camer/Desktop/Unity Projects/Booga's Welcome of Fate/Assets/Resources/Scripts",
+		"/C/Users/Camer/Desktop/Unity Projects/Booga's Welcome of Fate/Assets/Resources/Scripts/Enemies",
+		"/C/Users/Camer/Desktop/Unity Projects/Booga's Welcome of Fate/Assets/Resources/Scripts/Enemies/Consumables",
+		"/C/Users/Camer/Desktop/Unity Projects/Booga's Welcome of Fate/Assets/Resources/Scripts/Events",
+		"/C/Users/Camer/Desktop/Unity Projects/Booga's Welcome of Fate/Assets/Resources/Scripts/General",
+		"/C/Users/Camer/Desktop/Unity Projects/Booga's Welcome of Fate/Assets/Resources/Scripts/General/DropTable"
+	],
+	"file_history":
+	[
+		"/C/Users/Camer/Desktop/Unity Projects/Booga's Welcome of Fate/Assets/Resources/Scripts/Player/Player.cs",
+		"/C/Users/Camer/Desktop/lab1.cpp",
+		"/C/Users/Camer/Desktop/Unity Projects/Booga's Welcome of Fate/Assets/Resources/Scripts/General/CurrentMap.cs",
+		"/C/Users/Camer/Desktop/Unity Projects/Booga's Welcome of Fate/Booga's Welcome of Fate.sublime-project",
+		"/C/Users/Camer/Desktop/Unity Projects/Booga's Welcome of Fate/Assets/Resources/Scripts/Player/PlayerWeaponController.cs",
+		"/C/Users/Camer/Desktop/Unity Projects/Booga's Welcome of Fate/Assets/Resources/Scripts/Enemies/EnemyFollow.cs",
+		"/C/Users/Camer/Desktop/Unity Projects/Booga's Welcome of Fate/Assets/Resources/Scripts/Enemies/Consumables/IConsumable.cs",
+		"/C/Users/Camer/Desktop/Unity Projects/Booga's Welcome of Fate/Assets/Resources/Scripts/Enemies/Consumables/LogPotion.cs",
+		"/C/Users/Camer/Desktop/Unity Projects/Booga's Welcome of Fate/d",
+		"/C/Users/Camer/Desktop/Unity Projects/Booga's Welcome of Fate/Assets/Resources/Scripts/Items/Weapons/Staff.cs"
+	],
+	"find":
+	{
+		"height": 0.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "/C/Users/Camer/Desktop/lab1.cpp",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3541,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3449,
+								3449
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 855.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 38.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "Booga's Welcome of Fate.sublime-project",
+	"replace":
+	{
+		"height": 0.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 174.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

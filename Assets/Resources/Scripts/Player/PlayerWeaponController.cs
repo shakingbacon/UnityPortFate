@@ -51,7 +51,6 @@ public class PlayerWeaponController : MonoBehaviour {
         }
     }
 
-
     public void UpdatePanelCooldowns()
     {
         foreach (Transform skill in playerSkillController.skillPanel.transform)
@@ -80,8 +79,10 @@ public class PlayerWeaponController : MonoBehaviour {
         equippedWeapon.Stats = itemToEquip.Stats;
         currentlyEquippedItem = itemToEquip;
         EquippedWeapon.transform.SetParent(playerHand.transform);
+        EquippedWeapon.transform.localScale = new Vector3(1, 1, 1);
         equippedWeapon.playerSkillController = playerSkillController;
         equippedWeapon.CharacterStats = characterStats;
+        
         SoundDatabase.PlaySound(0);
         UIEventHandler.ItemEquipped(itemToEquip);
         UIEventHandler.StatsChanged();

@@ -57,8 +57,10 @@
      <Compile Include="Assets\Resources\Scripts\General\CurrentMap.cs" />
      <Compile Include="Assets\Resources\Scripts\General\DropTable\DropTable.cs" />
      <Compile Include="Assets\Resources\Scripts\General\GameManager.cs" />
+     <Compile Include="Assets\Resources\Scripts\General\Maps\Map.cs" />
      <Compile Include="Assets\Resources\Scripts\General\SoundDatabase.cs" />
-     <Compile Include="Assets\Resources\Scripts\General\Warp.cs" />
+     <Compile Include="Assets\Resources\Scripts\General\Warp\Door.cs" />
+     <Compile Include="Assets\Resources\Scripts\General\Warp\Warp.cs" />
      <Compile Include="Assets\Resources\Scripts\Interactable\ComputerScreen.cs" />
      <Compile Include="Assets\Resources\Scripts\Interactable\EnviromentHazard.cs" />
      <Compile Include="Assets\Resources\Scripts\Interactable\Interactable.cs" />
@@ -105,7 +107,9 @@
      <Compile Include="Assets\Resources\Scripts\UI\Damage Popup\FloatingText.cs" />
      <Compile Include="Assets\Resources\Scripts\UI\Damage Popup\FloatingTextController.cs" />
      <Compile Include="Assets\Resources\Scripts\UI\DeathScreen.cs" />
-     <Compile Include="Assets\Resources\Scripts\UI\DialogueSystem.cs" />
+     <Compile Include="Assets\Resources\Scripts\UI\Dialogue System\DialogueSystem.cs" />
+     <Compile Include="Assets\Resources\Scripts\UI\Dialogue System\DialogueSystemOptionObject.cs" />
+     <Compile Include="Assets\Resources\Scripts\UI\Dialogue System\DialogueSystemOptionSelectController.cs" />
      <Compile Include="Assets\Resources\Scripts\UI\Intro.cs" />
      <Compile Include="Assets\Resources\Scripts\UI\Inventory\EquipmentUIItem.cs" />
      <Compile Include="Assets\Resources\Scripts\UI\Inventory\InventoryController.cs" />
