@@ -12,11 +12,10 @@
 	"buffers":
 	[
 		{
-			"file": "/C/Users/Camer/Desktop/lab1.cpp",
+			"file": "/C/Users/Camer/Desktop/2017 Fall-Winter Notes/C++/lab1.cpp",
 			"settings":
 			{
 				"buffer_size": 3541,
-				"encoding": "UTF-8",
 				"line_ending": "Windows"
 			}
 		}
@@ -75,8 +74,8 @@
 	],
 	"file_history":
 	[
-		"/C/Users/Camer/Desktop/Unity Projects/Booga's Welcome of Fate/Assets/Resources/Scripts/Player/Player.cs",
 		"/C/Users/Camer/Desktop/lab1.cpp",
+		"/C/Users/Camer/Desktop/Unity Projects/Booga's Welcome of Fate/Assets/Resources/Scripts/Player/Player.cs",
 		"/C/Users/Camer/Desktop/Unity Projects/Booga's Welcome of Fate/Assets/Resources/Scripts/General/CurrentMap.cs",
 		"/C/Users/Camer/Desktop/Unity Projects/Booga's Welcome of Fate/Booga's Welcome of Fate.sublime-project",
 		"/C/Users/Camer/Desktop/Unity Projects/Booga's Welcome of Fate/Assets/Resources/Scripts/Player/PlayerWeaponController.cs",
@@ -124,7 +123,7 @@
 			[
 				{
 					"buffer": 0,
-					"file": "/C/Users/Camer/Desktop/lab1.cpp",
+					"file": "/C/Users/Camer/Desktop/2017 Fall-Winter Notes/C++/lab1.cpp",
 					"semi_transient": false,
 					"settings":
 					{
@@ -135,8 +134,8 @@
 						"selection":
 						[
 							[
-								3449,
-								3449
+								0,
+								0
 							]
 						],
 						"settings":
@@ -146,7 +145,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 855.0,
+						"translation.y": 240.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,

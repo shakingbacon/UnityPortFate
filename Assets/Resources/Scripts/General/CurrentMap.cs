@@ -6,8 +6,9 @@ using UnityEngine;
 public class CurrentMap : MonoBehaviour {
     public static CurrentMap Instance { get; set; }
 
-    [HideInInspector] public Transform area;
-    [HideInInspector] public Transform enemies;
+    public Transform area;
+     public Transform enemies;
+    public Transform pickupItems;
 
 	// Use this for initialization
 	void Start () {
@@ -15,8 +16,6 @@ public class CurrentMap : MonoBehaviour {
             Destroy(gameObject);
         else
             Instance = this;
-        area = transform.FindChild("Area");
-        enemies = transform.FindChild("Enemies");
     }
 
     public void WarpPlayerToMap(string mapName)
@@ -32,6 +31,7 @@ public class CurrentMap : MonoBehaviour {
         GameManager.player.transform.position = goToPos;
         Camera.main.transform.position = goToPos;
         DestroyAllEnemies();
+        DestroyAllItems();
     }
 
     public void DestroyAllEnemies()
@@ -41,6 +41,14 @@ public class CurrentMap : MonoBehaviour {
             IEnemy enemyComp = enemy.GetComponent<IEnemy>();
             if (enemyComp != null)
                 enemy.GetComponent<IEnemy>().DestroySelf();
+        }
+    }
+
+    public void DestroyAllItems()
+    {
+        foreach (Transform item in pickupItems)
+        {
+            Destroy(item.gameObject);
         }
     }
 }

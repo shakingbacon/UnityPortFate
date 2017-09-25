@@ -25,6 +25,7 @@ public class Warp : Interactable {
 
     IEnumerator WarpPlayer()
     {
+        PlayerInteractController.Instance.ShowInteractNotifier(false);
         ScreenFader.img.enabled = true;
         SoundDatabase.PlaySound(16);
         PlayerMovement.cantMove = true;
@@ -34,7 +35,7 @@ public class Warp : Interactable {
         PlayerMovement.cantMove = false;
         ScreenFader.img.enabled = false;
         Destroy(CurrentMap.Instance.area.GetChild(0).gameObject);
-        PlayerInteractController.Instance.ShowInteractNotifier(false);
+        //PlayerInteractController.Instance.ShowInteractNotifier(false);
     }
 
 

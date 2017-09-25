@@ -6,10 +6,15 @@ using UnityEngine;
 
 public class Gator : MonoBehaviour, IEnemy
 {
+    float currentTime;
     public Animator Animator { get; set; }
     //public LayerMask aggroLayerMask;
     public int currentHealth, strength, defense;
     public int maxHealth;
+    public float AttackSpeed { get; set; }
+
+    public EnemyFollow EnemyFollow { get; set; }
+    public MonsterSpawner Spawner { get; set; }
 
     private Player player;
     //private NavMeshAgent navAgent;
@@ -19,7 +24,7 @@ public class Gator : MonoBehaviour, IEnemy
     [SerializeField] public int MonsterID { get; set; }
     public int Experience { get; set; }
     public DropTable DropTable { get; set; }
-    public PickupItem pickupItem;
+    PickupItem pickupItem;
 
     public EnemyHealthBar healthBar;
     //private Collider2D[] withinAggroCollider;
@@ -27,6 +32,10 @@ public class Gator : MonoBehaviour, IEnemy
 
     void Awake()
     {
+        AttackSpeed = 4f;
+        pickupItem = Resources.Load<PickupItem>("Prefabs/Interactable/Pickup Item");
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        EnemyFollow = GetComponentInChildren<EnemyFollow>();
         MonsterID = 0;
         healthBar = EnemyHealthBarController.CreateHealthBar(transform);
         Animator = GetComponent<Animator>();
@@ -42,17 +51,33 @@ public class Gator : MonoBehaviour, IEnemy
         characterStats = new CharacterStats(5,1,5,5, 275, 100, 100, 25, 40, 10, 95, 5, 4, 1);
         maxHealth = currentHealth;
     }
-    //void FixedUpdate()
-    //{
-    //    withinAggroCollider = Physics2D.OverlapCircleAll(new Vector2(transform.position.x, transform.position.y), 5, aggroLayerMask);
-    //    if (withinAggroCollider.Length > 0)
-    //    {
-    //        ChasePlayer(withinAggroCollider[0].GetComponent<Player>());
-    //    }
-    //}
+    void FixedUpdate()
+    {
+        if (EnemyFollow.canAttack)
+        {
+            PerformAttack();
+            currentTime = AttackSpeed;
+            EnemyFollow.canAttack = false;
+            EnemyFollow.onAttackCooldown = true;
+            print("attacked");
+        }
+        else if (EnemyFollow.onAttackCooldown)
+        {
+            currentTime -= Time.deltaTime;
+            if (currentTime <= 0)
+            {
+                EnemyFollow.onAttackCooldown = false;
+            }
+        }
+    }
 
 
     public void PerformAttack()
+    {
+        Animator.SetTrigger("Attack");
+    }
+
+    public void DealDamage()
     {
         player.TakeDamage(5);
     }
@@ -78,6 +103,11 @@ public class Gator : MonoBehaviour, IEnemy
         {
             PlayDeathAnim();
         }
+    }
+
+    public void AfterSpawning()
+    {
+        EnemyFollow.canMove = true;
     }
 
     public void HealthDamaged(int amount)
@@ -106,6 +136,7 @@ public class Gator : MonoBehaviour, IEnemy
     {
         DropLoot();
         CombatEvents.EnemyDied(this);
+        Spawner.Respawn();
         DestroySelf();
     }
 
@@ -121,6 +152,7 @@ public class Gator : MonoBehaviour, IEnemy
         if (item != null)
         {
             PickupItem instance = Instantiate(pickupItem, transform.position, Quaternion.identity);
+            instance.transform.SetParent(CurrentMap.Instance.pickupItems);
             instance.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Icons/Items/" + item.ItemName);
             instance.transform.localScale = new Vector3(1, 1, 1);
             instance.ItemDrop = item;

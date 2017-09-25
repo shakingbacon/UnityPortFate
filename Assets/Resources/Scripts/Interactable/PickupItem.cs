@@ -9,16 +9,18 @@ public class PickupItem : Interactable {
     {
         interactString = "Pick Up";
     }
-    //public override void EnterInteractionArea(Collider2D player)
-    //{
-        
-    //}
 
     public override void Interact()
     {
         SoundDatabase.PlaySound(16);
-        InventoryController.Instance.GiveItem(ItemDrop);
+        Pickup();
         PlayerInteractController.Instance.ShowInteractNotifier(false);
+    }
+
+    void Pickup()
+    {
+        InventoryController.Instance.GiveItem(ItemDrop);
         Destroy(gameObject);
     }
+
 }
