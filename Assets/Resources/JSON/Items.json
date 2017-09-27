@@ -176,5 +176,8 @@
     "actionName": "Drink",
 	"itemCost": 0,
     "itemModifier": 0
+  },
+  {
+  	  "itemName": "Money_1"
   }
 ]

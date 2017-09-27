@@ -79,7 +79,7 @@ public class PlayerWeaponController : MonoBehaviour {
         equippedWeapon.Stats = itemToEquip.Stats;
         currentlyEquippedItem = itemToEquip;
         EquippedWeapon.transform.SetParent(playerHand.transform);
-        EquippedWeapon.transform.localScale = new Vector3(1, 1, 1);
+        //EquippedWeapon.transform.localScale = new Vector3(1, 1, 1);
         equippedWeapon.playerSkillController = playerSkillController;
         equippedWeapon.CharacterStats = characterStats;
         

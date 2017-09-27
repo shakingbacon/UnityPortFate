@@ -21,12 +21,13 @@ public class WeaponHitbox : MonoBehaviour {
             if (!parentWeapon.EnemiesHit.Exists(aGameObject => aGameObject == col.gameObject)
                 && parentWeapon.EnemiesHit.Count < parentWeapon.pierce)
             {
-                print(name);
                 parentWeapon.EnemiesHit.Add(col.gameObject);
                 Damage damage = new Damage((int)(parentWeapon.CharacterStats.GetStat(BaseStat.BaseStatType.Physical).FinalValue
                     * parentWeapon.Animator.GetFloat("DamageMultiplier") * DamageMultiplier));
                 parentWeapon.OnHit(damage);
-                col.GetComponent<IEnemy>().TakeDamage(damage);
+                col.GetComponentInChildren<Enemy>().TakeDamage(damage);
+                col.GetComponentInChildren<Enemy>().EnemyFollow.knockable.XMove += -parentWeapon.knockback;
+                print(col.GetComponentInChildren<Enemy>().EnemyFollow.knockable.XMove);
             }
         }
     }

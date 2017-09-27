@@ -48,6 +48,7 @@
   <ItemGroup>
      <Compile Include="Assets\Resources\Scripts\Enemies\Consumables\IConsumable.cs" />
      <Compile Include="Assets\Resources\Scripts\Enemies\Consumables\LogPotion.cs" />
+     <Compile Include="Assets\Resources\Scripts\Enemies\Enemy.cs" />
      <Compile Include="Assets\Resources\Scripts\Enemies\EnemyFollow.cs" />
      <Compile Include="Assets\Resources\Scripts\Enemies\Gator.cs" />
      <Compile Include="Assets\Resources\Scripts\Enemies\IEnemy.cs" />
@@ -58,6 +59,7 @@
      <Compile Include="Assets\Resources\Scripts\General\CurrentMap.cs" />
      <Compile Include="Assets\Resources\Scripts\General\DropTable\DropTable.cs" />
      <Compile Include="Assets\Resources\Scripts\General\GameManager.cs" />
+     <Compile Include="Assets\Resources\Scripts\General\Knockable.cs" />
      <Compile Include="Assets\Resources\Scripts\General\Maps\Map.cs" />
      <Compile Include="Assets\Resources\Scripts\General\SoundDatabase.cs" />
      <Compile Include="Assets\Resources\Scripts\General\Warp\Door.cs" />
@@ -65,6 +67,7 @@
      <Compile Include="Assets\Resources\Scripts\Interactable\ComputerScreen.cs" />
      <Compile Include="Assets\Resources\Scripts\Interactable\EnviromentHazard.cs" />
      <Compile Include="Assets\Resources\Scripts\Interactable\Interactable.cs" />
+     <Compile Include="Assets\Resources\Scripts\Interactable\Money.cs" />
      <Compile Include="Assets\Resources\Scripts\Interactable\NPC\NPC.cs" />
      <Compile Include="Assets\Resources\Scripts\Interactable\NPC\NPCInfo.cs" />
      <Compile Include="Assets\Resources\Scripts\Interactable\NPC\NPCInfoDatabase.cs" />

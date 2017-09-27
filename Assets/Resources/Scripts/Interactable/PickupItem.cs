@@ -17,7 +17,7 @@ public class PickupItem : Interactable {
         PlayerInteractController.Instance.ShowInteractNotifier(false);
     }
 
-    void Pickup()
+    protected virtual void Pickup()
     {
         InventoryController.Instance.GiveItem(ItemDrop);
         Destroy(gameObject);

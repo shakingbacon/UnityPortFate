@@ -7,45 +7,55 @@ public class PlayerMovement : MonoBehaviour {
     Animator anim;
     public float moveSpeed;
     public static bool cantMove = false;
+
+    Knockable knockable;
+
     
 	// Use this for initialization
 	void Start () {
         rbody = GetComponent<Rigidbody2D>();
+        knockable = new Knockable(rbody);
         anim = GetComponent<Animator>();
         anim.SetFloat("input_x", 1);
+        knockable.Multiplier = moveSpeed;
         //spriteRenderer = GetComponent<SpriteRenderer>();
 	}
 	
 	// Update is called once per frame
-	void Update () {
-        if (!GameManager.inBattle && !GameManager.inIntro && !cantMove)
+	void FixedUpdate () {
+        if (!cantMove)
         {
-            Vector2 moveVect = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-            if (moveVect.x == -1)
+            float inputX = Input.GetAxisRaw("Horizontal");
+            float inputY = Input.GetAxisRaw("Vertical");            
+            knockable.YMove += inputY;
+            if (inputX == -1)
             {
                 GameManager.player.transform.localScale = new Vector3(-1, 1, 1);
+                knockable.XMove += inputX;
             }
-            else if (moveVect.x == 1)
+            else if (inputX == 1)
             {
                 GameManager.player.transform.localScale= new Vector3(1, 1, 1);
+                knockable.XMove -= inputX;
             }
-            if (moveVect != Vector2.zero)
+            if (inputX != 0 || inputY != 0)
             {
                 anim.SetBool("isWalking", true);
-                if (moveVect.x != 0)
+                if (inputX != 0)
                 {
-                    anim.SetFloat("input_x", moveVect.x);
+                    anim.SetFloat("input_x", inputX);
                 }
+                knockable.FinalMove();
             }
             else
             {
                 anim.SetBool("isWalking", false);
             }
-            rbody.MovePosition(rbody.position + moveVect * Time.deltaTime * moveSpeed);
         }
         else
         {
             anim.SetBool("isWalking", false);
         }
-	}
+
+    }
 }

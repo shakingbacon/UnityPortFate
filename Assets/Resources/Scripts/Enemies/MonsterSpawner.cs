@@ -39,7 +39,7 @@ public class MonsterSpawner : MonoBehaviour {
     {
         GameObject instance = Instantiate(monster, transform.position, Quaternion.identity);
         instance.transform.SetParent(CurrentMap.Instance.enemies);
-        IEnemy enemy = instance.GetComponentInChildren<IEnemy>();
+        Enemy enemy = instance.GetComponentInChildren<Enemy>();
         enemy.Spawner = this;
         spawning = false;
     }

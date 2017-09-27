@@ -14,7 +14,7 @@ public class PlayerLevel : MonoBehaviour {
         UIEventHandler.PlayerLevelChanged();
     }
 
-    public void EnemyToExperience(IEnemy enemy)
+    public void EnemyToExperience(Enemy enemy)
     {
         GrantExperience(enemy.Experience);
     }

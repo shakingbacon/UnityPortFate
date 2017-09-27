@@ -8,7 +8,8 @@ public class Weapon : MonoBehaviour, IWeapon {
     public List<BaseStat> Stats { get; set; }
     public PlayerSkillController playerSkillController { get; set; }
     public CharacterStats CharacterStats { get; set; }
-    [SerializeField] public int pierce;
+    public int pierce;
+    public float knockback;
     public List<GameObject> EnemiesHit { get; set; }
 
 

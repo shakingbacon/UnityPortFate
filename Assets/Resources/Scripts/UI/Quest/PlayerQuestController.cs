@@ -79,7 +79,7 @@ public class PlayerQuestController : MonoBehaviour
 
     // Quest Handler
 
-    public void CheckQuestNeedThisKill(IEnemy enemy)
+    public void CheckQuestNeedThisKill(Enemy enemy)
     {
         foreach (Quest quest in inProgressQuests)
         {

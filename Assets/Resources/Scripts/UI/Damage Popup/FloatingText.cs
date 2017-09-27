@@ -26,6 +26,7 @@ public class FloatingText : MonoBehaviour {
 
     void LateUpdate()
     {
+        if (location != null)
         gameObject.transform.position = new Vector2 (location.position.x + bonusX, location.position.y + bonusY);
     }
 

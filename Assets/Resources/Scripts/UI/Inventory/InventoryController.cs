@@ -43,6 +43,11 @@ public class InventoryController : MonoBehaviour {
     //    }
     //}
 
+    public void GiveMoney(int amount)
+    {
+
+    }
+
     public void GiveItem(string itemName)
     {
         Item item = ItemDatabase.Instance.GetItem(itemName);
