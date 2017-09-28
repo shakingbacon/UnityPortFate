@@ -10,6 +10,7 @@ public class Weapon : MonoBehaviour, IWeapon {
     public CharacterStats CharacterStats { get; set; }
     public int pierce;
     public float knockback;
+    public float stunDuration;
     public List<GameObject> EnemiesHit { get; set; }
 
 

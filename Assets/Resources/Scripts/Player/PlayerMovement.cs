@@ -8,11 +8,13 @@ public class PlayerMovement : MonoBehaviour {
     public float moveSpeed;
     public static bool cantMove = false;
 
-    Knockable knockable;
+    public Stun stun;
+    public Knockable knockable;
 
     
 	// Use this for initialization
 	void Start () {
+        stun = new Stun();
         rbody = GetComponent<Rigidbody2D>();
         knockable = new Knockable(rbody);
         anim = GetComponent<Animator>();
@@ -23,7 +25,7 @@ public class PlayerMovement : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-        if (!cantMove)
+        if (!cantMove && !stun.Stunned)
         {
             float inputX = Input.GetAxisRaw("Horizontal");
             float inputY = Input.GetAxisRaw("Vertical");            
@@ -45,7 +47,6 @@ public class PlayerMovement : MonoBehaviour {
                 {
                     anim.SetFloat("input_x", inputX);
                 }
-                knockable.FinalMove();
             }
             else
             {
@@ -56,6 +57,8 @@ public class PlayerMovement : MonoBehaviour {
         {
             anim.SetBool("isWalking", false);
         }
+        knockable.FinalMove();
+        if (stun.Stunned) return;
 
     }
 }

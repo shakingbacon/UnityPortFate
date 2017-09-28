@@ -9,15 +9,14 @@ public class Player : MonoBehaviour {
     public int currentHealth;
     public int maxHealth;
     public PlayerLevel PlayerLevel { get; set; }
-    public int Cash { get; private set; }
     public bool CanBeHit { get; set; }
+    
     void Awake()
     {
         animator = GetComponent<Animator>();
         PlayerLevel = GetComponent<PlayerLevel>();
         //this.currentHealth = this.maxHealth;
         characterStats = new CharacterStats(2, 5, 3, 3, 0, 0, 0, 0, 0, 0, 95, 95, 3, 1);
-        AddCash(10);
     }
 
     public void TakeDamage(int amount)
@@ -51,11 +50,6 @@ public class Player : MonoBehaviour {
         CanBeHit = true;
     }
     
-    public void AddCash(int amount)
-    {
-        Cash += amount;
-    }
-
     private void Die()
     {
         Debug.Log("Player dead. reset health");

@@ -52,7 +52,7 @@ public class QuestDatabase : MonoBehaviour {
     {
         switch (id)
         {
-            case 0: { PlayerUtilities.AddCash(100); break; }
+            case 0: { UIEventHandler.MoneyAdded(100); break; }
         }
     }
 

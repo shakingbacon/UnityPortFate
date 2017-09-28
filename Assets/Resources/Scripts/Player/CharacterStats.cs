@@ -31,10 +31,8 @@ public class CharacterStats {
 
     public BaseStat GetStat(BaseStat.BaseStatType stat)
     {
-        return this.stats.Find(x => x.StatType == stat);
+        return stats.Find(x => x.StatType == stat);
     }
-
-
 
     public void AddStatBonus(List<BaseStat> statBonuses)
     {
@@ -51,5 +49,4 @@ public class CharacterStats {
             GetStat(bonus.StatType).RemoveStatBonus(new StatBonus(bonus.BaseValue));
         }
     }
-
 }

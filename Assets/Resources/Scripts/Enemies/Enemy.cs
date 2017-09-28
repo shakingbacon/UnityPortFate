@@ -14,9 +14,10 @@ public class Enemy : MonoBehaviour {
     public Rigidbody2D Rigidbody2D { get; set; }
 
     // MUST SET THESE
-    public float Knockback {get;set;}
+    public float Knockback { get; set; }
     public CharacterStats Stats { get; set; }
     public int Experience { get; set; }
+    public int Cash { get; set; }
     public DropTable DropTable { get; set; }
     // MUST SET ABOVE
 
@@ -83,9 +84,9 @@ public class Enemy : MonoBehaviour {
         {
             //print("took damage");
             //Player.GetComponent<Rigidbody2D>().AddForce(new Vector3(-transform.parent.localScale.x * Knockback, 0, 0));
-            Player.GetComponent<Rigidbody2D>().MovePosition(
-                new Vector2(Player.GetComponent<Rigidbody2D>().position.x - (Knockback * transform.parent.localScale.x), Player.GetComponent<Rigidbody2D>().position.y));
+            Player.GetComponent<PlayerMovement>().knockable.XMove += -Knockback;
             Player.TakeDamage(Stats.GetStat(BaseStat.BaseStatType.Physical).GetCalcStatValue());
+            
         }
     }
 
@@ -129,6 +130,7 @@ public class Enemy : MonoBehaviour {
             instance.transform.localScale = new Vector3(1, 1, 1);
             instance.ItemDrop = item;
         }
+        CashDrop.DropCash(Cash, transform);
     }
 
 

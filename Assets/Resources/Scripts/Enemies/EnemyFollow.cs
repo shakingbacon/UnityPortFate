@@ -20,9 +20,12 @@ public class EnemyFollow : MonoBehaviour {
     public bool canMove, canAttack, attacking, onAttackCooldown = false;
 
     public Knockable knockable;
+    public Stun stun;
 
     void Start()
     {
+
+        stun = new Stun();
         rigidbody2d = transform.parent.GetComponentInParent<Rigidbody2D>();
         knockable = new Knockable(rigidbody2d);
         print(rigidbody2d);
@@ -35,39 +38,53 @@ public class EnemyFollow : MonoBehaviour {
         range.isTrigger = true;
     }
 
-    void LateUpdate()
+    void FixedUpdate()
     {
-        if (inRange && canMove)
+        FollowPlayer();
+        if (stun.Stunned) return;
+        CanAttack();
+        FacePlayer();
+    }
+
+    void FollowPlayer()
+    {
+        if (rigidbody2d != null)
         {
-            if (!(target.position.x - xOffSet <= transform.position.x && transform.position.x <= target.position.x + xOffSet))
+            if (inRange && canMove && !stun.Stunned)
             {
-                inXRange = false;
-                knockable.XMove += moveSpeedX;
-            }
-            else
-            {
-                inXRange = true;
-            }
-            if (!(target.position.y - yOffSet <= transform.position.y && transform.position.y <= target.position.y + yOffSet))
-            {
-                inYRange = false;
-                if (target.position.y > enemy.position.y)
+                if (!(target.position.x - xOffSet <= transform.position.x && transform.position.x <= target.position.x + xOffSet))
                 {
-                    knockable.YMove += moveSpeedY;
+                    inXRange = false;
+                    knockable.XMove = moveSpeedX;
                 }
                 else
                 {
-                    knockable.YMove += -moveSpeedY;
+                    inXRange = true;
                 }
-                
+                if (!(target.position.y - yOffSet <= transform.position.y && transform.position.y <= target.position.y + yOffSet))
+                {
+                    inYRange = false;
+                    if (target.position.y > enemy.position.y)
+                    {
+                        knockable.YMove += moveSpeedY;
+                    }
+                    else
+                    {
+                        knockable.YMove += -moveSpeedY;
+                    }
+
+                }
+                else
+                {
+                    inYRange = true;
+                }
             }
-            else
-            {
-                inYRange = true;
-            }
-            print(knockable.XMove);
             knockable.FinalMove();
         }
+    }
+
+    void CanAttack()
+    {
         if (inXRange && inYRange)
         {
             if (!onAttackCooldown)
@@ -79,6 +96,10 @@ public class EnemyFollow : MonoBehaviour {
                 canAttack = false;
             }
         }
+    }
+
+    void FacePlayer()
+    {
         if (!attacking)
         {
             if (transform.position.x <= target.position.x)

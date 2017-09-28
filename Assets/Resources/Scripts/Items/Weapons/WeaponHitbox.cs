@@ -26,8 +26,8 @@ public class WeaponHitbox : MonoBehaviour {
                     * parentWeapon.Animator.GetFloat("DamageMultiplier") * DamageMultiplier));
                 parentWeapon.OnHit(damage);
                 col.GetComponentInChildren<Enemy>().TakeDamage(damage);
-                col.GetComponentInChildren<Enemy>().EnemyFollow.knockable.XMove += -parentWeapon.knockback;
-                print(col.GetComponentInChildren<Enemy>().EnemyFollow.knockable.XMove);
+                col.GetComponentInChildren<Enemy>().EnemyFollow.knockable.XMove = -parentWeapon.knockback;
+                col.GetComponentInChildren<Enemy>().EnemyFollow.stun.StunnedDuration += parentWeapon.stunDuration;
             }
         }
     }

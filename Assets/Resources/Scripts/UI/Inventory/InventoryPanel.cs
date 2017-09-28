@@ -10,6 +10,7 @@ public class InventoryPanel : MonoBehaviour {
     public GameObject inventoryPanel;
     public GameObject equipmentPanel;
     public GameObject inventoryDetails;
+    public Text cashPanelAmount;
 
     [SerializeField] PlayerWeaponController playerWeaponController;
     [SerializeField] PlayerArmorController playerArmorController;
@@ -17,10 +18,12 @@ public class InventoryPanel : MonoBehaviour {
 
     void Start()
     {
+        UpdateMoney();
         onInv = false;
         InventoryButtonPress();
         UIEventHandler.OnItemEquipped += UpdateEquipment;
         UIEventHandler.OnItemUnequipped += UpdateItemUnequipped;
+        UIEventHandler.OnMoneyAdd += UpdateMoney;
     }
 
     void Update()
@@ -47,6 +50,11 @@ public class InventoryPanel : MonoBehaviour {
             equipmentPanel.SetActive(!onInv);
             inventoryDetails.SetActive(false);
         }
+    }
+
+    public void UpdateMoney(int amount = 0)
+    {
+        cashPanelAmount.text = InventoryController.Instance.Cash.ToString();
     }
 
     public void UpdateEquipment(Item item)

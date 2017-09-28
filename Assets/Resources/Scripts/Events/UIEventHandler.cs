@@ -10,6 +10,8 @@ public class UIEventHandler : MonoBehaviour {
     public static event ItemEventHandler OnItemEquipped;
     public static event ItemEventHandler OnItemUnequipped;
 
+    public delegate void MoneyEventHandler(int amount);
+    public static event MoneyEventHandler OnMoneyAdd;
 
     public delegate void ItemNoneEventHandler();
     public static event ItemNoneEventHandler OnItemRemovedFromInventory;
@@ -34,6 +36,11 @@ public class UIEventHandler : MonoBehaviour {
     // Quest
     public delegate void QuestEventHandler(Quest quest);
     public static event QuestEventHandler OnQuestAccepted;
+
+    public static void MoneyAdded(int amount)
+    {
+        OnMoneyAdd(amount);
+    }
 
     public static void QuestAccepted(Quest quest)
     {

@@ -14,8 +14,11 @@ public class InventoryController : MonoBehaviour {
 
     public List<Item> playerItems = new List<Item>();
 
+    public int Cash { get; set; }
+
     void Start()
     {
+        UIEventHandler.OnMoneyAdd += GiveMoney;
         if (Instance != null && Instance != this)
             Destroy(gameObject);
         else
@@ -43,9 +46,10 @@ public class InventoryController : MonoBehaviour {
     //    }
     //}
 
-    public void GiveMoney(int amount)
+    void GiveMoney(int amount)
     {
-
+        Cash += amount;
+        print(Cash);
     }
 
     public void GiveItem(string itemName)

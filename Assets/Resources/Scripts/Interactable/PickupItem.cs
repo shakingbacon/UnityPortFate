@@ -7,7 +7,7 @@ public class PickupItem : Interactable {
 
     void Start()
     {
-        interactString = "Pick Up";
+        interactString = string.Format("Pick Up") ;
     }
 
     public override void Interact()
