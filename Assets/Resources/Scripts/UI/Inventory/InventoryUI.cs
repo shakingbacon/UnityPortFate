@@ -20,6 +20,11 @@ public class InventoryUI : MonoBehaviour {
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape) && menuIsActive)
+        {
+            menuIsActive = !menuIsActive;
+            inventoryPanel.gameObject.SetActive(menuIsActive);
+        }
         if (Input.GetKeyDown(KeyCode.I))
         {
             menuIsActive = !menuIsActive;

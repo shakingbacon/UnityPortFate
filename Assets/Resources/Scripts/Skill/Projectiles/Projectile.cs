@@ -9,6 +9,11 @@ public class Projectile : MonoBehaviour {
     [HideInInspector]public Vector3 spawnPosition;
 
     int soundID;
+    
+    void Awake()
+    {
+        Damage = new Damage();
+    }
 
     void Update()
     {
@@ -25,21 +30,26 @@ public class Projectile : MonoBehaviour {
 
     public void SetSound(int id) { soundID = id; }
 
-    public virtual void Extinguish()
-    {
-        Destroy(gameObject);
-    }
-
     public virtual void OnHitActivations(Collider2D col)
     {
         if (col.transform.tag == "Enemy")
         {
             //Debug.Log("Hit an Enemy");
             SoundHit();
-            col.gameObject.GetComponent<IEnemy>().TakeDamage(Damage);
+            Enemy enemy = col.GetComponent<Enemy>();
+            enemy.EnemyMovement.inRange = true;
+            enemy.TakeDamage(Damage);
+            enemy.EnemyMovement.knockable.AddXKnockback(Damage.Knockback, transform);
+            enemy.EnemyMovement.stun.StunnedDuration += Damage.Stun;
             Extinguish();
         }
     }
+
+    public virtual void Extinguish()
+    {
+        Destroy(gameObject);
+    }
+
 
     void OnTriggerEnter2D(Collider2D col)
     {

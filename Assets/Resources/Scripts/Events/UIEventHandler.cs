@@ -17,14 +17,16 @@ public class UIEventHandler : MonoBehaviour {
     public static event ItemNoneEventHandler OnItemRemovedFromInventory;
 
     // Player
-    public delegate void PlayerHealhEventHandler(int currentHealth, int maxHealth);
-    public static event PlayerHealhEventHandler OnPlayerHealthChanged;
+    public delegate void PlayerHealthEventHandler();
+    public static event PlayerHealthEventHandler OnPlayerHealthChanged;
+    public static event PlayerHealthEventHandler OnPlayerManaChanged;
 
     public delegate void StatsEventHandler();
     public static event StatsEventHandler OnStatsChanged;
 
     public delegate void PlayerLevelEventHandler();
     public static event PlayerLevelEventHandler OnPlayerLevelChanged;
+    public static event PlayerLevelEventHandler OnPlayerExpChanged;
 
     // Skill
     public delegate void SkillEventHandler(Skill skill);
@@ -36,6 +38,11 @@ public class UIEventHandler : MonoBehaviour {
     // Quest
     public delegate void QuestEventHandler(Quest quest);
     public static event QuestEventHandler OnQuestAccepted;
+
+    public static void ExpChanged()
+    {
+        OnPlayerExpChanged();
+    }
 
     public static void MoneyAdded(int amount)
     {
@@ -74,9 +81,14 @@ public class UIEventHandler : MonoBehaviour {
         OnItemRemovedFromInventory();
     }
 
-    public static void HealthChanged(int currentHealth, int maxHealth)
+    public static void HealthChanged()
     {
-        OnPlayerHealthChanged(currentHealth, maxHealth);
+        OnPlayerHealthChanged();
+    }
+
+    public static void ManaChanged()
+    {
+        OnPlayerManaChanged();
     }
 
     public static void StatsChanged()

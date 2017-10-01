@@ -22,12 +22,13 @@ public class WeaponHitbox : MonoBehaviour {
                 && parentWeapon.EnemiesHit.Count < parentWeapon.pierce)
             {
                 parentWeapon.EnemiesHit.Add(col.gameObject);
-                Damage damage = new Damage((int)(parentWeapon.CharacterStats.GetStat(BaseStat.BaseStatType.Physical).FinalValue
-                    * parentWeapon.Animator.GetFloat("DamageMultiplier") * DamageMultiplier));
+                Damage damage = new Damage((int)(parentWeapon.CharacterStats.Physical * parentWeapon.Animator.GetFloat("DamageMultiplier") * DamageMultiplier));
+
                 parentWeapon.OnHit(damage);
                 col.GetComponentInChildren<Enemy>().TakeDamage(damage);
-                col.GetComponentInChildren<Enemy>().EnemyFollow.knockable.XMove = -parentWeapon.knockback;
-                col.GetComponentInChildren<Enemy>().EnemyFollow.stun.StunnedDuration += parentWeapon.stunDuration;
+
+                col.GetComponentInChildren<Enemy>().EnemyMovement.knockable.AddXKnockback(parentWeapon.knockback, parentWeapon.transform.parent);
+                col.GetComponentInChildren<Enemy>().EnemyMovement.stun.StunnedDuration += parentWeapon.stunDuration;
             }
         }
     }

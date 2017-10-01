@@ -10,12 +10,12 @@ public class Gator : Enemy
     {
         Stats = new CharacterStats(
             5, 1, 5, 5,
-            100, 100,
+            325, 100,
             5, 2,
             40, 10,
             95, 5, 4, 4);
-        Knockback = 100f;
-        Experience = 20;
+        Knockback = 10f;
+        Experience = 5;
         Cash = 25;
         DropTable = new DropTable();
         DropTable.loot = new List<LootDrop>()

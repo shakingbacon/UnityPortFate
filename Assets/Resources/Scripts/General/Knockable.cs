@@ -12,8 +12,7 @@ public class Knockable {
     protected float yMove = 0;
     float multiplier = 1;
     public float Multiplier { get { return multiplier; } set { multiplier = 1 * value; } }
-    public float XMove { get { return xMove; } set { xMove += ChangeMoveByScale(value); } }
-    public float YMove { get { return yMove; } set { yMove += value; } }
+    public float YKnockback { get { return yMove; } set { yMove += value; } }
 
     // this function should be used in fixed update
     public void FinalMove()
@@ -23,10 +22,17 @@ public class Knockable {
         yMove = 0;
     }
 
-
-    float ChangeMoveByScale(float value)
+    public void AddXKnockback(float value)
     {
-        return value * - rigidbody2d.transform.localScale.x;
+        xMove += value;
+    }
+
+    public void AddXKnockback(float value, Transform user)
+    {
+        if (user.position.x < rigidbody2d.position.x) // positive is pushed away
+            xMove += value;                           // negative is pulled toward
+        else
+            xMove += -value;
     }
 
     public Knockable(Rigidbody2D body)

@@ -7,7 +7,7 @@ public interface IEnemy  {
 
     Animator Animator { get; set; }
     MonsterSpawner Spawner { get; set; }
-    EnemyFollow EnemyFollow { get; set; }
+    EnemyMovement EnemyFollow { get; set; }
 
     int CurrentHealth { get; set; }
     int CurrentMana { get; set; }

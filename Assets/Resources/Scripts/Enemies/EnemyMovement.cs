@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(CircleCollider2D))]
-public class EnemyFollow : MonoBehaviour {
+public class EnemyMovement : MonoBehaviour {
 
     public float moveSpeedX;
     public float moveSpeedY;
@@ -12,7 +12,7 @@ public class EnemyFollow : MonoBehaviour {
     Transform target;
     CircleCollider2D range;
     Rigidbody2D rigidbody2d;
-    bool inRange;
+    public bool inRange;
     float xOffSet;
     float yOffSet;
     bool inXRange = false;
@@ -20,15 +20,14 @@ public class EnemyFollow : MonoBehaviour {
     public bool canMove, canAttack, attacking, onAttackCooldown = false;
 
     public Knockable knockable;
-    public Stun stun;
+    public Stunable stun;
 
     void Start()
     {
 
-        stun = new Stun();
+        stun = new Stunable();
         rigidbody2d = transform.parent.GetComponentInParent<Rigidbody2D>();
         knockable = new Knockable(rigidbody2d);
-        print(rigidbody2d);
         xOffSet = Random.Range(0.6f, 0.8f);
         yOffSet = Random.Range(0f, 0.9f);
         canMove = false;
@@ -55,7 +54,10 @@ public class EnemyFollow : MonoBehaviour {
                 if (!(target.position.x - xOffSet <= transform.position.x && transform.position.x <= target.position.x + xOffSet))
                 {
                     inXRange = false;
-                    knockable.XMove = moveSpeedX;
+                    if (transform.position.x < target.position.x)
+                    knockable.AddXKnockback(moveSpeedX);
+                    else
+                        knockable.AddXKnockback(-moveSpeedX);
                 }
                 else
                 {
@@ -66,11 +68,11 @@ public class EnemyFollow : MonoBehaviour {
                     inYRange = false;
                     if (target.position.y > enemy.position.y)
                     {
-                        knockable.YMove += moveSpeedY;
+                        knockable.YKnockback += moveSpeedY;
                     }
                     else
                     {
-                        knockable.YMove += -moveSpeedY;
+                        knockable.YKnockback += -moveSpeedY;
                     }
 
                 }

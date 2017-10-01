@@ -4,6 +4,24 @@ using UnityEngine;
 
 public class CharacterStats {
 
+    public int Strength { get { return FindStatAndGetCalcValue(BaseStat.BaseStatType.Strength); }
+    set { GetStat(BaseStat.BaseStatType.Strength).BaseValue = value; } }
+    public int Intelligence { get { return FindStatAndGetCalcValue(BaseStat.BaseStatType.Intelligence); }
+        set { GetStat(BaseStat.BaseStatType.Intelligence).BaseValue = value; } }
+    public int Agility { get { return FindStatAndGetCalcValue(BaseStat.BaseStatType.Agility); } set { GetStat(BaseStat.BaseStatType.Agility).BaseValue = value; } }
+    public int Luck { get { return FindStatAndGetCalcValue(BaseStat.BaseStatType.Luck); } set { GetStat(BaseStat.BaseStatType.Luck).BaseValue = value; } }
+    public int Health { get { return FindStatAndGetCalcValue(BaseStat.BaseStatType.Health); } set { GetStat(BaseStat.BaseStatType.Health).BaseValue = value; } }
+    public int Mana { get { return FindStatAndGetCalcValue(BaseStat.BaseStatType.Mana); } set { GetStat(BaseStat.BaseStatType.Mana).BaseValue = value; } }
+    public int Physical { get { return FindStatAndGetCalcValue(BaseStat.BaseStatType.Physical); } set { GetStat(BaseStat.BaseStatType.Physical).BaseValue = value; } }
+    public int Magical { get { return FindStatAndGetCalcValue(BaseStat.BaseStatType.Magical); } set { GetStat(BaseStat.BaseStatType.Magical).BaseValue = value; } }
+    public int Armor { get { return FindStatAndGetCalcValue(BaseStat.BaseStatType.Armor); } set { GetStat(BaseStat.BaseStatType.Armor).BaseValue = value; } }
+    public int Resist { get { return FindStatAndGetCalcValue(BaseStat.BaseStatType.Resist); } set { GetStat(BaseStat.BaseStatType.Resist).BaseValue = value; } }
+    public int Hit { get { return FindStatAndGetCalcValue(BaseStat.BaseStatType.Hit); } set { GetStat(BaseStat.BaseStatType.Hit).BaseValue = value; } }
+    public int Dodge { get { return FindStatAndGetCalcValue(BaseStat.BaseStatType.Dodge); } set { GetStat(BaseStat.BaseStatType.Dodge).BaseValue = value; } }
+    public int Crit { get { return FindStatAndGetCalcValue(BaseStat.BaseStatType.Crit); } set { GetStat(BaseStat.BaseStatType.Crit).BaseValue = value; } }
+    public int CritMulti { get { return FindStatAndGetCalcValue(BaseStat.BaseStatType.CritMulti); } set { GetStat(BaseStat.BaseStatType.CritMulti).BaseValue = value; } }
+    public int AttackSpeed { get { return FindStatAndGetCalcValue(BaseStat.BaseStatType.AttackSpeed); } set { GetStat(BaseStat.BaseStatType.AttackSpeed).BaseValue = value; } }
+
     public List<BaseStat> stats = new List<BaseStat>();
 
     public CharacterStats(int strength, int intel, int agi, int luck, int health, int mana, 
@@ -48,5 +66,10 @@ public class CharacterStats {
         {
             GetStat(bonus.StatType).RemoveStatBonus(new StatBonus(bonus.BaseValue));
         }
+    }
+
+    int FindStatAndGetCalcValue(BaseStat.BaseStatType stat)
+    {
+        return GetStat(stat).GetFullValue();
     }
 }

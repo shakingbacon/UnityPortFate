@@ -50,7 +50,7 @@
      <Compile Include="Assets\Resources\Scripts\Enemies\Consumables\IConsumable.cs" />
      <Compile Include="Assets\Resources\Scripts\Enemies\Consumables\LogPotion.cs" />
      <Compile Include="Assets\Resources\Scripts\Enemies\Enemy.cs" />
-     <Compile Include="Assets\Resources\Scripts\Enemies\EnemyFollow.cs" />
+     <Compile Include="Assets\Resources\Scripts\Enemies\EnemyMovement.cs" />
      <Compile Include="Assets\Resources\Scripts\Enemies\Gator.cs" />
      <Compile Include="Assets\Resources\Scripts\Enemies\IEnemy.cs" />
      <Compile Include="Assets\Resources\Scripts\Enemies\MonsterSpawner.cs" />
@@ -62,8 +62,9 @@
      <Compile Include="Assets\Resources\Scripts\General\GameManager.cs" />
      <Compile Include="Assets\Resources\Scripts\General\Knockable.cs" />
      <Compile Include="Assets\Resources\Scripts\General\Maps\Map.cs" />
+     <Compile Include="Assets\Resources\Scripts\General\Mortal.cs" />
      <Compile Include="Assets\Resources\Scripts\General\SoundDatabase.cs" />
-     <Compile Include="Assets\Resources\Scripts\General\Stun.cs" />
+     <Compile Include="Assets\Resources\Scripts\General\Stunable.cs" />
      <Compile Include="Assets\Resources\Scripts\General\Warp\Door.cs" />
      <Compile Include="Assets\Resources\Scripts\General\Warp\Warp.cs" />
      <Compile Include="Assets\Resources\Scripts\Interactable\ComputerScreen.cs" />

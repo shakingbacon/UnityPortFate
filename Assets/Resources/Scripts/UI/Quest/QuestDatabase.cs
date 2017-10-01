@@ -27,7 +27,6 @@ public class QuestDatabase : MonoBehaviour {
         Quests = JsonConvert.DeserializeObject<List<Quest>>(Resources.Load<TextAsset>("JSON/Quests").ToString());
         foreach(Quest quest in Quests)
         {
-            print(quest.questAskText[0]);
             for (int i = 0; i < quest.questMonsterNeeds.Length; i++)
             {
                 quest.questAmountDids[i] = 0;

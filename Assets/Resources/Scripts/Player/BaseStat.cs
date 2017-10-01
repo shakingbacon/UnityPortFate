@@ -31,7 +31,6 @@ public class BaseStat
     public int BaseValue { get; set; }
     public string StatName { get; set; }
     public string StatDescription { get; set; }
-    public int FinalValue { get; set; }
 
     public BaseStat (int baseval, string name, string desc)
     {
@@ -52,18 +51,18 @@ public class BaseStat
 
     public void AddStatBonus(StatBonus statBonus)
     {
-        this.BaseAdditives.Add(statBonus);
+        BaseAdditives.Add(statBonus);
     }
 
     public void RemoveStatBonus(StatBonus statBonus)
     {
-        this.BaseAdditives.Remove(BaseAdditives.Find(x => x.BonusValue == statBonus.BonusValue));
+        BaseAdditives.Remove(BaseAdditives.Find(x => x.BonusValue == statBonus.BonusValue));
     }
 
-    public int GetCalcStatValue()
+    public int GetFullValue()
     {
-        FinalValue = 0;
-        this.BaseAdditives.ForEach(x => this.FinalValue += x.BonusValue);
+        int FinalValue = 0;
+        BaseAdditives.ForEach(x => FinalValue += x.BonusValue);
     
         FinalValue += BaseValue;
         return FinalValue;

@@ -17,7 +17,7 @@ public class PlayerWeaponController : MonoBehaviour {
     void Start()
     {
         spawnProjectile = transform.FindChild("ProjectileSpawn");
-        characterStats = GetComponent<Player>().characterStats;
+        characterStats = GetComponent<Player>().Stats;
         inventoryController = GetComponent<InventoryController>();
         UIEventHandler.OnSkillUse += UpdatePanelCooldowns;
     }

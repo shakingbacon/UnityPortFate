@@ -27,14 +27,14 @@ public class InventoryController : MonoBehaviour {
         consumableController = GetComponent<ConsumableController>();
         playerWeaponController = GetComponent<PlayerWeaponController>();
         playerArmorController = GetComponent<PlayerArmorController>();
-        GiveItem("Test Sword");
-        GiveItem("Log Potion");
+        //GiveItem("Test Sword");
+        //GiveItem("Log Potion");
         GiveItem("Longsword");
         GiveItem("Wooden Staff");
         GiveItem("Leather Hat");
-        GiveItem("Leather Gloves");
-        GiveItem("Strength Necklace");
-        GiveItem("Big Axe");
+        //GiveItem("Leather Gloves");
+        //GiveItem("Strength Necklace");
+        //GiveItem("Big Axe");
 
     }
 

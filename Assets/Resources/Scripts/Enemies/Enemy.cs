@@ -10,7 +10,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour {
     public Animator Animator { get; set; }
     public MonsterSpawner Spawner { get; set; }
-    public EnemyFollow EnemyFollow { get; set; }
+    public EnemyMovement EnemyMovement { get; set; }
     public Rigidbody2D Rigidbody2D { get; set; }
 
     // MUST SET THESE
@@ -37,20 +37,20 @@ public class Enemy : MonoBehaviour {
 
     void FixedUpdate()
     {
-        if (EnemyFollow.canAttack)
+        if (EnemyMovement.canAttack)
         {
             PerformAttack();
-            AttackCooldown = Stats.GetStat(BaseStat.BaseStatType.AttackSpeed).GetCalcStatValue();
-            EnemyFollow.canAttack = false;
-            EnemyFollow.onAttackCooldown = true;
+            AttackCooldown = Stats.AttackSpeed;
+            EnemyMovement.canAttack = false;
+            EnemyMovement.onAttackCooldown = true;
             //print("attacked");
         }
-        else if (EnemyFollow.onAttackCooldown)
+        else if (EnemyMovement.onAttackCooldown)
         {
             AttackCooldown -= Time.deltaTime;
             if (AttackCooldown <= 0)
             {
-                EnemyFollow.onAttackCooldown = false;
+                EnemyMovement.onAttackCooldown = false;
             }
         }
     }
@@ -59,11 +59,11 @@ public class Enemy : MonoBehaviour {
     {
         PickupItemPrefab = Resources.Load<PickupItem>("Prefabs/Interactable/Pickup Item");
         Player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-        EnemyFollow = GetComponentInChildren<EnemyFollow>();
+        EnemyMovement = GetComponentInChildren<EnemyMovement>();
         HealthBar = EnemyHealthBarController.CreateHealthBar(transform);
         Animator = GetComponent<Animator>();
-        CurrentHealth = Stats.GetStat(BaseStat.BaseStatType.Health).GetCalcStatValue();
-        CurrentMana = Stats.GetStat(BaseStat.BaseStatType.Mana).GetCalcStatValue();
+        CurrentHealth = Stats.Health;
+        CurrentMana = Stats.Mana;
         Rigidbody2D = GetComponentInParent<Rigidbody2D>();
     }
 
@@ -84,8 +84,9 @@ public class Enemy : MonoBehaviour {
         {
             //print("took damage");
             //Player.GetComponent<Rigidbody2D>().AddForce(new Vector3(-transform.parent.localScale.x * Knockback, 0, 0));
-            Player.GetComponent<PlayerMovement>().knockable.XMove += -Knockback;
-            Player.TakeDamage(Stats.GetStat(BaseStat.BaseStatType.Physical).GetCalcStatValue());
+            Player.GetComponent<PlayerMovement>().knockable.AddXKnockback(Knockback, transform);
+            Player.TakeDamage(Stats.Physical);
+            print("wow");
             
         }
     }
@@ -116,7 +117,7 @@ public class Enemy : MonoBehaviour {
     public virtual void HealthDamaged(int amount)
     {
         CurrentHealth-= amount;
-        HealthBar.SetSliderValue(CurrentHealth, Stats.GetStat(BaseStat.BaseStatType.Health).GetCalcStatValue());
+        HealthBar.SetSliderValue(CurrentHealth, Stats.Health);
     }
 
     public virtual void DropLoot()
@@ -155,7 +156,7 @@ public class Enemy : MonoBehaviour {
 
     public void AfterSpawning()
     {
-        EnemyFollow.canMove = true;
+        EnemyMovement.canMove = true;
     }
 
     public void StartToDie()
@@ -166,12 +167,12 @@ public class Enemy : MonoBehaviour {
 
     public void Attacking()
     {
-        EnemyFollow.attacking = true;
+        EnemyMovement.attacking = true;
     }
 
     public void FinishAttacking()
     {
-        EnemyFollow.attacking = false;
+        EnemyMovement.attacking = false;
     }
 
 

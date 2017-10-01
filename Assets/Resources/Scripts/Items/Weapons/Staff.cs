@@ -5,19 +5,29 @@ using UnityEngine;
 
 public class Staff : Weapon, IProjectileWeapon
 {
+    WeaponHitbox staffBase;
+    [SerializeField] float baseDamage;
+
+
+
     public Transform ProjectileSpawn { get; set; }
 
     MagicShot magicShot;
 
-    void Start()
+    public override void StartActivations()
     {
+        base.StartActivations();
+        staffBase = transform.GetChild(0).GetComponent<WeaponHitbox>();
+        staffBase.DamageMultiplier = baseDamage;
         magicShot = Resources.Load<MagicShot>("Prefabs/Projectiles/MagicShot");
     }
 
     public void CastProjectile()
     {
         MagicShot shotProj = Instantiate(magicShot, ProjectileSpawn.position, ProjectileSpawn.rotation);
-        shotProj.Damage.Amount = (int)(CharacterStats.GetStat(BaseStat.BaseStatType.Magical).FinalValue * 0.45f);
+        //shotProj.Damage = new Damage();
+        shotProj.Damage.DidHit = true;
+        shotProj.Damage.Amount = (int)(CharacterStats.Magical * 0.45f);
         shotProj.Direction = ProjectileSpawn.right;
         shotProj.transform.localScale = GameManager.player.transform.localScale;
     }

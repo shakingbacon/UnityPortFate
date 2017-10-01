@@ -9,6 +9,9 @@ public class Damage {
     public bool DidCrit { get; set; }
     public bool DidHit { get; set; }
 
+    public float Knockback { get; set; }
+    public float Stun { get; set; }
+
     public Damage()
     {
         Amount = 0;
@@ -40,13 +43,15 @@ public class Damage {
 
     //}
 
-    public Damage(int baseDmg)
+    public Damage(int baseDmg, float knockback=0, float stun =0)
     {
         //if (Random.Range(0f, 1f) < 0.5f)
         //    dmg.DidHit = false;
         //else
         DidHit = true;
         Amount = (baseDmg * 2 + Random.Range(2, 8));
+        Knockback = knockback;
+        Stun = stun;
         // Calculate Crit
         if (Random.value <= .1f)
         {
@@ -58,7 +63,7 @@ public class Damage {
     private void CalculateCrit()
     {
         int critDamage = (int)(Amount * Random.Range(.5f, .75f));
-        Amount = critDamage;
+        Amount += critDamage;
     }
 
 }

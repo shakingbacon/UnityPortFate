@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Stun {
+public class Stunable {
 
     public float StunnedDuration { get; set; }
     public bool Stunned { get { return IsStunned(); } }
@@ -22,10 +22,11 @@ public class Stun {
         StunnedDuration += time;
     }
 
-    public Stun()
+    public Stunable()
     {
         StunnedDuration = 0;
     }
+}
 
     // use this in fixed update
     //if (stun.Stunned)
@@ -33,4 +34,3 @@ public class Stun {
     //    return;
     //}
 
-}

@@ -14,7 +14,7 @@ public class PlayerArmorController : MonoBehaviour {
     void Awake ()
     {
         player = GetComponent<Player>();
-        characterStats = GetComponent<Player>().characterStats;
+        characterStats = GetComponent<Player>().Stats;
         inventoryController = GetComponent<InventoryController>();
     }
 

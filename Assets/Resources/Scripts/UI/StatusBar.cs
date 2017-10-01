@@ -4,69 +4,63 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class StatusBar : MonoBehaviour {
+    Player player;
 
-    //public static GameObject statusBar;
-    //public static Slider healthBar;
-    //public static Slider manaBar;
-    //public static Slider expBar;
-    //public static Slider shieldBar;
-    //public static Transform playerDesc;
-    //public static bool hasShield;
-    //public static int shieldMax;
+    GameObject statusBar;
+    Slider healthBar;
+    Text healthBarText, manaBarText, expBarText;
+    Slider manaBar;
+    Slider expBar;
+    Slider shieldBar;
+    Text mingZi, job, currentLevel, nextLevel;
+    bool hasShield;
+    int shieldMax;
 
-    //void Start()
-    //{
-    //    statusBar = gameObject;
-    //    healthBar = gameObject.transform.FindChild("HP Bar").GetComponent<Slider>();
-    //    manaBar = gameObject.transform.FindChild("MP Bar").GetComponent<Slider>();
-    //    expBar = gameObject.transform.FindChild("EXP Bar").GetComponent<Slider>();
-    //    shieldBar = gameObject.transform.FindChild("Shield Bar").GetComponent<Slider>();
-    //    playerDesc = gameObject.transform.FindChild("Player Description");
-    //    //UpdateStatusBar();
-    //}
+    void Start()
+    {
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        statusBar = gameObject;
+        healthBar = gameObject.transform.FindChild("HP Bar").GetComponent<Slider>();
+        healthBarText = healthBar.transform.FindChild("HP Amount").GetComponent<Text>();
+        manaBar = gameObject.transform.FindChild("MP Bar").GetComponent<Slider>();
+        manaBarText = manaBar.transform.FindChild("MP Amount").GetComponent<Text>();
+        expBar = gameObject.transform.FindChild("EXP Bar").GetComponent<Slider>();
+        expBarText = expBar.transform.FindChild("EXP Amount").GetComponent<Text>();
+        shieldBar = gameObject.transform.FindChild("Shield Bar").GetComponent<Slider>();
+        Transform playerDesc = gameObject.transform.FindChild("Player Description");
+        mingZi = playerDesc.FindChild("Name").GetComponent<Text>();
+        job = playerDesc.FindChild("Job").GetComponent<Text>();
+        currentLevel = playerDesc.FindChild("Current Level").GetComponent<Text>();
+        nextLevel = playerDesc.FindChild("Next Level").GetComponent<Text>();
+        //UpdateStatusBar();
+        UIEventHandler.OnPlayerHealthChanged += UpdateHealthBar;
+        UIEventHandler.OnPlayerExpChanged += UpdateExpBar;
+        UIEventHandler.OnPlayerManaChanged += UpdateManaBar;
+        UIEventHandler.ExpChanged();
+        player.StatsUpdate();
+        player.HealFullHP();
+        player.HealFullMP();
+    }
 
+    void UpdateHealthBar()
+    {
+        healthBarText.text = string.Format("HP: {0} / {1}", player.CurrentHealth, player.Stats.Health);
+        healthBar.value = player.CurrentHealth / (float)player.Stats.Health;
+    }
 
-    //public static void SetNewShield()
-    //{
-    //    hasShield = true;
-    //    shieldMax = GameManager.player.shield;
-    //    shieldBar.gameObject.SetActive(true);
-    //    UpdateShield();
-    //}
+    void UpdateManaBar()
+    {
+        manaBarText.text = string.Format("MP: {0} / {1}", player.CurrentMana, player.Stats.Mana);
+        manaBar.value = player.CurrentMana / (float)player.Stats.Mana;
+    }
 
-    //public static void UpdateShield()
-    //{
-    //    SliderUtilities.UpdateSliderFillWithText(shieldBar, GameManager.player.shield, shieldMax, "Shield: ", "Shield Amount");
-    //}
+    void UpdateExpBar()
+    {
+        expBarText.text = string.Format("{0} / {1}", player.PlayerLevel.CurrentExperience, 
+            player.PlayerLevel.RequiredExperience);
+        expBar.value = (float)player.PlayerLevel.CurrentExperience / (float)player.PlayerLevel.RequiredExperience;
+        currentLevel.text = player.PlayerLevel.Level.ToString();
+        nextLevel.text = (player.PlayerLevel.Level + 1).ToString();
+    }
 
-    //public static void LoseShield()
-    //{
-    //    GameManager.player.shield = 0;
-    //    hasShield = false;
-    //    shieldBar.gameObject.SetActive(false);
-    //}
-
-    //public static void UpdateDescription()
-    //{
-    //    playerDesc.FindChild("Name").GetComponent<Text>().text = GameManager.player.mingZi;
-    //    playerDesc.FindChild("Level").GetComponent<Text>().text = "LV: " + GameManager.player.level.ToString();
-    //    playerDesc.FindChild("Job").GetComponent<Text>().text = "Job: " + GameManager.player.job.jobName;
-    //    playerDesc.FindChild("Current Level").GetComponent<Text>().text = GameManager.player.level.ToString();
-    //    playerDesc.FindChild("Next Level").GetComponent<Text>().text = (GameManager.player.level + 1).ToString();
-
-    //}
-
-    //public static void UpdateSliders()
-    //{
-    //    SliderUtilities.UpdateSliderFillWithText(healthBar, GameManager.player.health, GameManager.player.maxHealth.totalAmount, "HP: ", "HP Amount");
-    //    SliderUtilities.UpdateSliderFillWithText(manaBar, GameManager.player.mana, GameManager.player.maxMana.totalAmount, "MP: ", "MP Amount");
-    //    SliderUtilities.UpdateSliderFillWithText(expBar, GameManager.player.experience, GameManager.player.maxExperience, "EXP: ", "EXP Amount");
-    //}
-    
-    //public static void UpdateStatusBar()
-    //{
-    //    UpdateDescription();
-    //    UpdateSliders();
-    //}
-        
 }

@@ -4,8 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class CharacterPanel : MonoBehaviour {
-    [SerializeField] private Text health, level;
-    [SerializeField] private Image levelFill, healthFill;
+    [SerializeField] private Text level;
+    [SerializeField]
+    private Image levelFill;
     [SerializeField] private Player player;
 
     // Stats
@@ -16,21 +17,11 @@ public class CharacterPanel : MonoBehaviour {
     void Awake() {
         //weaponIcon.sprite = defaultWeaponSprite;
         //playerWeaponController = player.GetComponent<PlayerWeaponController>();
-        UIEventHandler.OnPlayerHealthChanged += UpdateHealth;
         UIEventHandler.OnStatsChanged += UpdateStats;
         UIEventHandler.OnPlayerLevelChanged += UpdateLevel;
         InitializeStats();
-        player.TakeDamage(5);
         gameObject.SetActive(false);
     }
-
-
-    void UpdateHealth(int currentHealth, int maxHealth)
-    {
-        this.health.text = currentHealth.ToString();
-        this.healthFill.fillAmount = (float)currentHealth / (float)maxHealth;
-    }
-
 
     void UpdateLevel()
     {
@@ -42,7 +33,7 @@ public class CharacterPanel : MonoBehaviour {
 
     void InitializeStats()
     {
-        for(int i = 0; i < player.characterStats.stats.Count; i++)
+        for(int i = 0; i < player.Stats.stats.Count; i++)
         {
             playerStatTexts.Add(Instantiate(playerStatPrefab));
             playerStatTexts[i].transform.SetParent(playerStatPanel);
@@ -55,9 +46,9 @@ public class CharacterPanel : MonoBehaviour {
 
     void UpdateStats()
     {
-        for( int i = 0; i < player.characterStats.stats.Count; i++)
+        for( int i = 0; i < player.Stats.stats.Count; i++)
         {
-            playerStatTexts[i].text = player.characterStats.stats[i].StatName + ": " + player.characterStats.stats[i].GetCalcStatValue().ToString();
+            playerStatTexts[i].text = player.Stats.stats[i].StatName + ": " + player.Stats.stats[i].GetFullValue().ToString();
         }
     }
 

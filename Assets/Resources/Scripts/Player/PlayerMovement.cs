@@ -8,13 +8,13 @@ public class PlayerMovement : MonoBehaviour {
     public float moveSpeed;
     public static bool cantMove = false;
 
-    public Stun stun;
+    public Stunable stun;
     public Knockable knockable;
 
     
 	// Use this for initialization
 	void Start () {
-        stun = new Stun();
+        stun = new Stunable();
         rbody = GetComponent<Rigidbody2D>();
         knockable = new Knockable(rbody);
         anim = GetComponent<Animator>();
@@ -29,16 +29,16 @@ public class PlayerMovement : MonoBehaviour {
         {
             float inputX = Input.GetAxisRaw("Horizontal");
             float inputY = Input.GetAxisRaw("Vertical");            
-            knockable.YMove += inputY;
+            knockable.YKnockback += inputY;
             if (inputX == -1)
             {
                 GameManager.player.transform.localScale = new Vector3(-1, 1, 1);
-                knockable.XMove += inputX;
+                knockable.AddXKnockback(inputX);
             }
             else if (inputX == 1)
             {
                 GameManager.player.transform.localScale= new Vector3(1, 1, 1);
-                knockable.XMove -= inputX;
+                knockable.AddXKnockback(inputX);
             }
             if (inputX != 0 || inputY != 0)
             {
