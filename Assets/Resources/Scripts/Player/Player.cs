@@ -38,6 +38,18 @@ public class Player : MonoBehaviour {
         UIEventHandler.ManaChanged();
     }
 
+    public void AddHealth(int amount)
+    {
+        CurrentHealth += amount;
+        UIEventHandler.HealthChanged();
+    }
+
+    public void AddMana(int amount)
+    {
+        CurrentMana += amount;
+        UIEventHandler.ManaChanged();
+    }
+
     public void TakeDamage(int amount)
     {
         StartCoroutine(GotHitFlashing());

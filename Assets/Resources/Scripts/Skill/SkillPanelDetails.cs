@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class SkillPanelDetails : MonoBehaviour {
 
-    Skill skill;
+    Skill currentSkill;
     Button selectedSkillButton, skillRankUp, skillHotkey;
     Text skillNameText, skillDescriptionText, skillEffDescText;
 
@@ -28,23 +28,23 @@ public class SkillPanelDetails : MonoBehaviour {
     public void SetSkill(Skill skill)
     {
         gameObject.SetActive(true);
-        skillDescriptionText.text = string.Format("({0})", skill.skillType);
-        skillEffDescText.text = skill.skillEffDesc;
-        this.skill = skill;
         skillNameText.text = skill.skillName;
+        skillDescriptionText.text = string.Format("({0}, {1})", skill.skillType, skill.skillElement);
+        skillEffDescText.text = string.Format("{0}\n\n{1}",skill.skillDesc, skill.skillEffDesc);
+        currentSkill = skill;
     }
 
     public void RankUpButton()
     {
         SoundDatabase.PlaySound(20);
-        skill.skillRank += 1;
+        currentSkill.skillRank += 1;
     }
 
     public void HotkeyButton()
     {
         SoundDatabase.PlaySound(18);
         hotkeyAssign.SetActive(!hotkeyAssign.activeInHierarchy);
-        hotkeyDesc.text = "Where to assign " + skill.skillName + " to?";
+        hotkeyDesc.text = "Where to assign " + currentSkill.skillName + " to?";
     }
 
     public void HotKeyDeletePress(Transform self)
@@ -61,7 +61,7 @@ public class SkillPanelDetails : MonoBehaviour {
         SoundDatabase.PlaySound(32);
         int selfIndex = self.GetSiblingIndex();
         PanelSkill panelSkill = hotSkillPanel.transform.GetChild(selfIndex).GetComponent<PanelSkill>();
-        panelSkill.skill = skill;
+        panelSkill.skill = currentSkill;
         panelSkill.UpdateImage();
         hotkeyAssign.SetActive(!hotkeyAssign.activeInHierarchy);
     }

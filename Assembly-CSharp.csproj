@@ -99,10 +99,12 @@
      <Compile Include="Assets\Resources\Scripts\Player\PlayerWeaponController.cs" />
      <Compile Include="Assets\Resources\Scripts\Player\StatBonus.cs" />
      <Compile Include="Assets\Resources\Scripts\Skill\PlayerSkillController.cs" />
+     <Compile Include="Assets\Resources\Scripts\Skill\PlayerSkillUpdate.cs" />
      <Compile Include="Assets\Resources\Scripts\Skill\Projectiles\Fireball.cs" />
      <Compile Include="Assets\Resources\Scripts\Skill\Projectiles\MagicShot.cs" />
      <Compile Include="Assets\Resources\Scripts\Skill\Projectiles\Projectile.cs" />
      <Compile Include="Assets\Resources\Scripts\Skill\Skill.cs" />
+     <Compile Include="Assets\Resources\Scripts\Skill\SkillAilment.cs" />
      <Compile Include="Assets\Resources\Scripts\Skill\SkillDatabase.cs" />
      <Compile Include="Assets\Resources\Scripts\Skill\SkillPanelContainer.cs" />
      <Compile Include="Assets\Resources\Scripts\Skill\SkillPanelDetails.cs" />

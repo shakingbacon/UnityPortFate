@@ -2,12 +2,14 @@
 	{
 		"skillName": "Fireball", 
 		"skillID": 0,
-		"skillEffDesc": "Shoot in a straight line a small ball of fire.\nDeals Magical Fire Damage",
+		"skillDesc": "Shoot in a straight line a small ball of fire.",
 		"skillRank": 0,
 		"skillMaxRank": 5,
 		"skillCooldown": 3,
 		"skillType": "Magical",
-		"skillStyle": "Projectile"
+		"skillStyle": "Projectile",
+		"skillElemental": "Fire",
+		"skillAilments": [{"ailmentType": "Burn"}]
 	}
 
 ]

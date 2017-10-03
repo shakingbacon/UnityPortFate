@@ -43,4 +43,10 @@ public class MonsterSpawner : MonoBehaviour {
         enemy.Spawner = this;
         spawning = false;
     }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.DrawIcon(transform.position, "Spawner.png", true);
+    }
+
 }

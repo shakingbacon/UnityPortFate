@@ -94,6 +94,7 @@ public class UIEventHandler : MonoBehaviour {
     public static void StatsChanged()
     {
         OnStatsChanged();
+        PlayerSkillUpdate.UpdateSkills();
     }
 
     public static void PlayerLevelChanged()

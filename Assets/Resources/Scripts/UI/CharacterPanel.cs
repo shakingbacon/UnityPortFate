@@ -18,7 +18,7 @@ public class CharacterPanel : MonoBehaviour {
         //weaponIcon.sprite = defaultWeaponSprite;
         //playerWeaponController = player.GetComponent<PlayerWeaponController>();
         UIEventHandler.OnStatsChanged += UpdateStats;
-        UIEventHandler.OnPlayerLevelChanged += UpdateLevel;
+        UIEventHandler.OnPlayerExpChanged += UpdateLevel;
         InitializeStats();
         gameObject.SetActive(false);
     }

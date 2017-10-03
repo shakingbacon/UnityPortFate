@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class PlayerSkillController : MonoBehaviour {
 
     public static PlayerSkillController Instance { get; set; }
+    Player player;
     public GameObject skillPanel;
     public Transform projectileSpawn;
     public Skill UsingSkill { get; set; }
@@ -19,6 +20,7 @@ public class PlayerSkillController : MonoBehaviour {
 
     void Start()
     {
+        player = GetComponent<Player>();
         if (Instance != null && Instance != this)
             Destroy(gameObject);
         else
@@ -33,6 +35,7 @@ public class PlayerSkillController : MonoBehaviour {
     public void LearnSkill(Skill skill)
     {
         UIEventHandler.SkillLearned(skill);
+        PlayerSkillUpdate.UpdateSkills();
     }
 
     public void SetSkillDetails(Skill skill)
@@ -43,6 +46,7 @@ public class PlayerSkillController : MonoBehaviour {
 
     public void ActivateSkill(Skill skill)
     {
+        player.AddMana(-skill.skillMana);
         CastSkillProjectile(skill);
     }
 
