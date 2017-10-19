@@ -6,7 +6,6 @@ public class MagicShot : Projectile {
 
     void Start()
     {
-        Damage.DidHit = true;
         Range = 2f;
         Damage.Knockback = 3f;
         Damage.Stun = 0.1f;

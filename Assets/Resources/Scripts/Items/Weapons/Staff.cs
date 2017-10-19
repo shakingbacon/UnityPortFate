@@ -25,8 +25,8 @@ public class Staff : Weapon, IProjectileWeapon
     public void CastProjectile()
     {
         MagicShot shotProj = Instantiate(magicShot, ProjectileSpawn.position, ProjectileSpawn.rotation);
-        //shotProj.Damage = new Damage();
-        shotProj.Damage.DidHit = true;
+        shotProj.Damage = new Damage();
+        shotProj.Damage.HitChance = CharacterStats.Hit - 5;
         shotProj.Damage.Amount = (int)(CharacterStats.Magical * 0.45f);
         shotProj.Direction = ProjectileSpawn.right;
         shotProj.transform.localScale = GameManager.player.transform.localScale;

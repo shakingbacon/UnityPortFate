@@ -3,7 +3,7 @@ using System.Collections;
 
 public class PlayerMovement : MonoBehaviour {
     //private SpriteRenderer spriteRenderer;
-    private Rigidbody2D rbody;
+    private static Rigidbody2D rbody;
     Animator anim;
     public float moveSpeed;
     public static bool cantMove = false;
@@ -11,7 +11,6 @@ public class PlayerMovement : MonoBehaviour {
     public Stunable stun;
     public Knockable knockable;
 
-    
 	// Use this for initialization
 	void Start () {
         stun = new Stunable();
@@ -22,9 +21,17 @@ public class PlayerMovement : MonoBehaviour {
         knockable.Multiplier = moveSpeed;
         //spriteRenderer = GetComponent<SpriteRenderer>();
 	}
-	
-	// Update is called once per frame
-	void FixedUpdate () {
+
+    public static IEnumerator SetVelocityForSetTime(float x, float time)
+    {
+        rbody.velocity = new Vector2(x, 0);
+        print(rbody.velocity);
+        yield return new WaitForSeconds(time);
+        rbody.velocity = new Vector2();
+    }
+
+    // Update is called once per frame
+    void FixedUpdate () {
         if (!cantMove && !stun.Stunned)
         {
             float inputX = Input.GetAxisRaw("Horizontal");
@@ -59,6 +66,5 @@ public class PlayerMovement : MonoBehaviour {
         }
         knockable.FinalMove();
         if (stun.Stunned) return;
-
     }
 }

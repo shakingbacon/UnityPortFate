@@ -29,6 +29,7 @@ public class PlayerSkillController : MonoBehaviour {
         playerWeaponController = GetComponent<PlayerWeaponController>();
         playerArmorController = GetComponent<PlayerArmorController>();
         LearnSkill(SkillDatabase.Instance.GetSkill("Fireball"));
+        LearnSkill(SkillDatabase.Instance.GetSkill(1));
     }
 
 
@@ -46,15 +47,36 @@ public class PlayerSkillController : MonoBehaviour {
 
     public void ActivateSkill(Skill skill)
     {
-        player.AddMana(-skill.skillMana);
-        CastSkillProjectile(skill);
-    }
+        if (player.CurrentMana >= skill.skillMana)
+        {
+            player.AddMana(-skill.skillMana);
+            switch (skill.skillType)
+            {
+                case Skill.SkillType.Active:
+                    {
+                        if (skill.skillChannelDuration > 0f)
+                        {
+                            PlayerActivesController.Instance.AddActive(skill);
+                        }
+                        break;
+                    }
+                case Skill.SkillType.Magical:
+                    {
+                        CastSkillProjectile(skill);
+                        break;
+                    }
+            }
+        }
+        
 
+    }
     public void CastSkillProjectile(Skill skill)
     {
         Projectile projectile = Instantiate(Resources.Load<Projectile>("Prefabs/Projectiles/" + skill.skillName));
+        projectile.Damage = skill.skillDamage;
         projectile.Direction = projectileSpawn.right;
         projectile.transform.position = projectileSpawn.position;
+        projectile.Damage.HitChance = player.Stats.Hit;
         if (projectileSpawn.parent.localScale.x == -1)
         {
             projectile.transform.Rotate(180, 180, 0);

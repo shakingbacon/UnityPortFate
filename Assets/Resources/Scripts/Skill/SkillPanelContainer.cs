@@ -9,7 +9,6 @@ public class SkillPanelContainer : MonoBehaviour {
     public Text skillText;
     public Image skillImage;
 
-
     public void SetSkill(Skill skill)
     {
         this.skill = skill;
@@ -20,7 +19,7 @@ public class SkillPanelContainer : MonoBehaviour {
     {
         skillText.text = skill.skillName;
         skillImage.sprite = Resources.Load<Sprite>("Icons/Skills/" + skill.skillName);
-        skillImage.SetNativeSize();
+        //skillImage.SetNativeSize();
     }
 
     public void OnSelectSkillButton()

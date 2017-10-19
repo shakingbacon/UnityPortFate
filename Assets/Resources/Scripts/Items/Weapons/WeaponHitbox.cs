@@ -12,7 +12,6 @@ public class WeaponHitbox : MonoBehaviour {
         parentWeapon = transform.parent.GetComponent<Weapon>();
     }
 
-
     
     public void OnTriggerEnter2D(Collider2D col)
     {
@@ -23,12 +22,11 @@ public class WeaponHitbox : MonoBehaviour {
             {
                 parentWeapon.EnemiesHit.Add(col.gameObject);
                 Damage damage = new Damage((int)(parentWeapon.CharacterStats.Physical * parentWeapon.Animator.GetFloat("DamageMultiplier") * DamageMultiplier));
-
+                damage.HitChance = parentWeapon.CharacterStats.Hit;
+                damage.Knockback = parentWeapon.knockback;
+                damage.Stun = parentWeapon.stunDuration;
                 parentWeapon.OnHit(damage);
                 col.GetComponentInChildren<Enemy>().TakeDamage(damage);
-
-                col.GetComponentInChildren<Enemy>().EnemyMovement.knockable.AddXKnockback(parentWeapon.knockback, parentWeapon.transform.parent);
-                col.GetComponentInChildren<Enemy>().EnemyMovement.stun.StunnedDuration += parentWeapon.stunDuration;
             }
         }
     }

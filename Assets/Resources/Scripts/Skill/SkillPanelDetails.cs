@@ -29,6 +29,14 @@ public class SkillPanelDetails : MonoBehaviour {
     {
         gameObject.SetActive(true);
         skillNameText.text = skill.skillName;
+        if (skill.skillType == Skill.SkillType.Active)
+        {
+            skillDescriptionText.text = string.Format("({0}, {1})", skill.skillType, skill.skillStyle);
+        }
+        else
+        {
+            skillDescriptionText.text = string.Format("({0}, {1})", skill.skillType, skill.skillElement);
+        }
         skillDescriptionText.text = string.Format("({0}, {1})", skill.skillType, skill.skillElement);
         skillEffDescText.text = string.Format("{0}\n\n{1}",skill.skillDesc, skill.skillEffDesc);
         currentSkill = skill;

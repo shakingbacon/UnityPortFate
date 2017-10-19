@@ -11,8 +11,10 @@ public class Skill {
     public int skillRank;
     public int skillMaxRank;
     public float skillCooldown;
+    public float skillChannelDuration;
+    public float skillActiveDuration;
 
-    public int skillDamage;
+    public Damage skillDamage;
     public int skillMana;
 
     [JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
@@ -40,6 +42,8 @@ public class Skill {
         this.skillStyle = style;
         skillElement = element;
         skillAilments = ailments;
+        skillDamage = new Damage();
+        skillChannelDuration = 0f;
     }
 
     public enum SkillElement
@@ -59,6 +63,7 @@ public class Skill {
     {
         Melee,
         Projectile,
+        Channel,
         Aura,
         None
     }

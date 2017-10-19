@@ -18,6 +18,8 @@ public class Enemy : MonoBehaviour {
     public CharacterStats Stats { get; set; }
     public int Experience { get; set; }
     public int Cash { get; set; }
+    public Skill.SkillElement Attribute { get; set; }
+    public EnemyType Type { get; set; }
     public DropTable DropTable { get; set; }
     // MUST SET ABOVE
 
@@ -29,6 +31,12 @@ public class Enemy : MonoBehaviour {
     public Player Player { get; set; }
     public PickupItem PickupItemPrefab { get; set; }
     public EnemyHealthBar HealthBar { get; set; }
+
+
+    public enum EnemyType
+    {
+        Reptile
+    }
 
     void Awake()
     {
@@ -84,21 +92,25 @@ public class Enemy : MonoBehaviour {
         {
             //print("took damage");
             //Player.GetComponent<Rigidbody2D>().AddForce(new Vector3(-transform.parent.localScale.x * Knockback, 0, 0));
+
+            FloatingText floatingText = FloatingTextController.CreateFloatingText(Stats.Physical.ToString(), Player.transform);
+            floatingText.SetTextColor(new Color(1,0,1));
             Player.GetComponent<PlayerMovement>().knockable.AddXKnockback(Knockback, transform);
-            Player.TakeDamage(Stats.Physical);
-            print("wow");
-            
+            Player.TakeDamage(Stats.Physical);            
         }
     }
 
     public virtual void TakeDamage(Damage damage)
     {
-        if (!damage.DidHit)
+        int random = Random.Range(0, 101);
+        /*print(random)*/;
+        print(damage.HitChance);
+        if (((damage.HitChance - Stats.Dodge) < random))
         {
             FloatingText floatingText = FloatingTextController.CreateFloatingText("MISS", gameObject.transform);
             floatingText.transform.localScale = new Vector3(1.25f, 1.25f);
         }
-        else
+        else // DID HIT
         {
             FloatingText floatingText = FloatingTextController.CreateFloatingText(damage.Amount.ToString(), gameObject.transform);
             if (damage.DidCrit)
@@ -106,6 +118,8 @@ public class Enemy : MonoBehaviour {
                 floatingText.transform.localScale = new Vector3(1.4f, 1.4f);
                 floatingText.SetCritColor();
             }
+            EnemyMovement.knockable.AddXKnockback(damage.Knockback);
+            EnemyMovement.stun.AddStun(damage.Stun);
             HealthDamaged(damage.Amount);
         }
         if (CurrentHealth <= 0)

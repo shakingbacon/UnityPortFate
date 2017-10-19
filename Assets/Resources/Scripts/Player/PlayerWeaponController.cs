@@ -9,15 +9,15 @@ public class PlayerWeaponController : MonoBehaviour {
 
     Transform spawnProjectile;
     Item currentlyEquippedItem;
-    IWeapon equippedWeapon;
-    CharacterStats characterStats;
+    Weapon equippedWeapon;
+    Player player;
     InventoryController inventoryController;
     public PlayerSkillController playerSkillController;
 
     void Start()
     {
         spawnProjectile = transform.FindChild("ProjectileSpawn");
-        characterStats = GetComponent<Player>().Stats;
+        player = GetComponent<Player>();
         inventoryController = GetComponent<InventoryController>();
         UIEventHandler.OnSkillUse += UpdatePanelCooldowns;
     }
@@ -43,10 +43,18 @@ public class PlayerWeaponController : MonoBehaviour {
         PanelSkill panel = playerSkillController.skillPanel.transform.GetChild(index).GetComponent<PanelSkill>();
         if (EquippedWeapon != null && panel.skill != null && !EquippedWeapon.GetComponent<Animator>().GetBool("IsLastAnimation"))
         {
-            if (!(panel.cooldownRemain > 0))
+            if (!(panel.cooldownRemain > 0) && player.CurrentMana > panel.skill.skillMana)
             {
                 playerSkillController.UsingSkill = panel.skill;
-                PerformSkill();
+                UIEventHandler.SkillUsed();
+                if (panel.skill.skillType == Skill.SkillType.Active)
+                {
+                    PerformChannel(panel.skill);
+                }
+                else
+                {
+                    PerformSkill();
+                }
             }
         }
     }
@@ -74,14 +82,14 @@ public class PlayerWeaponController : MonoBehaviour {
         {
             EquippedWeapon.GetComponent<IProjectileWeapon>().ProjectileSpawn = spawnProjectile;
         }
-        characterStats.AddStatBonus(itemToEquip.Stats);
-        equippedWeapon = EquippedWeapon.GetComponent<IWeapon>();
+        player.Stats.AddStatBonus(itemToEquip.Stats);
+        equippedWeapon = EquippedWeapon.GetComponent<Weapon>();
         equippedWeapon.Stats = itemToEquip.Stats;
         currentlyEquippedItem = itemToEquip;
         EquippedWeapon.transform.SetParent(playerHand.transform);
         //EquippedWeapon.transform.localScale = new Vector3(1, 1, 1);
         equippedWeapon.playerSkillController = playerSkillController;
-        equippedWeapon.CharacterStats = characterStats;
+        equippedWeapon.CharacterStats = player.Stats;
         
         SoundDatabase.PlaySound(0);
         UIEventHandler.ItemEquipped(itemToEquip);
@@ -93,7 +101,7 @@ public class PlayerWeaponController : MonoBehaviour {
         if (EquippedWeapon != null)
         {
             SoundDatabase.PlaySound(0);
-            characterStats.RemoveStatBonus(equippedWeapon.Stats);
+            player.Stats.RemoveStatBonus(equippedWeapon.Stats);
             inventoryController.GiveItem(currentlyEquippedItem.ItemName);
             Destroy(playerHand.transform.GetChild(0).gameObject);
             UIEventHandler.ItemUnequipped(item);
@@ -106,6 +114,11 @@ public class PlayerWeaponController : MonoBehaviour {
         equippedWeapon.PerformAttack();
     }
     
+    public void PerformChannel(Skill skill)
+    {
+        equippedWeapon.PerformChannelAnimation(skill);
+    }
+
     public void PerformSkill()
     {
         equippedWeapon.PerformSkillAnimation();

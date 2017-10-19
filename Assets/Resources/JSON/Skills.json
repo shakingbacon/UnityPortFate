@@ -10,6 +10,17 @@
 		"skillStyle": "Projectile",
 		"skillElemental": "Fire",
 		"skillAilments": [{"ailmentType": "Burn"}]
+	},
+	{
+		"skillName": "Meditate", 
+		"skillID": 1,
+		"skillDesc": "Channel for 2 seconds to amplify your next Magical based attack for 10 seconds. During the channel, you take reduced damage",
+		"skillRank": 0,
+		"skillMaxRank": 3,
+		"skillCooldown": 25,
+		"skillType": "Active",
+		"skillStyle": "Channel",
 	}
+
 
 ]

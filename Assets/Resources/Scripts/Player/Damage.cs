@@ -7,8 +7,8 @@ public class Damage {
     public int Amount { get; set; }
     //public int FinalAmount { get; set; }
     public bool DidCrit { get; set; }
-    public bool DidHit { get; set; }
 
+    public int HitChance { get; set; }
     public float Knockback { get; set; }
     public float Stun { get; set; }
 
@@ -16,9 +16,7 @@ public class Damage {
     {
         Amount = 0;
         DidCrit = false;
-        DidHit = false;
     }
-
     //public Damage(int dmg)
     //{
     //    this.Amount = dmg;
@@ -48,7 +46,6 @@ public class Damage {
         //if (Random.Range(0f, 1f) < 0.5f)
         //    dmg.DidHit = false;
         //else
-        DidHit = true;
         Amount = (baseDmg * 2 + Random.Range(2, 8));
         Knockback = knockback;
         Stun = stun;

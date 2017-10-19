@@ -17,9 +17,12 @@ public class Knockable {
     // this function should be used in fixed update
     public void FinalMove()
     {
-        rigidbody2d.MovePosition(rigidbody2d.position + new Vector2(xMove * Time.fixedDeltaTime, yMove * Time.fixedDeltaTime) * Multiplier);
-        xMove = 0;
-        yMove = 0;
+        if (xMove != 0 || yMove != 0)
+        {
+            rigidbody2d.MovePosition(rigidbody2d.position + new Vector2(xMove * Time.fixedDeltaTime, yMove * Time.fixedDeltaTime) * Multiplier);
+            xMove = 0;
+            yMove = 0;
+        }
     }
 
     public void AddXKnockback(float value)
@@ -29,10 +32,13 @@ public class Knockable {
 
     public void AddXKnockback(float value, Transform user)
     {
-        if (user.position.x < rigidbody2d.position.x) // positive is pushed away
-            xMove += value;                           // negative is pulled toward
-        else
-            xMove += -value;
+        if (rigidbody2d != null)
+        {
+            if (user.position.x < rigidbody2d.position.x) // positive is pushed away
+                xMove += value;                           // negative is pulled toward
+            else
+                xMove += -value;
+        }
     }
 
     public Knockable(Rigidbody2D body)

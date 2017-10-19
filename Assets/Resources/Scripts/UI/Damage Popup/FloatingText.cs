@@ -39,4 +39,9 @@ public class FloatingText : MonoBehaviour {
     {
         damageText.text = text;
     }
+
+    public void SetTextColor(Color color)
+    {
+        damageText.color = color;
+    }
 }

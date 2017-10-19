@@ -9,11 +9,6 @@ public class Projectile : MonoBehaviour {
     [HideInInspector]public Vector3 spawnPosition;
 
     int soundID;
-    
-    void Awake()
-    {
-        Damage = new Damage();
-    }
 
     void Update()
     {
@@ -39,8 +34,6 @@ public class Projectile : MonoBehaviour {
             Enemy enemy = col.GetComponent<Enemy>();
             enemy.EnemyMovement.inRange = true;
             enemy.TakeDamage(Damage);
-            enemy.EnemyMovement.knockable.AddXKnockback(Damage.Knockback, transform);
-            enemy.EnemyMovement.stun.StunnedDuration += Damage.Stun;
             Extinguish();
         }
     }

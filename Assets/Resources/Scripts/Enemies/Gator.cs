@@ -13,7 +13,7 @@ public class Gator : Enemy
             325, 100,
             5, 2,
             40, 10,
-            95, 5, 4, 4);
+            95, 1, 4, 4);
         Knockback = 10f;
         Experience = 5;
         Cash = 25;

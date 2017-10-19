@@ -51,6 +51,36 @@ public class Weapon : MonoBehaviour, IWeapon {
         }
     }
 
+    public virtual void PerformChannelAnimation(Skill skill)
+    {
+        if (!Animator.GetBool("IsLastAnimation"))
+        {
+            Animator.SetTrigger("Channel");
+            Animator.SetFloat("ChannelTime", 1/skill.skillChannelDuration);
+        }
+            
+    }
+
+    public virtual void AttackMoveUser(float time)
+    {
+        float xVelocity = 2;
+        if (GameManager.player.transform.localScale.x == -1)
+        {
+            if (Input.GetAxisRaw("Horizontal") == -1)
+                xVelocity *= -1;
+            else
+                xVelocity = 0;
+        }
+        else
+        {
+            if ((Input.GetAxisRaw("Horizontal") != 1))
+            {
+                xVelocity = 0;
+            }
+        }
+        StartCoroutine(PlayerMovement.SetVelocityForSetTime(xVelocity, time));
+    }
+
     // Animation Events
     public virtual void IsLastAnimation()
     {
@@ -75,7 +105,6 @@ public class Weapon : MonoBehaviour, IWeapon {
     public virtual void ActivateSkill()
     {
         playerSkillController.ActivateSkill(playerSkillController.UsingSkill);
-        UIEventHandler.SkillUsed();
     }
 
     public void SetCollideSound(int id)

@@ -63,7 +63,6 @@ public class InventoryController : MonoBehaviour {
     {
         playerItems.Add(item);
         UIEventHandler.ItemAddedToInventory(item);
-
     }
 
     public void SetUnequipItemDetails(Item item, Button selectedButton)

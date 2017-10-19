@@ -94,10 +94,12 @@
      <Compile Include="Assets\Resources\Scripts\Player\Job\Job.cs" />
      <Compile Include="Assets\Resources\Scripts\Player\Job\JobDatabase.cs" />
      <Compile Include="Assets\Resources\Scripts\Player\Player.cs" />
+     <Compile Include="Assets\Resources\Scripts\Player\PlayerActivesController.cs" />
      <Compile Include="Assets\Resources\Scripts\Player\PlayerLevel.cs" />
      <Compile Include="Assets\Resources\Scripts\Player\PlayerMovement.cs" />
      <Compile Include="Assets\Resources\Scripts\Player\PlayerWeaponController.cs" />
      <Compile Include="Assets\Resources\Scripts\Player\StatBonus.cs" />
+     <Compile Include="Assets\Resources\Scripts\Skill\ActiveHolder.cs" />
      <Compile Include="Assets\Resources\Scripts\Skill\PlayerSkillController.cs" />
      <Compile Include="Assets\Resources\Scripts\Skill\PlayerSkillUpdate.cs" />
      <Compile Include="Assets\Resources\Scripts\Skill\Projectiles\Fireball.cs" />
