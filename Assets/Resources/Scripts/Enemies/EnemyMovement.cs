@@ -24,7 +24,6 @@ public class EnemyMovement : MonoBehaviour {
 
     void Start()
     {
-
         stun = new Stunable();
         rigidbody2d = transform.parent.GetComponentInParent<Rigidbody2D>();
         knockable = new Knockable(rigidbody2d);
@@ -39,7 +38,11 @@ public class EnemyMovement : MonoBehaviour {
 
     void FixedUpdate()
     {
+        moveSpeedX = 0;
+        moveSpeedY = 0;
         FollowPlayer();
+        rigidbody2d.velocity = new Vector2(moveSpeedX, moveSpeedY);
+        knockable.FinalMove();
         if (stun.Stunned) return;
         CanAttack();
         FacePlayer();
@@ -55,33 +58,35 @@ public class EnemyMovement : MonoBehaviour {
                 {
                     inXRange = false;
                     if (transform.position.x < target.position.x)
-                    knockable.AddXKnockback(moveSpeedX);
+                        moveSpeedX = 0.5f;
                     else
-                        knockable.AddXKnockback(-moveSpeedX);
+                        moveSpeedX = -0.5f;
                 }
                 else
                 {
                     inXRange = true;
+                    moveSpeedX = 0;
                 }
                 if (!(target.position.y - yOffSet <= transform.position.y && transform.position.y <= target.position.y + yOffSet))
                 {
                     inYRange = false;
                     if (target.position.y > enemy.position.y)
                     {
-                        knockable.YKnockback += moveSpeedY;
+                        moveSpeedY = 0.5f;
                     }
                     else
                     {
-                        knockable.YKnockback += -moveSpeedY;
+                        moveSpeedY = -0.5f;
                     }
 
                 }
                 else
                 {
                     inYRange = true;
+                    moveSpeedY = 0;
+
                 }
             }
-            knockable.FinalMove();
         }
     }
 

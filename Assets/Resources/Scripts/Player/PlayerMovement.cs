@@ -1,18 +1,25 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlayerMovement : MonoBehaviour {
+public class PlayerMovement : MonoBehaviour
+{
     //private SpriteRenderer spriteRenderer;
     private static Rigidbody2D rbody;
     Animator anim;
     public float moveSpeed;
     public static bool cantMove = false;
 
+    public float moveSpeedX { get; set; }
+    public float moveSpeedY { get; set; }
+
     public Stunable stun;
     public Knockable knockable;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start()
+    {
+        moveSpeedX = 2;
+        moveSpeedY = 2;
         stun = new Stunable();
         rbody = GetComponent<Rigidbody2D>();
         knockable = new Knockable(rbody);
@@ -20,7 +27,7 @@ public class PlayerMovement : MonoBehaviour {
         anim.SetFloat("input_x", 1);
         knockable.Multiplier = moveSpeed;
         //spriteRenderer = GetComponent<SpriteRenderer>();
-	}
+    }
 
     public static IEnumerator SetVelocityForSetTime(float x, float time)
     {
@@ -31,22 +38,17 @@ public class PlayerMovement : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void FixedUpdate () {
+    void FixedUpdate()
+    {
         if (!cantMove && !stun.Stunned)
         {
             float inputX = Input.GetAxisRaw("Horizontal");
-            float inputY = Input.GetAxisRaw("Vertical");            
-            knockable.YKnockback += inputY;
+            float inputY = Input.GetAxisRaw("Vertical");
+            rbody.velocity = new Vector2(inputX * moveSpeedX, inputY * moveSpeedY);
             if (inputX == -1)
-            {
                 GameManager.player.transform.localScale = new Vector3(-1, 1, 1);
-                knockable.AddXKnockback(inputX);
-            }
             else if (inputX == 1)
-            {
-                GameManager.player.transform.localScale= new Vector3(1, 1, 1);
-                knockable.AddXKnockback(inputX);
-            }
+                GameManager.player.transform.localScale = new Vector3(1, 1, 1);
             if (inputX != 0 || inputY != 0)
             {
                 anim.SetBool("isWalking", true);
@@ -62,6 +64,7 @@ public class PlayerMovement : MonoBehaviour {
         }
         else
         {
+            rbody.velocity = new Vector2(0, 0);
             anim.SetBool("isWalking", false);
         }
         knockable.FinalMove();
