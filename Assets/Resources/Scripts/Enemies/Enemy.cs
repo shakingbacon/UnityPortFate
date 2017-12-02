@@ -14,6 +14,7 @@ public class Enemy : MonoBehaviour {
     public Rigidbody2D Rigidbody2D { get; set; }
 
     // MUST SET THESE
+    public int ID {get;set;}
     public float Knockback { get; set; }
     public CharacterStats Stats { get; set; }
     public int Experience { get; set; }

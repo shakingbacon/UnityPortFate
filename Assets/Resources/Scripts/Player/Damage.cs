@@ -12,10 +12,24 @@ public class Damage {
     public float Knockback { get; set; }
     public float Stun { get; set; }
 
+    public Skill.SkillType Type { get; set; }
+    //public List<Skill.SkillElement> Element { get; set; }
+         
+
     public Damage()
     {
         Amount = 0;
         DidCrit = false;
+    }
+
+    public Damage(Damage dmg)
+    {
+        Amount = dmg.Amount;
+        DidCrit = dmg.DidCrit;
+        HitChance = dmg.HitChance;
+        Knockback = dmg.Knockback;
+        Stun = dmg.Stun;
+        Type = dmg.Type;
     }
     //public Damage(int dmg)
     //{

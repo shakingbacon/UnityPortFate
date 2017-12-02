@@ -29,20 +29,20 @@ public class QuestPanel : MonoBehaviour {
         if (quest != null)
         {
             questDesc.text = "";
-            questName.text = quest.questName;
-            questNPC.text = "NPC: " + quest.questNPC;
+            questName.text = quest.Name;
+            questNPC.text = "NPC: " + quest.NPC;
             int i = 0;
-            foreach (string goal in quest.questGoals)
+            foreach (QuestGoal goal in quest.Goals)
             {
-                questDesc.text += goal + "\n";
-                if ((Quest.ObjectiveType)quest.questObjectiveTypes[i] == Quest.ObjectiveType.Monster)
+                questDesc.text += goal.Description + "\n";
+                if (goal.Type == QuestGoal.ObjectiveType.Monster)
                 {
-                    questDesc.text += string.Format("{0} / {1}\n", quest.questAmountDids[i], quest.questAmountNeeds[i]);
+                    questDesc.text += string.Format("{0} / {1}\n", goal.AmountDid, goal.AmountNeed);
                 }
                 i++;
             }
-            questRewards.text = quest.questReward;
-            questMemory.text = quest.questMemory;
+            questRewards.text = quest.Reward;
+            questMemory.text = quest.Memory;
         }
     }
 

@@ -12,7 +12,7 @@ public class QuestUIContainer : MonoBehaviour {
     public void SetQuest(Quest quest)
     {
         this.quest = quest;
-        questName.text = quest.questName;
+        questName.text = quest.Name;
     }
 
     public void UpdateClick()

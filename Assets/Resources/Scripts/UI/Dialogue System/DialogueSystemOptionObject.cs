@@ -15,7 +15,7 @@ public class DialogueSystemOptionObject : MonoBehaviour
         {
             case DialogueOption.OptionType.Quest:
                 {
-                    optionText.text = QuestDatabase.Instance.GetQuest(option.optionID).questName;
+                    optionText.text = QuestDatabase.Instance.GetQuest(option.optionID).Name;
                     optionButton.onClick.AddListener(QuestTalk);
                     break;
                 }
@@ -26,22 +26,22 @@ public class DialogueSystemOptionObject : MonoBehaviour
     void QuestTalk()
     {
         NPCInfo npcInfo = DialogueSystem.Instance.CurrentNPC;
-        Quest playerQuest = PlayerQuestController.Instance.inProgressQuests.Find(aQuest => aQuest.questID == option.optionID);
+        Quest playerQuest = PlayerQuestController.Instance.inProgressQuests.Find(aQuest => aQuest.ID == option.optionID);
         if (PlayerQuestController.Instance.HasQuestInProgress(option.optionID))
         {
-            if (playerQuest.QuestCompleted)
+            if (playerQuest.Completed)
             {
-                DialogueSystem.Instance.MakeDialouge(playerQuest.questCompletionText);
+                DialogueSystem.Instance.MakeDialouge(playerQuest.CompleteText);
                 QuestDatabase.Instance.GiveQuestReward(option.optionID);
                 PlayerQuestController.Instance.QuestCompleted(option.optionID);
             }
             else
-                DialogueSystem.Instance.MakeDialouge(playerQuest.questInProgressText);
+                DialogueSystem.Instance.MakeDialouge(playerQuest.InProgressText);
         }
         else if (option.optionID != -1 && !PlayerQuestController.Instance.HasQuestCompleted(option.optionID))
         {
             print(DialogueSystem.Instance.CurrentDialogue.optionID);
-            DialogueSystem.Instance.MakeDialouge(QuestDatabase.Instance.GetQuest(DialogueSystem.Instance.CurrentDialogue.optionID).questAskText, true);
+            DialogueSystem.Instance.MakeDialouge(QuestDatabase.Instance.GetQuest(DialogueSystem.Instance.CurrentDialogue.optionID).AskText, true);
         }
     }
 

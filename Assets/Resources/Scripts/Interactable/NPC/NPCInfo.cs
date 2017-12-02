@@ -10,11 +10,11 @@ public class NPCInfo {
 
     public int[][] npcDialogueOptionsText;
     public List<DialogueOption> dialogueOptions;
-    public string[] defaultText;
+    public List<string> defaultText;
 
 
     [JsonConstructor]
-    public NPCInfo(string name, int npcid, int[][] option, string[] defualt)
+    public NPCInfo(string name, int npcid, int[][] option, List<string> defualt)
     {
         npcName = name;
         npcID = npcid;

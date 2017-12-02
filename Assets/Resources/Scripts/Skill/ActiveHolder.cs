@@ -24,9 +24,4 @@ public class ActiveHolder : MonoBehaviour {
         timeMax = duration;
         timeLeft = duration;
     }
-
-
-
-
-
 }

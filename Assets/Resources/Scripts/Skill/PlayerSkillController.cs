@@ -62,7 +62,10 @@ public class PlayerSkillController : MonoBehaviour {
                     }
                 case Skill.SkillType.Magical:
                     {
-                        CastSkillProjectile(skill);
+                        if (skill.skillStyle == Skill.SkillStyle.Projectile)
+                        {
+                            CastSkillProjectile(skill);
+                        }
                         break;
                     }
             }

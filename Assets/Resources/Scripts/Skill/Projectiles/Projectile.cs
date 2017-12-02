@@ -30,10 +30,12 @@ public class Projectile : MonoBehaviour {
         if (col.transform.tag == "Enemy")
         {
             //Debug.Log("Hit an Enemy");
+            Damage calculatedDamage = new Damage(SkillActiveEvents.DamageSkillHitEnemy(Damage));
             SoundHit();
             Enemy enemy = col.GetComponent<Enemy>();
             enemy.EnemyMovement.inRange = true;
-            enemy.TakeDamage(Damage);
+            enemy.TakeDamage(calculatedDamage);
+
             Extinguish();
         }
     }

@@ -79,7 +79,7 @@ public class DialogueSystem : MonoBehaviour {
         }
     }
 
-    public void MakeDialouge(string[] lines, bool giveQuest = false)
+    public void MakeDialouge(List<string> lines, bool giveQuest = false)
     {
         continueArrow.SetActive(true);
         ShowQuest = giveQuest;
@@ -88,10 +88,10 @@ public class DialogueSystem : MonoBehaviour {
         CreateDialogue();
     }
 
-    void SetDialouge(string[] lines)
+    void SetDialouge(List<string> lines)
     {
         dialogueIndex = 0;
-        dialogueLines = new List<string>(lines.Length);
+        dialogueLines = new List<string>(lines.Count);
         dialogueLines.AddRange(lines);
     }
 

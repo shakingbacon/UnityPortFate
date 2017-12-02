@@ -28,28 +28,28 @@ public class PlayerQuestController : MonoBehaviour
     {
         QuestAgreementPanel agreementPanel = Instantiate(questAgreementPanelPrefab, GameObject.FindGameObjectWithTag("Canvas").transform);
         agreementPanel.CurrentQuest = QuestDatabase.Instance.GetQuest(id);
-        agreementPanel.questName.text = agreementPanel.CurrentQuest.questName;
+        agreementPanel.questName.text = agreementPanel.CurrentQuest.Name;
         // 
         agreementPanel.questDetails.text = "";
-        foreach (string goal in agreementPanel.CurrentQuest.questGoals)
+        foreach (QuestGoal goal in agreementPanel.CurrentQuest.Goals)
         {
             //print(goal);
-            agreementPanel.questDetails.text += goal + "\n";
+            agreementPanel.questDetails.text += goal.Description + "\n";
         }
-        agreementPanel.questRewards.text = agreementPanel.CurrentQuest.questReward;
+        agreementPanel.questRewards.text = agreementPanel.CurrentQuest.Reward;
         agreementPanel.transform.localPosition = new Vector3(0, 60, 0);
         agreementPanel.transform.localScale = new Vector3(1, 1, 1);
     }
 
     public void QuestCompleted(int id)
     {
-        Quest quest = inProgressQuests.Find(aQuest => aQuest.questID == id);
-        foreach (Quest asd in inProgressQuests) { print(asd.questName); }
+        Quest quest = inProgressQuests.Find(aQuest => aQuest.ID == id);
+        //foreach (Quest asd in inProgressQuests) { print(asd.Name); }
         inProgressQuests.Remove(quest);
         completedQuests.Add(quest);
         foreach (Transform child in questPanel.inProgressContent.transform)
         {
-            if (child.GetComponent<QuestUIContainer>().quest.questID == id)
+            if (child.GetComponent<QuestUIContainer>().quest.ID == id)
             {
                 child.SetParent(questPanel.completedContent.transform);
                 break;
@@ -59,12 +59,12 @@ public class PlayerQuestController : MonoBehaviour
 
     public bool HasQuestCompleted(int id)
     {
-        return completedQuests.Exists(aQuest => aQuest.questID == id);
+        return completedQuests.Exists(aQuest => aQuest.ID == id);
     }
 
     public bool HasQuestInProgress(int id)
     {
-        return inProgressQuests.Exists(aQuest => aQuest.questID == id);
+        return inProgressQuests.Exists(aQuest => aQuest.ID == id);
     }
 
     //public bool HasCompletedQuest(int id)
@@ -83,33 +83,41 @@ public class PlayerQuestController : MonoBehaviour
     {
         foreach (Quest quest in inProgressQuests)
         {
-            print(quest.questName);
-            int i = 0;
-            for (; i < quest.questObjectiveTypes.Length; i++)
+            foreach(QuestGoal goal in quest.Goals)
             {
-                if ((Quest.ObjectiveType)quest.questObjectiveTypes[i] == Quest.ObjectiveType.Monster)
+                if (goal.Type == QuestGoal.ObjectiveType.Monster)
                 {
-                    quest.questAmountDids[i] += 1;
-                    UpdateQuestPanelDesc(questPanel.CurrentQuest);
+                    if (enemy.ID == goal.ID)
+                    {
+                        goal.AmountDid++;
+                        UpdateQuestPanelDesc(questPanel.CurrentQuest);
+                        IsQuestCompleted(quest);
+                    }
                 }
             }
-            IsQuestCompleted(quest);
+
+            //for (; i < quest.questObjectiveTypes.Length; i++)
+            //{
+            //    if ((Quest.ObjectiveType)quest.questObjectiveTypes[i] == Quest.ObjectiveType.Monster)
+            //    {
+            //        quest.questAmountDids[i] += 1;
+            //        UpdateQuestPanelDesc(questPanel.CurrentQuest);
+            //    }
+            //}
         }
     }
     
     public void IsQuestCompleted(Quest quest)
     {
-        int i = 0;
-        for (;i < quest.questAmountNeeds.Length; i++)
+        foreach(QuestGoal goal in quest.Goals)
         {
-            if (quest.questAmountNeeds[i] > quest.questAmountDids[i])
+            if (goal.AmountDid < goal.AmountNeed)
             {
-                quest.QuestCompleted = false;
+                quest.Completed = false;
                 return;
             }
         }
-        quest.QuestCompleted = true;
-        return;
+        quest.Completed = true;
     }
 
 }

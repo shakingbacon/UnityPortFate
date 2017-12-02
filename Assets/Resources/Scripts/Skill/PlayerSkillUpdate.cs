@@ -26,6 +26,7 @@ public class PlayerSkillUpdate : MonoBehaviour {
                         skill.skillDamage.Stun = 0.25f;
                         skill.skillMana = 50;
                         skill.FindAilment(SkillAilment.AilmentType.Burn).ailmentChance = 25;
+                        skill.skillDamage.Type = Skill.SkillType.Magical;
                         break;
                     }
                 case 1:

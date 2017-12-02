@@ -138,6 +138,7 @@
     <Compile Include="Assets\Resources\Scripts\Skill\Projectiles\MagicShot.cs" />
     <Compile Include="Assets\Resources\Scripts\Skill\Projectiles\Projectile.cs" />
     <Compile Include="Assets\Resources\Scripts\Skill\Skill.cs" />
+    <Compile Include="Assets\Resources\Scripts\Skill\SkillActiveEffects.cs" />
     <Compile Include="Assets\Resources\Scripts\Skill\SkillAilment.cs" />
     <Compile Include="Assets\Resources\Scripts\Skill\SkillDatabase.cs" />
     <Compile Include="Assets\Resources\Scripts\Skill\SkillPanelContainer.cs" />
@@ -166,10 +167,12 @@
     <Compile Include="Assets\Resources\Scripts\UI\Quest\Quest.cs" />
     <Compile Include="Assets\Resources\Scripts\UI\Quest\QuestAgreementPanel.cs" />
     <Compile Include="Assets\Resources\Scripts\UI\Quest\QuestDatabase.cs" />
+    <Compile Include="Assets\Resources\Scripts\UI\Quest\QuestGoal.cs" />
     <Compile Include="Assets\Resources\Scripts\UI\Quest\QuestPanel.cs" />
     <Compile Include="Assets\Resources\Scripts\UI\Quest\QuestUI.cs" />
     <Compile Include="Assets\Resources\Scripts\UI\Quest\QuestUIContainer.cs" />
     <Compile Include="Assets\Resources\Scripts\UI\ScreenFader.cs" />
+    <Compile Include="Assets\Resources\Scripts\UI\SkillActiveEvents.cs" />
     <Compile Include="Assets\Resources\Scripts\UI\SliderUtilities.cs" />
     <Compile Include="Assets\Resources\Scripts\UI\StatusBar.cs" />
     <Compile Include="Assets\Resources\Scripts\UI\Tutorial.cs" />

@@ -22,23 +22,11 @@ public class QuestDatabase : MonoBehaviour {
         BuildDatabase();
     }
 
-    private void BuildDatabase()
-    {
-        Quests = JsonConvert.DeserializeObject<List<Quest>>(Resources.Load<TextAsset>("JSON/Quests").ToString());
-        foreach(Quest quest in Quests)
-        {
-            for (int i = 0; i < quest.questMonsterNeeds.Length; i++)
-            {
-                quest.questAmountDids[i] = 0;
-            }
-        }
-    }
-
     public Quest GetQuest(int id)
     {
         foreach (Quest quest in Quests)
         {
-            if (quest.questID == id)
+            if (quest.ID == id)
             {
                 return quest;
             }
@@ -54,6 +42,46 @@ public class QuestDatabase : MonoBehaviour {
             case 0: { UIEventHandler.MoneyAdded(100); break; }
         }
     }
+
+    private void BuildDatabase()
+    {
+        Quests = new List<Quest>();
+        Quests.Add(new Quest("Slay the Gators", "Clean Booga", 0,
+        new List<string>()
+        {
+            "Hey, I need you to kill those Gators.", "There should be a lot on the right side.", "Compelete this quest and I'll reward you."
+        },
+        new List<string>()
+        {
+            "Alright then, let me teach you some basics.", "Press the I key to open your inventory. You can equip items from here.",
+            "You should equip the weapon in your inventory.", "While holding a weapon, press the X key to perform a basic attack", "Tap repeatedly to combo!"
+        },
+        new List<string>()
+        {
+            "You are a fucking retard.", "Do you not want to progress in this game?"
+        },
+        new List<string>()
+        {
+            "Go kill the Gators then come back to me."
+        },
+        new List<string>()
+        {
+            "Nice job!", "Here's your reward"
+        },
+        "100 Gold",
+        "Clean Booga wants me to slay the Gators around here.",
+        new List<QuestGoal>()
+        {
+            new QuestGoal(0, 0, 5, "Slay 5 Gators")
+        }, 
+        Quest.QuestType.Slay));
+        // 
+
+
+        //Quests = JsonConvert.DeserializeObject<List<Quest>>(Resources.Load<TextAsset>("JSON/Quests").ToString());
+    }
+
+
 
 
 

@@ -3,10 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(CircleCollider2D))]
-public class EnemyMovement : MonoBehaviour {
+public class EnemyMovement : MonoBehaviour
+{
 
     public float moveSpeedX;
     public float moveSpeedY;
+
+    public float CurrentSpeedX { get; set; }
+    public float CurrentSpeedY { get; set; }
+
 
     Transform enemy;
     Transform target;
@@ -38,54 +43,53 @@ public class EnemyMovement : MonoBehaviour {
 
     void FixedUpdate()
     {
-        moveSpeedX = 0;
-        moveSpeedY = 0;
-        FollowPlayer();
-        rigidbody2d.velocity = new Vector2(moveSpeedX, moveSpeedY);
-        knockable.FinalMove();
-        if (stun.Stunned) return;
-        CanAttack();
-        FacePlayer();
+        CurrentSpeedX = 0;
+        CurrentSpeedY = 0;
+
+        if (rigidbody2d != null)
+        {
+            FollowPlayer();
+            rigidbody2d.velocity = new Vector2(CurrentSpeedX, CurrentSpeedY);
+            knockable.FinalMove();
+            if (stun.Stunned) return;
+            CanAttack();
+            FacePlayer();
+        }
+
     }
 
     void FollowPlayer()
     {
-        if (rigidbody2d != null)
+        if (inRange && canMove && !stun.Stunned)
         {
-            if (inRange && canMove && !stun.Stunned)
+            if (!(target.position.x - xOffSet <= transform.position.x && transform.position.x <= target.position.x + xOffSet))
             {
-                if (!(target.position.x - xOffSet <= transform.position.x && transform.position.x <= target.position.x + xOffSet))
+                inXRange = false;
+                if (transform.position.x < target.position.x)
+                    CurrentSpeedX += moveSpeedX;
+                else
+                    CurrentSpeedX -= moveSpeedX;
+            }
+            else
+            {
+                inXRange = true;
+            }
+            if (!(target.position.y - yOffSet <= transform.position.y && transform.position.y <= target.position.y + yOffSet))
+            {
+                inYRange = false;
+                if (target.position.y > enemy.position.y)
                 {
-                    inXRange = false;
-                    if (transform.position.x < target.position.x)
-                        moveSpeedX = 0.5f;
-                    else
-                        moveSpeedX = -0.5f;
+                    CurrentSpeedY += moveSpeedY;
                 }
                 else
                 {
-                    inXRange = true;
-                    moveSpeedX = 0;
+                    CurrentSpeedY -= moveSpeedY;
                 }
-                if (!(target.position.y - yOffSet <= transform.position.y && transform.position.y <= target.position.y + yOffSet))
-                {
-                    inYRange = false;
-                    if (target.position.y > enemy.position.y)
-                    {
-                        moveSpeedY = 0.5f;
-                    }
-                    else
-                    {
-                        moveSpeedY = -0.5f;
-                    }
 
-                }
-                else
-                {
-                    inYRange = true;
-                    moveSpeedY = 0;
-
-                }
+            }
+            else
+            {
+                inYRange = true;
             }
         }
     }

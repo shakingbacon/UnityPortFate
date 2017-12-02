@@ -8,6 +8,7 @@ public class Gator : Enemy
 {
     public override void AwakeStuff()
     {
+        ID = 0;
         Stats = new CharacterStats(
             5, 1, 5, 5,
             325, 100,

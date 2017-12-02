@@ -11,14 +11,15 @@
         "questInProgressText": ["Go kill the Gators then come back to me."],
 		"questCompletionText": ["Nice job!", "Here's your reward"],
 		
-		"questGoals": ["Slay 5 Gators"],
 		"questReward": "100 gold",
 		"questMemory": "Clean Booga wants me to slay the Gators around here.",
-		"questMonsterNeeds": [0],
-		"questAmountNeeds": [5],
+		"questGoals": {"Type":0, },
+		"questDescriptions": ["Slay 5 Gators"],
+		//"questMonsterNeeds": [0],
+		//"questAmountNeeds": [5],
 		// always 0 with index count
-		"questAmountDids": [0],
-		"questObjectiveTypes": [0],
+		//"questAmountDids": [0],
+		//"questObjectiveTypes": [0],
 		"questType": "Slay"
 	}
 ]
