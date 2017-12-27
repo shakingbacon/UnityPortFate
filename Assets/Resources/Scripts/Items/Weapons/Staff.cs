@@ -14,9 +14,9 @@ public class Staff : Weapon, IProjectileWeapon
 
     MagicShot magicShot;
 
-    public override void StartActivations()
+    protected override void Start()
     {
-        base.StartActivations();
+        base.Start();
         staffBase = transform.GetChild(0).GetComponent<WeaponHitbox>();
         staffBase.DamageMultiplier = baseDamage;
         magicShot = Resources.Load<MagicShot>("Prefabs/Projectiles/MagicShot");
@@ -26,8 +26,8 @@ public class Staff : Weapon, IProjectileWeapon
     {
         MagicShot shotProj = Instantiate(magicShot, ProjectileSpawn.position, ProjectileSpawn.rotation);
         shotProj.Damage = new Damage();
-        shotProj.Damage.HitChance = CharacterStats.Hit - 5;
-        shotProj.Damage.DamageAmount = (int)(CharacterStats.Magical * 0.45f);
+        shotProj.Damage.HitChance = Stats.Hit - 5;
+        shotProj.Damage.DamageAmount = (int)(Stats.Magical * 0.45f);
         shotProj.Direction = ProjectileSpawn.right;
         shotProj.transform.localScale = GameManager.player.transform.localScale;
     }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IEnemy  {
+public interface IEnemy {
 
 
     Animator Animator { get; set; }
@@ -14,7 +14,6 @@ public interface IEnemy  {
     //int Cash { get; set; }
     int Experience { get; set; }
     float AttackCooldown { get; set; }
-    CharacterStats Stats { get; set; }
     DropTable DropTable { get; set; }
 
     Player Player { get; set; }

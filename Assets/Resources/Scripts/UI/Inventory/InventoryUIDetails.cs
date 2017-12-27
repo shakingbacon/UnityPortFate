@@ -27,9 +27,9 @@ public class InventoryUIDetails : MonoBehaviour {
         statText.text = "";
         if (item.Stats != null)
         {
-            foreach (BaseStat stat in item.Stats)
+            foreach (BaseStat stat in item.Stats.Stats)
             {
-                statText.text += string.Format("{0}: {1}\n", stat.StatName, stat.BaseValue);
+                statText.text += string.Format("{0}: {1}\n", stat.Type, stat.BaseValue);
             }
         }
         this.item = item;
@@ -59,9 +59,9 @@ public class InventoryUIDetails : MonoBehaviour {
         statText.text = "";
         if (item.Stats != null)
         {
-            foreach (BaseStat stat in item.Stats)
+            foreach (BaseStat stat in item.Stats.Stats)
             {
-                statText.text += string.Format("{0}: {1}\n", stat.StatName, stat.BaseValue);
+                statText.text += string.Format("{0}: {1}\n", stat.Type, stat.BaseValue);
             }
         }
         this.item = item;

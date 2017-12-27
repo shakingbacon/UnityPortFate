@@ -8,15 +8,14 @@ public class Sword : Weapon
     WeaponHitbox swordTip;
     WeaponHitbox swordBase;
     WeaponHitbox swordHilt;
-
     [SerializeField] float tipDamage;
     [SerializeField] float baseDamage;
     [SerializeField] float hiltDamage;
 
 
-    public override void StartActivations()
+    protected override void Start()
     {
-        base.StartActivations();
+        base.Start();
         swordTip = transform.GetChild(0).GetComponent<WeaponHitbox>();
         swordBase = transform.GetChild(1).GetComponent<WeaponHitbox>();
         swordHilt = transform.GetChild(2).GetComponent<WeaponHitbox>();

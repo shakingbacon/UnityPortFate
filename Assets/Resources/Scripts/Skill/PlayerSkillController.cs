@@ -107,7 +107,7 @@ public class PlayerSkillController : MonoBehaviour {
         projectile.Damage = skill;
         projectile.Direction = projectileSpawn.right;
         projectile.transform.position = projectileSpawn.position;
-        projectile.Damage.HitChance = player.Stats.Hit;
+        projectile.Damage.HitChance = player.Hit;
         if (projectileSpawn.parent.localScale.x == -1)
         {
             projectile.transform.Rotate(180, 180, 0);

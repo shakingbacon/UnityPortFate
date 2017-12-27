@@ -82,15 +82,15 @@ public class PlayerWeaponController : MonoBehaviour {
         {
             EquippedWeapon.GetComponent<IProjectileWeapon>().ProjectileSpawn = spawnProjectile;
         }
-        player.Stats.AddStatBonus(itemToEquip.Stats);
+        itemToEquip.Stats.AddStatsToOther(player);
         equippedWeapon = EquippedWeapon.GetComponent<Weapon>();
         equippedWeapon.Stats = itemToEquip.Stats;
         currentlyEquippedItem = itemToEquip;
         EquippedWeapon.transform.SetParent(playerHand.transform);
         //EquippedWeapon.transform.localScale = new Vector3(1, 1, 1);
         equippedWeapon.playerSkillController = playerSkillController;
-        equippedWeapon.CharacterStats = player.Stats;
-        
+        equippedWeapon.player = player;
+
         SoundDatabase.PlaySound(0);
         UIEventHandler.ItemEquipped(itemToEquip);
         UIEventHandler.StatsChanged();
@@ -101,7 +101,7 @@ public class PlayerWeaponController : MonoBehaviour {
         if (EquippedWeapon != null)
         {
             SoundDatabase.PlaySound(0);
-            player.Stats.RemoveStatBonus(equippedWeapon.Stats);
+            player.RemoveStatsFromOther(equippedWeapon.Stats);
             inventoryController.GiveItem(currentlyEquippedItem.ItemName);
             Destroy(playerHand.transform.GetChild(0).gameObject);
             UIEventHandler.ItemUnequipped(item);

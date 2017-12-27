@@ -7,14 +7,12 @@ public class PlayerArmorController : MonoBehaviour {
 
     public GameObject playerArmor;
     Player player;
-    CharacterStats characterStats;
     InventoryController inventoryController;
 
 
     void Awake ()
     {
         player = GetComponent<Player>();
-        characterStats = GetComponent<Player>().Stats;
         inventoryController = GetComponent<InventoryController>();
     }
 
@@ -49,7 +47,7 @@ public class PlayerArmorController : MonoBehaviour {
         armor.transform.localPosition = new Vector3(0, 0, 0);
         armor.transform.localScale = new Vector3(1, 1, 1);
         //
-        characterStats.AddStatBonus(itemToEquip.Stats);
+        itemToEquip.Stats.AddStatsToOther(player);
         //equippedWeapon = EquippedWeapon.GetComponent<IArmor>();
         itemToEquip.Stats = itemToEquip.Stats;
         UIEventHandler.ItemEquipped(itemToEquip);
@@ -60,7 +58,7 @@ public class PlayerArmorController : MonoBehaviour {
     {
         SoundDatabase.PlaySound(0);
 
-        characterStats.RemoveStatBonus(item.Stats);
+        item.Stats.RemoveStatsFromOther(player);
         inventoryController.GiveItem(item);
         Destroy(playerArmor.transform.FindChild(item.ItemName).gameObject);
         UIEventHandler.ItemUnequipped(item);

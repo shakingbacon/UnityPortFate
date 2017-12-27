@@ -2,15 +2,82 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Mortal : MonoBehaviour {
+public class Mortal : MonoBehaviour
+{
+    public List<BaseStat> Stats = new List<BaseStat>();
+    // B
+    public int Strength { get { return FindStat(BaseStat.StatType.Strength).FinalValue; } set { FindStat(BaseStat.StatType.Strength).BaseValue = value; } }
+    public int Vitality { get { return FindStat(BaseStat.StatType.Vitality).FinalValue; } set { FindStat(BaseStat.StatType.Vitality).BaseValue = value; } }
+    public int Intelligence { get { return FindStat(BaseStat.StatType.Intelligence).FinalValue; } set { FindStat(BaseStat.StatType.Intelligence).BaseValue = value; } }
+    public int Wisdom { get { return FindStat(BaseStat.StatType.Wisdom).FinalValue; } set { FindStat(BaseStat.StatType.Wisdom).BaseValue = value; } }
+    public int Agility { get { return FindStat(BaseStat.StatType.Agility).FinalValue; } set { FindStat(BaseStat.StatType.Agility).BaseValue = value; } }
+    public int Perception { get { return FindStat(BaseStat.StatType.Perception).FinalValue; } set { FindStat(BaseStat.StatType.Perception).BaseValue = value; } }
+    public int Luck { get { return FindStat(BaseStat.StatType.Luck).FinalValue; } set { FindStat(BaseStat.StatType.Luck).BaseValue = value; } }
+    public int MaxHealth { get { return FindStat(BaseStat.StatType.MaxHealth).FinalValue; } set { FindStat(BaseStat.StatType.MaxHealth).BaseValue = value; } }
+    public int MaxMana { get { return FindStat(BaseStat.StatType.MaxMana).FinalValue; } set { FindStat(BaseStat.StatType.MaxMana).BaseValue = value; } }
+    public int Physical { get { return FindStat(BaseStat.StatType.Physical).FinalValue; } set { FindStat(BaseStat.StatType.Physical).BaseValue = value; } }
+    public int Magical { get { return FindStat(BaseStat.StatType.Magical).FinalValue; } set { FindStat(BaseStat.StatType.Magical).BaseValue = value; } }
+    public int Armor { get { return FindStat(BaseStat.StatType.Armor).FinalValue; } set { FindStat(BaseStat.StatType.Armor).BaseValue = value; } }
+    public int Resist { get { return FindStat(BaseStat.StatType.Resist).FinalValue; } set { FindStat(BaseStat.StatType.Resist).BaseValue = value; } }
+    public int Hit { get { return FindStat(BaseStat.StatType.Hit).FinalValue; } set { FindStat(BaseStat.StatType.Hit).BaseValue = value; } }
+    public int Dodge { get { return FindStat(BaseStat.StatType.Dodge).FinalValue; } set { FindStat(BaseStat.StatType.Dodge).BaseValue = value; } }
+    public int Crit { get { return FindStat(BaseStat.StatType.Crit).FinalValue; } set { FindStat(BaseStat.StatType.Crit).BaseValue = value; } }
+    public int CritMulti { get { return FindStat(BaseStat.StatType.CritMulti).FinalValue; } set { FindStat(BaseStat.StatType.CritMulti).BaseValue = value; } }
+    public int AttackSpeed { get { return FindStat(BaseStat.StatType.AttackSpeed).FinalValue; } set { FindStat(BaseStat.StatType.AttackSpeed).BaseValue = value; } }
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public int CurrentHealth { get; set; }
+    public int CurrentMana { get; set; }
+
+    public Mortal()
+    {
+        Stats = new List<BaseStat>();
+        Stats.Add(new BaseStat((BaseStat.StatType)0));
+        Stats.Add(new BaseStat((BaseStat.StatType)1));
+        Stats.Add(new BaseStat((BaseStat.StatType)2));
+        Stats.Add(new BaseStat((BaseStat.StatType)3));
+        Stats.Add(new BaseStat((BaseStat.StatType)4));
+        Stats.Add(new BaseStat((BaseStat.StatType)5));
+        Stats.Add(new BaseStat((BaseStat.StatType)6));
+        Stats.Add(new BaseStat((BaseStat.StatType)7));
+        Stats.Add(new BaseStat((BaseStat.StatType)8));
+        Stats.Add(new BaseStat((BaseStat.StatType)9));
+        Stats.Add(new BaseStat((BaseStat.StatType)10));
+        Stats.Add(new BaseStat((BaseStat.StatType)11));
+        Stats.Add(new BaseStat((BaseStat.StatType)12));
+        Stats.Add(new BaseStat((BaseStat.StatType)13));
+        Stats.Add(new BaseStat((BaseStat.StatType)14));
+        Stats.Add(new BaseStat((BaseStat.StatType)15));
+        Stats.Add(new BaseStat((BaseStat.StatType)16));
+        Stats.Add(new BaseStat((BaseStat.StatType)17));
+    }
+
+    public BaseStat FindStat(BaseStat.StatType type)
+    {
+        return (Stats.Find(stat => stat.Type == type));
+    }
+
+    public void BuffStat(BaseStat.StatType type, int value)
+    {
+        FindStat(type).Buff(value);
+    }
+
+    //public void BuffStat(BaseStat stat)
+    //{
+    //    FindStat(stat.Type).Buff(stat.FinalValue);
+    //}
+
+    public void RemoveBuffStat(BaseStat.StatType type, int value)
+    {
+        FindStat(type).RemoveBuff(value);
+    }
+
+    public void AddStatsToOther(Mortal mortal)
+    {
+        mortal.Stats.ForEach(stat => stat.Buff(Stats.Find(otherStat => stat.Type == otherStat.Type).FinalValue));
+    }
+
+    public void RemoveStatsFromOther(Mortal mortal)
+    {
+        mortal.Stats.ForEach(stat => stat.RemoveBuff(Stats.Find(otherStat => stat.Type == otherStat.Type).FinalValue));
+    }
 }

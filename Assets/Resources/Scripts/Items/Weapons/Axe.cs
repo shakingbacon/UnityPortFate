@@ -12,9 +12,9 @@ public class Axe : Weapon {
     [SerializeField]
     float handleDamage;
 
-    public override void StartActivations()
+    protected override void Start()
     {
-        base.StartActivations();
+        base.Start();
         axeBlade = transform.GetChild(0).GetComponent<WeaponHitbox>();
         axeHandle = transform.GetChild(1).GetComponent<WeaponHitbox>();
         axeBlade.DamageMultiplier = bladeDamage;

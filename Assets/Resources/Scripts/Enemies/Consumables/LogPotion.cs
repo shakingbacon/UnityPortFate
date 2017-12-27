@@ -10,7 +10,7 @@ public class LogPotion : MonoBehaviour, IConsumable {
         Debug.Log("drink log");
     }
 
-    public void Consume(CharacterStats stats)
+    public void Consume(Mortal stats)
     {
         Debug.Log("drink lol stats");
     }

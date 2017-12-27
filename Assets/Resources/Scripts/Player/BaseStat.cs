@@ -6,14 +6,24 @@ using Newtonsoft.Json.Converters;
 
 public class BaseStat
 {
-    public enum BaseStatType
+    public int BaseValue { get; set; }
+    List<int> Bonuses { get; set; }
+
+    public int FinalValue { get { return GetFinalValue(); } }
+
+    public StatType Type { get; set; }
+
+    public enum StatType
     {
         Strength,
+        Vitality,
         Intelligence,
+        Wisdom,
         Agility,
+        Perception,
         Luck,
-        Health,
-        Mana,
+        MaxHealth,
+        MaxMana,
         Physical,
         Magical,
         Armor,
@@ -25,47 +35,38 @@ public class BaseStat
         AttackSpeed
     }
 
-    public List<StatBonus> BaseAdditives { get; set; }
-    [JsonConverter(typeof(StringEnumConverter))]
-    public BaseStatType StatType { get; set; }
-    public int BaseValue { get; set; }
-    public string StatName { get; set; }
-    public string StatDescription { get; set; }
 
-    public BaseStat(int baseval, string name, string desc)
+    public BaseStat(StatType type)
     {
-        this.BaseAdditives = new List<StatBonus>();
-        this.BaseValue = baseval;
-        this.StatName = name;
-        this.StatDescription = desc;
+        BaseValue = 0;
+        Type = type;
+        Bonuses = new List<int>();
     }
 
-    [JsonConstructor]
-    public BaseStat(BaseStatType statType, int baseValue, string statName)
+    public BaseStat(StatType type, int value)
     {
-        this.BaseAdditives = new List<StatBonus>();
-        this.StatType = statType;
-        this.BaseValue = baseValue;
-        this.StatName = statName;
+        BaseValue = value;
+        Type = type;
+        Bonuses = new List<int>();
+    }
+    public void Buff(int value)
+    {
+        Bonuses.Add(value);
+        UIEventHandler.StatsChanged();
+    }
+    
+    public void RemoveBuff(int value)
+    {
+        Bonuses.Remove(value);
+        UIEventHandler.StatsChanged();
     }
 
-    public void AddStatBonus(StatBonus statBonus)
+    int GetFinalValue()
     {
-        BaseAdditives.Add(statBonus);
+        int finalValue = BaseValue;
+        Bonuses.ForEach(value => finalValue += value);
+        return finalValue;
     }
 
-    public void RemoveStatBonus(StatBonus statBonus)
-    {
-        BaseAdditives.Remove(BaseAdditives.Find(x => x.BonusValue == statBonus.BonusValue));
-    }
-
-    public int GetFullValue()
-    {
-        int FinalValue = 0;
-        BaseAdditives.ForEach(x => FinalValue += x.BonusValue);
-
-        FinalValue += BaseValue;
-        return FinalValue;
-    }
 
 }

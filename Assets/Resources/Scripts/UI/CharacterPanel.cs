@@ -33,23 +33,23 @@ public class CharacterPanel : MonoBehaviour {
 
     void InitializeStats()
     {
-        for(int i = 0; i < player.Stats.stats.Count; i++)
-        {
-            playerStatTexts.Add(Instantiate(playerStatPrefab));
-            playerStatTexts[i].transform.SetParent(playerStatPanel);
-            playerStatTexts[i].transform.localPosition = new Vector3(1, 1, 1);
-            playerStatTexts[i].transform.localScale = new Vector3(1, 1, 1);
+        //for(int i = 0; i < player.Count; i++)
+        //{
+        //    playerStatTexts.Add(Instantiate(playerStatPrefab));
+        //    playerStatTexts[i].transform.SetParent(playerStatPanel);
+        //    playerStatTexts[i].transform.localPosition = new Vector3(1, 1, 1);
+        //    playerStatTexts[i].transform.localScale = new Vector3(1, 1, 1);
 
-        }
+        //}
         UpdateStats();
     }
 
     void UpdateStats()
     {
-        for( int i = 0; i < player.Stats.stats.Count; i++)
-        {
-            playerStatTexts[i].text = player.Stats.stats[i].StatName + ": " + player.Stats.stats[i].GetFullValue().ToString();
-        }
+        //for( int i = 0; i < player.Stats.stats.Count; i++)
+        //{
+        //    playerStatTexts[i].text = player.Stats.stats[i].StatName + ": " + player.Stats.stats[i].GetFullValue().ToString();
+        //}
     }
 
 }

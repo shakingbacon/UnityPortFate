@@ -3,11 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Weapon : MonoBehaviour, IWeapon {
+public class Weapon : Item, IWeapon {
+    public Mortal player;
     public Animator Animator { get; set; }
-    public List<BaseStat> Stats { get; set; }
+    //public List<BaseStat> Stats { get; set; }
     public PlayerSkillController playerSkillController { get; set; }
-    public CharacterStats CharacterStats { get; set; }
     public int pierce;
     public float knockback;
     public float stunDuration;
@@ -16,16 +16,11 @@ public class Weapon : MonoBehaviour, IWeapon {
 
     int collideSoundID = -1;
 
-    void Start()
-    {
-        StartActivations();
-        pierce = 2;
-        ResetEnemiesHit();
-    }
-
-    public virtual void StartActivations()
+    protected virtual void Start()
     {
         Animator = GetComponent<Animator>();
+        pierce = 2;
+        ResetEnemiesHit();
     }
 
     public virtual void SetDamageMultiplier(float dmg)

@@ -44,14 +44,14 @@ public class StatusBar : MonoBehaviour {
 
     void UpdateHealthBar()
     {
-        healthBarText.text = string.Format("HP: {0} / {1}", player.CurrentHealth, player.Stats.Health);
-        healthBar.value = player.CurrentHealth / (float)player.Stats.Health;
+        healthBarText.text = string.Format("HP: {0} / {1}", player.CurrentHealth, player.MaxHealth);
+        healthBar.value = player.CurrentHealth / (float)player.MaxHealth;
     }
 
     void UpdateManaBar()
     {
-        manaBarText.text = string.Format("MP: {0} / {1}", player.CurrentMana, player.Stats.Mana);
-        manaBar.value = player.CurrentMana / (float)player.Stats.Mana;
+        manaBarText.text = string.Format("MP: {0} / {1}", player.CurrentMana, player.MaxMana);
+        manaBar.value = player.CurrentMana / (float)player.MaxMana;
     }
 
     void UpdateExpBar()

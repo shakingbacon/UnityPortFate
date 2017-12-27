@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
 
-public class Item  {
-    public List<BaseStat> Stats { get; set; }
-    public string ObjectSlug { get; set; }
+public class Item : MonoBehaviour {
+    public Mortal Stats { get; set; }
+    //public List<BaseStat> Stats { get; set; }
+    //public string ObjectSlug { get; set; }
     public string Description { get; set; }
     public string ActionName { get; set; }
     public string ItemName { get; set; }
-    public string ItemCost { get; set; }
-    public bool ItemModifier { get; set; } 
-    [JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+    public int ItemCost { get; set; }
+    //public bool ItemModifier { get; set; } 
+    //[JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
     public ItemTypes ItemType { get; set; }
     public WeaponTypes WeaponType { get; set; }
     public ArmorTypes ArmorType { get; set; }
@@ -49,36 +50,40 @@ public class Item  {
         Glyph
     }
 
-
-    public Item(List<BaseStat> _Stats, string _ObjectSlug)
+    public Item()
     {
-        this.Stats = _Stats;
-        this.ObjectSlug = _ObjectSlug;
+        ActionName = "Equip";
     }
 
-    [JsonConstructor]
-    public Item(List<BaseStat> _Stats, string _ObjectSlug, string _Description, ItemTypes _ItemType, ArmorTypes _ArmorType, string _ActionName, string _ItemName, bool _ItemModifier)
-    {
-        this.Stats = _Stats;
-        this.ObjectSlug = _ObjectSlug;
-        this.Description = _Description;
-        this.ItemType = _ItemType;
-        this.ArmorType = _ArmorType;
-        this.ActionName = _ActionName;
-        this.ItemName = _ItemName;
-        this.ItemModifier = _ItemModifier;
-    }
+    //public Item(List<BaseStat> _Stats, string _ObjectSlug)
+    //{
+    //    this.Stats = _Stats;
+    //    this.ObjectSlug = _ObjectSlug;
+    //}
 
-    public Item(List<BaseStat> _Stats, string _ObjectSlug, string _Description, ItemTypes _ItemType, WeaponTypes _WeaponType, string _ActionName, string _ItemName, bool _ItemModifier)
-    {
-        this.Stats = _Stats;
-        this.ObjectSlug = _ObjectSlug;
-        this.Description = _Description;
-        this.ItemType = _ItemType;
-        this.WeaponType = _WeaponType;
-        this.ActionName = _ActionName;
-        this.ItemName = _ItemName;
-        this.ItemModifier = _ItemModifier;
-    }
+    //[JsonConstructor]
+    //public Item(List<BaseStat> _Stats, string _ObjectSlug, string _Description, ItemTypes _ItemType, ArmorTypes _ArmorType, string _ActionName, string _ItemName, bool _ItemModifier)
+    //{
+    //    this.Stats = _Stats;
+    //    this.ObjectSlug = _ObjectSlug;
+    //    this.Description = _Description;
+    //    this.ItemType = _ItemType;
+    //    this.ArmorType = _ArmorType;
+    //    this.ActionName = _ActionName;
+    //    this.ItemName = _ItemName;
+    //    this.ItemModifier = _ItemModifier;
+    //}
+
+    //public Item(List<BaseStat> _Stats, string _ObjectSlug, string _Description, ItemTypes _ItemType, WeaponTypes _WeaponType, string _ActionName, string _ItemName, bool _ItemModifier)
+    //{
+    //    this.Stats = _Stats;
+    //    this.ObjectSlug = _ObjectSlug;
+    //    this.Description = _Description;
+    //    this.ItemType = _ItemType;
+    //    this.WeaponType = _WeaponType;
+    //    this.ActionName = _ActionName;
+    //    this.ItemName = _ItemName;
+    //    this.ItemModifier = _ItemModifier;
+    //}
 
 }

@@ -18,7 +18,7 @@ public class SkillPassiveEffects : MonoBehaviour
         {
             case 3:
                 {
-                    player.Stats.GetStat(BaseStat.BaseStatType.Mana).AddStatBonus(new StatBonus(PlayerSkillController.Instance.GetSkill(id).extras[0]));
+                    player.BuffStat(BaseStat.StatType.MaxMana, PlayerSkillController.Instance.GetSkill(id).extras[0]);
                     player.StatsUpdate();
                     break;
                 }

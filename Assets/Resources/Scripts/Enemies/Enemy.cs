@@ -7,7 +7,7 @@ using UnityEngine;
 //[RequireComponent(typeof(BoxCollider2D))] // pushing box
 [RequireComponent(typeof(PolygonCollider2D))] // actual hitbox
 
-public class Enemy : MonoBehaviour {
+public class Enemy : Mortal {
     public Animator Animator { get; set; }
     public MonsterSpawner Spawner { get; set; }
     public EnemyMovement EnemyMovement { get; set; }
@@ -16,7 +16,7 @@ public class Enemy : MonoBehaviour {
     // MUST SET THESE
     public int ID {get;set;}
     public float Knockback { get; set; }
-    public CharacterStats Stats { get; set; }
+    //public CharacterStats Stats { get; set; }
     public int Experience { get; set; }
     public int Cash { get; set; }
     public Skill.SkillElement Attribute { get; set; }
@@ -24,8 +24,8 @@ public class Enemy : MonoBehaviour {
     public DropTable DropTable { get; set; }
     // MUST SET ABOVE
 
-    public int CurrentHealth { get; set; }
-    public int CurrentMana { get; set; }
+    //public int CurrentHealth { get; set; }
+    //public int CurrentMana { get; set; }
     public float AttackCooldown { get; set; }
 
 
@@ -39,9 +39,16 @@ public class Enemy : MonoBehaviour {
         Reptile
     }
 
-    void Awake()
+    protected virtual void Awake()
     {
-        AwakeStuff();
+        PickupItemPrefab = Resources.Load<PickupItem>("Prefabs/Interactable/Pickup Item");
+        Player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        EnemyMovement = GetComponentInChildren<EnemyMovement>();
+        HealthBar = EnemyHealthBarController.CreateHealthBar(transform);
+        Animator = GetComponent<Animator>();
+        CurrentHealth = MaxHealth;
+        CurrentMana = MaxMana;
+        Rigidbody2D = GetComponentInParent<Rigidbody2D>();
     }
 
     void FixedUpdate()
@@ -49,7 +56,7 @@ public class Enemy : MonoBehaviour {
         if (EnemyMovement.canAttack)
         {
             PerformAttack();
-            AttackCooldown = Stats.AttackSpeed;
+            AttackCooldown = AttackSpeed;
             EnemyMovement.canAttack = false;
             EnemyMovement.onAttackCooldown = true;
             //print("attacked");
@@ -64,17 +71,17 @@ public class Enemy : MonoBehaviour {
         }
     }
 
-    public virtual void AwakeStuff()
-    {
-        PickupItemPrefab = Resources.Load<PickupItem>("Prefabs/Interactable/Pickup Item");
-        Player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-        EnemyMovement = GetComponentInChildren<EnemyMovement>();
-        HealthBar = EnemyHealthBarController.CreateHealthBar(transform);
-        Animator = GetComponent<Animator>();
-        CurrentHealth = Stats.Health;
-        CurrentMana = Stats.Mana;
-        Rigidbody2D = GetComponentInParent<Rigidbody2D>();
-    }
+    //public virtual void AwakeStuff()
+    //{
+    //    PickupItemPrefab = Resources.Load<PickupItem>("Prefabs/Interactable/Pickup Item");
+    //    Player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+    //    EnemyMovement = GetComponentInChildren<EnemyMovement>();
+    //    HealthBar = EnemyHealthBarController.CreateHealthBar(transform);
+    //    Animator = GetComponent<Animator>();
+    //    CurrentHealth = MaxHealth;
+    //    CurrentMana = MaxMana;
+    //    Rigidbody2D = GetComponentInParent<Rigidbody2D>();
+    //}
 
     public void PerformAttack()
     {
@@ -94,10 +101,10 @@ public class Enemy : MonoBehaviour {
             //print("took damage");
             //Player.GetComponent<Rigidbody2D>().AddForce(new Vector3(-transform.parent.localScale.x * Knockback, 0, 0));
 
-            FloatingText floatingText = FloatingTextController.CreateFloatingText(Stats.Physical.ToString(), Player.transform);
+            FloatingText floatingText = FloatingTextController.CreateFloatingText(Physical.ToString(), Player.transform);
             floatingText.SetTextColor(new Color(1,0,1));
             Player.GetComponent<PlayerMovement>().knockable.AddXKnockback(Knockback, transform);
-            Player.TakeDamage(Stats.Physical);            
+            Player.TakeDamage(Physical);            
         }
     }
 
@@ -106,7 +113,7 @@ public class Enemy : MonoBehaviour {
         int random = Random.Range(0, 101);
         /*print(random)*/;
         //print(damage.HitChance);
-        if (((damage.HitChance - Stats.Dodge) < random))
+        if (((damage.HitChance - Dodge) < random))
         {
             FloatingText floatingText = FloatingTextController.CreateFloatingText("MISS", gameObject.transform);
             floatingText.transform.localScale = new Vector3(1.25f, 1.25f);
@@ -132,7 +139,7 @@ public class Enemy : MonoBehaviour {
     public virtual void HealthDamaged(int amount)
     {
         CurrentHealth-= amount;
-        HealthBar.SetSliderValue(CurrentHealth, Stats.Health);
+        HealthBar.SetSliderValue(CurrentHealth, MaxHealth);
     }
 
     public virtual void DropLoot()

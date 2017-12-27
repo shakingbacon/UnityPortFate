@@ -21,8 +21,8 @@ public class WeaponHitbox : MonoBehaviour {
                 && parentWeapon.EnemiesHit.Count < parentWeapon.pierce)
             {
                 parentWeapon.EnemiesHit.Add(col.gameObject);
-                Damage damage = new Damage((int)(parentWeapon.CharacterStats.Physical * parentWeapon.Animator.GetFloat("DamageMultiplier") * DamageMultiplier));
-                damage.HitChance = parentWeapon.CharacterStats.Hit;
+                Damage damage = new Damage((int)(parentWeapon.player.Physical * parentWeapon.Animator.GetFloat("DamageMultiplier") * DamageMultiplier));
+                damage.HitChance = parentWeapon.Stats.Hit;
                 damage.Knockback = parentWeapon.knockback;
                 damage.Stun = parentWeapon.stunDuration;
                 parentWeapon.OnHit(damage);
