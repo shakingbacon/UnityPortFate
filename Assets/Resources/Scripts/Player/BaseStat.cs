@@ -32,7 +32,7 @@ public class BaseStat
     public string StatName { get; set; }
     public string StatDescription { get; set; }
 
-    public BaseStat (int baseval, string name, string desc)
+    public BaseStat(int baseval, string name, string desc)
     {
         this.BaseAdditives = new List<StatBonus>();
         this.BaseValue = baseval;
@@ -40,7 +40,7 @@ public class BaseStat
         this.StatDescription = desc;
     }
 
-    [Newtonsoft.Json.JsonConstructor]
+    [JsonConstructor]
     public BaseStat(BaseStatType statType, int baseValue, string statName)
     {
         this.BaseAdditives = new List<StatBonus>();
@@ -63,7 +63,7 @@ public class BaseStat
     {
         int FinalValue = 0;
         BaseAdditives.ForEach(x => FinalValue += x.BonusValue);
-    
+
         FinalValue += BaseValue;
         return FinalValue;
     }

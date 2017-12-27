@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Damage {
 
-    public int Amount { get; set; }
+    // Damage Amount
+    public int DamageAmount { get; set; }
     //public int FinalAmount { get; set; }
     public bool DidCrit { get; set; }
 
@@ -12,24 +13,22 @@ public class Damage {
     public float Knockback { get; set; }
     public float Stun { get; set; }
 
-    public Skill.SkillType Type { get; set; }
     //public List<Skill.SkillElement> Element { get; set; }
          
 
     public Damage()
     {
-        Amount = 0;
+        DamageAmount = 0;
         DidCrit = false;
     }
 
     public Damage(Damage dmg)
     {
-        Amount = dmg.Amount;
+        DamageAmount = dmg.DamageAmount;
         DidCrit = dmg.DidCrit;
         HitChance = dmg.HitChance;
         Knockback = dmg.Knockback;
         Stun = dmg.Stun;
-        Type = dmg.Type;
     }
     //public Damage(int dmg)
     //{
@@ -60,7 +59,7 @@ public class Damage {
         //if (Random.Range(0f, 1f) < 0.5f)
         //    dmg.DidHit = false;
         //else
-        Amount = (baseDmg * 2 + Random.Range(2, 8));
+        DamageAmount = (baseDmg * 2 + Random.Range(2, 8));
         Knockback = knockback;
         Stun = stun;
         // Calculate Crit
@@ -73,8 +72,8 @@ public class Damage {
 
     private void CalculateCrit()
     {
-        int critDamage = (int)(Amount * Random.Range(.5f, .75f));
-        Amount += critDamage;
+        int critDamage = (int)(DamageAmount * Random.Range(.5f, .75f));
+        DamageAmount += critDamage;
     }
 
 }

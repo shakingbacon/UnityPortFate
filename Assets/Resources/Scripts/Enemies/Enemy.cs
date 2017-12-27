@@ -105,7 +105,7 @@ public class Enemy : MonoBehaviour {
     {
         int random = Random.Range(0, 101);
         /*print(random)*/;
-        print(damage.HitChance);
+        //print(damage.HitChance);
         if (((damage.HitChance - Stats.Dodge) < random))
         {
             FloatingText floatingText = FloatingTextController.CreateFloatingText("MISS", gameObject.transform);
@@ -113,7 +113,7 @@ public class Enemy : MonoBehaviour {
         }
         else // DID HIT
         {
-            FloatingText floatingText = FloatingTextController.CreateFloatingText(damage.Amount.ToString(), gameObject.transform);
+            FloatingText floatingText = FloatingTextController.CreateFloatingText(damage.DamageAmount.ToString(), gameObject.transform);
             if (damage.DidCrit)
             {
                 floatingText.transform.localScale = new Vector3(1.4f, 1.4f);
@@ -121,7 +121,7 @@ public class Enemy : MonoBehaviour {
             }
             EnemyMovement.knockable.AddXKnockback(damage.Knockback);
             EnemyMovement.stun.AddStun(damage.Stun);
-            HealthDamaged(damage.Amount);
+            HealthDamaged(damage.DamageAmount);
         }
         if (CurrentHealth <= 0)
         {

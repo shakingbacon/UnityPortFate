@@ -11,6 +11,8 @@ public class PlayerSkillController : MonoBehaviour {
     public Transform projectileSpawn;
     public Skill UsingSkill { get; set; }
 
+    public GameObject hotkeyButton;
+
     public ConsumableController consumableController;
     public PlayerWeaponController playerWeaponController;
     public PlayerArmorController playerArmorController;
@@ -30,6 +32,20 @@ public class PlayerSkillController : MonoBehaviour {
         playerArmorController = GetComponent<PlayerArmorController>();
         LearnSkill(SkillDatabase.Instance.GetSkill("Fireball"));
         LearnSkill(SkillDatabase.Instance.GetSkill(1));
+        LearnSkill(2);
+        LearnSkill(3);
+    }
+
+    public Skill GetSkill(int id)
+    {
+        foreach (Transform skillChild in SkillUI.Instance.learnedSkills)
+        {
+            Skill skill = skillChild.GetComponent<SkillPanelContainer>().skill;
+            if (skill.skillID == id)
+                return skill;
+        }
+        Debug.LogError("DIDNT FIND SKILL");
+        return new Skill();
     }
 
 
@@ -39,24 +55,37 @@ public class PlayerSkillController : MonoBehaviour {
         PlayerSkillUpdate.UpdateSkills();
     }
 
+    public void LearnSkill(int id)
+    {
+        UIEventHandler.SkillLearned(SkillDatabase.Instance.GetSkill(id));
+        PlayerSkillUpdate.UpdateSkills();
+    }
+
     public void SetSkillDetails(Skill skill)
     {
         skillDetailsPanel.SetSkill(skill);
+        if (skill.skillType == Skill.SkillType.Passive)
+        {
+            skillPanel.transform.FindChild("HotKey").gameObject.SetActive(false);
+        }
     }
 
 
     public void ActivateSkill(Skill skill)
     {
-        if (player.CurrentMana >= skill.skillMana)
+        Skill usingSkill = SkillEvents.SkillUsed(new Skill(skill));
+
+        if (player.CurrentMana >= usingSkill.skillMana)
         {
-            player.AddMana(-skill.skillMana);
-            switch (skill.skillType)
+            player.AddMana(-usingSkill.skillMana);
+            print("LOL");
+            switch (usingSkill.skillType)
             {
                 case Skill.SkillType.Active:
                     {
-                        if (skill.skillChannelDuration > 0f)
+                        if (usingSkill.skillChannelDuration > 0f)
                         {
-                            PlayerActivesController.Instance.AddActive(skill);
+                            PlayerActivesController.Instance.AddActive(usingSkill);
                         }
                         break;
                     }
@@ -64,19 +93,18 @@ public class PlayerSkillController : MonoBehaviour {
                     {
                         if (skill.skillStyle == Skill.SkillStyle.Projectile)
                         {
-                            CastSkillProjectile(skill);
+                            
+                            CastSkillProjectile(usingSkill);
                         }
                         break;
                     }
             }
         }
-        
-
     }
     public void CastSkillProjectile(Skill skill)
     {
         Projectile projectile = Instantiate(Resources.Load<Projectile>("Prefabs/Projectiles/" + skill.skillName));
-        projectile.Damage = skill.skillDamage;
+        projectile.Damage = skill;
         projectile.Direction = projectileSpawn.right;
         projectile.transform.position = projectileSpawn.position;
         projectile.Damage.HitChance = player.Stats.Hit;

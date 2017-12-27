@@ -7,8 +7,11 @@ public class Player : MonoBehaviour {
     public CharacterStats Stats { get; set; }
     Animator animator;
 
+
+    int currentMana = 0;
+
     public int CurrentHealth { get; set; }
-    public int CurrentMana { get; set; }
+    public int CurrentMana { get { return currentMana; } set { currentMana = value; UIEventHandler.ManaChanged(); } }
 
     public Job currentJob;
     public PlayerLevel PlayerLevel { get; set; }
@@ -50,15 +53,23 @@ public class Player : MonoBehaviour {
         UIEventHandler.ManaChanged();
     }
 
+    public delegate int TakeDamageModifier(int damage);
+    public static event TakeDamageModifier OnTakeDamage;
+
     public void TakeDamage(int amount)
     {
-        StartCoroutine(GotHitFlashing());
-        CurrentHealth -= amount;
-        if (CurrentHealth <= 0)
+        if (OnTakeDamage != null)
+            amount = OnTakeDamage(amount);
+        if (amount > 0)
         {
-            Die();
+            StartCoroutine(GotHitFlashing());
+            CurrentHealth -= amount;
+            if (CurrentHealth <= 0)
+            {
+                Die();
+            }
+            UIEventHandler.HealthChanged();
         }
-        UIEventHandler.HealthChanged();
     }
     
     IEnumerator GotHitFlashing()
@@ -115,6 +126,7 @@ public class Player : MonoBehaviour {
                     break;
                 }
         }
+
         UIEventHandler.HealthChanged();
         UIEventHandler.ManaChanged();
     }

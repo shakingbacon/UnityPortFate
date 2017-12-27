@@ -2,31 +2,34 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerSkillUpdate : MonoBehaviour {
+public class PlayerSkillUpdate : MonoBehaviour
+{
 
     static Player player;
 
-	void Start () {
+    void Start()
+    {
         player = GetComponent<Player>();
-	}
-	
+    }
+
     public static void UpdateSkills()
     {
         foreach (Transform skillChild in SkillUI.Instance.learnedSkills)
         {
             Skill skill = skillChild.GetComponent<SkillPanelContainer>().skill;
-            skill.skillDamage = new Damage();
+            skill.extras.Clear();
             switch (skill.skillID)
             {
                 case 0:
                     {
 
-                        skill.skillDamage.Amount = 100;
-                        skill.skillDamage.Knockback = 7f;
-                        skill.skillDamage.Stun = 0.25f;
+                        skill.DamageAmount = 100;
+                        skill.Knockback = 7f;
+                        skill.Stun = 0.25f;
                         skill.skillMana = 50;
+                        skill.skillCooldown = 3f;
                         skill.FindAilment(SkillAilment.AilmentType.Burn).ailmentChance = 25;
-                        skill.skillDamage.Type = Skill.SkillType.Magical;
+                        skill.skillDesc = "Shoot in a straight line a small ball of fire, dealing Magical Fire damage. Has a chance to burn";
                         break;
                     }
                 case 1:
@@ -34,6 +37,27 @@ public class PlayerSkillUpdate : MonoBehaviour {
                         skill.skillMana = 100;
                         skill.skillChannelDuration = 2f;
                         skill.skillActiveDuration = 10f;
+                        skill.skillCooldown = 20;
+                        skill.extras.Add((int)(skill.skillCooldown * 1.6)); // channel damage reduction
+                        skill.skillDesc = string.Format("Channel for {0} seconds to amplify your next Magical damaging skill for {1} seconds. During the channel, you take {2} reduced damage.",
+                            skill.skillChannelDuration, skill.skillActiveDuration, skill.extras[0]);
+                        break;
+                    }
+                case 2:
+                    {
+                        skill.skillMana = 25;
+                        skill.skillChannelDuration = 2f;
+                        skill.skillActiveDuration = 300f;
+                        skill.skillCooldown = 300;
+                        skill.skillDesc = string.Format("Channel for {0} seconds to take damage from your Mana before your Health for {1} seconds.",
+                                                    skill.skillChannelDuration, skill.skillActiveDuration);
+                        break;
+                    }
+                case 3:
+                    {
+                        skill.extras.Add((15 + 50 * skill.skillRank) * skill.skillRank);
+                        skill.skillDesc = string.Format("Rank this skill to obtain +{0} Mana permanently.", 
+                            (15 + 50 * (skill.skillRank + 1)) * (skill.skillRank + 1));
                         break;
                     }
             }
@@ -47,7 +71,7 @@ public class PlayerSkillUpdate : MonoBehaviour {
         if (skill.skillType == Skill.SkillType.Physical || skill.skillType == Skill.SkillType.Magical)
         {
             ailmentDesc += string.Format("Damage: {0}\nMana Cost: {1}\nKnockback: {2}\nStun: {3} secs\nCooldown: {4} secs",
-                 skill.skillDamage.Amount, skill.skillMana, skill.skillDamage.Knockback, skill.skillDamage.Stun, skill.skillCooldown);
+                 skill.DamageAmount, skill.skillMana, skill.Knockback, skill.Stun, skill.skillCooldown);
             if (skill.skillAilments != null)
                 foreach (SkillAilment ailment in skill.skillAilments)
                 {

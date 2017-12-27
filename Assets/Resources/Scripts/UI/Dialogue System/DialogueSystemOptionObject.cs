@@ -19,7 +19,6 @@ public class DialogueSystemOptionObject : MonoBehaviour
                     optionButton.onClick.AddListener(QuestTalk);
                     break;
                 }
-
         }
     }
 

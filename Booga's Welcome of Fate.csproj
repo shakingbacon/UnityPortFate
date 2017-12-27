@@ -143,6 +143,7 @@
     <Compile Include="Assets\Resources\Scripts\Skill\SkillDatabase.cs" />
     <Compile Include="Assets\Resources\Scripts\Skill\SkillPanelContainer.cs" />
     <Compile Include="Assets\Resources\Scripts\Skill\SkillPanelDetails.cs" />
+    <Compile Include="Assets\Resources\Scripts\Skill\SkillPassiveEffects.cs" />
     <Compile Include="Assets\Resources\Scripts\Skill\SkillUI.cs" />
     <Compile Include="Assets\Resources\Scripts\UI\CharacterPanel.cs" />
     <Compile Include="Assets\Resources\Scripts\UI\Damage Popup\EnemyHealthBar.cs" />

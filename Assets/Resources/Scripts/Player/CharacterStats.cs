@@ -2,12 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterStats {
+public class CharacterStats
+{
 
-    public int Strength { get { return FindStatAndGetCalcValue(BaseStat.BaseStatType.Strength); }
-    set { GetStat(BaseStat.BaseStatType.Strength).BaseValue = value; } }
-    public int Intelligence { get { return FindStatAndGetCalcValue(BaseStat.BaseStatType.Intelligence); }
-        set { GetStat(BaseStat.BaseStatType.Intelligence).BaseValue = value; } }
+    public int Strength
+    {
+        get { return FindStatAndGetCalcValue(BaseStat.BaseStatType.Strength); }
+        set { GetStat(BaseStat.BaseStatType.Strength).BaseValue = value; }
+    }
+    public int Intelligence
+    {
+        get { return FindStatAndGetCalcValue(BaseStat.BaseStatType.Intelligence); }
+        set { GetStat(BaseStat.BaseStatType.Intelligence).BaseValue = value; }
+    }
     public int Agility { get { return FindStatAndGetCalcValue(BaseStat.BaseStatType.Agility); } set { GetStat(BaseStat.BaseStatType.Agility).BaseValue = value; } }
     public int Luck { get { return FindStatAndGetCalcValue(BaseStat.BaseStatType.Luck); } set { GetStat(BaseStat.BaseStatType.Luck).BaseValue = value; } }
     public int Health { get { return FindStatAndGetCalcValue(BaseStat.BaseStatType.Health); } set { GetStat(BaseStat.BaseStatType.Health).BaseValue = value; } }
@@ -24,7 +31,7 @@ public class CharacterStats {
 
     public List<BaseStat> stats = new List<BaseStat>();
 
-    public CharacterStats(int strength, int intel, int agi, int luck, int health, int mana, 
+    public CharacterStats(int strength, int intel, int agi, int luck, int health, int mana,
         int physical, int magical, int armor, int resist, int hit, int dodge, int crit, int attackSpeed)
     {
         stats = new List<BaseStat>()
@@ -54,7 +61,7 @@ public class CharacterStats {
 
     public void AddStatBonus(List<BaseStat> statBonuses)
     {
-        foreach(BaseStat bonus in statBonuses)
+        foreach (BaseStat bonus in statBonuses)
         {
             GetStat(bonus.StatType).AddStatBonus(new StatBonus(bonus.BaseValue));
         }

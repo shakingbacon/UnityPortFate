@@ -8,9 +8,14 @@ public class SkillActiveEvents : MonoBehaviour {
     public static event SkillActiveDamageModifier OnDamageSkillHitEnemy;
     public static Damage DamageSkillHitEnemy(Damage skill)
     {
-        Damage damage = new Damage(skill);
-        damage = OnDamageSkillHitEnemy(damage);
-        return damage;
+        if (OnDamageSkillHitEnemy != null)
+        {
+            Damage damage = new Damage(skill);
+            damage = OnDamageSkillHitEnemy(damage);
+            return damage;
+        }
+        return skill;
+
     }
 
 

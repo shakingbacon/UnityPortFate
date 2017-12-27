@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class InventoryUIDetails : MonoBehaviour {
     Item item;
     Button selectedItemButton, itemInteractButton;
-    Text itemNameText, itemDescriptionText, itemInteractButtonText;
+    Text itemNameText, itemDescriptionText, itemInteractButtonText, itemType;
 
     public Text statText;
 
@@ -16,6 +16,7 @@ public class InventoryUIDetails : MonoBehaviour {
         itemDescriptionText = transform.FindChild("Item_Description").GetComponent<Text>();
         itemInteractButton = transform.FindChild("Action").GetComponent<Button>();
         itemInteractButtonText= itemInteractButton.transform.FindChild("Text").GetComponent<Text>();
+        itemType = transform.FindChild("Item_Type").GetComponent<Text>();
         gameObject.SetActive(false);
     }
 
@@ -38,6 +39,18 @@ public class InventoryUIDetails : MonoBehaviour {
         itemDescriptionText.text = item.Description + "\nCost: $" + item.ItemCost;
         itemInteractButtonText.text = item.ActionName;
         itemInteractButton.onClick.AddListener(OnItemInteract);
+
+        // type
+        if (item.ItemType == Item.ItemTypes.Weapon)
+        {
+            itemType.text = "(" + item.WeaponType.ToString() + ")";
+        }
+        else
+        {
+            itemType.text = "(" + item.ArmorType.ToString() + ")";
+        }
+        
+        
     }
 
     public void SetUnequipItem(Item item, Button selectedButton)

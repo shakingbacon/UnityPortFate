@@ -26,6 +26,7 @@ public class Item  {
 
     public enum WeaponTypes
     {
+        None,
         Sword,
         Axe,
         Wand,
@@ -34,6 +35,7 @@ public class Item  {
     
     public enum ArmorTypes
     {
+        None,
         Head,
         Neck,
         Hands,
@@ -54,13 +56,26 @@ public class Item  {
         this.ObjectSlug = _ObjectSlug;
     }
 
-    [Newtonsoft.Json.JsonConstructor]
-    public Item(List<BaseStat> _Stats, string _ObjectSlug, string _Description, ItemTypes _ItemType, string _ActionName, string _ItemName, bool _ItemModifier)
+    [JsonConstructor]
+    public Item(List<BaseStat> _Stats, string _ObjectSlug, string _Description, ItemTypes _ItemType, ArmorTypes _ArmorType, string _ActionName, string _ItemName, bool _ItemModifier)
     {
         this.Stats = _Stats;
         this.ObjectSlug = _ObjectSlug;
         this.Description = _Description;
         this.ItemType = _ItemType;
+        this.ArmorType = _ArmorType;
+        this.ActionName = _ActionName;
+        this.ItemName = _ItemName;
+        this.ItemModifier = _ItemModifier;
+    }
+
+    public Item(List<BaseStat> _Stats, string _ObjectSlug, string _Description, ItemTypes _ItemType, WeaponTypes _WeaponType, string _ActionName, string _ItemName, bool _ItemModifier)
+    {
+        this.Stats = _Stats;
+        this.ObjectSlug = _ObjectSlug;
+        this.Description = _Description;
+        this.ItemType = _ItemType;
+        this.WeaponType = _WeaponType;
         this.ActionName = _ActionName;
         this.ItemName = _ItemName;
         this.ItemModifier = _ItemModifier;

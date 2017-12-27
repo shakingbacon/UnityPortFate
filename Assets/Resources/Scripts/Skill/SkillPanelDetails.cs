@@ -22,6 +22,7 @@ public class SkillPanelDetails : MonoBehaviour {
         skillHotkey = transform.FindChild("Hotkey").GetComponent<Button>();
         hotkeyAssign.SetActive(false);
         gameObject.SetActive(false);
+        
     }
 
 
@@ -31,13 +32,22 @@ public class SkillPanelDetails : MonoBehaviour {
         skillNameText.text = skill.skillName;
         if (skill.skillType == Skill.SkillType.Active)
         {
-            skillDescriptionText.text = string.Format("({0}, {1})", skill.skillType, skill.skillStyle);
+            if (skill.skillStyle != Skill.SkillStyle.None)
+            {
+                skillDescriptionText.text = string.Format("({0}, {1})", skill.skillType, skill.skillStyle);
+            }
+            else
+            {
+                skillDescriptionText.text = string.Format("({0})", skill.skillType);
+            }
         }
-        else
+        else if (skill.skillType == Skill.SkillType.Magical || skill.skillType == Skill.SkillType.Physical)
         {
-            skillDescriptionText.text = string.Format("({0}, {1})", skill.skillType, skill.skillElement);
+            if (skill.skillElement != Skill.SkillElement.None)
+                skillDescriptionText.text = string.Format("({0}, {1})", skill.skillType, skill.skillElement);
+            else
+                skillDescriptionText.text = string.Format("({0})", skill.skillType);
         }
-        skillDescriptionText.text = string.Format("({0}, {1})", skill.skillType, skill.skillElement);
         skillEffDescText.text = string.Format("{0}\n\n{1}",skill.skillDesc, skill.skillEffDesc);
         currentSkill = skill;
     }

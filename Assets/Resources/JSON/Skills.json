@@ -2,25 +2,32 @@
 	{
 		"skillName": "Fireball", 
 		"skillID": 0,
-		"skillDesc": "Shoot in a straight line a small ball of fire.",
-		"skillRank": 0,
 		"skillMaxRank": 5,
-		"skillCooldown": 3,
 		"skillType": "Magical",
 		"skillStyle": "Projectile",
-		"skillElemental": "Fire",
+		"skillElement": "Fire",
 		"skillAilments": [{"ailmentType": "Burn"}]
 	},
 	{
 		"skillName": "Meditate", 
 		"skillID": 1,
-		"skillDesc": "Channel for 2 seconds to amplify your next Magical based attack for 10 seconds. During the channel, you take reduced damage",
-		"skillRank": 0,
 		"skillMaxRank": 3,
-		"skillCooldown": 25,
 		"skillType": "Active",
 		"skillStyle": "Channel",
-	}
+	},
+	{
+		"skillName": "Mana Gaurd", 
+		"skillID": 2,
+		"skillMaxRank": 3,
+		"skillType": "Active",
+		"skillStyle": "Channel",
+	},
+	{
+		"skillName": "Max MP+", 
+		"skillID": 3,
+		"skillMaxRank": 5,
+		"skillType": "Passive",
+	},
 
 
 ]

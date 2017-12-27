@@ -15,7 +15,7 @@ public class ActiveHolder : MonoBehaviour {
         cooldown.fillAmount = timeLeft / timeMax;
         if (timeLeft < 0)
         {
-            Destroy(gameObject);
+            PlayerActivesController.Instance.EndActive(activeSkill.skillID);
         }
     }
 
