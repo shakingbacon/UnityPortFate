@@ -46,6 +46,7 @@ public class UIEventHandler : MonoBehaviour {
 
     public static void MoneyAdded(int amount)
     {
+        EventNotifier.Instance.MakeEventNotifier(string.Format("Obtained: {0} Cash", amount));
         OnMoneyAdd(amount);
     }
 

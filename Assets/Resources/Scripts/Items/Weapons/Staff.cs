@@ -12,11 +12,13 @@ public class Staff : Weapon, IProjectileWeapon
 
     public Transform ProjectileSpawn { get; set; }
 
+    public override WeaponTypes Type { get { return WeaponTypes.Staff; } }
+
     MagicShot magicShot;
 
-    protected override void Start()
+    protected override void Awake()
     {
-        base.Start();
+        base.Awake();
         staffBase = transform.GetChild(0).GetComponent<WeaponHitbox>();
         staffBase.DamageMultiplier = baseDamage;
         magicShot = Resources.Load<MagicShot>("Prefabs/Projectiles/MagicShot");

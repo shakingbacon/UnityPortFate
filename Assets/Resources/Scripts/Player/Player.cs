@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : Mortal
+public class Player : MonoBehaviour
 {
 
+    public Attributes Stats {get;set;}
     //public CharacterStats Stats { get; set; }
     Animator animator;
 
 
-    int currentMana = 0;
 
-    public new int CurrentHealth { get; set; }
-    public new int CurrentMana { get { return currentMana; } set { currentMana = value; UIEventHandler.ManaChanged(); } }
+    public int CurrentHealth { get { return Stats.CurrentHealth; } set { Stats.CurrentHealth = value; UIEventHandler.HealthChanged(); } }
+    public int CurrentMana { get { return Stats.CurrentMana; } set { Stats.CurrentMana = value; UIEventHandler.ManaChanged(); } }
 
     public Job currentJob;
     public PlayerLevel PlayerLevel { get; set; }
@@ -20,6 +20,7 @@ public class Player : Mortal
 
     void Awake()
     {
+        Stats = new Attributes();
         CanBeHit = true;
         animator = GetComponent<Animator>();
         PlayerLevel = GetComponent<PlayerLevel>();
@@ -32,25 +33,25 @@ public class Player : Mortal
 
     public void HealFullHP()
     {
-        CurrentHealth = MaxHealth;
+        Stats.CurrentHealth = Stats.MaxHealth;
         UIEventHandler.HealthChanged();
     }
 
     public void HealFullMP()
     {
-        CurrentMana = MaxMana;
+        CurrentMana = Stats.MaxMana;
         UIEventHandler.ManaChanged();
     }
 
     public void AddHealth(int amount)
     {
-        CurrentHealth += amount;
+        Stats.CurrentHealth += amount;
         UIEventHandler.HealthChanged();
     }
 
     public void AddMana(int amount)
     {
-        CurrentMana += amount;
+        Stats.CurrentMana += amount;
         UIEventHandler.ManaChanged();
     }
 
@@ -64,8 +65,8 @@ public class Player : Mortal
         if (amount > 0)
         {
             StartCoroutine(GotHitFlashing());
-            CurrentHealth -= amount;
-            if (CurrentHealth <= 0)
+            Stats.CurrentHealth -= amount;
+            if (Stats.CurrentHealth <= 0)
             {
                 Die();
             }
@@ -96,7 +97,7 @@ public class Player : Mortal
     private void Die()
     {
         Debug.Log("Player dead. reset health");
-        CurrentHealth = MaxHealth;
+        Stats.CurrentHealth = Stats.MaxHealth;
         UIEventHandler.HealthChanged();
     }
 
@@ -107,23 +108,23 @@ public class Player : Mortal
             case 0:// Mage Stat Updates
                 {   // These are stats based off other stats
                     //
-                    MaxHealth = 225 + Strength * 11 + PlayerLevel.Level * 32;
+                    Stats.MaxHealth = 225 + Stats.Strength * 11 + PlayerLevel.Level * 32;
                     //
-                    MaxMana = 475 + Intelligence * 26 + PlayerLevel.Level * 60;
+                    Stats.MaxMana = 475 + Stats.Intelligence * 26 + PlayerLevel.Level * 60;
                     //
-                    Physical = 35 + Strength + PlayerLevel.Level * 3;
+                    Stats.Physical = 35 + Stats.Strength + PlayerLevel.Level * 3;
                     //
-                    Magical = 60 + Intelligence * 6 + PlayerLevel.Level * 8;
+                    Stats.Magical = 60 + Stats.Intelligence * 6 + PlayerLevel.Level * 8;
                     //
-                    Armor = 10 + Strength * 4 + PlayerLevel.Level * 6;
+                    Stats.Armor = 10 + Stats.Strength * 4 + PlayerLevel.Level * 6;
                     //
-                    Resist = 15 + Intelligence * 9 + PlayerLevel.Level * 10;
+                    Stats.Resist = 15 + Stats.Intelligence * 9 + PlayerLevel.Level * 10;
                     //
-                    Hit = 90 + Agility / 6 + Luck / 5;
+                    Stats.Hit = 90 + Stats.Agility / 6 + Stats.Luck / 5;
                     //
-                    Dodge = Agility / 7 + Luck / 3;
+                    Stats.Dodge = Stats.Agility / 7 + Stats.Luck / 3;
                     //
-                    Crit = Agility / 5 + Luck / 4;
+                    Stats.Crit = Stats.Agility / 5 + Stats.Luck / 4;
                     break;
                 }
         }

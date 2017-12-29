@@ -21,7 +21,7 @@ public class EquipmentUIItem : MonoBehaviour {
 
     void SetupItemValues()
     {
-        itemImage.sprite = Resources.Load<Sprite>("Icons/Items/" + item.ItemName);
+        itemImage.sprite = Resources.Load<Sprite>("Icons/Items/" + item.Name);
     }
 
     public void OnSelectItemButton()

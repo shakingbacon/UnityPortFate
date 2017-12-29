@@ -66,8 +66,10 @@ public class PlayerSkillController : MonoBehaviour {
         skillDetailsPanel.SetSkill(skill);
         if (skill.skillType == Skill.SkillType.Passive)
         {
-            skillPanel.transform.FindChild("HotKey").gameObject.SetActive(false);
+            skillDetailsPanel.transform.FindChild("Hotkey").gameObject.SetActive(false);
         }
+        else
+            skillDetailsPanel.transform.FindChild("Hotkey").gameObject.SetActive(true);
     }
 
 
@@ -107,7 +109,7 @@ public class PlayerSkillController : MonoBehaviour {
         projectile.Damage = skill;
         projectile.Direction = projectileSpawn.right;
         projectile.transform.position = projectileSpawn.position;
-        projectile.Damage.HitChance = player.Hit;
+        projectile.Damage.HitChance = player.Stats.Hit;
         if (projectileSpawn.parent.localScale.x == -1)
         {
             projectile.transform.Rotate(180, 180, 0);

@@ -7,7 +7,7 @@ public class SkillPanelDetails : MonoBehaviour {
 
     Skill currentSkill;
     Button selectedSkillButton, skillRankUp, skillHotkey;
-    Text skillNameText, skillDescriptionText, skillEffDescText;
+    Text skillNameText, skillDescriptionText, skillEffDescText, skillRankText;
 
     public GameObject hotSkillPanel;
     public GameObject hotkeyAssign;
@@ -15,6 +15,7 @@ public class SkillPanelDetails : MonoBehaviour {
 
     void Awake()
     {
+        skillRankText = transform.FindChild("SkillRank").GetComponent<Text>();
         skillNameText = transform.FindChild("SkillName").GetComponent<Text>();
         skillDescriptionText = transform.FindChild("SkillDesc").GetComponent<Text>();
         skillEffDescText = transform.FindChild("SkillEffDesc").GetComponent<Text>();
@@ -22,7 +23,7 @@ public class SkillPanelDetails : MonoBehaviour {
         skillHotkey = transform.FindChild("Hotkey").GetComponent<Button>();
         hotkeyAssign.SetActive(false);
         gameObject.SetActive(false);
-        
+        PlayerSkillUpdate.OnSkillChanged += () => SetSkill(currentSkill);
     }
 
 
@@ -30,7 +31,8 @@ public class SkillPanelDetails : MonoBehaviour {
     {
         gameObject.SetActive(true);
         skillNameText.text = skill.skillName;
-        if (skill.skillType == Skill.SkillType.Active)
+        skillRankText.text = string.Format("Rank: {0} / {1}", skill.skillRank, skill.skillMaxRank);
+        if (skill.skillType == Skill.SkillType.Active || skill.skillType == Skill.SkillType.Passive)
         {
             if (skill.skillStyle != Skill.SkillStyle.None)
             {
@@ -54,8 +56,18 @@ public class SkillPanelDetails : MonoBehaviour {
 
     public void RankUpButton()
     {
-        SoundDatabase.PlaySound(20);
-        currentSkill.skillRank += 1;
+        if (currentSkill.skillRank == currentSkill.skillMaxRank)
+        {
+            SoundDatabase.PlaySound(33);
+            EventNotifier.Instance.MakeEventNotifier("Skill rank already maxed!");
+        }
+        else
+        {
+            SoundDatabase.PlaySound(20);
+            currentSkill.skillRank += 1;
+            SkillPassiveEffects.ApplyRankUpBonus(currentSkill.skillID);
+            PlayerSkillUpdate.SkillChanged();
+        }
     }
 
     public void HotkeyButton()

@@ -8,20 +8,27 @@ public class Sword : Weapon
     WeaponHitbox swordTip;
     WeaponHitbox swordBase;
     WeaponHitbox swordHilt;
-    [SerializeField] float tipDamage;
-    [SerializeField] float baseDamage;
-    [SerializeField] float hiltDamage;
 
+    protected float TipDamage { get; set; }
+    protected float BaseDamage { get; set; }
+    protected float HiltDamage { get; set; }
 
-    protected override void Start()
+    public override WeaponTypes Type { get { return WeaponTypes.Sword; } }
+
+    protected override void Awake()
     {
-        base.Start();
+        base.Awake();
         swordTip = transform.GetChild(0).GetComponent<WeaponHitbox>();
         swordBase = transform.GetChild(1).GetComponent<WeaponHitbox>();
         swordHilt = transform.GetChild(2).GetComponent<WeaponHitbox>();
-        swordTip.DamageMultiplier = tipDamage;
-        swordBase.DamageMultiplier = baseDamage;
-        swordHilt.DamageMultiplier = hiltDamage;
+        swordTip.DamageMultiplier = TipDamage;
+        swordBase.DamageMultiplier = BaseDamage;
+        swordHilt.DamageMultiplier = HiltDamage;
     }
+
+    //public override void GiveStats()
+    //{
+    //    base.GiveStats();
+    //}
 
 }

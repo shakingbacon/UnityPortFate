@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Mortal : MonoBehaviour
+public class Attributes
 {
     public List<BaseStat> Stats = new List<BaseStat>();
     // B
@@ -28,7 +28,7 @@ public class Mortal : MonoBehaviour
     public int CurrentHealth { get; set; }
     public int CurrentMana { get; set; }
 
-    public Mortal()
+    public Attributes()
     {
         Stats = new List<BaseStat>();
         Stats.Add(new BaseStat((BaseStat.StatType)0));
@@ -71,12 +71,12 @@ public class Mortal : MonoBehaviour
         FindStat(type).RemoveBuff(value);
     }
 
-    public void AddStatsToOther(Mortal mortal)
+    public void AddStatsToOther(Attributes mortal)
     {
         mortal.Stats.ForEach(stat => stat.Buff(Stats.Find(otherStat => stat.Type == otherStat.Type).FinalValue));
     }
 
-    public void RemoveStatsFromOther(Mortal mortal)
+    public void RemoveStatsFromOther(Attributes mortal)
     {
         mortal.Stats.ForEach(stat => stat.RemoveBuff(Stats.Find(otherStat => stat.Type == otherStat.Type).FinalValue));
     }

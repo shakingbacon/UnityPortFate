@@ -22,8 +22,8 @@ public class CashDrop : Interactable
     void PickUpCash()
     {
         UIEventHandler.MoneyAdded(cashAmount);
+        //EventNotifier.Instance.MakeEventNotifier(string.Format("Obtained: {0} Cash", cashAmount));
         Destroy(gameObject);
-
     }
 
     public static void DropCash(int amount, Transform location)

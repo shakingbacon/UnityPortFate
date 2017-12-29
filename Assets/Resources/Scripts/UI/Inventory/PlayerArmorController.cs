@@ -40,14 +40,14 @@ public class PlayerArmorController : MonoBehaviour {
         armor.AddComponent<ItemHolder>();
         armor.GetComponent<ItemHolder>().item = itemToEquip;
         armor.AddComponent<SpriteRenderer>();
-        armor.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Icons/PlayerEquips/" + itemToEquip.ItemName);
+        armor.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Icons/PlayerEquips/" + itemToEquip.Name);
         armor.GetComponent<SpriteRenderer>().sortingOrder = 10;
-        armor.name = itemToEquip.ItemName;
+        armor.name = itemToEquip.Name;
         armor.transform.SetParent(playerArmor.transform);
         armor.transform.localPosition = new Vector3(0, 0, 0);
         armor.transform.localScale = new Vector3(1, 1, 1);
         //
-        itemToEquip.Stats.AddStatsToOther(player);
+        itemToEquip.Stats.AddStatsToOther(player.Stats);
         //equippedWeapon = EquippedWeapon.GetComponent<IArmor>();
         itemToEquip.Stats = itemToEquip.Stats;
         UIEventHandler.ItemEquipped(itemToEquip);
@@ -58,9 +58,9 @@ public class PlayerArmorController : MonoBehaviour {
     {
         SoundDatabase.PlaySound(0);
 
-        item.Stats.RemoveStatsFromOther(player);
+        item.Stats.RemoveStatsFromOther(player.Stats);
         inventoryController.GiveItem(item);
-        Destroy(playerArmor.transform.FindChild(item.ItemName).gameObject);
+        Destroy(playerArmor.transform.FindChild(item.Name).gameObject);
         UIEventHandler.ItemUnequipped(item);
         UIEventHandler.StatsChanged();
         SoundDatabase.PlaySound(0);

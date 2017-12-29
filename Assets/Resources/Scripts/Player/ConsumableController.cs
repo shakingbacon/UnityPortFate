@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ConsumableController : MonoBehaviour {
-    Mortal stats;
+    Attributes stats;
 
 	// Use this for initialization
 	void Start () {
-        stats = GetComponent<Player>();
+        stats = GetComponent<Player>().Stats;
 	}
 	
     public void ConsumeItem(Item item)

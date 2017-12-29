@@ -61,18 +61,19 @@ public class InventoryPanel : MonoBehaviour {
     {
         foreach (Transform equip in equipmentPanel.transform)
         {
-            if (item.ItemType == Item.ItemTypes.Weapon)
+           
+            if (item.GetType() == typeof(Weapon))
             {
-                if (equip.name == item.ItemType.ToString())
+                if (equip.name == item.ToString())
                 {
-                    equip.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("Icons/Items/" + item.ItemName);
+                    equip.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("Icons/Items/" + item.Name);
                    // equip.GetChild(0).GetComponent<Image>().SetNativeSize();
 
                 }
             }
             else if (equip.name == item.ArmorType.ToString())
             {
-                equip.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("Icons/Items/" + item.ItemName);
+                equip.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("Icons/Items/" + item.Name);
                 break;
                 //equip.GetChild(0).GetComponent<Image>().SetNativeSize();
             }

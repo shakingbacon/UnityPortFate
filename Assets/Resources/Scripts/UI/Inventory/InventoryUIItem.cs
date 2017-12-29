@@ -17,8 +17,8 @@ public class InventoryUIItem : MonoBehaviour
 	
     void SetupItemValues()
     {
-        itemText.text = item.ItemName;
-        itemImage.sprite = Resources.Load<Sprite>("Icons/Items/" + item.ItemName);
+        itemText.text = item.Name;
+        itemImage.sprite = Resources.Load<Sprite>("Icons/Items/" + item.Name);
         itemImage.SetNativeSize();
     }
 

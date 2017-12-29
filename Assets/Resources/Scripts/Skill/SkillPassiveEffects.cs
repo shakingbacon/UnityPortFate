@@ -12,14 +12,14 @@ public class SkillPassiveEffects : MonoBehaviour
         player = GetComponent<Player>();
     }
 
-    public void ApplyRankUpBonus(int id)
+    public static void ApplyRankUpBonus(int id)
     {
         switch (id)
         {
             case 3:
                 {
-                    player.BuffStat(BaseStat.StatType.MaxMana, PlayerSkillController.Instance.GetSkill(id).extras[0]);
-                    player.StatsUpdate();
+                    player.Stats.BuffStat(BaseStat.StatType.MaxMana, PlayerSkillController.Instance.GetSkill(id).extras[0]);
+                    UIEventHandler.StatsChanged();
                     break;
                 }
         }

@@ -31,8 +31,8 @@ public class DialogueSystemOptionObject : MonoBehaviour
             if (playerQuest.Completed)
             {
                 DialogueSystem.Instance.MakeDialouge(playerQuest.CompleteText);
-                QuestDatabase.Instance.GiveQuestReward(option.optionID);
                 PlayerQuestController.Instance.QuestCompleted(option.optionID);
+                QuestDatabase.Instance.GiveQuestReward(option.optionID);
             }
             else
                 DialogueSystem.Instance.MakeDialouge(playerQuest.InProgressText);

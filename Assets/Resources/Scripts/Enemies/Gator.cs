@@ -8,29 +8,30 @@ public class Gator : Enemy
 {
     protected override void Awake()
     {
+        base.Awake();
         ID = 0;
 
-        Strength = 5;
-        Vitality = 3;
-        Intelligence = 1;
-        Wisdom = 1;
-        Perception = 2;
-        Luck = 5;
+        Stats.Strength = 5;
+        Stats.Vitality = 3;
+        Stats.Intelligence = 1;
+        Stats.Wisdom = 1;
+        Stats.Perception = 2;
+        Stats.Luck = 5;
 
-        MaxHealth = 325;
-        MaxMana = 100;
+        Stats.MaxHealth = 325;
+        Stats.MaxMana = 100;
 
-        Physical = 10;
-        Magical = 5;
+        Stats.Physical = 10;
+        Stats.Magical = 5;
 
-        Armor = 40;
-        Resist = 10;
+        Stats.Armor = 40;
+        Stats.Resist = 10;
 
-        Hit = 95;
-        Dodge = 1;
-        Crit = 4;
+        Stats.Hit = 95;
+        Stats.Dodge = 1;
+        Stats.Crit = 4;
 
-        AttackSpeed = 4;
+        Stats.AttackSpeed = 4;
         Knockback = 10f;
         Experience = 5;
         Cash = 25;
@@ -39,6 +40,9 @@ public class Gator : Enemy
         {
             new LootDrop("Longsword", 15)
         };
-        base.Awake();
+
+        Stats.CurrentHealth = Stats.MaxHealth;
+        Stats.CurrentMana = Stats.MaxMana;
+        
     }
 }

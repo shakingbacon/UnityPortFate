@@ -55,6 +55,7 @@ public class PlayerQuestController : MonoBehaviour
                 break;
             }
         }
+        EventNotifier.Instance.MakeEventNotifier(string.Format("Quest Completed: {0}", quest.Name));
     }
 
     public bool HasQuestCompleted(int id)

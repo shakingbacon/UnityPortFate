@@ -10,10 +10,20 @@ public class PlayerSkillUpdate : MonoBehaviour
     void Start()
     {
         player = GetComponent<Player>();
+        OnSkillChanged += UpdateSkills;
+    }
+    public delegate void SkillChange();
+    public static event SkillChange OnSkillChanged;
+
+    public static void SkillChanged()
+    {
+        if (OnSkillChanged != null)
+            OnSkillChanged();
     }
 
     public static void UpdateSkills()
     {
+
         foreach (Transform skillChild in SkillUI.Instance.learnedSkills)
         {
             Skill skill = skillChild.GetComponent<SkillPanelContainer>().skill;
@@ -55,9 +65,9 @@ public class PlayerSkillUpdate : MonoBehaviour
                     }
                 case 3:
                     {
-                        skill.extras.Add((15 + 50 * skill.skillRank) * skill.skillRank);
+                        skill.extras.Add((15 + 50 * (skill.skillRank + 1)) * (skill.skillRank + 1));
                         skill.skillDesc = string.Format("Rank this skill to obtain +{0} Mana permanently.", 
-                            (15 + 50 * (skill.skillRank + 1)) * (skill.skillRank + 1));
+                            skill.extras[0]);
                         break;
                     }
             }

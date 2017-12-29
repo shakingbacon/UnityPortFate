@@ -16,6 +16,7 @@ public class QuestAgreementPanel : MonoBehaviour {
         DialogueSystem.Instance.MakeDialouge(QuestDatabase.Instance.GetQuest(DialogueSystem.Instance.CurrentDialogue.optionID).AcceptText);
         DialogueSystem.Instance.ShowQuest = false;
         UIEventHandler.QuestAccepted(CurrentQuest);
+        EventNotifier.Instance.MakeEventNotifier(string.Format("Quest Accepted: {0}", CurrentQuest.Name));
     }
 
     public void Decline()

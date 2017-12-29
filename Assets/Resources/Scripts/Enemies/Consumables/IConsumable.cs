@@ -5,6 +5,6 @@ using UnityEngine;
 public interface IConsumable
 {
     void Consume();
-    void Consume(Mortal stats);
+    void Consume(Attributes stats);
 	
 }

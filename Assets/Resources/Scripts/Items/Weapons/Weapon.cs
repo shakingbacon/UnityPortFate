@@ -3,23 +3,42 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Weapon : Item, IWeapon {
-    public Mortal player;
+public abstract class Weapon : Item, IWeapon {
+
+    //public string Name { get; set; }
+    //public string Description { get; set; }
+    //public int Cost { get; set; }
+    //public Mortal Stats { get; set; }
+
+    [HideInInspector] public Attributes player;
     public Animator Animator { get; set; }
     //public List<BaseStat> Stats { get; set; }
     public PlayerSkillController playerSkillController { get; set; }
-    public int pierce;
-    public float knockback;
-    public float stunDuration;
+    public int Pierce { get; set; }
+    public float Knockback { get; set; }
+    public float StunDuration { get; set; }
     public List<GameObject> EnemiesHit { get; set; }
-
 
     int collideSoundID = -1;
 
-    protected virtual void Start()
+
+
+    public abstract WeaponTypes Type { get;}
+
+    public enum WeaponTypes
     {
+        Sword,
+        Axe,
+        Wand,
+        Staff
+    }
+
+
+    protected override void Awake()
+    {
+        base.Awake();
         Animator = GetComponent<Animator>();
-        pierce = 2;
+        Pierce = 2;
         ResetEnemiesHit();
     }
 

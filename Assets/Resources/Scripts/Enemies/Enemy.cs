@@ -7,7 +7,9 @@ using UnityEngine;
 //[RequireComponent(typeof(BoxCollider2D))] // pushing box
 [RequireComponent(typeof(PolygonCollider2D))] // actual hitbox
 
-public class Enemy : Mortal {
+public class Enemy : MonoBehaviour {
+
+    public Attributes Stats { get; set; }
     public Animator Animator { get; set; }
     public MonsterSpawner Spawner { get; set; }
     public EnemyMovement EnemyMovement { get; set; }
@@ -41,13 +43,14 @@ public class Enemy : Mortal {
 
     protected virtual void Awake()
     {
+        Stats = new Attributes();
         PickupItemPrefab = Resources.Load<PickupItem>("Prefabs/Interactable/Pickup Item");
         Player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         EnemyMovement = GetComponentInChildren<EnemyMovement>();
         HealthBar = EnemyHealthBarController.CreateHealthBar(transform);
         Animator = GetComponent<Animator>();
-        CurrentHealth = MaxHealth;
-        CurrentMana = MaxMana;
+        Stats.CurrentHealth = Stats.MaxHealth;
+        Stats.CurrentMana = Stats.MaxMana;
         Rigidbody2D = GetComponentInParent<Rigidbody2D>();
     }
 
@@ -56,7 +59,7 @@ public class Enemy : Mortal {
         if (EnemyMovement.canAttack)
         {
             PerformAttack();
-            AttackCooldown = AttackSpeed;
+            AttackCooldown = Stats.AttackSpeed;
             EnemyMovement.canAttack = false;
             EnemyMovement.onAttackCooldown = true;
             //print("attacked");
@@ -101,10 +104,10 @@ public class Enemy : Mortal {
             //print("took damage");
             //Player.GetComponent<Rigidbody2D>().AddForce(new Vector3(-transform.parent.localScale.x * Knockback, 0, 0));
 
-            FloatingText floatingText = FloatingTextController.CreateFloatingText(Physical.ToString(), Player.transform);
+            FloatingText floatingText = FloatingTextController.CreateFloatingText(Stats.Physical.ToString(), Player.transform);
             floatingText.SetTextColor(new Color(1,0,1));
             Player.GetComponent<PlayerMovement>().knockable.AddXKnockback(Knockback, transform);
-            Player.TakeDamage(Physical);            
+            Player.TakeDamage(Stats.Physical);            
         }
     }
 
@@ -113,7 +116,9 @@ public class Enemy : Mortal {
         int random = Random.Range(0, 101);
         /*print(random)*/;
         //print(damage.HitChance);
-        if (((damage.HitChance - Dodge) < random))
+        print("hit chance: " + damage.HitChance);
+        print("dodge: " + Stats.Dodge);
+        if (((damage.HitChance - Stats.Dodge) < random))
         {
             FloatingText floatingText = FloatingTextController.CreateFloatingText("MISS", gameObject.transform);
             floatingText.transform.localScale = new Vector3(1.25f, 1.25f);
@@ -130,7 +135,7 @@ public class Enemy : Mortal {
             EnemyMovement.stun.AddStun(damage.Stun);
             HealthDamaged(damage.DamageAmount);
         }
-        if (CurrentHealth <= 0)
+        if (Stats.CurrentHealth <= 0)
         {
             PlayDeathAnim();
         }
@@ -138,8 +143,8 @@ public class Enemy : Mortal {
 
     public virtual void HealthDamaged(int amount)
     {
-        CurrentHealth-= amount;
-        HealthBar.SetSliderValue(CurrentHealth, MaxHealth);
+        Stats.CurrentHealth -= amount;
+        HealthBar.SetSliderValue(Stats.CurrentHealth, Stats.MaxHealth);
     }
 
     public virtual void DropLoot()
@@ -149,7 +154,7 @@ public class Enemy : Mortal {
         {
             PickupItem instance = Instantiate(PickupItemPrefab, transform.position, Quaternion.identity);
             instance.transform.SetParent(CurrentMap.Instance.pickupItems);
-            instance.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Icons/Items/" + item.ItemName);
+            instance.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Icons/Items/" + item.Name);
             instance.transform.localScale = new Vector3(1, 1, 1);
             instance.ItemDrop = item;
         }

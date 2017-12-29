@@ -77,19 +77,19 @@ public class PlayerWeaponController : MonoBehaviour {
     public void EquipWeapon(Item itemToEquip)
     {
         UnequipWeapon(itemToEquip);
-        EquippedWeapon = (GameObject)Instantiate(Resources.Load<GameObject>("Prefabs/Items/Weapons/" + itemToEquip.ItemName), playerHand.transform);
+        EquippedWeapon = Instantiate(Resources.Load<GameObject>("Prefabs/Items/Weapons/" + itemToEquip.Name), playerHand.transform);
         if (EquippedWeapon.GetComponent<IProjectileWeapon>() != null)
         {
             EquippedWeapon.GetComponent<IProjectileWeapon>().ProjectileSpawn = spawnProjectile;
         }
-        itemToEquip.Stats.AddStatsToOther(player);
+        itemToEquip.Stats.AddStatsToOther(player.Stats);
         equippedWeapon = EquippedWeapon.GetComponent<Weapon>();
         equippedWeapon.Stats = itemToEquip.Stats;
         currentlyEquippedItem = itemToEquip;
         EquippedWeapon.transform.SetParent(playerHand.transform);
         //EquippedWeapon.transform.localScale = new Vector3(1, 1, 1);
         equippedWeapon.playerSkillController = playerSkillController;
-        equippedWeapon.player = player;
+        equippedWeapon.player = player.Stats;
 
         SoundDatabase.PlaySound(0);
         UIEventHandler.ItemEquipped(itemToEquip);
@@ -101,8 +101,8 @@ public class PlayerWeaponController : MonoBehaviour {
         if (EquippedWeapon != null)
         {
             SoundDatabase.PlaySound(0);
-            player.RemoveStatsFromOther(equippedWeapon.Stats);
-            inventoryController.GiveItem(currentlyEquippedItem.ItemName);
+            player.Stats.RemoveStatsFromOther(equippedWeapon.Stats);
+            inventoryController.GiveItem(currentlyEquippedItem.Name);
             Destroy(playerHand.transform.GetChild(0).gameObject);
             UIEventHandler.ItemUnequipped(item);
             UIEventHandler.StatsChanged();
