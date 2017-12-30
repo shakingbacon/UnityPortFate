@@ -21,20 +21,21 @@ public class PlayerArmorController : MonoBehaviour {
         SoundDatabase.PlaySound(0);
         foreach (Transform item in playerArmor.transform)
         {
-            Item checkItem = item.GetComponent<ItemHolder>().item;
-            if (checkItem.ItemType == Item.ItemTypes.Weapon)
+            Armor checkItem = (Armor)item.GetComponent<ItemHolder>().item;
+            //if (itemType == typeof(Weapon))
+            //{
+            //    UnequipArmor(checkItem);
+            //    Destroy(item.gameObject);
+            //}
+            //else if (itemType == typeof(Armor))
+            //{
+            Armor toEquipArmor = (Armor)itemToEquip;
+            if (checkItem.Type == toEquipArmor.Type)
             {
                 UnequipArmor(checkItem);
                 Destroy(item.gameObject);
             }
-            else if (checkItem.ItemType == Item.ItemTypes.Armor)
-            {
-                if (checkItem.ArmorType == itemToEquip.ArmorType)
-                {
-                    UnequipArmor(checkItem);
-                    Destroy(item.gameObject);
-                }
-            }
+            //}
         }
         GameObject armor = new GameObject();
         armor.AddComponent<ItemHolder>();
@@ -57,7 +58,6 @@ public class PlayerArmorController : MonoBehaviour {
     public void UnequipArmor(Item item)
     {
         SoundDatabase.PlaySound(0);
-
         item.Stats.RemoveStatsFromOther(player.Stats);
         inventoryController.GiveItem(item);
         Destroy(playerArmor.transform.FindChild(item.Name).gameObject);

@@ -21,10 +21,6 @@ public abstract class Weapon : Item, IWeapon {
 
     int collideSoundID = -1;
 
-
-
-    public abstract WeaponTypes Type { get;}
-
     public enum WeaponTypes
     {
         Sword,

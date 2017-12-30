@@ -101,7 +101,9 @@ public class PlayerWeaponController : MonoBehaviour {
         if (EquippedWeapon != null)
         {
             SoundDatabase.PlaySound(0);
-            player.Stats.RemoveStatsFromOther(equippedWeapon.Stats);
+            //print("unequipped");
+            //print(equippedWeapon.Stats.Physical);
+            equippedWeapon.Stats.RemoveStatsFromOther(player.Stats);
             inventoryController.GiveItem(currentlyEquippedItem.Name);
             Destroy(playerHand.transform.GetChild(0).gameObject);
             UIEventHandler.ItemUnequipped(item);

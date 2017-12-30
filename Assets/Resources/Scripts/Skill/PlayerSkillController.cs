@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerSkillController : MonoBehaviour {
+public class PlayerSkillController : MonoBehaviour
+{
 
     public static PlayerSkillController Instance { get; set; }
     Player player;
@@ -34,6 +35,7 @@ public class PlayerSkillController : MonoBehaviour {
         LearnSkill(SkillDatabase.Instance.GetSkill(1));
         LearnSkill(2);
         LearnSkill(3);
+        LearnSkill(4);
     }
 
     public Skill GetSkill(int id)
@@ -80,7 +82,6 @@ public class PlayerSkillController : MonoBehaviour {
         if (player.CurrentMana >= usingSkill.skillMana)
         {
             player.AddMana(-usingSkill.skillMana);
-            print("LOL");
             switch (usingSkill.skillType)
             {
                 case Skill.SkillType.Active:
@@ -91,11 +92,16 @@ public class PlayerSkillController : MonoBehaviour {
                         }
                         break;
                     }
+                case Skill.SkillType.Utility:
+                    {
+                        SkillPassiveEffects.ApplySkillEffect(skill.skillID);
+                        break;
+                    }
                 case Skill.SkillType.Magical:
                     {
                         if (skill.skillStyle == Skill.SkillStyle.Projectile)
                         {
-                            
+
                             CastSkillProjectile(usingSkill);
                         }
                         break;

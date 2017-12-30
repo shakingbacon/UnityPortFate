@@ -5,7 +5,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
 
-    public Attributes Stats {get;set;}
+    public Attributes Stats { get; set; }
     //public CharacterStats Stats { get; set; }
     Animator animator;
 
@@ -45,13 +45,20 @@ public class Player : MonoBehaviour
 
     public void AddHealth(int amount)
     {
-        Stats.CurrentHealth += amount;
+        if (CurrentHealth + amount > Stats.MaxHealth)
+            CurrentHealth = Stats.MaxHealth;
+        else
+            CurrentHealth += amount;
         UIEventHandler.HealthChanged();
     }
 
     public void AddMana(int amount)
     {
-        Stats.CurrentMana += amount;
+        if (CurrentMana + amount > Stats.MaxMana)
+        {
+            CurrentMana = Stats.MaxMana;
+        }
+        CurrentMana += amount;
         UIEventHandler.ManaChanged();
     }
 

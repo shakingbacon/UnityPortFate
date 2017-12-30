@@ -13,8 +13,6 @@ public class Sword : Weapon
     protected float BaseDamage { get; set; }
     protected float HiltDamage { get; set; }
 
-    public override WeaponTypes Type { get { return WeaponTypes.Sword; } }
-
     protected override void Awake()
     {
         base.Awake();
@@ -26,9 +24,10 @@ public class Sword : Weapon
         swordHilt.DamageMultiplier = HiltDamage;
     }
 
-    //public override void GiveStats()
-    //{
-    //    base.GiveStats();
-    //}
+    public override void GiveStats()
+    {
+        base.GiveStats();
+        ItemType = WeaponTypes.Sword.ToString();
+    }
 
 }

@@ -66,8 +66,19 @@ public class PlayerSkillUpdate : MonoBehaviour
                 case 3:
                     {
                         skill.extras.Add((15 + 50 * (skill.skillRank + 1)) * (skill.skillRank + 1));
-                        skill.skillDesc = string.Format("Rank this skill to obtain +{0} Mana permanently.", 
+                        skill.skillDesc = string.Format("Rank this skill to obtain +{0} Mana permanently.",
                             skill.extras[0]);
+                        break;
+                    }
+                case 4:
+                    {
+
+                        skill.skillMana = 75;
+                        skill.skillChannelDuration = 4f;
+                        skill.skillCooldown = 30f;
+                        skill.extras.Add(15 + (85 * skill.skillRank + 1)); // base
+                        skill.extras.Add(35 + 7); // missing health
+                        skill.skillDesc = string.Format("Restore for {0} HP + {1}% of missing HP to yourself.", skill.extras[0], skill.extras[1]);
                         break;
                     }
             }
@@ -89,7 +100,7 @@ public class PlayerSkillUpdate : MonoBehaviour
                         ailment.ailmentType, ailment.ailmentChance);
                 }
         }
-        else if (skill.skillType == Skill.SkillType.Active)
+        else if (skill.skillType == Skill.SkillType.Active || skill.skillType == Skill.SkillType.Utility)
         {
             ailmentDesc += string.Format("Mana Cost: {0}\nCooldown: {1} secs", skill.skillMana, skill.skillCooldown);
         }

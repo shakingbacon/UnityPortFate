@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class InventoryUIDetails : MonoBehaviour
 {
-    Item item;
+    Item SelectedItem { get; set; }
     Button selectedItemButton, itemInteractButton;
     Text itemNameText, itemDescriptionText, itemInteractButtonText, itemType;
 
@@ -31,26 +31,28 @@ public class InventoryUIDetails : MonoBehaviour
             foreach (BaseStat stat in item.Stats.Stats)
             {
                 if (stat.FinalValue != 0)
-                    statText.   text += string.Format("{0}: {1}\n", stat.Type, stat.BaseValue);
+                    statText.text += string.Format("{0}: {1}\n", stat.Type, stat.BaseValue);
             }
         }
-        this.item = item;
+        SelectedItem = item;
         itemInteractButton.onClick.RemoveAllListeners();
         selectedItemButton = selectedButton;
         itemNameText.text = item.Name;
         itemDescriptionText.text = item.Description + "\nCost: $" + item.Cost;
         itemInteractButtonText.text = "Use";//item.;
         itemInteractButton.onClick.AddListener(OnItemInteract);
-
+        itemType.text = string.Format("({0})", item.ItemType);
         // type
-        if (item.ItemType == Item.ItemTypes.Weapon)
-        {
-            itemType.text = "(" + item.WeaponType.ToString() + ")";
-        }
-        else
-        {
-            itemType.text = "(" + item.ArmorType.ToString() + ")";
-        }
+        //if (item is Weapon)
+        //{
+        //    Weapon weapon = (Weapon)item;
+        //    itemType.text = "(" + weapon.Type + ")";
+        //}
+        //else
+        //{
+        //    Armor armor = (Armor)item;
+        //    itemType.text = "(" + armor.Type + ")";
+        //}
 
 
     }
@@ -63,10 +65,11 @@ public class InventoryUIDetails : MonoBehaviour
         {
             foreach (BaseStat stat in item.Stats.Stats)
             {
-                statText.text += string.Format("{0}: {1}\n", stat.Type, stat.BaseValue);
+                if (stat.BaseValue != 0)
+                    statText.text += string.Format("{0}: {1}\n", stat.Type, stat.BaseValue);
             }
         }
-        this.item = item;
+        SelectedItem = item;
         itemInteractButton.onClick.RemoveAllListeners();
         selectedItemButton = selectedButton;
         itemNameText.text = item.Name;
@@ -78,38 +81,38 @@ public class InventoryUIDetails : MonoBehaviour
 
     public void OnItemUnequip()
     {
-        if (item.ItemType == Item.ItemTypes.Weapon)
+        if (SelectedItem is Weapon)
         {
-            InventoryController.Instance.playerWeaponController.UnequipWeapon(item);
+            InventoryController.Instance.playerWeaponController.UnequipWeapon(SelectedItem);
         }
-        else if (item.ItemType == Item.ItemTypes.Armor)
+        else
         {
-            InventoryController.Instance.playerArmorController.UnequipArmor(item);
+            InventoryController.Instance.playerArmorController.UnequipArmor(SelectedItem);
         }
-        item = null;
+        SelectedItem = null;
         gameObject.SetActive(false);
 
     }
 
     public void OnItemInteract()
     {
-        if (item.ItemType == Item.ItemTypes.Consumable)
+        if (SelectedItem is Consumable)
         {
-            InventoryController.Instance.ConsumeItem(item);
+            InventoryController.Instance.ConsumeItem(SelectedItem);
             Destroy(selectedItemButton.gameObject);
         }
-        else if (item.ItemType == Item.ItemTypes.Weapon)
+        else if (SelectedItem is Weapon)
         {
-            InventoryController.Instance.EquipWeapon(item);
+            InventoryController.Instance.EquipWeapon(SelectedItem);
             Destroy(selectedItemButton.gameObject);
         }
-        else if (item.ItemType == Item.ItemTypes.Armor)
+        else
         {
-            InventoryController.Instance.EquipArmor(item);
+            InventoryController.Instance.EquipArmor(SelectedItem);
             Destroy(selectedItemButton.gameObject);
         }
         UIEventHandler.ItemRemovedFromInventory();
-        item = null;
+        SelectedItem = null;
         gameObject.SetActive(false);
     }
 }

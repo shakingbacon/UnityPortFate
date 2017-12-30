@@ -13,7 +13,7 @@ public class Axe : Weapon {
     [SerializeField]
     float handleDamage;
 
-    public override WeaponTypes Type { get { return WeaponTypes.Axe; } }
+    public new string ItemType { get { return WeaponTypes.Axe.ToString(); } }
 
     protected override void Awake()
     {

@@ -12,7 +12,7 @@ public class Staff : Weapon, IProjectileWeapon
 
     public Transform ProjectileSpawn { get; set; }
 
-    public override WeaponTypes Type { get { return WeaponTypes.Staff; } }
+    public new string ItemType { get { return WeaponTypes.Staff.ToString(); } }
 
     MagicShot magicShot;
 

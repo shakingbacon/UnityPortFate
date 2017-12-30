@@ -73,11 +73,26 @@ public class Attributes
 
     public void AddStatsToOther(Attributes mortal)
     {
-        mortal.Stats.ForEach(stat => stat.Buff(Stats.Find(otherStat => stat.Type == otherStat.Type).FinalValue));
+        foreach (BaseStat stat in Stats)
+        {
+            if (stat.FinalValue != 0)
+            {
+                //Debug.Log(string.Format("Type: {0}, Value: {1}", stat.Type, stat.FinalValue));
+                mortal.BuffStat(stat.Type, stat.FinalValue);
+            }
+        }
+
     }
 
     public void RemoveStatsFromOther(Attributes mortal)
     {
-        mortal.Stats.ForEach(stat => stat.RemoveBuff(Stats.Find(otherStat => stat.Type == otherStat.Type).FinalValue));
+        foreach (BaseStat stat in Stats)
+        {
+            if (stat.FinalValue != 0)
+            {
+                //Debug.Log(string.Format("Type: {0}, Value: {1}", stat.Type, stat.FinalValue));
+                mortal.RemoveBuffStat(stat.Type, stat.FinalValue);
+            }
+        }
     }
 }

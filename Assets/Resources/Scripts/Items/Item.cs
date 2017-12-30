@@ -12,6 +12,8 @@ public abstract class Item : MonoBehaviour
 
     public Attributes Stats { get; set; }
 
+    public string ItemType { get; set; }
+
 
     //public ItemTypes ItemType { get; set; }
     //public WeaponTypes WeaponType { get; set; }

@@ -37,7 +37,8 @@ public class Skill : Damage {
         Physical,
         Magical,
         Active,
-        Passive
+        Passive,
+        Utility
     }
 
     public enum SkillStyle
@@ -56,6 +57,7 @@ public class Skill : Damage {
     public Skill(Skill skill)
     {
         skillName = skill.skillName;
+        skillMana = skill.skillMana;
         skillID = skill.skillID;
         skillDesc = skill.skillDesc;
         skillRank = skill.skillRank;

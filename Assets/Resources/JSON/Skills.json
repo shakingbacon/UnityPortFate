@@ -23,11 +23,17 @@
 		"skillStyle": "Channel",
 	},
 	{
-		"skillName": "Max MP+", 
+		"skillName": "Max MP +", 
 		"skillID": 3,
 		"skillMaxRank": 5,
 		"skillType": "Passive",
 	},
-
+	{
+		"skillName": "Restore", 
+		"skillID": 4,
+		"skillMaxRank": 3,
+		"skillStyle": "Channel",
+		"skillType": "Utility"
+	}
 
 ]

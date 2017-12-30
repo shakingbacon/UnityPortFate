@@ -21,6 +21,5 @@ public class Longsword : Sword
         Name = "Longsword";
 
         Cost = 555;
-
     }
 }

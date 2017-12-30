@@ -32,7 +32,7 @@ public class SkillPanelDetails : MonoBehaviour {
         gameObject.SetActive(true);
         skillNameText.text = skill.skillName;
         skillRankText.text = string.Format("Rank: {0} / {1}", skill.skillRank, skill.skillMaxRank);
-        if (skill.skillType == Skill.SkillType.Active || skill.skillType == Skill.SkillType.Passive)
+        if (skill.skillType == Skill.SkillType.Active || skill.skillType == Skill.SkillType.Passive || skill.skillType == Skill.SkillType.Utility)
         {
             if (skill.skillStyle != Skill.SkillStyle.None)
             {
@@ -59,10 +59,12 @@ public class SkillPanelDetails : MonoBehaviour {
         if (currentSkill.skillRank == currentSkill.skillMaxRank)
         {
             SoundDatabase.PlaySound(33);
-            EventNotifier.Instance.MakeEventNotifier("Skill rank already maxed!");
+            EventNotifier.Instance.MakeEventNotifier("Skill already at max rank!");
         }
         else
         {
+            EventNotifier.Instance.MakeEventNotifier(string.Format("{0} has been ranked up", currentSkill.skillName));
+
             SoundDatabase.PlaySound(20);
             currentSkill.skillRank += 1;
             SkillPassiveEffects.ApplyRankUpBonus(currentSkill.skillID);
