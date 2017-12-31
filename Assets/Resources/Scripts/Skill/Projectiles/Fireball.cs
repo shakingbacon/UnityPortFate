@@ -4,12 +4,17 @@ using UnityEngine;
 
 public class Fireball : Projectile {
 
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         Range = 3f;
-        spawnPosition = transform.position;
         GetComponent<Rigidbody2D>().AddForce(Direction * 150f * GameManager.player.transform.localScale.x);
-        SetSound(13);
+        SoundID = 13;
+    }
+
+    void OnDestroy()
+    {
+       
     }
 
 }

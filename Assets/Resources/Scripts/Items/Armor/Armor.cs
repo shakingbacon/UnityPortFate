@@ -5,8 +5,6 @@ using UnityEngine;
 
 public abstract class Armor : Item
 {
-    public abstract ArmorTypes Type { get; }
-
     public enum ArmorTypes
     {
         Head,

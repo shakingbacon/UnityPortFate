@@ -3,34 +3,42 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Staff : Weapon, IProjectileWeapon
+public abstract class Staff : Weapon, IProjectileWeapon
 {
     WeaponHitbox staffBase;
-    [SerializeField] float baseDamage;
-
-
+    protected float BaseDamage { get; set; }
 
     public Transform ProjectileSpawn { get; set; }
 
-    public new string ItemType { get { return WeaponTypes.Staff.ToString(); } }
-
-    MagicShot magicShot;
+    protected Projectile ProjectilePrefab { get; set; }
+    //MagicShot magicShot;
+    protected Projectile currentProjectile;
 
     protected override void Awake()
     {
         base.Awake();
         staffBase = transform.GetChild(0).GetComponent<WeaponHitbox>();
-        staffBase.DamageMultiplier = baseDamage;
-        magicShot = Resources.Load<MagicShot>("Prefabs/Projectiles/MagicShot");
+        staffBase.DamageMultiplier = BaseDamage;
     }
 
-    public void CastProjectile()
+    public override void GiveStats()
     {
-        MagicShot shotProj = Instantiate(magicShot, ProjectileSpawn.position, ProjectileSpawn.rotation);
-        shotProj.Damage = new Damage();
-        shotProj.Damage.HitChance = Stats.Hit - 5;
-        shotProj.Damage.DamageAmount = (int)(Stats.Magical * 0.45f);
-        shotProj.Direction = ProjectileSpawn.right;
-        shotProj.transform.localScale = GameManager.player.transform.localScale;
+        base.GiveStats();
+        ItemType = WeaponTypes.Staff.ToString();
+    }
+
+    public virtual void CastProjectile()
+    {
+        currentProjectile = Instantiate(ProjectilePrefab);
+        currentProjectile.Damage = new Damage();
+
+
+        currentProjectile.Direction = ProjectileSpawn.right;
+        currentProjectile.transform.position = ProjectileSpawn.position;
+        if (ProjectileSpawn.parent.localScale.x == -1)
+        {
+            currentProjectile.transform.Rotate(180, 180, 0);
+        }
+        currentProjectile.transform.localScale = new Vector3(1, 1, 1);
     }
 }

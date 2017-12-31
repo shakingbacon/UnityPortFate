@@ -102,8 +102,10 @@ public class DialogueSystem : MonoBehaviour {
         dialoguePanel.SetActive(true);
         optionSelectPanel.SetActive(false);
         dialogueText.gameObject.SetActive(true);
-        
+    }
 
+    public void StartDialouge()
+    {
     }
 
     public void ContinueDialogue()

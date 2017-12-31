@@ -17,8 +17,7 @@ public class PlayerSkillUpdate : MonoBehaviour
 
     public static void SkillChanged()
     {
-        if (OnSkillChanged != null)
-            OnSkillChanged();
+        OnSkillChanged();
     }
 
     public static void UpdateSkills()
@@ -76,9 +75,9 @@ public class PlayerSkillUpdate : MonoBehaviour
                         skill.skillMana = 75;
                         skill.skillChannelDuration = 4f;
                         skill.skillCooldown = 30f;
-                        skill.extras.Add(15 + (85 * skill.skillRank + 1)); // base
-                        skill.extras.Add(35 + 7); // missing health
-                        skill.skillDesc = string.Format("Restore for {0} HP + {1}% of missing HP to yourself.", skill.extras[0], skill.extras[1]);
+                        skill.extras.Add(10 + (5 * skill.skillRank + 1)); // base
+                        skill.extras.Add(35 + (7 * skill.skillRank + 1)); // missing health
+                        skill.skillDesc = string.Format("Channel for {0} seconds to restore {1}% of Max HP + {2}% of missing HP.", skill.skillChannelDuration, skill.extras[0], skill.extras[1]);
                         break;
                     }
             }

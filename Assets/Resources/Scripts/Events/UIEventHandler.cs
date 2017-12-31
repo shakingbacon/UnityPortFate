@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UIEventHandler : MonoBehaviour {
+public class UIEventHandler : MonoBehaviour
+{
 
     // Inventory Equipment
     public delegate void ItemEventHandler(Item item);
@@ -35,9 +36,19 @@ public class UIEventHandler : MonoBehaviour {
     public delegate void SkillNoneEventHandler();
     public static event SkillNoneEventHandler OnSkillUse;
 
+    public delegate void SPChanged();
+    public static event SPChanged OnSPChange;
+
     // Quest
     public delegate void QuestEventHandler(Quest quest);
     public static event QuestEventHandler OnQuestAccepted;
+
+    public static void SpChanged()
+    {
+        OnSPChange();
+    }
+
+
 
     public static void ExpChanged()
     {

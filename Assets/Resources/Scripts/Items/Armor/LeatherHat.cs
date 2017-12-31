@@ -5,10 +5,9 @@ using UnityEngine;
 
 public class LeatherHat : Armor
 {
-    public override ArmorTypes Type { get { return ArmorTypes.Head; } }
-
     public override void GiveStats()
     {
+        base.GiveStats();
         Name = "Leather Hat";
         Description = "A basic hat for mages";
 
@@ -17,6 +16,7 @@ public class LeatherHat : Armor
         Stats.Resist = 37;
 
         Cost = 450;
+        ItemType = ArmorTypes.Head.ToString();
     }
 
 }

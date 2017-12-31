@@ -26,9 +26,8 @@ public class ItemDatabase : MonoBehaviour
 
     public Item GetItem(string name)
     {
-        Item item = Resources.Load<Item>("Prefabs/Items/Weapons/" + name);
+        Item item = Resources.Load<Item>("Prefabs/Items/" + name);
         item.GiveStats();
-
         return item;
     }
 

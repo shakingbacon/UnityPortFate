@@ -13,6 +13,10 @@ public class EventNotifier : MonoBehaviour {
 
     void Start()
     {
+        if (Instance != null && Instance != this)
+            Destroy(gameObject);
+        else
+            Instance = this;
         Instance = gameObject.GetComponent<EventNotifier>();
         eventTextPrefab = Resources.Load<Text>("Prefabs/UI/Event Text");
     }

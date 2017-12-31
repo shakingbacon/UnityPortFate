@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SkillPanelDetails : MonoBehaviour {
+public class SkillPanelDetails : MonoBehaviour
+{
 
     Skill currentSkill;
     Button selectedSkillButton, skillRankUp, skillHotkey;
@@ -50,7 +51,7 @@ public class SkillPanelDetails : MonoBehaviour {
             else
                 skillDescriptionText.text = string.Format("({0})", skill.skillType);
         }
-        skillEffDescText.text = string.Format("{0}\n\n{1}",skill.skillDesc, skill.skillEffDesc);
+        skillEffDescText.text = string.Format("{0}\n\n{1}", skill.skillDesc, skill.skillEffDesc);
         currentSkill = skill;
     }
 
@@ -61,22 +62,26 @@ public class SkillPanelDetails : MonoBehaviour {
             SoundDatabase.PlaySound(33);
             EventNotifier.Instance.MakeEventNotifier("Skill already at max rank!");
         }
-        else
+        else if (PlayerSkillController.Instance.RankUpSkill(currentSkill))
         {
-            EventNotifier.Instance.MakeEventNotifier(string.Format("{0} has been ranked up", currentSkill.skillName));
-
+            EventNotifier.Instance.MakeEventNotifier(string.Format("{0} rank + 1 ({1}/{2})", currentSkill.skillName, currentSkill.skillRank, currentSkill.skillMaxRank));
             SoundDatabase.PlaySound(20);
-            currentSkill.skillRank += 1;
-            SkillPassiveEffects.ApplyRankUpBonus(currentSkill.skillID);
             PlayerSkillUpdate.SkillChanged();
         }
     }
 
     public void HotkeyButton()
     {
-        SoundDatabase.PlaySound(18);
-        hotkeyAssign.SetActive(!hotkeyAssign.activeInHierarchy);
-        hotkeyDesc.text = "Where to assign " + currentSkill.skillName + " to?";
+        if (currentSkill.skillRank != 0)
+        {
+            SoundDatabase.PlaySound(18);
+            hotkeyAssign.SetActive(!hotkeyAssign.activeInHierarchy);
+            hotkeyDesc.text = "Where to assign " + currentSkill.skillName + " to?";
+        }
+        else
+        {
+            EventNotifier.Instance.MakeEventNotifier("Skill not yet learned!");
+        }
     }
 
     public void HotKeyDeletePress(Transform self)
@@ -97,8 +102,4 @@ public class SkillPanelDetails : MonoBehaviour {
         panelSkill.UpdateImage();
         hotkeyAssign.SetActive(!hotkeyAssign.activeInHierarchy);
     }
-
-
-
-
 }

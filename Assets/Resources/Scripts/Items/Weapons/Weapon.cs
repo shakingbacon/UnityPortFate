@@ -65,6 +65,7 @@ public abstract class Weapon : Item, IWeapon {
     {
         if (!Animator.GetBool("IsLastAnimation"))
         {
+            ChannelBarController.Instance.MakeChannelBar(skill.skillName, skill.skillChannelDuration);
             Animator.SetTrigger("Channel");
             Animator.SetFloat("ChannelTime", 1/skill.skillChannelDuration);
         }

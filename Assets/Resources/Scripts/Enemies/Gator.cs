@@ -21,7 +21,7 @@ public class Gator : Enemy
         Stats.MaxHealth = 325;
         Stats.MaxMana = 100;
 
-        Stats.Physical = 10;
+        Stats.Physical = 25;
         Stats.Magical = 5;
 
         Stats.Armor = 40;
@@ -33,7 +33,7 @@ public class Gator : Enemy
 
         Stats.AttackSpeed = 4;
         Knockback = 10f;
-        Experience = 5;
+        Experience = 10;
         Cash = 25;
         DropTable = new DropTable();
         DropTable.loot = new List<LootDrop>()

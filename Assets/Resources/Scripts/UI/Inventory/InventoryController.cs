@@ -30,7 +30,8 @@ public class InventoryController : MonoBehaviour {
         //GiveItem("Test Sword");
         //GiveItem("Log Potion");
         GiveItem("Longsword");
-        //GiveItem("Wooden Staff");
+        GiveItem("Leather Hat");
+        GiveItem("Wooden Staff");
         //GiveItem("Leather Hat");
         //GiveItem("Big Axe");
         //GiveItem("Leather Gloves");

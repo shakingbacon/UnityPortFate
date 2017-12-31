@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerWeaponController : MonoBehaviour {
+public class PlayerWeaponController : MonoBehaviour
+{
 
     public GameObject playerHand;
     public GameObject EquippedWeapon { get; set; }
@@ -14,6 +15,9 @@ public class PlayerWeaponController : MonoBehaviour {
     InventoryController inventoryController;
     public PlayerSkillController playerSkillController;
 
+
+    bool InAction { get; set; }
+
     void Start()
     {
         spawnProjectile = transform.FindChild("ProjectileSpawn");
@@ -24,15 +28,18 @@ public class PlayerWeaponController : MonoBehaviour {
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q)) ActivateHotKeySkill(0);
-        if (Input.GetKeyDown(KeyCode.W)) ActivateHotKeySkill(1);
-        if (Input.GetKeyDown(KeyCode.E)) ActivateHotKeySkill(2);
-        if (Input.GetKeyDown(KeyCode.R)) ActivateHotKeySkill(3);
-        if (Input.GetKeyDown(KeyCode.A)) ActivateHotKeySkill(4);
-        if (Input.GetKeyDown(KeyCode.S)) ActivateHotKeySkill(5);
-        if (Input.GetKeyDown(KeyCode.D)) ActivateHotKeySkill(6);
-        if (Input.GetKeyDown(KeyCode.F)) ActivateHotKeySkill(7);
-        if (Input.GetKeyDown(KeyCode.X) && EquippedWeapon != null)
+        if (equippedWeapon != null && equippedWeapon.Animator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
+        {
+            if (Input.GetKeyDown(KeyCode.Q)) ActivateHotKeySkill(0);
+            else if (Input.GetKeyDown(KeyCode.W)) ActivateHotKeySkill(1);
+            else if (Input.GetKeyDown(KeyCode.E)) ActivateHotKeySkill(2);
+            else if (Input.GetKeyDown(KeyCode.R)) ActivateHotKeySkill(3);
+            else if (Input.GetKeyDown(KeyCode.A)) ActivateHotKeySkill(4);
+            else if (Input.GetKeyDown(KeyCode.S)) ActivateHotKeySkill(5);
+            else if (Input.GetKeyDown(KeyCode.D)) ActivateHotKeySkill(6);
+            else if (Input.GetKeyDown(KeyCode.F)) ActivateHotKeySkill(7);
+        }
+        if (Input.GetKeyDown(KeyCode.X))
         {
             PerformWeaponAttack();
         }
@@ -41,13 +48,13 @@ public class PlayerWeaponController : MonoBehaviour {
     public void ActivateHotKeySkill(int index)
     {
         PanelSkill panel = playerSkillController.skillPanel.transform.GetChild(index).GetComponent<PanelSkill>();
-        if (EquippedWeapon != null && panel.skill != null && !EquippedWeapon.GetComponent<Animator>().GetBool("IsLastAnimation"))
+        if (panel.skill != null && !EquippedWeapon.GetComponent<Animator>().GetBool("IsLastAnimation"))
         {
             if (!(panel.cooldownRemain > 0) && player.CurrentMana > panel.skill.skillMana)
             {
                 playerSkillController.UsingSkill = panel.skill;
                 UIEventHandler.SkillUsed();
-                if (panel.skill.skillType == Skill.SkillType.Active)
+                if (panel.skill.skillType == Skill.SkillType.Active || panel.skill.skillType == Skill.SkillType.Utility)
                 {
                     PerformChannel(panel.skill);
                 }
@@ -77,7 +84,7 @@ public class PlayerWeaponController : MonoBehaviour {
     public void EquipWeapon(Item itemToEquip)
     {
         UnequipWeapon(itemToEquip);
-        EquippedWeapon = Instantiate(Resources.Load<GameObject>("Prefabs/Items/Weapons/" + itemToEquip.Name), playerHand.transform);
+        EquippedWeapon = Instantiate(Resources.Load<GameObject>("Prefabs/Items/" + itemToEquip.Name), playerHand.transform);
         if (EquippedWeapon.GetComponent<IProjectileWeapon>() != null)
         {
             EquippedWeapon.GetComponent<IProjectileWeapon>().ProjectileSpawn = spawnProjectile;
@@ -115,7 +122,7 @@ public class PlayerWeaponController : MonoBehaviour {
     {
         equippedWeapon.PerformAttack();
     }
-    
+
     public void PerformChannel(Skill skill)
     {
         equippedWeapon.PerformChannelAnimation(skill);

@@ -18,8 +18,8 @@ public class SkillActiveEffects : MonoBehaviour
     {
         switch (id)
         {
-            case 1: { SkillEvents.OnSkillUse += Meditate; break; }
-            case 2: { Player.OnTakeDamage += ManaGaurd; break; }
+            case 1: { SkillEvents.OnSkillUse += Meditate; SoundDatabase.PlaySound(10); break; }
+            case 2: { Player.OnTakeDamage += ManaGaurd; SoundDatabase.PlaySound(19); break; }
         }
     }
 
@@ -36,10 +36,10 @@ public class SkillActiveEffects : MonoBehaviour
     static Skill Meditate(Skill skill)
     {
         //print(skill.skillName);
-        if (skill.skillType  == Skill.SkillType.Magical)
+        if (skill.skillType == Skill.SkillType.Magical)
         {
             skill.DamageAmount *= 2;
-            print(skill.DamageAmount);
+            //print(skill.DamageAmount);
             PlayerActivesController.Instance.EndActive(1);
         }
         return skill;
@@ -47,6 +47,7 @@ public class SkillActiveEffects : MonoBehaviour
 
     static int ManaGaurd(int damage)
     {
+        //SoundDatabase.PlaySound()
         if (player.CurrentMana - damage >= 0)
         {
             player.CurrentMana -= damage;

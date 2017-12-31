@@ -16,10 +16,17 @@ public class Player : MonoBehaviour
 
     public Job currentJob;
     public PlayerLevel PlayerLevel { get; set; }
+
+    int sp;
+    public int SkillPoints { get { return sp; } set { sp = value; UIEventHandler.SpChanged(); } }
+
+
     public bool CanBeHit { get; set; }
 
     void Awake()
     {
+        UIEventHandler.OnSPChange += () => SkillUI.Instance.SetSPText(sp.ToString());
+        SkillPoints = 3;
         Stats = new Attributes();
         CanBeHit = true;
         animator = GetComponent<Animator>();
@@ -138,4 +145,6 @@ public class Player : MonoBehaviour
         UIEventHandler.HealthChanged();
         UIEventHandler.ManaChanged();
     }
+
+     
 }

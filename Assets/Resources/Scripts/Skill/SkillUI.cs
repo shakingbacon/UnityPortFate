@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SkillUI : MonoBehaviour {
 
     public static SkillUI Instance;
     public RectTransform skillPanel;
     public RectTransform learnedSkills;
+    public Text spPanel;
 
     SkillPanelContainer skillContainer { get; set; }
     bool menuIsActive { get; set; }
@@ -19,6 +21,7 @@ public class SkillUI : MonoBehaviour {
             Destroy(gameObject);
         else
             Instance = this;
+        spPanel = skillPanel.FindChild("SP Panel").FindChild("Amount").GetComponent<Text>();
         skillContainer = Resources.Load<SkillPanelContainer>("Prefabs/UI/Panel_Skills/SkillContainer");
         skillPanel.gameObject.SetActive(false);
         UIEventHandler.OnSkillLearn += SkillAdded;
@@ -32,6 +35,12 @@ public class SkillUI : MonoBehaviour {
             skillPanel.gameObject.SetActive(menuIsActive);
         }
     }
+
+    public void SetSPText(string amount)
+    {
+        spPanel.text = amount;
+    }
+
 
     public void SkillAdded(Skill item)
     {

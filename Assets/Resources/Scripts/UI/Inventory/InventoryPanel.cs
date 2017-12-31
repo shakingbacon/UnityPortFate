@@ -89,7 +89,7 @@ public class InventoryPanel : MonoBehaviour {
     
     public void WearItem(Item item)
     {
-        GameObject place = new GameObject();
+        GameObject place = null;
         if (item is Weapon)
         {
             place = Weapon;
@@ -133,20 +133,16 @@ public class InventoryPanel : MonoBehaviour {
         }
         else
         {
-            Armor armor = (Armor)item;
-            switch (armor.Type)
-            {
-                case Armor.ArmorTypes.Hands: { place = Hands; break; }
-                case Armor.ArmorTypes.Neck: { place = Neck; break; }
-                case Armor.ArmorTypes.Head: { place = Head; break; }
-                case Armor.ArmorTypes.Body: { place = Body; break; }
-                case Armor.ArmorTypes.Shield: { place = Shield; break; }
-                case Armor.ArmorTypes.Boots: { place = Boots; break; }
-                case Armor.ArmorTypes.Bottom: { place = Bottom; break; }
-                case Armor.ArmorTypes.Necklace: { place = Necklace; break; }
-                case Armor.ArmorTypes.Ring: { place = Ring; break; }
-                case Armor.ArmorTypes.Glyph: { place = Glyph; break; }
-            }
+            if (item.ItemType == Armor.ArmorTypes.Hands.ToString()) place = Hands;
+            else if (item.ItemType == Armor.ArmorTypes.Neck.ToString()) place = Neck;
+            else if (item.ItemType == Armor.ArmorTypes.Head.ToString()) place = Head;
+            else if (item.ItemType == Armor.ArmorTypes.Body.ToString()) place = Body;
+            else if (item.ItemType == Armor.ArmorTypes.Shield.ToString()) place = Shield;
+            else if (item.ItemType == Armor.ArmorTypes.Boots.ToString()) place = Boots;
+            else if (item.ItemType == Armor.ArmorTypes.Bottom.ToString()) place = Bottom;
+            else if (item.ItemType == Armor.ArmorTypes.Necklace.ToString()) place = Necklace;
+            else if (item.ItemType == Armor.ArmorTypes.Ring.ToString()) place = Ring;
+            else if (item.ItemType == Armor.ArmorTypes.Glyph.ToString()) place = Glyph;
         }
         place.transform.GetChild(0).GetComponent<Image>().sprite = Resources.Load<Sprite>("General/Sprites/Default Equip/" + place.name);
     }

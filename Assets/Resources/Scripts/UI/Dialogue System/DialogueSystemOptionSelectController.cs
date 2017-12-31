@@ -20,8 +20,8 @@ public class DialogueSystemOptionSelectController : MonoBehaviour {
         {
             if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Z))
             {
-                DialogueSystem.Instance.CurrentDialogue = optionSelectPanel.transform.GetChild(CurrentOptionIndex).GetComponent<DialogueSystemOptionObject>().option;
-                SoundDatabase.PlaySound(21);
+                //DialogueSystem.Instance.CurrentDialogue = optionSelectPanel.transform.GetChild(CurrentOptionIndex).GetComponent<DialogueSystemOptionObject>().option;
+                //SoundDatabase.PlaySound(21);
                 optionSelectPanel.transform.GetChild(CurrentOptionIndex).GetComponent<DialogueSystemOptionObject>().optionButton.onClick.Invoke();
             }
             else if (Input.GetKeyDown(KeyCode.RightArrow))

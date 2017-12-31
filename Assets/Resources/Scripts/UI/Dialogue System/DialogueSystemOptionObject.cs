@@ -24,8 +24,10 @@ public class DialogueSystemOptionObject : MonoBehaviour
 
     void QuestTalk()
     {
+        SoundDatabase.PlaySound(21);
         NPCInfo npcInfo = DialogueSystem.Instance.CurrentNPC;
         Quest playerQuest = PlayerQuestController.Instance.inProgressQuests.Find(aQuest => aQuest.ID == option.optionID);
+        DialogueSystem.Instance.CurrentDialogue = option;
         if (PlayerQuestController.Instance.HasQuestInProgress(option.optionID))
         {
             if (playerQuest.Completed)
@@ -39,7 +41,7 @@ public class DialogueSystemOptionObject : MonoBehaviour
         }
         else if (option.optionID != -1 && !PlayerQuestController.Instance.HasQuestCompleted(option.optionID))
         {
-            print(DialogueSystem.Instance.CurrentDialogue.optionID);
+            //print(DialogueSystem.Instance.CurrentDialogue.optionID);
             DialogueSystem.Instance.MakeDialouge(QuestDatabase.Instance.GetQuest(DialogueSystem.Instance.CurrentDialogue.optionID).AskText, true);
         }
     }

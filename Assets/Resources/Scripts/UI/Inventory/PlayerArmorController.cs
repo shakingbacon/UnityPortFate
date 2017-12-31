@@ -21,36 +21,30 @@ public class PlayerArmorController : MonoBehaviour {
         SoundDatabase.PlaySound(0);
         foreach (Transform item in playerArmor.transform)
         {
-            Armor checkItem = (Armor)item.GetComponent<ItemHolder>().item;
-            //if (itemType == typeof(Weapon))
-            //{
-            //    UnequipArmor(checkItem);
-            //    Destroy(item.gameObject);
-            //}
-            //else if (itemType == typeof(Armor))
-            //{
-            Armor toEquipArmor = (Armor)itemToEquip;
-            if (checkItem.Type == toEquipArmor.Type)
+            Item checkItem = item.GetComponent<ItemHolder>().item;
+            if (checkItem.ItemType == itemToEquip.ItemType)
             {
                 UnequipArmor(checkItem);
                 Destroy(item.gameObject);
             }
-            //}
         }
-        GameObject armor = new GameObject();
-        armor.AddComponent<ItemHolder>();
-        armor.GetComponent<ItemHolder>().item = itemToEquip;
-        armor.AddComponent<SpriteRenderer>();
-        armor.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Icons/PlayerEquips/" + itemToEquip.Name);
-        armor.GetComponent<SpriteRenderer>().sortingOrder = 10;
-        armor.name = itemToEquip.Name;
+        Armor armor = Instantiate(Resources.Load<Armor>("Prefabs/Items/" + itemToEquip.Name));
         armor.transform.SetParent(playerArmor.transform);
-        armor.transform.localPosition = new Vector3(0, 0, 0);
         armor.transform.localScale = new Vector3(1, 1, 1);
+        //GameObject armor = new GameObject();
+        //armor.AddComponent<ItemHolder>();
+        //armor.GetComponent<ItemHolder>().item = itemToEquip;
+        //armor.AddComponent<SpriteRenderer>();
+        //armor.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Icons/PlayerEquips/" + itemToEquip.Name);
+        //armor.GetComponent<SpriteRenderer>().sortingOrder = 10;
+        armor.name = itemToEquip.Name;
+        //armor.transform.SetParent(playerArmor.transform);
+        armor.transform.localPosition = new Vector3(0, 0, 0);
+        //armor.transform.localScale = new Vector3(1, 1, 1);
         //
         itemToEquip.Stats.AddStatsToOther(player.Stats);
         //equippedWeapon = EquippedWeapon.GetComponent<IArmor>();
-        itemToEquip.Stats = itemToEquip.Stats;
+        //itemToEquip.Stats = itemToEquip.Stats;
         UIEventHandler.ItemEquipped(itemToEquip);
         UIEventHandler.StatsChanged();
     }

@@ -63,6 +63,23 @@ public class PlayerSkillController : MonoBehaviour
         PlayerSkillUpdate.UpdateSkills();
     }
 
+    public bool RankUpSkill(Skill skill)
+    {
+        if (player.SkillPoints > 0)
+        {
+            player.SkillPoints -= 1;
+            skill.skillRank += 1;
+            SkillPassiveEffects.ApplyRankUpBonus(skill.skillID);
+            return true;
+        }
+        else
+        {
+            SoundDatabase.PlaySound(33);
+            EventNotifier.Instance.MakeEventNotifier("Not enough skill points!");
+            return false;
+        }
+    }
+
     public void SetSkillDetails(Skill skill)
     {
         skillDetailsPanel.SetSkill(skill);
@@ -86,10 +103,7 @@ public class PlayerSkillController : MonoBehaviour
             {
                 case Skill.SkillType.Active:
                     {
-                        if (usingSkill.skillChannelDuration > 0f)
-                        {
-                            PlayerActivesController.Instance.AddActive(usingSkill);
-                        }
+                        PlayerActivesController.Instance.AddActive(usingSkill);
                         break;
                     }
                 case Skill.SkillType.Utility:
@@ -113,9 +127,10 @@ public class PlayerSkillController : MonoBehaviour
     {
         Projectile projectile = Instantiate(Resources.Load<Projectile>("Prefabs/Projectiles/" + skill.skillName));
         projectile.Damage = skill;
+        projectile.Damage.HitChance = player.Stats.Hit;
+
         projectile.Direction = projectileSpawn.right;
         projectile.transform.position = projectileSpawn.position;
-        projectile.Damage.HitChance = player.Stats.Hit;
         if (projectileSpawn.parent.localScale.x == -1)
         {
             projectile.transform.Rotate(180, 180, 0);
