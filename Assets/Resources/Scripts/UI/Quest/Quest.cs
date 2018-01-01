@@ -7,7 +7,6 @@ public class Quest
 {
     public string Name { get; set; }
     public string NPC { get; set; }
-    public int ID { get; set; }
     // Talking
     public List<string> AskText { get; set; }
     public List<string> AcceptText { get; set; }
@@ -58,12 +57,11 @@ public class Quest
 
 
     //[JsonConstructor]
-    public Quest(string name, string npc, int id, List<string> ask, List<string> accept, List<string> decline, List<string> inprog, List<string>complete,
-        string reward, string memory, List<QuestGoal> goals, QuestType type)
+    public Quest(QuestType type, string name, string npc, List<string> ask, List<string> accept, List<string> decline, List<string> inprog, List<string>complete,
+        string reward, string memory, List<QuestGoal> goals)
     {
         Name = name;
         NPC = npc;
-        ID = id;
         AskText = ask;
         AcceptText = accept;
         DeclineText = decline;

@@ -7,8 +7,8 @@ public class DialogueSystem : MonoBehaviour {
     public static DialogueSystem Instance { get; set; }
     public GameObject dialoguePanel;
 
-    public NPCInfo CurrentNPC { get; set; }
-    public DialogueOption CurrentDialogue { get; set; }
+    public NPC CurrentNPC { get; set; }
+    public Quest CurrentQuest { get; set; }
 
 
     //public string npcName;
@@ -44,7 +44,7 @@ public class DialogueSystem : MonoBehaviour {
         }
     }
 
-    public void ShowDialogueOptions(NPCInfo npc)
+    public void ShowDialogueOptions(NPC npc)
     {
         PlayerMovement.cantMove = true;
         continueArrow.SetActive(false);
@@ -53,13 +53,20 @@ public class DialogueSystem : MonoBehaviour {
         dialoguePanel.SetActive(true);
         dialogueText.gameObject.SetActive(false);
         optionSelectPanel.SetActive(true);
-        foreach (DialogueOption option in npc.dialogueOptions)
+
+        foreach(Quest quest in npc.Quests)
         {
             DialogueSystemOptionObject optionObject = Instantiate(dialogueSystemOptionObjectPrefab, optionSelectPanel.transform);
-            optionObject.option = option;
-            optionObject.transform.localScale = new Vector3(1, 1, 1);
-            optionObject.UpdateText();
+            optionObject.UpdateText(quest);
+            
         }
+        //foreach (DialogueOption option in npc.dialogueOptions)
+        //{
+        //    DialogueSystemOptionObject optionObject = Instantiate(dialogueSystemOptionObjectPrefab, optionSelectPanel.transform);
+        //    optionObject.option = option;
+        //    optionObject.transform.localScale = new Vector3(1, 1, 1);
+        //    optionObject.UpdateText();
+        //}
         // talk dialogue option
         DialogueSystemOptionObject talkDialogue = Instantiate(dialogueSystemOptionObjectPrefab, optionSelectPanel.transform);
         talkDialogue.SetAsTalkOption();
@@ -98,7 +105,7 @@ public class DialogueSystem : MonoBehaviour {
     void CreateDialogue()
     {
         dialogueText.text = dialogueLines[dialogueIndex];
-        nameText.text = CurrentNPC.npcName;
+        nameText.text = CurrentNPC.Name;
         dialoguePanel.SetActive(true);
         optionSelectPanel.SetActive(false);
         dialogueText.gameObject.SetActive(true);
@@ -120,7 +127,7 @@ public class DialogueSystem : MonoBehaviour {
                 dialogueText.text = text;
                 if (ShowQuest && dialogueLines.Count - 1 == dialogueIndex)
                 {
-                    PlayerQuestController.Instance.CreateQuestAgreement(CurrentDialogue.optionID);
+                    PlayerQuestController.Instance.CreateQuestAgreement(CurrentQuest);
                     canContinueDialouge = false;
                 }
             }

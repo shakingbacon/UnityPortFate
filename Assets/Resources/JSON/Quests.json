@@ -9,9 +9,10 @@
 		"You should equip the weapon in your inventory.", "While holding a weapon, press the X key to perform a basic attack", "Tap repeatedly to combo!"],
         "questDeclineText": ["You are a fucking retard.", "Do you not want to progress in this game?"],
         "questInProgressText": ["Go kill the Gators then come back to me."],
-		"questCompletionText": ["Nice job!", "Here's your reward"],
+		"questCompletionText": ["Nice job!", "Here's your reward", "I have opened a new portal to the north", 
+		"Once you go in, you can never come back here", "Make sure you are prepared for the real world"],
 		
-		"questReward": "100 gold",
+		"questReward": "100 Cash / 50 EXP",
 		"questMemory": "Clean Booga wants me to slay the Gators around here.",
 		"questGoals": {"Type":0, },
 		"questDescriptions": ["Slay 5 Gators"],

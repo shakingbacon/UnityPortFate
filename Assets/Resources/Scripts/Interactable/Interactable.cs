@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]
-public class Interactable : MonoBehaviour {
+public abstract class Interactable : MonoBehaviour {
 
     protected string interactKey = "Z";
     protected string interactString = "Interact";

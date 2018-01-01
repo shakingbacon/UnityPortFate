@@ -48,20 +48,31 @@ public class PlayerWeaponController : MonoBehaviour
     public void ActivateHotKeySkill(int index)
     {
         PanelSkill panel = playerSkillController.skillPanel.transform.GetChild(index).GetComponent<PanelSkill>();
-        if (panel.skill != null && !EquippedWeapon.GetComponent<Animator>().GetBool("IsLastAnimation"))
+        if (panel.skill != null)
         {
-            if (!(panel.cooldownRemain > 0) && player.CurrentMana > panel.skill.skillMana)
+            if (!(panel.cooldownRemain > 0))
             {
-                playerSkillController.UsingSkill = panel.skill;
-                UIEventHandler.SkillUsed();
-                if (panel.skill.skillType == Skill.SkillType.Active || panel.skill.skillType == Skill.SkillType.Utility)
+                if (player.CurrentMana > panel.skill.skillMana)
                 {
-                    PerformChannel(panel.skill);
+                    playerSkillController.UsingSkill = panel.skill;
+                    UIEventHandler.SkillUsed();
+                    if (panel.skill.skillType == Skill.SkillType.Active || panel.skill.skillType == Skill.SkillType.Utility)
+                    {
+                        PerformChannel(panel.skill);
+                    }
+                    else
+                    {
+                        PerformSkill();
+                    }
                 }
                 else
                 {
-                    PerformSkill();
+                    EventNotifier.Instance.MakeEventNotifier("Not enough Mana!");
                 }
+            }
+            else
+            {
+                EventNotifier.Instance.MakeEventNotifier("Skill on cooldown!");
             }
         }
     }

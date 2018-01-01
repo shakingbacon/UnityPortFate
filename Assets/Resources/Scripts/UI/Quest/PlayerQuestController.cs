@@ -24,10 +24,10 @@ public class PlayerQuestController : MonoBehaviour
     }
 
 
-    public void CreateQuestAgreement(int id)
+    public void CreateQuestAgreement(Quest quest)
     {
         QuestAgreementPanel agreementPanel = Instantiate(questAgreementPanelPrefab, GameObject.FindGameObjectWithTag("Canvas").transform);
-        agreementPanel.CurrentQuest = QuestDatabase.Instance.GetQuest(id);
+        agreementPanel.CurrentQuest = quest;
         agreementPanel.questName.text = agreementPanel.CurrentQuest.Name;
         // 
         agreementPanel.questDetails.text = "";
@@ -41,31 +41,32 @@ public class PlayerQuestController : MonoBehaviour
         agreementPanel.transform.localScale = new Vector3(1, 1, 1);
     }
 
-    public void QuestCompleted(int id)
+    public void QuestCompleted(string name)
     {
-        Quest quest = inProgressQuests.Find(aQuest => aQuest.ID == id);
+        Quest quest = inProgressQuests.Find(aQuest => aQuest.Name == name);
         //foreach (Quest asd in inProgressQuests) { print(asd.Name); }
         inProgressQuests.Remove(quest);
         completedQuests.Add(quest);
         foreach (Transform child in questPanel.inProgressContent.transform)
         {
-            if (child.GetComponent<QuestUIContainer>().quest.ID == id)
+            if (child.GetComponent<QuestUIContainer>().quest.Name == name)
             {
                 child.SetParent(questPanel.completedContent.transform);
                 break;
             }
         }
+        QuestCompletedActivations.ActivateQuestCompletionAction(name);
         EventNotifier.Instance.MakeEventNotifier(string.Format("Quest Completed: {0}", quest.Name));
     }
 
-    public bool HasQuestCompleted(int id)
+    public bool HasQuestCompleted(string name)
     {
-        return completedQuests.Exists(aQuest => aQuest.ID == id);
+        return completedQuests.Exists(aQuest => aQuest.Name == name);
     }
 
-    public bool HasQuestInProgress(int id)
+    public bool HasQuestInProgress(string name)
     {
-        return inProgressQuests.Exists(aQuest => aQuest.ID == id);
+        return inProgressQuests.Exists(aQuest => aQuest.Name == name);
     }
 
     //public bool HasCompletedQuest(int id)

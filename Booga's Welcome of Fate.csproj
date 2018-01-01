@@ -102,6 +102,7 @@
     <Compile Include="Assets\Resources\Scripts\Interactable\ComputerScreen.cs" />
     <Compile Include="Assets\Resources\Scripts\Interactable\EnviromentHazard.cs" />
     <Compile Include="Assets\Resources\Scripts\Interactable\Interactable.cs" />
+    <Compile Include="Assets\Resources\Scripts\Interactable\NPC\CleanBooga.cs" />
     <Compile Include="Assets\Resources\Scripts\Interactable\NPC\NPC.cs" />
     <Compile Include="Assets\Resources\Scripts\Interactable\NPC\NPCInfo.cs" />
     <Compile Include="Assets\Resources\Scripts\Interactable\NPC\NPCInfoDatabase.cs" />
@@ -124,6 +125,7 @@
     <Compile Include="Assets\Resources\Scripts\Items\Weapons\Weapon.cs" />
     <Compile Include="Assets\Resources\Scripts\Items\Weapons\WeaponHitbox.cs" />
     <Compile Include="Assets\Resources\Scripts\Items\Weapons\WoodenStaff.cs" />
+    <Compile Include="Assets\Resources\Scripts\Maps\TutorialArea.cs" />
     <Compile Include="Assets\Resources\Scripts\Player\BaseStat.cs" />
     <Compile Include="Assets\Resources\Scripts\Player\CameraFollow.cs" />
     <Compile Include="Assets\Resources\Scripts\Player\CharacterStats.cs" />
@@ -177,6 +179,7 @@
     <Compile Include="Assets\Resources\Scripts\UI\Quest\PlayerUtilities.cs" />
     <Compile Include="Assets\Resources\Scripts\UI\Quest\Quest.cs" />
     <Compile Include="Assets\Resources\Scripts\UI\Quest\QuestAgreementPanel.cs" />
+    <Compile Include="Assets\Resources\Scripts\UI\Quest\QuestCompletedActivations.cs" />
     <Compile Include="Assets\Resources\Scripts\UI\Quest\QuestDatabase.cs" />
     <Compile Include="Assets\Resources\Scripts\UI\Quest\QuestGoal.cs" />
     <Compile Include="Assets\Resources\Scripts\UI\Quest\QuestPanel.cs" />

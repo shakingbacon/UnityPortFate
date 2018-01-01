@@ -5,51 +5,48 @@ using UnityEngine.UI;
 
 public class DialogueSystemOptionObject : MonoBehaviour
 {
-    public DialogueOption option;
     public Text optionText;
     public Button optionButton;
-    
-    public void UpdateText()
+
+    public void UpdateText(Quest quest)
     {
-        switch (option.optionType)
-        {
-            case DialogueOption.OptionType.Quest:
-                {
-                    optionText.text = QuestDatabase.Instance.GetQuest(option.optionID).Name;
-                    optionButton.onClick.AddListener(QuestTalk);
-                    break;
-                }
-        }
+        optionText.text = quest.Name;
+        optionButton.onClick.AddListener(() => QuestTalk(quest));
+        optionButton.onClick.AddListener(() => SoundDatabase.PlaySound(21));
     }
 
-    void QuestTalk()
+    void QuestTalk(Quest quest)
     {
-        SoundDatabase.PlaySound(21);
-        NPCInfo npcInfo = DialogueSystem.Instance.CurrentNPC;
-        Quest playerQuest = PlayerQuestController.Instance.inProgressQuests.Find(aQuest => aQuest.ID == option.optionID);
-        DialogueSystem.Instance.CurrentDialogue = option;
-        if (PlayerQuestController.Instance.HasQuestInProgress(option.optionID))
+        
+        DialogueSystem.Instance.CurrentQuest = quest;
+        if (PlayerQuestController.Instance.HasQuestInProgress(optionText.text))
         {
+            Quest playerQuest = PlayerQuestController.Instance.inProgressQuests.Find(aQuest => aQuest.Name == optionText.text);
             if (playerQuest.Completed)
             {
                 DialogueSystem.Instance.MakeDialouge(playerQuest.CompleteText);
-                PlayerQuestController.Instance.QuestCompleted(option.optionID);
-                QuestDatabase.Instance.GiveQuestReward(option.optionID);
+                PlayerQuestController.Instance.QuestCompleted(quest.Name);
+                //QuestDatabase.Instance.GiveQuestReward(option.optionID);
             }
             else
                 DialogueSystem.Instance.MakeDialouge(playerQuest.InProgressText);
         }
-        else if (option.optionID != -1 && !PlayerQuestController.Instance.HasQuestCompleted(option.optionID))
+        else if (!PlayerQuestController.Instance.HasQuestCompleted(quest.Name))
         {
             //print(DialogueSystem.Instance.CurrentDialogue.optionID);
-            DialogueSystem.Instance.MakeDialouge(QuestDatabase.Instance.GetQuest(DialogueSystem.Instance.CurrentDialogue.optionID).AskText, true);
+            DialogueSystem.Instance.MakeDialouge(quest.AskText, true);
+        }
+        else
+        {
+            DialogueSystem.Instance.MakeDialouge(quest.CompleteText);
         }
     }
 
     public void SetAsTalkOption()
     {
         optionText.text = "Talk";
-        optionButton.onClick.AddListener(() => DialogueSystem.Instance.MakeDialouge(DialogueSystem.Instance.CurrentNPC.defaultText));
+        optionButton.onClick.AddListener(() => DialogueSystem.Instance.MakeDialouge(DialogueSystem.Instance.CurrentNPC.TalkText));
+        optionButton.onClick.AddListener(() => SoundDatabase.PlaySound(21));
     }
 
     public void SetAsExitOption()
@@ -57,12 +54,13 @@ public class DialogueSystemOptionObject : MonoBehaviour
         optionText.text = "Close";
         optionButton.onClick.AddListener(() => DialogueSystem.Instance.dialoguePanel.SetActive(false));
         optionButton.onClick.AddListener(() => PlayerMovement.cantMove = false);
+        optionButton.onClick.AddListener(() => SoundDatabase.PlaySound(21));
     }
 
 
 
-    
 
-    
+
+
 
 }

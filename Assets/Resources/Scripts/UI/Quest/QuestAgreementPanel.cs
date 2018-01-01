@@ -13,7 +13,7 @@ public class QuestAgreementPanel : MonoBehaviour {
     {
         SoundDatabase.PlaySound(9);
         Destroy(gameObject);
-        DialogueSystem.Instance.MakeDialouge(QuestDatabase.Instance.GetQuest(DialogueSystem.Instance.CurrentDialogue.optionID).AcceptText);
+        DialogueSystem.Instance.MakeDialouge(CurrentQuest.AcceptText);
         DialogueSystem.Instance.ShowQuest = false;
         UIEventHandler.QuestAccepted(CurrentQuest);
         EventNotifier.Instance.MakeEventNotifier(string.Format("Quest Accepted: {0}", CurrentQuest.Name));
@@ -24,7 +24,7 @@ public class QuestAgreementPanel : MonoBehaviour {
         SoundDatabase.PlaySound(21);
         Destroy(gameObject);
         DialogueSystem.Instance.ShowQuest = false;
-        DialogueSystem.Instance.MakeDialouge(QuestDatabase.Instance.GetQuest(DialogueSystem.Instance.CurrentDialogue.optionID).DeclineText);
+        DialogueSystem.Instance.MakeDialouge(CurrentQuest.DeclineText);
     }
 
 

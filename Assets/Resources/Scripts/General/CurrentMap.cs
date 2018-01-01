@@ -23,7 +23,7 @@ public class CurrentMap : MonoBehaviour {
         Transform currentMap = area.GetChild(0);
         currentMap.localScale = new Vector3(0, 0, 0);
         string fromMapName = currentMap.name;
-        Map map = Instantiate(Resources.Load<Map>("Prefabs/Maps/" + mapName));
+        Map map = Instantiate(Resources.Load<Map>("Prefabs/Maps/" + mapName + "/" + mapName));
         map.name = map.name.Substring(0, map.name.Length - 7);
         SoundDatabase.PlayMusic(map.mapMusicID);
         map.transform.transform.SetParent(area);

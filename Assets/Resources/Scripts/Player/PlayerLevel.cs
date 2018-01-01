@@ -12,13 +12,24 @@ public class PlayerLevel : MonoBehaviour {
     {
         player = GetComponent<Player>();
         CombatEvents.OnEnemyDeath += EnemyToExperience;
+        OnExpAdded += GrantExperience;
         Level = 1;
     }
 
     void EnemyToExperience(Enemy enemy)
     {
-        GrantExperience(enemy.Experience);
+        ExpAdded(enemy.Experience);
     }
+
+    public delegate void OnExperienceAdded(int amount);
+    public static event OnExperienceAdded OnExpAdded;
+    public static void ExpAdded(int amount)
+    {
+        EventNotifier.Instance.MakeEventNotifier(string.Format("Gained: ({0}) EXP", amount));
+        OnExpAdded(amount);
+        UIEventHandler.ExpChanged();
+    }
+
 
     void GrantExperience(int amount)
     {
@@ -28,7 +39,6 @@ public class PlayerLevel : MonoBehaviour {
             CurrentExperience -= RequiredExperience;
             LevelUp();
         }
-        UIEventHandler.ExpChanged();
     }
     
     public void LevelUp()

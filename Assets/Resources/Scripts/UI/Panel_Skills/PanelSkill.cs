@@ -11,7 +11,7 @@ public class PanelSkill : MonoBehaviour {
     public Text key;
 
     Sprite skillNullSprite;
-    private float cooldownTotal;
+    public float cooldownTotal;
     public float cooldownRemain;
 
     void Start()

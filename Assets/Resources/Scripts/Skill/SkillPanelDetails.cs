@@ -98,6 +98,24 @@ public class SkillPanelDetails : MonoBehaviour
         SoundDatabase.PlaySound(32);
         int selfIndex = self.GetSiblingIndex();
         PanelSkill panelSkill = hotSkillPanel.transform.GetChild(selfIndex).GetComponent<PanelSkill>();
+        //
+        foreach (Transform child in hotSkillPanel.transform)
+        {
+            PanelSkill alreadySkill = child.GetComponent<PanelSkill>();
+            if (alreadySkill.skill != null)
+            {
+                if (alreadySkill.skill.skillID == currentSkill.skillID)
+                {
+                    panelSkill.cooldownRemain = alreadySkill.cooldownRemain;
+                    panelSkill.cooldownTotal = alreadySkill.cooldownTotal;
+                    break;
+                }
+                else
+                {
+                    panelSkill.cooldownRemain = 0;
+                }
+            }
+        }
         panelSkill.skill = currentSkill;
         panelSkill.UpdateImage();
         hotkeyAssign.SetActive(!hotkeyAssign.activeInHierarchy);

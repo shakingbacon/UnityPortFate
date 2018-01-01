@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
 
-
-
 public class QuestGoal
 {
     public ObjectiveType Type { get; set; }
@@ -19,10 +17,10 @@ public class QuestGoal
         Item
     }
 
-    public QuestGoal(int type, int id, int need, string desc)
+    public QuestGoal(ObjectiveType type, int idOfObject, int need, string desc)
     {
-        Type = (ObjectiveType)type;
-        ID = id;
+        Type = type;
+        ID = idOfObject;
         AmountNeed = need;
         AmountDid = 0;
         Description = desc;
