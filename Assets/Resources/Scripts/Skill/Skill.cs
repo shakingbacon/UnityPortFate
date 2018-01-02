@@ -24,7 +24,7 @@ public class Skill : Damage {
     public SkillStyle skillStyle;
     [JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
     public SkillElement skillElement;
-    public List<SkillAilment> skillAilments;
+    public List<SkillAilment> skillAilments = new List<SkillAilment>();
 
     public enum SkillElement
     {
@@ -62,8 +62,6 @@ public class Skill : Damage {
         skillDesc = skill.skillDesc;
         skillRank = skill.skillRank;
         skillMaxRank = skill.skillMaxRank;
-        skillAilments = new List<SkillAilment>();
-        skillAilments.ForEach(anAilment => skillAilments.Add(anAilment));
         skillType = skill.skillType;
         skillStyle = skill.skillStyle;
         skillElement = skill.skillElement;
@@ -79,8 +77,7 @@ public class Skill : Damage {
 
     [JsonConstructor]
     public Skill(string name, int id, //string desc,
-        int maxrank,
-        List<SkillAilment> ailments, SkillType type, 
+        int maxrank, SkillType type, 
         SkillStyle style = SkillStyle.None, SkillElement element = SkillElement.None)
     {
         this.skillName = name;
@@ -88,7 +85,7 @@ public class Skill : Damage {
         //this.skillDesc = desc;
         this.skillRank = 0;
         this.skillMaxRank = maxrank;
-        skillAilments = ailments;
+        //skillAilments = ailments;
         this.skillType = type;
         this.skillStyle = style;
         skillElement = element;

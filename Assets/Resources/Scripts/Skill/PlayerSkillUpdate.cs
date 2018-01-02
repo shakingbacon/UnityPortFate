@@ -23,9 +23,9 @@ public class PlayerSkillUpdate : MonoBehaviour
     public static void UpdateSkills()
     {
 
-        foreach (Transform skillChild in SkillUI.Instance.learnedSkills)
+        foreach (Skill skill in PlayerSkillController.Instance.Skills)
         {
-            Skill skill = skillChild.GetComponent<SkillPanelContainer>().skill;
+            skill.skillAilments.Clear();
             skill.extras.Clear();
             switch (skill.skillID)
             {
@@ -37,7 +37,7 @@ public class PlayerSkillUpdate : MonoBehaviour
                         skill.Stun = 0.25f;
                         skill.skillMana = 50;
                         skill.skillCooldown = 3f;
-                        skill.FindAilment(SkillAilment.AilmentType.Burn).ailmentChance = 25;
+                        skill.skillAilments.Add(new SkillAilment(SkillAilment.AilmentType.Burn, 25));
                         skill.skillDesc = "Shoot in a straight line a small ball of fire, dealing Magical Fire damage. Has a chance to burn";
                         break;
                     }

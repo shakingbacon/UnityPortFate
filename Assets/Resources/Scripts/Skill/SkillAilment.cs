@@ -12,9 +12,9 @@ public class SkillAilment {
         Burn
     }
 
-    public SkillAilment(AilmentType ailtype)
+    public SkillAilment(AilmentType ailtype, int chance)
     {
         ailmentType = ailtype;
-        ailmentChance = 0;
+        ailmentChance = chance;
     }
 }

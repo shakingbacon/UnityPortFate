@@ -72,26 +72,6 @@ public abstract class Weapon : Item, IWeapon {
             
     }
 
-    public virtual void AttackMoveUser(float time)
-    {
-        float xVelocity = 2;
-        if (GameManager.player.transform.localScale.x == -1)
-        {
-            if (Input.GetAxisRaw("Horizontal") == -1)
-                xVelocity *= -1;
-            else
-                xVelocity = 0;
-        }
-        else
-        {
-            if ((Input.GetAxisRaw("Horizontal") != 1))
-            {
-                xVelocity = 0;
-            }
-        }
-        StartCoroutine(PlayerMovement.SetVelocityForSetTime(xVelocity, time));
-    }
-
     // Animation Events
     public virtual void IsLastAnimation()
     {

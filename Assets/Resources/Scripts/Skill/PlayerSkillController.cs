@@ -20,6 +20,7 @@ public class PlayerSkillController : MonoBehaviour
     // assigned in inspector
     public SkillPanelDetails skillDetailsPanel;
 
+    public List<PlayerSkill> Skills = new List<PlayerSkill>();
 
     void Start()
     {
@@ -31,6 +32,7 @@ public class PlayerSkillController : MonoBehaviour
         consumableController = GetComponent<ConsumableController>();
         playerWeaponController = GetComponent<PlayerWeaponController>();
         playerArmorController = GetComponent<PlayerArmorController>();
+        //UIEventHandler.OnSkillLearn += Skills.Add;
         LearnSkill(SkillDatabase.Instance.GetSkill("Fireball"));
         LearnSkill(SkillDatabase.Instance.GetSkill(1));
         LearnSkill(2);
@@ -38,11 +40,22 @@ public class PlayerSkillController : MonoBehaviour
         LearnSkill(4);
     }
 
+    void Update()
+    {
+        foreach (PlayerSkill skill in Skills)
+        {
+            if (skill.cooldownRemain > 0)
+            {
+                skill.cooldownRemain -= Time.deltaTime;
+            }
+        }  
+    }
+
+
     public Skill GetSkill(int id)
     {
-        foreach (Transform skillChild in SkillUI.Instance.learnedSkills)
+        foreach (Skill skill in Skills)
         {
-            Skill skill = skillChild.GetComponent<SkillPanelContainer>().skill;
             if (skill.skillID == id)
                 return skill;
         }
@@ -50,16 +63,19 @@ public class PlayerSkillController : MonoBehaviour
         return new Skill();
     }
 
-
     public void LearnSkill(Skill skill)
     {
-        UIEventHandler.SkillLearned(skill);
+        PlayerSkill newSkill = new PlayerSkill(skill);
+        Skills.Add(newSkill);
+        UIEventHandler.SkillLearned(newSkill);
         PlayerSkillUpdate.UpdateSkills();
     }
 
     public void LearnSkill(int id)
     {
-        UIEventHandler.SkillLearned(SkillDatabase.Instance.GetSkill(id));
+        PlayerSkill newSkill = new PlayerSkill(SkillDatabase.Instance.GetSkill(id));
+        Skills.Add(newSkill);
+        UIEventHandler.SkillLearned(newSkill);
         PlayerSkillUpdate.UpdateSkills();
     }
 
@@ -80,7 +96,7 @@ public class PlayerSkillController : MonoBehaviour
         }
     }
 
-    public void SetSkillDetails(Skill skill)
+    public void SetSkillDetails(PlayerSkill skill)
     {
         skillDetailsPanel.SetSkill(skill);
         if (skill.skillType == Skill.SkillType.Passive)

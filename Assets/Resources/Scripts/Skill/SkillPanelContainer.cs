@@ -5,11 +5,13 @@ using UnityEngine.UI;
 
 public class SkillPanelContainer : MonoBehaviour {
 
-    public Skill skill;
+    public PlayerSkill skill;
     public Text skillText;
     public Image skillImage;
 
-    public void SetSkill(Skill skill)
+
+
+    public void SetSkill(PlayerSkill skill)
     {
         this.skill = skill;
         SetupSkillValues();

@@ -41,8 +41,7 @@ public class SkillUI : MonoBehaviour {
         spPanel.text = amount;
     }
 
-
-    public void SkillAdded(Skill item)
+    public void SkillAdded(PlayerSkill item)
     {
         SkillPanelContainer emptyItem = Instantiate(skillContainer, learnedSkills);
         emptyItem.transform.localPosition = new Vector3(1, 1, 1);

@@ -30,7 +30,7 @@ public class UIEventHandler : MonoBehaviour
     public static event PlayerLevelEventHandler OnPlayerExpChanged;
 
     // Skill
-    public delegate void SkillEventHandler(Skill skill);
+    public delegate void SkillEventHandler(PlayerSkill skill);
     public static event SkillEventHandler OnSkillLearn;
 
     public delegate void SkillNoneEventHandler();
@@ -68,7 +68,7 @@ public class UIEventHandler : MonoBehaviour
 
     public static void SkillUsed() { OnSkillUse(); }
 
-    public static void SkillLearned(Skill skill)
+    public static void SkillLearned(PlayerSkill skill)
     {
         OnSkillLearn(skill);
     }

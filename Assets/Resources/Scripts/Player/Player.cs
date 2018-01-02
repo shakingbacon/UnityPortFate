@@ -20,8 +20,8 @@ public class Player : MonoBehaviour
     int sp;
     public int SkillPoints { get { return sp; } set { sp = value; UIEventHandler.SpChanged(); } }
 
-
     public bool CanBeHit { get; set; }
+
 
     void Awake()
     {
@@ -146,5 +146,4 @@ public class Player : MonoBehaviour
         UIEventHandler.ManaChanged();
     }
 
-     
 }

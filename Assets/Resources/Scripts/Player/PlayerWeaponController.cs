@@ -28,37 +28,43 @@ public class PlayerWeaponController : MonoBehaviour
 
     void Update()
     {
-        if (equippedWeapon != null && equippedWeapon.Animator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
+        if (equippedWeapon != null)
         {
-            if (Input.GetKeyDown(KeyCode.Q)) ActivateHotKeySkill(0);
-            else if (Input.GetKeyDown(KeyCode.W)) ActivateHotKeySkill(1);
-            else if (Input.GetKeyDown(KeyCode.E)) ActivateHotKeySkill(2);
-            else if (Input.GetKeyDown(KeyCode.R)) ActivateHotKeySkill(3);
-            else if (Input.GetKeyDown(KeyCode.A)) ActivateHotKeySkill(4);
-            else if (Input.GetKeyDown(KeyCode.S)) ActivateHotKeySkill(5);
-            else if (Input.GetKeyDown(KeyCode.D)) ActivateHotKeySkill(6);
-            else if (Input.GetKeyDown(KeyCode.F)) ActivateHotKeySkill(7);
+            if (equippedWeapon.Animator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
+            {
+                if (Input.GetKeyDown(KeyCode.Q)) ActivateHotKeySkill(0);
+                else if (Input.GetKeyDown(KeyCode.W)) ActivateHotKeySkill(1);
+                else if (Input.GetKeyDown(KeyCode.E)) ActivateHotKeySkill(2);
+                else if (Input.GetKeyDown(KeyCode.R)) ActivateHotKeySkill(3);
+                else if (Input.GetKeyDown(KeyCode.A)) ActivateHotKeySkill(4);
+                else if (Input.GetKeyDown(KeyCode.S)) ActivateHotKeySkill(5);
+                else if (Input.GetKeyDown(KeyCode.D)) ActivateHotKeySkill(6);
+                else if (Input.GetKeyDown(KeyCode.F)) ActivateHotKeySkill(7);
+            }
+            if (Input.GetKeyDown(KeyCode.X))
+            {
+                PerformWeaponAttack();
+            }
         }
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            PerformWeaponAttack();
-        }
+
     }
 
     public void ActivateHotKeySkill(int index)
     {
         PanelSkill panel = playerSkillController.skillPanel.transform.GetChild(index).GetComponent<PanelSkill>();
-        if (panel.skill != null)
+        if (panel.playerSkill != null)
         {
-            if (!(panel.cooldownRemain > 0))
+            if (!(panel.playerSkill.cooldownRemain > 0))
+                //!playerSkillController.SkillsThatAreOnCooldown.Exists(aSkill => aSkill.skill.skillID == panel.cooldownSkill.skill.skillID))
             {
-                if (player.CurrentMana > panel.skill.skillMana)
+                //playerSkillController.SkillsThatAreOnCooldown.Add(panel.cooldownSkill);
+                if (player.CurrentMana > panel.playerSkill.skillMana)
                 {
-                    playerSkillController.UsingSkill = panel.skill;
+                    playerSkillController.UsingSkill = panel.playerSkill;
                     UIEventHandler.SkillUsed();
-                    if (panel.skill.skillType == Skill.SkillType.Active || panel.skill.skillType == Skill.SkillType.Utility)
+                    if (panel.playerSkill.skillType == Skill.SkillType.Active || panel.playerSkill.skillType == Skill.SkillType.Utility)
                     {
-                        PerformChannel(panel.skill);
+                        PerformChannel(panel.playerSkill);
                     }
                     else
                     {
@@ -81,9 +87,9 @@ public class PlayerWeaponController : MonoBehaviour
     {
         foreach (Transform skill in playerSkillController.skillPanel.transform)
         {
-            if (skill.GetComponent<PanelSkill>().skill != null)
+            if (skill.GetComponent<PanelSkill>().playerSkill != null)
             {
-                if (skill.GetComponent<PanelSkill>().skill.skillID == playerSkillController.UsingSkill.skillID)
+                if (skill.GetComponent<PanelSkill>().playerSkill.skillID == playerSkillController.UsingSkill.skillID)
                 {
                     skill.GetComponent<PanelSkill>().SkillUsed();
                 }

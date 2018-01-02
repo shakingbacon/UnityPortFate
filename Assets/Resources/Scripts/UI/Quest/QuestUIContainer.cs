@@ -17,6 +17,7 @@ public class QuestUIContainer : MonoBehaviour {
 
     public void UpdateClick()
     {
+        SoundDatabase.PlaySound(21);
         PlayerQuestController.Instance.questPanel.CurrentQuest = quest;
         PlayerQuestController.Instance.UpdateQuestPanelDesc(quest);
     }

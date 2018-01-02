@@ -6,13 +6,14 @@ using UnityEngine.UI;
 public class SkillPanelDetails : MonoBehaviour
 {
 
-    Skill currentSkill;
+    PlayerSkill currentSkill;
     Button selectedSkillButton, skillRankUp, skillHotkey;
     Text skillNameText, skillDescriptionText, skillEffDescText, skillRankText;
 
     public GameObject hotSkillPanel;
     public GameObject hotkeyAssign;
     public Text hotkeyDesc;
+
 
     void Awake()
     {
@@ -27,8 +28,7 @@ public class SkillPanelDetails : MonoBehaviour
         PlayerSkillUpdate.OnSkillChanged += () => SetSkill(currentSkill);
     }
 
-
-    public void SetSkill(Skill skill)
+    public void SetSkill(PlayerSkill skill)
     {
         gameObject.SetActive(true);
         skillNameText.text = skill.skillName;
@@ -89,7 +89,8 @@ public class SkillPanelDetails : MonoBehaviour
         SoundDatabase.PlaySound(21);
         int selfIndex = self.GetSiblingIndex();
         PanelSkill panelSkill = hotSkillPanel.transform.GetChild(selfIndex).GetComponent<PanelSkill>();
-        panelSkill.skill = null;
+        panelSkill.cooldownCircle.fillAmount = 0;
+        panelSkill.playerSkill = null;
         panelSkill.UpdateImage();
     }
 
@@ -98,26 +99,9 @@ public class SkillPanelDetails : MonoBehaviour
         SoundDatabase.PlaySound(32);
         int selfIndex = self.GetSiblingIndex();
         PanelSkill panelSkill = hotSkillPanel.transform.GetChild(selfIndex).GetComponent<PanelSkill>();
-        //
-        foreach (Transform child in hotSkillPanel.transform)
-        {
-            PanelSkill alreadySkill = child.GetComponent<PanelSkill>();
-            if (alreadySkill.skill != null)
-            {
-                if (alreadySkill.skill.skillID == currentSkill.skillID)
-                {
-                    panelSkill.cooldownRemain = alreadySkill.cooldownRemain;
-                    panelSkill.cooldownTotal = alreadySkill.cooldownTotal;
-                    break;
-                }
-                else
-                {
-                    panelSkill.cooldownRemain = 0;
-                }
-            }
-        }
-        panelSkill.skill = currentSkill;
+        panelSkill.playerSkill = currentSkill;
         panelSkill.UpdateImage();
         hotkeyAssign.SetActive(!hotkeyAssign.activeInHierarchy);
     }
+
 }

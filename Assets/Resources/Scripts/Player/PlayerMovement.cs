@@ -29,14 +29,6 @@ public class PlayerMovement : MonoBehaviour
         //spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    public static IEnumerator SetVelocityForSetTime(float x, float time)
-    {
-        rbody.velocity = new Vector2(x, 0);
-        print(rbody.velocity);
-        yield return new WaitForSeconds(time);
-        rbody.velocity = new Vector2();
-    }
-
     // Update is called once per frame
     void FixedUpdate()
     {

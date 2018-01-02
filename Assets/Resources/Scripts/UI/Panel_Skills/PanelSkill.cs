@@ -4,56 +4,57 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-public class PanelSkill : MonoBehaviour {
-    public Skill skill = null;
+public class PanelSkill : MonoBehaviour
+{
+
+    public PlayerSkill playerSkill;
     public Image skillImage;
     public Image cooldownCircle;
     public Text key;
 
-    Sprite skillNullSprite;
-    public float cooldownTotal;
-    public float cooldownRemain;
+    static Sprite skillNullSprite = null;
+
 
     void Start()
     {
-        skillNullSprite = Resources.Load<Sprite>("Icons/UI/CrossBlue");
+        if (skillNullSprite == null)
+            skillNullSprite = Resources.Load<Sprite>("Icons/UI/CrossBlue");
+        playerSkill = null;
         skillImage.sprite = skillNullSprite;
         key.text = gameObject.name;
     }
 
     void Update()
     {
-        if (cooldownRemain > 0)
+        if (playerSkill != null)
         {
-            UpdateCooldownCirlce();
-        }
-        else if (cooldownRemain <= 0)
-        {
-            cooldownCircle.fillAmount = 0;
+            if (playerSkill.cooldownRemain > 0)
+            {
+                cooldownCircle.fillAmount = playerSkill.cooldownRemain / playerSkill.skillCooldown;
+
+            }
+            else
+            {
+                cooldownCircle.fillAmount = 0;
+            }
         }
     }
 
     public void UpdateImage()
     {
-        if (skill == null)
+        if (playerSkill == null)
         {
             skillImage.sprite = skillNullSprite;
         }
         else
         {
-            skillImage.sprite = Resources.Load<Sprite>("Icons/Skills/" + skill.skillName);
+            skillImage.sprite = Resources.Load<Sprite>("Icons/Skills/" + playerSkill.skillName);
         }
     }
 
     public void SkillUsed()
     {
-        cooldownTotal = skill.skillCooldown;
-        cooldownRemain = skill.skillCooldown;
+        playerSkill.cooldownRemain = playerSkill.skillCooldown;
     }
 
-    void UpdateCooldownCirlce()
-    {
-        cooldownCircle.fillAmount = cooldownRemain / cooldownTotal;
-        cooldownRemain -= Time.deltaTime;
-    }
 }
