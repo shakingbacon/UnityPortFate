@@ -28,7 +28,7 @@ public class CurrentMap : MonoBehaviour {
         SoundDatabase.PlayMusic(map.mapMusicID);
         map.transform.transform.SetParent(area);
         Vector3 goToPos = map.transform.FindChild("From Targets").FindChild(fromMapName).position;
-        GameManager.player.transform.position = goToPos;
+        GameManager.Instance.player.transform.position = goToPos;
         Camera.main.transform.position = goToPos;
         DestroyAllEnemies();
         DestroyAllItems();

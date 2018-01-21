@@ -3,6 +3,7 @@ using System.Collections;
 
 public class PlayerMovement : MonoBehaviour
 {
+    Player player;
     //private SpriteRenderer spriteRenderer;
     private static Rigidbody2D rbody;
     Animator anim;
@@ -18,6 +19,7 @@ public class PlayerMovement : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        player = GetComponent<Player>();
         moveSpeedX = 2;
         moveSpeedY = 2;
         stun = new Stunable();
@@ -38,9 +40,9 @@ public class PlayerMovement : MonoBehaviour
             float inputY = Input.GetAxisRaw("Vertical");
             rbody.velocity = new Vector2(inputX * moveSpeedX, inputY * moveSpeedY);
             if (inputX == -1)
-                GameManager.player.transform.localScale = new Vector3(-1, 1, 1);
+                player.transform.localScale = new Vector3(-1, 1, 1);
             else if (inputX == 1)
-                GameManager.player.transform.localScale = new Vector3(1, 1, 1);
+                player.transform.localScale = new Vector3(1, 1, 1);
             if (inputX != 0 || inputY != 0)
             {
                 anim.SetBool("isWalking", true);

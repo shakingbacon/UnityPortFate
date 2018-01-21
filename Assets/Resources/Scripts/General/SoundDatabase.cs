@@ -55,6 +55,7 @@ public class SoundDatabase : MonoBehaviour {
         return;
     }
 
+
     public static void PauseMusic()
     {
         bgmSource.Pause();

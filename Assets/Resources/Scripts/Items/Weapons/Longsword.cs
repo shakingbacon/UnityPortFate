@@ -8,7 +8,7 @@ public class Longsword : Sword
     {
         base.GiveStats();
         Stats.Physical = 35;
-        Stats.AttackSpeed = 2;
+        Stats.AttackSpeed = 125;
 
         Knockback = 15f;
         StunDuration = 0.3f;

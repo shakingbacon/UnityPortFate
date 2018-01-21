@@ -2,24 +2,55 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class Intro : MonoBehaviour {
+public class Intro : MonoBehaviour
+{
 
-    //void Start()
-    //{
-    //    GameManager.inIntro = true;
-    //    gameObject.transform.FindChild("Version").GetComponent<Text>().text = GameManager.version;
-    //}
+    Player player;
+    InputField inputName;
+    Button startGame, load, quit;
+    Text version;
 
-    //void Update()
-    //{
-    //    if (Input.GetButtonDown("Submit"))
-    //    {
-    //        StartButtonPress();
-    //    }
-    //}
 
-    //public void StartButtonPress()
-    //{
+    void Start()
+    {
+        player = GameManager.Instance.player;
+        inputName = transform.FindChild("Input Name").GetComponent<InputField>();
+        startGame = transform.FindChild("Start Game").GetComponent<Button>();
+        load = transform.FindChild("Load").GetComponent<Button>();
+        quit = transform.FindChild("Quit").GetComponent<Button>();
+        version = transform.FindChild("Version").GetComponent<Text>();
+
+        startGame.onClick.AddListener(StartGamePress);
+
+
+        GameManager.Instance.InIntro = true;
+        PlayerMovement.cantMove = true;
+
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            StartGamePress();
+        }
+    }
+
+    public void StartGamePress()
+    {
+        if (inputName.text.Length != 0)
+        {
+            SoundDatabase.PlaySound(43);
+            player.Name = inputName.text;
+            GameManager.Instance.CreateJobSelect();
+            Destroy(gameObject);
+
+        }
+        else
+        {
+            SoundDatabase.PlaySound(33);
+        }
+    }
     //    GameManager.inTutorial = true;
     //    if (gameObject.transform.FindChild("Input Name").GetComponent<InputField>().text.Length != 0)
     //    {

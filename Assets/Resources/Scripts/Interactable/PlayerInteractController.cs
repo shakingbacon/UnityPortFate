@@ -24,10 +24,12 @@ public class PlayerInteractController : MonoBehaviour {
         void Update()
     {
         if (CanInteract)
+        {
             if (Input.GetKeyDown(interactKey))
             {
                 CurrentInteractable.Interact();
             }
+        }
     }
 
     public void ShowInteractNotifier(bool yes)

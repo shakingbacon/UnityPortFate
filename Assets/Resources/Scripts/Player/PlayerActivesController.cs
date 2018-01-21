@@ -30,13 +30,13 @@ public class PlayerActivesController : MonoBehaviour
         SkillActiveEffects.GetSkillActiveEffect(skill.skillID);
     }
 
-    public void CheckActivesUsage(Skill skill)
-    {
-        foreach (Transform holder in activesPanel.transform)
-        {
-            ActiveHolder active = holder.GetComponent<ActiveHolder>();
-        }
-    }
+    //public void CheckActivesUsage(Skill skill)
+    //{
+    //    foreach (Transform holder in activesPanel.transform)
+    //    {
+    //        ActiveHolder active = holder.GetComponent<ActiveHolder>();
+    //    }
+    //}
 
     public bool HasActive(int id)
     {

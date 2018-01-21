@@ -7,7 +7,7 @@ using Newtonsoft.Json.Converters;
 public class BaseStat
 {
     public int BaseValue { get; set; }
-    List<int> Bonuses { get; set; }
+    public List<int> Bonuses { get; set; }
 
     public int FinalValue { get { return GetFinalValue(); } }
 

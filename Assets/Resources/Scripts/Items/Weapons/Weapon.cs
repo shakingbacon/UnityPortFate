@@ -29,13 +29,18 @@ public abstract class Weapon : Item, IWeapon {
         Staff
     }
 
-
     protected override void Awake()
     {
         base.Awake();
+        EnemiesHit = new List<GameObject>();
         Animator = GetComponent<Animator>();
         Pierce = 2;
         ResetEnemiesHit();
+    }
+
+    public virtual void SetAttackSpeed(float speed)
+    {
+        Animator.SetFloat("AttackSpeed", speed);
     }
 
     public virtual void SetDamageMultiplier(float dmg)
@@ -113,8 +118,7 @@ public abstract class Weapon : Item, IWeapon {
 
     public void ResetEnemiesHit()
     {
-        EnemiesHit = new List<GameObject>();
+        EnemiesHit.Clear();
     }
-
 
 }

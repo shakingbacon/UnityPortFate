@@ -15,9 +15,9 @@ public class DeathScreen : MonoBehaviour {
         quit = gameObject.transform.FindChild("Quit").GetComponent<Button>();
         load = gameObject.transform.FindChild("Load").GetComponent<Button>();
         intro = gameObject.transform.FindChild("Intro").GetComponent<Button>();
-        quit.onClick.AddListener(GameManager.QuitGame);
+        quit.onClick.AddListener(Application.Quit);
         //load.onClick.AddListener(() => GameManager.CreateSavePage(false));
-        intro.onClick.AddListener(GameManager.CreateIntro);
-        intro.onClick.AddListener(() => GameManager.OpenClosePage("Death Screen"));
+        intro.onClick.AddListener(GameManager.Instance.CreateIntro);
+        intro.onClick.AddListener(() => gameObject.SetActive(false));
     }
 }

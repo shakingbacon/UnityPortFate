@@ -114,7 +114,7 @@ public class PlayerWeaponController : MonoBehaviour
         //EquippedWeapon.transform.localScale = new Vector3(1, 1, 1);
         equippedWeapon.playerSkillController = playerSkillController;
         equippedWeapon.player = player.Stats;
-
+        equippedWeapon.SetAttackSpeed(player.Stats.AttackSpeed);
         SoundDatabase.PlaySound(0);
         UIEventHandler.ItemEquipped(itemToEquip);
         UIEventHandler.StatsChanged();

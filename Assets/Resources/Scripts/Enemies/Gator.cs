@@ -31,7 +31,7 @@ public class Gator : Enemy
         Stats.Dodge = 1;
         Stats.Crit = 4;
 
-        Stats.AttackSpeed = 4;
+        Stats.AttackSpeed = 400;
         Knockback = 10f;
         Experience = 10;
         Cash = 25;

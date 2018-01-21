@@ -19,7 +19,7 @@ public class CameraFollow : MonoBehaviour {
 	void Update () {
 
         //myCam.orthographicSize = (Screen.height / 100f) / 2.3f;
-        if (target && !GameManager.inBattle)
+        if (target)
         {
             baseOrthographicSize = Screen.height / 100.0f / 2.0f;
             Camera.main.orthographicSize = baseOrthographicSize;

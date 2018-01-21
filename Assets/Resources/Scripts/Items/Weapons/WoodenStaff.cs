@@ -14,7 +14,7 @@ public class WoodenStaff : Staff
 
         Stats.Physical = 45;
         Stats.Magical = 85;
-        Stats.AttackSpeed = 1;
+        Stats.AttackSpeed = 100;
 
         ProjectilePrefab = Resources.Load<Projectile>("Prefabs/Projectiles/MagicShot");
 

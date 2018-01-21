@@ -13,9 +13,9 @@ public class Warp : Interactable {
     {
         interactString = "Warp";
         GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("General/Game/Warp Portal");
-        GetComponent<Collider2D>().isTrigger = true;
+        GetComponent<PolygonCollider2D>().isTrigger = true;
         transform.transform.localScale = new Vector3(2, 2, 1);
-        GetComponent<SpriteRenderer>().sortingOrder = 1;
+        GetComponent<SpriteRenderer>().sortingOrder = 2;
     }
 
     public override void Interact()

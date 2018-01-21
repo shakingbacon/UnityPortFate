@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class StatusBar : MonoBehaviour {
-    Player player;
+public class StatusBar : MonoBehaviour
+{
 
-    GameObject statusBar;
+    public static StatusBar Instance { get; set; }
+
+    Player player;
     Slider healthBar;
     Text healthBarText, manaBarText, expBarText;
     Slider manaBar;
@@ -16,10 +18,17 @@ public class StatusBar : MonoBehaviour {
     bool hasShield;
     int shieldMax;
 
+    void Awake()
+    {
+        if (Instance != null && Instance != this)
+            Destroy(gameObject);
+        else
+            Instance = this;
+        gameObject.SetActive(false);
+    }
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-        statusBar = gameObject;
+        player = GameManager.Instance.player;
         healthBar = gameObject.transform.FindChild("HP Bar").GetComponent<Slider>();
         healthBarText = healthBar.transform.FindChild("HP Amount").GetComponent<Text>();
         manaBar = gameObject.transform.FindChild("MP Bar").GetComponent<Slider>();
@@ -40,6 +49,7 @@ public class StatusBar : MonoBehaviour {
         player.StatsUpdate();
         player.HealFullHP();
         player.HealFullMP();
+        UpdateDescription();
     }
 
     void UpdateHealthBar()
@@ -56,11 +66,18 @@ public class StatusBar : MonoBehaviour {
 
     void UpdateExpBar()
     {
-        expBarText.text = string.Format("{0} / {1}", player.PlayerLevel.CurrentExperience, 
+        expBarText.text = string.Format("{0} / {1}", player.PlayerLevel.CurrentExperience,
             player.PlayerLevel.RequiredExperience);
         expBar.value = (float)player.PlayerLevel.CurrentExperience / (float)player.PlayerLevel.RequiredExperience;
         currentLevel.text = player.PlayerLevel.Level.ToString();
         nextLevel.text = (player.PlayerLevel.Level + 1).ToString();
+    }
+
+    public void UpdateDescription()
+    {
+        mingZi.text = player.Name;
+        job.text = player.Stats.JobName;
+
     }
 
 }

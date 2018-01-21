@@ -2,26 +2,43 @@
 using System.Collections;
 using UnityEngine.UI;
 
-public class GameManager : MonoBehaviour {
+public class GameManager : MonoBehaviour
+{
+    public static GameManager Instance { get; set; }
 
-    public static Player player;
-    public static string version;
-    public static bool invisibleWallOn = false;
-    static string showingPage;
-    public static bool inBattle;
-    public static bool inTutorial;
-    public static bool inIntro;
-    public static bool inMonsterArea;
-    public static bool thereIsShop = false;
-    public static bool hoveringBattleStatus;
-    public static Transform hoveringBattleStatusParent;
+    public Player player;
+    public string GameVersion { get; set; }
+    public bool invisibleWallOn = false;
+    bool showingPage;
+    public bool inBattle;
+    public bool inTutorial;
+    public bool InIntro { get; set; }
+    public bool inMonsterArea;
+    public bool thereIsShop = false;
+    public bool hoveringBattleStatus;
+    public Transform hoveringBattleStatusParent;
+
+    [HideInInspector]
+    public GameObject canvas;
+    [HideInInspector]
+    public GameObject characterPanel;
+
+
 
     void Awake()
-    {  
+    {
+        InIntro = true;
+        if (Instance != null && Instance != this)
+            Destroy(gameObject);
+        else
+            Instance = this;
+
+        canvas = GameObject.FindGameObjectWithTag("Canvas");
+        characterPanel = canvas.transform.FindChild("Panel_Character").gameObject;
         //StartCoroutine(ScreenFader.FadeToClear());
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         Camera.main.transform.position = player.transform.position;
-        version = "Dev.v6.0";
+        GameVersion = "Development V10.0";
         FloatingTextController.Initialize();
         EnemyHealthBarController.Initialize();
 
@@ -29,67 +46,42 @@ public class GameManager : MonoBehaviour {
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.O))
+        if (!InIntro)
         {
-            OpenClosePage("Panel_Character");
+            if (Input.GetKeyDown(KeyCode.O))
+            {
+                characterPanel.SetActive(!characterPanel.activeInHierarchy);
+            }
         }
+
     }
 
-    public static void QuitGame()
-    {
-        Application.Quit();
-    }
-
-    public static void InvisibleWallOn(bool yes)
-    {
-        GameObject.FindGameObjectWithTag("Canvas").transform.FindChild("Invisible Wall").gameObject.SetActive(yes);
-        invisibleWallOn = yes;
-    }
-
-    public static bool OpenClosePage(string name)
-    {
-        GameObject.FindGameObjectWithTag("Canvas").transform.FindChild(name).gameObject.SetActive(
-            !(GameObject.FindGameObjectWithTag("Canvas").transform.FindChild(name).gameObject.activeInHierarchy));
-        return !(GameObject.FindGameObjectWithTag("Canvas").transform.FindChild(name).gameObject.activeInHierarchy);
-    }
-
-    //public static void CreateSavePage(bool saving)
-    //{
-    //    SoundDatabase.PlayMusic(14);
-    //    Transform loadPage = Instantiate(Resources.Load<Transform>("Prefabs/Save Page"), GameObject.FindGameObjectWithTag("Canvas").transform);
-    //    loadPage.localScale = new Vector3(1, 1, 1);
-    //    loadPage.GetComponent<RectTransform>().offsetMin = new Vector2(0, 0);
-    //    loadPage.GetComponent<RectTransform>().offsetMax = new Vector2(0, 0);
-    //    loadPage.SetAsLastSibling();
-    //    SavePage.UpdateSavePage(saving);
-    //}
-
-    public static void CreateIntro()
+    public void CreateIntro()
     {
         SoundDatabase.PlayMusic(10);
-        Transform intro = Instantiate(Resources.Load<Transform>("Prefabs/Intro"), GameObject.FindGameObjectWithTag("Canvas").transform);
+        Transform intro = Instantiate(Resources.Load<Transform>("Prefabs/Intro"), canvas.transform);
         intro.localScale = new Vector3(1, 1, 1);
         intro.GetComponent<RectTransform>().offsetMin = new Vector2(0, 0);
         intro.GetComponent<RectTransform>().offsetMax = new Vector2(0, 0);
     }
 
-    public static void CreateJobSelect()
+    public void CreateJobSelect()
     {
-        Transform jobSelect = Instantiate(Resources.Load<Transform>("Prefabs/Job Select"), GameObject.FindGameObjectWithTag("Canvas").transform);
+        Transform jobSelect = Instantiate(Resources.Load<Transform>("Prefabs/Pages/Job Select"), canvas.transform);
         jobSelect.localScale = new Vector3(1, 1, 1);
         jobSelect.GetComponent<RectTransform>().offsetMin = new Vector2(0, 0);
         jobSelect.GetComponent<RectTransform>().offsetMax = new Vector2(0, 0);
-        jobSelect.SetAsLastSibling();
+        //jobSelect.SetAsLastSibling();
     }
 
-    public static void CreateTutorialUI()
-    {
-        Transform tutorial = Instantiate(Resources.Load<Transform>("Prefabs/Tutorial UI"), GameObject.FindGameObjectWithTag("Canvas").transform);
-        tutorial.localScale = new Vector3(1, 1, 1);
-        tutorial.GetComponent<RectTransform>().offsetMin = new Vector2(0, 0);
-        tutorial.GetComponent<RectTransform>().offsetMax = new Vector2(0, 0);
-        tutorial.SetSiblingIndex(1);
-    }
+    //public void CreateTutorialUI()
+    //{
+    //    Transform tutorial = Instantiate(Resources.Load<Transform>("Prefabs/Tutorial UI"), canvas.transform);
+    //    tutorial.localScale = new Vector3(1, 1, 1);
+    //    tutorial.GetComponent<RectTransform>().offsetMin = new Vector2(0, 0);
+    //    tutorial.GetComponent<RectTransform>().offsetMax = new Vector2(0, 0);
+    //    tutorial.SetSiblingIndex(1);
+    //}
 
     //public static void IsPlayerDead()
     //{
@@ -99,5 +91,6 @@ public class GameManager : MonoBehaviour {
     //        cantMove = true;
     //    }
     //}
+
 
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,7 +9,7 @@ public class MagicShot : Projectile {
     {
         base.Start();
         Range = 2f;
-        GetComponent<Rigidbody2D>().AddForce(Direction * 125f * GameManager.player.transform.localScale.x);
+        GetComponent<Rigidbody2D>().AddForce(Direction * 125f * GameManager.Instance.player.transform.localScale.x);
         SoundID = 56;
     }
 }

@@ -9,12 +9,21 @@ public class Player : MonoBehaviour
     //public CharacterStats Stats { get; set; }
     Animator animator;
 
-
-
     public int CurrentHealth { get { return Stats.CurrentHealth; } set { Stats.CurrentHealth = value; UIEventHandler.HealthChanged(); } }
     public int CurrentMana { get { return Stats.CurrentMana; } set { Stats.CurrentMana = value; UIEventHandler.ManaChanged(); } }
 
-    public Job currentJob;
+
+
+    public string Name { get; set; }
+    //public JobTypes CurrentJob { get; set; }
+
+    //public enum enum JobTypes
+    //{
+    //    Mage,
+    //    Rogue,
+    //    Warrior
+    //}
+
     public PlayerLevel PlayerLevel { get; set; }
 
     int sp;
@@ -27,7 +36,7 @@ public class Player : MonoBehaviour
     {
         UIEventHandler.OnSPChange += () => SkillUI.Instance.SetSPText(sp.ToString());
         SkillPoints = 3;
-        Stats = new Attributes();
+        //Stats = new Attributes();
         CanBeHit = true;
         animator = GetComponent<Animator>();
         PlayerLevel = GetComponent<PlayerLevel>();
@@ -78,7 +87,6 @@ public class Player : MonoBehaviour
             amount = OnTakeDamage(amount);
         if (amount > 0)
         {
-            StartCoroutine(GotHitFlashing());
             Stats.CurrentHealth -= amount;
             if (Stats.CurrentHealth <= 0)
             {
@@ -86,6 +94,7 @@ public class Player : MonoBehaviour
             }
             UIEventHandler.HealthChanged();
         }
+        StartCoroutine(GotHitFlashing());
     }
 
     IEnumerator GotHitFlashing()
@@ -117,33 +126,8 @@ public class Player : MonoBehaviour
 
     public void StatsUpdate()
     {
-        switch (0)
-        {
-            case 0:// Mage Stat Updates
-                {   // These are stats based off other stats
-                    //
-                    Stats.MaxHealth = 225 + Stats.Strength * 11 + PlayerLevel.Level * 32;
-                    //
-                    Stats.MaxMana = 475 + Stats.Intelligence * 26 + PlayerLevel.Level * 60;
-                    //
-                    Stats.Physical = 35 + Stats.Strength + PlayerLevel.Level * 3;
-                    //
-                    Stats.Magical = 60 + Stats.Intelligence * 6 + PlayerLevel.Level * 8;
-                    //
-                    Stats.Armor = 10 + Stats.Strength * 4 + PlayerLevel.Level * 6;
-                    //
-                    Stats.Resist = 15 + Stats.Intelligence * 9 + PlayerLevel.Level * 10;
-                    //
-                    Stats.Hit = 90 + Stats.Agility / 6 + Stats.Luck / 5;
-                    //
-                    Stats.Dodge = Stats.Agility / 7 + Stats.Luck / 3;
-                    //
-                    Stats.Crit = Stats.Agility / 5 + Stats.Luck / 4;
-                    break;
-                }
-        }
+        Stats.UpdateStats(PlayerLevel.Level);
         UIEventHandler.HealthChanged();
         UIEventHandler.ManaChanged();
     }
-
 }

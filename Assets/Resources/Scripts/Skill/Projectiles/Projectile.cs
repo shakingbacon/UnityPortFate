@@ -12,12 +12,14 @@ public abstract class Projectile : MonoBehaviour
 
     protected int SoundID { get; set; }
 
+    protected List<GameObject> EnemiesHit = new List<GameObject>();
+    protected int Pierce { get; set; }
+
     protected virtual void Start()
     {
         SpawnPosition = transform.position;
+        Pierce = 1;
     }
-
-
 
     void Update()
     {
@@ -27,16 +29,26 @@ public abstract class Projectile : MonoBehaviour
         }
     }
 
+
     public virtual void OnHitActivations(Collider2D col)
     {
         //Debug.Log("Hit an Enemy");
-        Damage calculatedDamage = new Damage(SkillActiveEvents.DamageSkillHitEnemy(Damage));
-        SoundDatabase.PlaySound(SoundID);
-        Enemy enemy = col.GetComponent<Enemy>();
-        enemy.EnemyMovement.inRange = true;
-        enemy.TakeDamage(calculatedDamage);
+        if (!EnemiesHit.Exists(aGameObject => aGameObject == col.gameObject))
+        {
+            EnemiesHit.Add(col.gameObject);
+            Damage calculatedDamage = new Damage(SkillActiveEvents.DamageSkillHitEnemy(Damage));
+            SoundDatabase.PlaySound(SoundID);
+            Enemy enemy = col.GetComponent<Enemy>();
+            enemy.EnemyMovement.inRange = true;
+            enemy.TakeDamage(calculatedDamage);
+            Explode();
+            Extinguish();
+        }
+    }
 
-        Extinguish();
+    public virtual void Explode()
+    {
+
     }
 
     public virtual void Extinguish()
