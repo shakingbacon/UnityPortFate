@@ -54,6 +54,8 @@ public class Damage {
 
     //}
 
+
+
     public Damage(int baseDmg, float knockback=0, float stun =0)
     {
         //if (Random.Range(0f, 1f) < 0.5f)

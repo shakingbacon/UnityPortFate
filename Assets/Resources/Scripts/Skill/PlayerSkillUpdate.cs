@@ -7,7 +7,7 @@ public class PlayerSkillUpdate : MonoBehaviour
 
     static Player player;
 
-    void Start()
+    void Awake()
     {
         player = GetComponent<Player>();
         OnSkillChanged += UpdateSkills;
@@ -22,7 +22,7 @@ public class PlayerSkillUpdate : MonoBehaviour
 
     public static void UpdateSkills()
     {
-
+        Attributes stats = player.Stats;
         foreach (Skill skill in PlayerSkillController.Instance.Skills)
         {
             skill.skillAilments.Clear();
@@ -32,13 +32,13 @@ public class PlayerSkillUpdate : MonoBehaviour
                 case 0:
                     {
 
-                        skill.DamageAmount = 100;
+                        skill.DamageAmount = 150 + 50 * skill.skillRank + stats.Intelligence * (16 + 18 * skill.skillRank) + stats.Wisdom * (5 + 3 * skill.skillRank); ;
                         skill.Knockback = 7f;
                         skill.Stun = 0.25f;
                         skill.skillMana = 50;
                         skill.skillCooldown = 3f;
                         skill.skillAilments.Add(new SkillAilment(SkillAilment.AilmentType.Burn, 25));
-                        skill.skillDesc = "Shoot in a straight line a small ball of fire, dealing Magical Fire damage. Has a chance to burn";
+                        skill.skillDesc = "Fire a small ball of fire that explodes on impact, dealing Magical Fire damage. Has a chance to burn.";
                         break;
                     }
                 case 1:

@@ -5,8 +5,8 @@ using UnityEngine;
 
 public abstract class Staff : Weapon, IProjectileWeapon
 {
-    WeaponHitbox staffBase;
-    protected float BaseDamage { get; set; }
+    DamagingHitbox staffBase;
+    protected float StaffDamage { get; set; }
 
     public Transform ProjectileSpawn { get; set; }
 
@@ -17,8 +17,8 @@ public abstract class Staff : Weapon, IProjectileWeapon
     protected override void Awake()
     {
         base.Awake();
-        staffBase = transform.GetChild(0).GetComponent<WeaponHitbox>();
-        staffBase.DamageMultiplier = BaseDamage;
+        staffBase = transform.GetChild(0).GetComponent<DamagingHitbox>();
+        staffBase.DamageMultiplier = StaffDamage;
     }
 
     public override void GiveStats()

@@ -33,7 +33,7 @@ public class InventoryController : MonoBehaviour {
         GiveItem("Leather Hat");
         GiveItem("Wooden Staff");
         //GiveItem("Leather Hat");
-        //GiveItem("Big Axe");
+        GiveItem("Big Axe");
         //GiveItem("Leather Gloves");
         //GiveItem("Strength Necklace");
         //GiveItem("Big Axe");
@@ -56,6 +56,7 @@ public class InventoryController : MonoBehaviour {
 
     public void GiveItem(string itemName)
     {
+        print(itemName);
         Item item = ItemDatabase.Instance.GetItem(itemName);
         playerItems.Add(item);
         UIEventHandler.ItemAddedToInventory(item);

@@ -18,7 +18,7 @@ public class WoodenStaff : Staff
 
         ProjectilePrefab = Resources.Load<Projectile>("Prefabs/Projectiles/MagicShot");
 
-        BaseDamage = 1.0f;
+        StaffDamage = 1.0f;
     }
 
     public override void CastProjectile()

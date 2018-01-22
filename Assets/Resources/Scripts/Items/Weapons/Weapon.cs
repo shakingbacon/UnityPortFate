@@ -3,21 +3,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Weapon : Item, IWeapon {
-
-    //public string Name { get; set; }
-    //public string Description { get; set; }
-    //public int Cost { get; set; }
-    //public Mortal Stats { get; set; }
-
-    [HideInInspector] public Attributes player;
+public abstract class Weapon : Item, IWeapon, IHasHitbox
+{
+    public Attributes player;
     public Animator Animator { get; set; }
     //public List<BaseStat> Stats { get; set; }
     public PlayerSkillController playerSkillController { get; set; }
-    public int Pierce { get; set; }
     public float Knockback { get; set; }
     public float StunDuration { get; set; }
+
+
+
+
+    // IHasHitbox
     public List<GameObject> EnemiesHit { get; set; }
+    public int Pierce { get; set; }
+    public int Damage { get { return (int)(player.Physical * Animator.GetFloat("DamageMultiplier")); } }
+    public int HitChance { get { return player.Hit; } }
+
 
     int collideSoundID = -1;
 
@@ -72,9 +75,9 @@ public abstract class Weapon : Item, IWeapon {
         {
             ChannelBarController.Instance.MakeChannelBar(skill.skillName, skill.skillChannelDuration);
             Animator.SetTrigger("Channel");
-            Animator.SetFloat("ChannelTime", 1/skill.skillChannelDuration);
+            Animator.SetFloat("ChannelTime", 1 / skill.skillChannelDuration);
         }
-            
+
     }
 
     // Animation Events
@@ -108,7 +111,7 @@ public abstract class Weapon : Item, IWeapon {
         collideSoundID = id;
     }
 
-    public virtual void OnHit(Damage dmg)
+    public virtual void OnHitEffects(Damage dmg)
     {
         if (dmg.DidCrit)
             SoundDatabase.PlaySound(11);

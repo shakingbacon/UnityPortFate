@@ -33,11 +33,7 @@ public class PlayerSkillController : MonoBehaviour
         playerWeaponController = GetComponent<PlayerWeaponController>();
         playerArmorController = GetComponent<PlayerArmorController>();
         //UIEventHandler.OnSkillLearn += Skills.Add;
-        LearnSkill(SkillDatabase.Instance.GetSkill("Fireball"));
-        LearnSkill(SkillDatabase.Instance.GetSkill(1));
-        LearnSkill(2);
-        LearnSkill(3);
-        LearnSkill(4);
+
     }
 
     void Update()

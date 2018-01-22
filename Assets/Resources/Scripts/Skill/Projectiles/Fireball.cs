@@ -18,7 +18,7 @@ public class Fireball : Projectile
         }
         else
         {
-            Range = 0.75f;
+            Range = 0.5f;
         }
         SoundID = 13;
     }
@@ -39,13 +39,13 @@ public class Fireball : Projectile
 
             // diagonal
             fire1 = MiniFireballFromExplosion(135);
-            fire1.GetComponent<Rigidbody2D>().AddForce(new Vector2(-75, 75));
+            fire1.GetComponent<Rigidbody2D>().AddForce(new Vector2(-100, 100));
             fire2 = MiniFireballFromExplosion(-45);
-            fire2.GetComponent<Rigidbody2D>().AddForce(new Vector2(75, -75));
+            fire2.GetComponent<Rigidbody2D>().AddForce(new Vector2(100, -100));
             fire3 = MiniFireballFromExplosion(-135);
-            fire3.GetComponent<Rigidbody2D>().AddForce(new Vector2(-75, -75));
+            fire3.GetComponent<Rigidbody2D>().AddForce(new Vector2(-100, -100));
             fire4 = MiniFireballFromExplosion(45);
-            fire4.GetComponent<Rigidbody2D>().AddForce(new Vector2(75, 75));
+            fire4.GetComponent<Rigidbody2D>().AddForce(new Vector2(100, 100));
 
         }
     }

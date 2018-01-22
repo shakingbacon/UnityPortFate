@@ -78,15 +78,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Resources\Scripts\Enemies\CashDrop.cs" />
-    <Compile Include="Assets\Resources\Scripts\Enemies\Consumables\IConsumable.cs" />
-    <Compile Include="Assets\Resources\Scripts\Enemies\Consumables\LogPotion.cs" />
-    <Compile Include="Assets\Resources\Scripts\Enemies\Enemy.cs" />
-    <Compile Include="Assets\Resources\Scripts\Enemies\EnemyMovement.cs" />
-    <Compile Include="Assets\Resources\Scripts\Enemies\Gator.cs" />
-    <Compile Include="Assets\Resources\Scripts\Enemies\IEnemy.cs" />
-    <Compile Include="Assets\Resources\Scripts\Enemies\MonsterSpawner.cs" />
     <Compile Include="Assets\Resources\Scripts\Events\CombatEvents.cs" />
+    <Compile Include="Assets\Resources\Scripts\Events\Enemies\CashDrop.cs" />
+    <Compile Include="Assets\Resources\Scripts\Events\Enemies\Consumables\IConsumable.cs" />
+    <Compile Include="Assets\Resources\Scripts\Events\Enemies\Consumables\LogPotion.cs" />
+    <Compile Include="Assets\Resources\Scripts\Events\Enemies\Enemy.cs" />
+    <Compile Include="Assets\Resources\Scripts\Events\Enemies\EnemyMovement.cs" />
+    <Compile Include="Assets\Resources\Scripts\Events\Enemies\Gator.cs" />
+    <Compile Include="Assets\Resources\Scripts\Events\Enemies\IEnemy.cs" />
+    <Compile Include="Assets\Resources\Scripts\Events\Enemies\MonsterSpawner.cs" />
     <Compile Include="Assets\Resources\Scripts\Events\SkillEvents.cs" />
     <Compile Include="Assets\Resources\Scripts\Events\UIEventHandler.cs" />
     <Compile Include="Assets\Resources\Scripts\General\Attributes.cs" />
@@ -112,18 +112,19 @@
     <Compile Include="Assets\Resources\Scripts\Items\Armor\Armor.cs" />
     <Compile Include="Assets\Resources\Scripts\Items\Armor\LeatherHat.cs" />
     <Compile Include="Assets\Resources\Scripts\Items\Consumable.cs" />
+    <Compile Include="Assets\Resources\Scripts\Items\IHasHitbox.cs" />
     <Compile Include="Assets\Resources\Scripts\Items\Item.cs" />
     <Compile Include="Assets\Resources\Scripts\Items\ItemDatabase.cs" />
     <Compile Include="Assets\Resources\Scripts\Items\ItemHolder.cs" />
     <Compile Include="Assets\Resources\Scripts\Items\OLDITEM.cs" />
     <Compile Include="Assets\Resources\Scripts\Items\Weapons\Axe.cs" />
+    <Compile Include="Assets\Resources\Scripts\Items\Weapons\BigAxe.cs" />
     <Compile Include="Assets\Resources\Scripts\Items\Weapons\IProjectileWeapon.cs" />
     <Compile Include="Assets\Resources\Scripts\Items\Weapons\IWeapon.cs" />
     <Compile Include="Assets\Resources\Scripts\Items\Weapons\Longsword.cs" />
     <Compile Include="Assets\Resources\Scripts\Items\Weapons\Staff.cs" />
     <Compile Include="Assets\Resources\Scripts\Items\Weapons\Sword.cs" />
     <Compile Include="Assets\Resources\Scripts\Items\Weapons\Weapon.cs" />
-    <Compile Include="Assets\Resources\Scripts\Items\Weapons\WeaponHitbox.cs" />
     <Compile Include="Assets\Resources\Scripts\Items\Weapons\WoodenStaff.cs" />
     <Compile Include="Assets\Resources\Scripts\Maps\TutorialArea.cs" />
     <Compile Include="Assets\Resources\Scripts\Player\BaseStat.cs" />
@@ -131,6 +132,7 @@
     <Compile Include="Assets\Resources\Scripts\Player\CharacterStats.cs" />
     <Compile Include="Assets\Resources\Scripts\Player\ConsumableController.cs" />
     <Compile Include="Assets\Resources\Scripts\Player\Damage.cs" />
+    <Compile Include="Assets\Resources\Scripts\Player\DamagingHitbox.cs" />
     <Compile Include="Assets\Resources\Scripts\Player\Job\Mage.cs" />
     <Compile Include="Assets\Resources\Scripts\Player\Player.cs" />
     <Compile Include="Assets\Resources\Scripts\Player\PlayerActivesController.cs" />
