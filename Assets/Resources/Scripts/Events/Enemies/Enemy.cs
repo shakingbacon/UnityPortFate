@@ -181,13 +181,21 @@ public class Enemy : MonoBehaviour {
         Destroy(HealthBar.gameObject);
     }
 
+    public void SetHealthBarNotActive()
+    {
+        HealthBar.gameObject.SetActive(false);
+    }
+
     public void AfterSpawning()
     {
+        HealthBar.UpdateHealthBar();
+        HealthBar.gameObject.SetActive(true);
         EnemyMovement.canMove = true;
     }
 
     public void StartToDie()
     {
+        SetHealthBarNotActive();
         Destroy(Rigidbody2D);
     }
 

@@ -43,7 +43,14 @@ public class PlayerWeaponController : MonoBehaviour
             }
             if (Input.GetKeyDown(KeyCode.X))
             {
-                PerformWeaponAttack();
+                if (player.GetComponent<PlayerMovement>().IsRunning)
+                {
+                    PerformDashAttack();
+                }
+                else
+                {
+                    PerformWeaponAttack();
+                }
             }
         }
 
@@ -137,16 +144,25 @@ public class PlayerWeaponController : MonoBehaviour
 
     public void PerformWeaponAttack()
     {
+        player.GetComponent<PlayerMovement>().timeRunning = 0f;
         equippedWeapon.PerformAttack();
+    }
+
+    public void PerformDashAttack()
+    {
+        player.GetComponent<PlayerMovement>().timeRunning = 0f;
+        equippedWeapon.PerformDashAttack();
     }
 
     public void PerformChannel(Skill skill)
     {
+        player.GetComponent<PlayerMovement>().timeRunning = 0f;
         equippedWeapon.PerformChannelAnimation(skill);
     }
 
     public void PerformSkill()
     {
+        player.GetComponent<PlayerMovement>().timeRunning = 0f;
         equippedWeapon.PerformSkillAnimation();
     }
 }

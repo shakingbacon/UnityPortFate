@@ -24,5 +24,4 @@ public class EventNotifierText : MonoBehaviour
         }
         Destroy(gameObject);
     }
-
 }

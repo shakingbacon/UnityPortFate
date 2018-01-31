@@ -61,6 +61,14 @@ public abstract class Weapon : Item, IWeapon, IHasHitbox
         }
     }
 
+    public virtual void PerformDashAttack()
+    {
+        if (!Animator.GetBool("IsLastAnimation"))
+        {
+            Animator.SetTrigger("Dash Attack");
+        }
+    }
+
     public virtual void PerformSkillAnimation()
     {
         if (!Animator.GetBool("IsLastAnimation"))
