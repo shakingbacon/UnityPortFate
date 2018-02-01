@@ -19,6 +19,10 @@ public class PlayerMovement : MonoBehaviour
     public bool IsRunning { get; set; }
     public float timeRunning = 0f;
 
+
+    public float BaseSpeedX = 1f;
+    public float BaseSpeedY = 1f;
+
     float RunningX { get; set; }
     float RunningY { get; set; }
 
@@ -26,6 +30,8 @@ public class PlayerMovement : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        BaseSpeedX = 1f;
+        BaseSpeedY = 1f;
         player = GetComponent<Player>();
         moveSpeedX = 1.75f;
         moveSpeedY = 1.3f;
@@ -48,58 +54,40 @@ public class PlayerMovement : MonoBehaviour
 
     void UpdateRunning()
     {
-        if (Input.GetKeyDown(KeyCode.LeftShift))
-        {
-            RunningX = 1.25f;
-            RunningY = 1.1f;
-            moveSpeedX *= RunningX;
-            moveSpeedY *= RunningY;
-        }
         if (!cantMove && Input.GetKey(KeyCode.LeftShift))
         {
             if ((Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.DownArrow)))
             {
-                timeRunning += Time.deltaTime;
-                if (timeRunning > 1.25f)
+                
+                if (timeRunning > 0.75f)
                 {
                     if (!IsRunning)
                     {
                         SoundDatabase.PlaySound(54);
-                        moveSpeedX /= RunningX;
-                        moveSpeedY /= RunningY;
-                        RunningX = 1.55f;
-                        RunningY = 1.2f;
-                        moveSpeedX *= RunningX;
-                        moveSpeedY *= RunningY;
                         IsRunning = true;
                     }
                 }
                 else
                 {
+                    timeRunning += Time.deltaTime;
+                    BaseSpeedX = 1.25f + Mathf.Round((0.5f * timeRunning / 0.75f) * 100f) / 100f;
+                    BaseSpeedY = 1.1f + Mathf.Round((0.2f * timeRunning / 0.75f) * 100f) / 100f;
                     IsRunning = false;
                 }
             }
         }
-        if (Input.GetKeyUp(KeyCode.LeftShift) ))
+        if (Input.GetKeyUp(KeyCode.LeftShift) || 
+            (Input.GetKey(KeyCode.LeftShift) && (Input.GetKeyUp(KeyCode.LeftArrow) || Input.GetKeyUp(KeyCode.RightArrow) || Input.GetKeyUp(KeyCode.UpArrow) || Input.GetKeyUp(KeyCode.DownArrow))))
         {
             timeRunning = 0f;
-            IsRunning = false;
-            moveSpeedX /= RunningX;
-            moveSpeedY /= RunningY;
+            BaseSpeedX = 1f;
+            BaseSpeedY = 1f;
         }
-
-        if ( && (Input.GetKeyUp(KeyCode.LeftArrow) || Input.GetKeyUp(KeyCode.RightArrow) || Input.GetKeyUp(KeyCode.UpArrow) || Input.GetKeyUp(KeyCode.DownArrow))
-
-    }
-
-    // Update is called once per frame
-    void FixedUpdate()
-    {
         if (!cantMove && !stun.Stunned)
         {
             float inputX = Input.GetAxisRaw("Horizontal");
             float inputY = Input.GetAxisRaw("Vertical");
-            rbody.velocity = new Vector2(inputX * moveSpeedX, inputY * moveSpeedY);
+            rbody.velocity = new Vector2(inputX * BaseSpeedX * moveSpeedX, inputY * BaseSpeedY * moveSpeedY);
             if (inputX == -1)
                 player.transform.localScale = new Vector3(-1, 1, 1);
             else if (inputX == 1)
@@ -122,6 +110,12 @@ public class PlayerMovement : MonoBehaviour
             rbody.velocity = new Vector2(0, 0);
             anim.SetBool("isWalking", false);
         }
+    }
+
+    // Update is called once per frame
+    void FixedUpdate()
+    {
+
         knockable.FinalMove();
         if (stun.Stunned) return;
     }
