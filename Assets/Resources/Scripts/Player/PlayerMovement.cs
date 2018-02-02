@@ -23,15 +23,10 @@ public class PlayerMovement : MonoBehaviour
     public float BaseSpeedX = 1f;
     public float BaseSpeedY = 1f;
 
-    float RunningX { get; set; }
-    float RunningY { get; set; }
-
 
     // Use this for initialization
     void Start()
     {
-        BaseSpeedX = 1f;
-        BaseSpeedY = 1f;
         player = GetComponent<Player>();
         moveSpeedX = 1.75f;
         moveSpeedY = 1.3f;
@@ -42,6 +37,7 @@ public class PlayerMovement : MonoBehaviour
         anim.SetFloat("input_x", 1);
         knockable.Multiplier = moveSpeedX;
         IsRunning = false;
+        StartCoroutine(RunningLoseMana());
         //spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
@@ -52,14 +48,28 @@ public class PlayerMovement : MonoBehaviour
         UpdateRunning();
     }
 
+    IEnumerator RunningLoseMana()
+    {
+        while (true)
+        {
+            if (IsRunning)
+            {
+                player.AddMana(-((int)(player.Stats.MaxMana * 0.01f)));
+                StatusBar.Instance.ManaBarFlash();
+            }
+            yield return new WaitForSeconds(1.5f);
+        }
+    }
+
+
     void UpdateRunning()
     {
         if (!cantMove && Input.GetKey(KeyCode.LeftShift))
         {
             if ((Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.DownArrow)))
             {
-                
-                if (timeRunning > 0.75f)
+
+                if (timeRunning > 1f)
                 {
                     if (!IsRunning)
                     {
@@ -75,8 +85,12 @@ public class PlayerMovement : MonoBehaviour
                     IsRunning = false;
                 }
             }
+            else
+            {
+                IsRunning = false;
+            }
         }
-        if (Input.GetKeyUp(KeyCode.LeftShift) || 
+        if (Input.GetKeyUp(KeyCode.LeftShift) ||
             (Input.GetKey(KeyCode.LeftShift) && (Input.GetKeyUp(KeyCode.LeftArrow) || Input.GetKeyUp(KeyCode.RightArrow) || Input.GetKeyUp(KeyCode.UpArrow) || Input.GetKeyUp(KeyCode.DownArrow))))
         {
             timeRunning = 0f;
@@ -115,7 +129,6 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-
         knockable.FinalMove();
         if (stun.Stunned) return;
     }

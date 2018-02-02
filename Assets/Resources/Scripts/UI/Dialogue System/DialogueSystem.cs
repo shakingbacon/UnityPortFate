@@ -24,7 +24,7 @@ public class DialogueSystem : MonoBehaviour {
     public bool ShowQuest { get; set; } // show a quest at last dialouge
     //int questID;
 
-	void Awake()
+	void Start()
     {
         continueArrow = dialoguePanel.transform.FindChild("Continue").gameObject;
         dialogueSystemOptionObjectPrefab = Resources.Load<DialogueSystemOptionObject>("Prefabs/UI/Dialogue Panel/Option Select");

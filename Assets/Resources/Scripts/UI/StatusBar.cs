@@ -68,7 +68,7 @@ public class StatusBar : MonoBehaviour
     {
         expBarText.text = string.Format("{0} / {1}", player.PlayerLevel.CurrentExperience,
             player.PlayerLevel.RequiredExperience);
-        expBar.value = (float)player.PlayerLevel.CurrentExperience / (float)player.PlayerLevel.RequiredExperience;
+        expBar.value = player.PlayerLevel.CurrentExperience / (float)player.PlayerLevel.RequiredExperience;
         currentLevel.text = player.PlayerLevel.Level.ToString();
         nextLevel.text = (player.PlayerLevel.Level + 1).ToString();
     }
@@ -77,7 +77,23 @@ public class StatusBar : MonoBehaviour
     {
         mingZi.text = player.Name;
         job.text = player.Stats.JobName;
+    }
 
+    public void HealthBarFlash()
+    {
+        BarFlash(healthBar.gameObject);
+    }
+
+    public void ManaBarFlash()
+    {
+        BarFlash(manaBar.gameObject);
+    }
+
+    void BarFlash(GameObject slider)
+    {
+        Animator bar = slider.GetComponent<Animator>();
+        if (bar.GetCurrentAnimatorStateInfo(0).IsName("Nothing"))
+            bar.SetTrigger("Used");
     }
 
 }

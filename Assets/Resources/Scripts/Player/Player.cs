@@ -29,6 +29,8 @@ public class Player : MonoBehaviour
     int sp;
     public int SkillPoints { get { return sp; } set { sp = value; UIEventHandler.SpChanged(); } }
 
+
+    public bool CanRegenerate { get; set; }
     public bool CanBeHit { get; set; }
 
 
@@ -44,8 +46,8 @@ public class Player : MonoBehaviour
         //Stats = new CharacterStats(2, 5, 3, 3, 0, 0, 0, 0, 0, 0, 95, 95, 3, 1);
         UIEventHandler.OnStatsChanged += StatsUpdate;
         UIEventHandler.OnPlayerLevelChanged += StatsUpdate;
+        CanRegenerate = true;
     }
-
 
     public void HealFullHP()
     {
@@ -74,7 +76,8 @@ public class Player : MonoBehaviour
         {
             CurrentMana = Stats.MaxMana;
         }
-        CurrentMana += amount;
+        else
+            CurrentMana += amount;
         UIEventHandler.ManaChanged();
     }
 
@@ -92,9 +95,20 @@ public class Player : MonoBehaviour
             {
                 Die();
             }
+            StatusBar.Instance.HealthBarFlash();
             UIEventHandler.HealthChanged();
         }
         StartCoroutine(GotHitFlashing());
+    }
+
+    public IEnumerator Regenerate()
+    {
+        while (CanRegenerate)
+        {
+            AddHealth((int)Stats.HealthRegen);
+            AddMana((int)Stats.ManaRegen);
+            yield return new WaitForSeconds(10f);
+        }
     }
 
     IEnumerator GotHitFlashing()

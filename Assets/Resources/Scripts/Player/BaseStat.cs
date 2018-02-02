@@ -32,7 +32,9 @@ public class BaseStat
         Dodge,
         Crit,
         CritMulti,
-        AttackSpeed
+        AttackSpeed,
+        HealthRegen,
+        ManaRegen
     }
 
 

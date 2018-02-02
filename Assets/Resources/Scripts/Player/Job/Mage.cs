@@ -21,6 +21,9 @@ public class Mage : Attributes
 
     public override void UpdateStats(int level)
     {
+        HealthRegen = (1 + Vitality / 3 + Strength / 5) * 100;
+        ManaRegen = (7 + Intelligence / 3 + Wisdom / 2) * 100;
+
         MaxHealth = 225 + Vitality * 28 + level * (32 + level);
         MaxMana = 475 + Wisdom * (35 + level) + level * (55 * level);
         Physical = 35 + Strength + level * 3;

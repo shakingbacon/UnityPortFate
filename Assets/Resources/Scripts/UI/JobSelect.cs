@@ -30,6 +30,7 @@ public class JobSelect : MonoBehaviour
         GameManager.Instance.characterPanel.SetActive(true);
         GameManager.Instance.InIntro = false;
         PlayerMovement.cantMove = false;
+        player.StartCoroutine(player.Regenerate());
         Destroy(gameObject);
         SoundDatabase.PlayMusic(0);
     }

@@ -111,6 +111,7 @@ public class PlayerSkillController : MonoBehaviour
         if (player.CurrentMana >= usingSkill.skillMana)
         {
             player.AddMana(-usingSkill.skillMana);
+            StatusBar.Instance.ManaBarFlash();
             switch (usingSkill.skillType)
             {
                 case Skill.SkillType.Active:

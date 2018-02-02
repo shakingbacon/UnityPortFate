@@ -95,12 +95,14 @@ public class UIEventHandler : MonoBehaviour
 
     public static void HealthChanged()
     {
-        OnPlayerHealthChanged();
+        if (OnPlayerHealthChanged != null)
+            OnPlayerHealthChanged();
     }
 
     public static void ManaChanged()
     {
-        OnPlayerManaChanged();
+        if (OnPlayerManaChanged != null)
+            OnPlayerManaChanged();
     }
 
     public static void StatsChanged()

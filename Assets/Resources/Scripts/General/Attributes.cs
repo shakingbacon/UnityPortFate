@@ -25,6 +25,9 @@ public class Attributes
     public int Crit { get { return FindStat(BaseStat.StatType.Crit).FinalValue; } set { FindStat(BaseStat.StatType.Crit).BaseValue = value; } }
     public float CritMulti { get { return FindStat(BaseStat.StatType.CritMulti).FinalValue / 100f; } set { FindStat(BaseStat.StatType.CritMulti).BaseValue = (int)value; } }
     public float AttackSpeed { get { return FindStat(BaseStat.StatType.AttackSpeed).FinalValue / 100f; } set { FindStat(BaseStat.StatType.AttackSpeed).BaseValue = (int)value; } }
+    public float HealthRegen { get { return FindStat(BaseStat.StatType.HealthRegen).FinalValue / 100f; } set { FindStat(BaseStat.StatType.HealthRegen).BaseValue = (int)value; } }
+    public float ManaRegen { get { return FindStat(BaseStat.StatType.ManaRegen).FinalValue / 100f; } set { FindStat(BaseStat.StatType.ManaRegen).BaseValue = (int)value; } }
+
 
     public int CurrentHealth { get; set; }
     public int CurrentMana { get; set; }
@@ -33,7 +36,7 @@ public class Attributes
     {
         Stats = new List<BaseStat>();
         int i = 0;
-        for (i = 0; i < 18; i++)
+        for (i = 0; i < 20; i++)
         {
             Stats.Add(new BaseStat((BaseStat.StatType)i));
         }
