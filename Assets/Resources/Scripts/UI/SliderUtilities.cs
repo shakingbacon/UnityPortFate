@@ -10,7 +10,7 @@ public class SliderUtilities : MonoBehaviour {
         string text = string.Format("{0} / {1}", value1, value2);
         float percentage = (value1 * 1f/ value2 * 1f);
         slider.value = percentage;
-        slider.transform.FindChild(textname).GetComponent<Text>().text = text;
+        slider.transform.Find(textname).GetComponent<Text>().text = text;
     }
 
     public static void UpdateSliderFillWithText(Slider slider, int value1, int value2, string extratext, string textname)
@@ -18,6 +18,6 @@ public class SliderUtilities : MonoBehaviour {
         string text = string.Format("{0} {1} / {2}",extratext, value1, value2);
         float percentage = (value1 * 1f / value2 * 1f);
         slider.value = percentage;
-        slider.transform.FindChild(textname).GetComponent<Text>().text = text;
+        slider.transform.Find(textname).GetComponent<Text>().text = text;
     }
 }

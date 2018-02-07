@@ -26,11 +26,11 @@ public class DialogueSystem : MonoBehaviour {
 
 	void Start()
     {
-        continueArrow = dialoguePanel.transform.FindChild("Continue").gameObject;
+        continueArrow = dialoguePanel.transform.Find("Continue").gameObject;
         dialogueSystemOptionObjectPrefab = Resources.Load<DialogueSystemOptionObject>("Prefabs/UI/Dialogue Panel/Option Select");
-        optionSelectPanel = dialoguePanel.transform.FindChild("Option Selection Panel").gameObject;
-        dialogueText = dialoguePanel.transform.FindChild("Dialogue Text").GetComponent<Text>();
-        nameText = dialoguePanel.transform.FindChild("NPC Name").GetComponentInChildren<Text>();
+        optionSelectPanel = dialoguePanel.transform.Find("Option Selection Panel").gameObject;
+        dialogueText = dialoguePanel.transform.Find("Dialogue Text").GetComponent<Text>();
+        nameText = dialoguePanel.transform.Find("NPC Name").GetComponentInChildren<Text>();
         dialoguePanel.SetActive(false);
         Instance = dialoguePanel.GetComponent<DialogueSystem>();
         optionController = GetComponent<DialogueSystemOptionSelectController>();

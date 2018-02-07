@@ -10,7 +10,7 @@ public class TutorialArea : MonoBehaviour
 
     void Start()
     {
-        hometownWarp = transform.FindChild("To Hometown").gameObject;
+        hometownWarp = transform.Find("To Hometown").gameObject;
         if (questComplete)
             OpenHometownWarp();        
     }

@@ -17,7 +17,7 @@ public class SoundDatabase : MonoBehaviour {
     void Start()
     {
         soundDatabase = gameObject.transform.GetComponent<SoundDatabase>();
-        bgmSource = gameObject.transform.FindChild("BGM").GetComponent<AudioSource>();
+        bgmSource = gameObject.transform.Find("BGM").GetComponent<AudioSource>();
         AudioClip[] bgmClips = Resources.LoadAll<AudioClip>("Music/BGM");
         foreach (var file in bgmClips)
         {

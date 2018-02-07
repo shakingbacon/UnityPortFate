@@ -97,10 +97,10 @@ public class PlayerSkillController : MonoBehaviour
         skillDetailsPanel.SetSkill(skill);
         if (skill.skillType == Skill.SkillType.Passive)
         {
-            skillDetailsPanel.transform.FindChild("Hotkey").gameObject.SetActive(false);
+            skillDetailsPanel.transform.Find("Hotkey").gameObject.SetActive(false);
         }
         else
-            skillDetailsPanel.transform.FindChild("Hotkey").gameObject.SetActive(true);
+            skillDetailsPanel.transform.Find("Hotkey").gameObject.SetActive(true);
     }
 
 

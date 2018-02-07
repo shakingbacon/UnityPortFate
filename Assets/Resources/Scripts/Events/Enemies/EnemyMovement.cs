@@ -18,8 +18,8 @@ public class EnemyMovement : MonoBehaviour
     CircleCollider2D range;
     Rigidbody2D rigidbody2d;
     public bool inRange;
-    float xOffSet;
-    float yOffSet;
+    public float xOffSet { get; set; }
+    public float yOffSet { get; set; }
     bool inXRange = false;
     bool inYRange = false;
     public bool canMove, canAttack, attacking, onAttackCooldown = false;
@@ -32,8 +32,6 @@ public class EnemyMovement : MonoBehaviour
         stun = new Stunable();
         rigidbody2d = transform.parent.GetComponentInParent<Rigidbody2D>();
         knockable = new Knockable(rigidbody2d);
-        xOffSet = Random.Range(0.6f, 0.8f);
-        yOffSet = Random.Range(0f, 0.9f);
         canMove = false;
         enemy = transform.parent.parent;
         target = GameObject.FindWithTag("Player").transform; //target the player

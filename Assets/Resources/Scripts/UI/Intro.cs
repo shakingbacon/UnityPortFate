@@ -14,11 +14,11 @@ public class Intro : MonoBehaviour
     void Start()
     {
         player = GameManager.Instance.player;
-        inputName = transform.FindChild("Input Name").GetComponent<InputField>();
-        startGame = transform.FindChild("Start Game").GetComponent<Button>();
-        load = transform.FindChild("Load").GetComponent<Button>();
-        quit = transform.FindChild("Quit").GetComponent<Button>();
-        version = transform.FindChild("Version").GetComponent<Text>();
+        inputName = transform.Find("Input Name").GetComponent<InputField>();
+        startGame = transform.Find("Start Game").GetComponent<Button>();
+        load = transform.Find("Load").GetComponent<Button>();
+        quit = transform.Find("Quit").GetComponent<Button>();
+        version = transform.Find("Version").GetComponent<Text>();
 
         startGame.onClick.AddListener(StartGamePress);
 

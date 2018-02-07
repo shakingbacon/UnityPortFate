@@ -21,7 +21,7 @@ public class SkillUI : MonoBehaviour {
             Destroy(gameObject);
         else
             Instance = this;
-        spPanel = skillPanel.FindChild("SP Panel").FindChild("Amount").GetComponent<Text>();
+        spPanel = skillPanel.Find("SP Panel").Find("Amount").GetComponent<Text>();
         skillContainer = Resources.Load<SkillPanelContainer>("Prefabs/UI/Panel_Skills/SkillContainer");
         skillPanel.gameObject.SetActive(false);
         UIEventHandler.OnSkillLearn += SkillAdded;

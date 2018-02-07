@@ -12,9 +12,9 @@ public class DeathScreen : MonoBehaviour {
 	void Start ()
     {
         deathScreen = gameObject.transform;
-        quit = gameObject.transform.FindChild("Quit").GetComponent<Button>();
-        load = gameObject.transform.FindChild("Load").GetComponent<Button>();
-        intro = gameObject.transform.FindChild("Intro").GetComponent<Button>();
+        quit = gameObject.transform.Find("Quit").GetComponent<Button>();
+        load = gameObject.transform.Find("Load").GetComponent<Button>();
+        intro = gameObject.transform.Find("Intro").GetComponent<Button>();
         quit.onClick.AddListener(Application.Quit);
         //load.onClick.AddListener(() => GameManager.CreateSavePage(false));
         intro.onClick.AddListener(GameManager.Instance.CreateIntro);

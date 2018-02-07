@@ -54,7 +54,7 @@ public class PlayerArmorController : MonoBehaviour {
         SoundDatabase.PlaySound(0);
         item.Stats.RemoveStatsFromOther(player.Stats);
         inventoryController.GiveItem(item);
-        Destroy(playerArmor.transform.FindChild(item.Name).gameObject);
+        Destroy(playerArmor.transform.Find(item.Name).gameObject);
         UIEventHandler.ItemUnequipped(item);
         UIEventHandler.StatsChanged();
         SoundDatabase.PlaySound(0);

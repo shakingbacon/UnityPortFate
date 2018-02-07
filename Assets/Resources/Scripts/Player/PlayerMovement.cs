@@ -90,6 +90,10 @@ public class PlayerMovement : MonoBehaviour
                 IsRunning = false;
             }
         }
+        else
+        {
+            IsRunning = false;
+        }
         if (Input.GetKeyUp(KeyCode.LeftShift) ||
             (Input.GetKey(KeyCode.LeftShift) && (Input.GetKeyUp(KeyCode.LeftArrow) || Input.GetKeyUp(KeyCode.RightArrow) || Input.GetKeyUp(KeyCode.UpArrow) || Input.GetKeyUp(KeyCode.DownArrow))))
         {

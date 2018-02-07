@@ -10,6 +10,9 @@ public abstract class Projectile : MonoBehaviour
 
     public Vector3 SpawnPosition { get; set; }
 
+    public string CollideTag { get; set; } = "Enemy";
+
+
     protected int SoundID { get; set; }
 
     protected List<GameObject> EnemiesHit = new List<GameObject>();
@@ -59,7 +62,7 @@ public abstract class Projectile : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.transform.tag == "Enemy")
+        if (col.transform.tag == CollideTag)
         {
             OnHitActivations(col);
         }

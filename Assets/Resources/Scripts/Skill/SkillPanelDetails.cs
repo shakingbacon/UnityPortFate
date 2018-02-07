@@ -17,12 +17,12 @@ public class SkillPanelDetails : MonoBehaviour
 
     void Awake()
     {
-        skillRankText = transform.FindChild("SkillRank").GetComponent<Text>();
-        skillNameText = transform.FindChild("SkillName").GetComponent<Text>();
-        skillDescriptionText = transform.FindChild("SkillDesc").GetComponent<Text>();
-        skillEffDescText = transform.FindChild("SkillEffDesc").GetComponent<Text>();
-        skillRankUp = transform.FindChild("Rank Up").GetComponent<Button>();
-        skillHotkey = transform.FindChild("Hotkey").GetComponent<Button>();
+        skillRankText = transform.Find("SkillRank").GetComponent<Text>();
+        skillNameText = transform.Find("SkillName").GetComponent<Text>();
+        skillDescriptionText = transform.Find("SkillDesc").GetComponent<Text>();
+        skillEffDescText = transform.Find("SkillEffDesc").GetComponent<Text>();
+        skillRankUp = transform.Find("Rank Up").GetComponent<Button>();
+        skillHotkey = transform.Find("Hotkey").GetComponent<Button>();
         hotkeyAssign.SetActive(false);
         gameObject.SetActive(false);
         PlayerSkillUpdate.OnSkillChanged += () => SetSkill(currentSkill);

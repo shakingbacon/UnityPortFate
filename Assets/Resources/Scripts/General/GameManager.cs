@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour
             Instance = this;
 
         canvas = GameObject.FindGameObjectWithTag("Canvas");
-        characterPanel = canvas.transform.FindChild("Panel_Character").gameObject;
+        characterPanel = canvas.transform.Find("Panel_Character").gameObject;
         //StartCoroutine(ScreenFader.FadeToClear());
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         Camera.main.transform.position = player.transform.position;

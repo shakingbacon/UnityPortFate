@@ -29,18 +29,18 @@ public class StatusBar : MonoBehaviour
     void Start()
     {
         player = GameManager.Instance.player;
-        healthBar = gameObject.transform.FindChild("HP Bar").GetComponent<Slider>();
-        healthBarText = healthBar.transform.FindChild("HP Amount").GetComponent<Text>();
-        manaBar = gameObject.transform.FindChild("MP Bar").GetComponent<Slider>();
-        manaBarText = manaBar.transform.FindChild("MP Amount").GetComponent<Text>();
-        expBar = gameObject.transform.FindChild("EXP Bar").GetComponent<Slider>();
-        expBarText = expBar.transform.FindChild("EXP Amount").GetComponent<Text>();
-        shieldBar = gameObject.transform.FindChild("Shield Bar").GetComponent<Slider>();
-        Transform playerDesc = gameObject.transform.FindChild("Player Description");
-        mingZi = playerDesc.FindChild("Name").GetComponent<Text>();
-        job = playerDesc.FindChild("Job").GetComponent<Text>();
-        currentLevel = playerDesc.FindChild("Current Level").GetComponent<Text>();
-        nextLevel = playerDesc.FindChild("Next Level").GetComponent<Text>();
+        healthBar = gameObject.transform.Find("HP Bar").GetComponent<Slider>();
+        healthBarText = healthBar.transform.Find("HP Amount").GetComponent<Text>();
+        manaBar = gameObject.transform.Find("MP Bar").GetComponent<Slider>();
+        manaBarText = manaBar.transform.Find("MP Amount").GetComponent<Text>();
+        expBar = gameObject.transform.Find("EXP Bar").GetComponent<Slider>();
+        expBarText = expBar.transform.Find("EXP Amount").GetComponent<Text>();
+        shieldBar = gameObject.transform.Find("Shield Bar").GetComponent<Slider>();
+        Transform playerDesc = gameObject.transform.Find("Player Description");
+        mingZi = playerDesc.Find("Name").GetComponent<Text>();
+        job = playerDesc.Find("Job").GetComponent<Text>();
+        currentLevel = playerDesc.Find("Current Level").GetComponent<Text>();
+        nextLevel = playerDesc.Find("Next Level").GetComponent<Text>();
         //UpdateStatusBar();
         UIEventHandler.OnPlayerHealthChanged += UpdateHealthBar;
         UIEventHandler.OnPlayerExpChanged += UpdateExpBar;

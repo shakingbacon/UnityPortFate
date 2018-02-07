@@ -13,11 +13,11 @@ public class InventoryUIDetails : MonoBehaviour
 
     void Awake()
     {
-        itemNameText = transform.FindChild("Item_Name").GetComponent<Text>();
-        itemDescriptionText = transform.FindChild("Item_Description").GetComponent<Text>();
-        itemInteractButton = transform.FindChild("Action").GetComponent<Button>();
-        itemInteractButtonText = itemInteractButton.transform.FindChild("Text").GetComponent<Text>();
-        itemType = transform.FindChild("Item_Type").GetComponent<Text>();
+        itemNameText = transform.Find("Item_Name").GetComponent<Text>();
+        itemDescriptionText = transform.Find("Item_Description").GetComponent<Text>();
+        itemInteractButton = transform.Find("Action").GetComponent<Button>();
+        itemInteractButtonText = itemInteractButton.transform.Find("Text").GetComponent<Text>();
+        itemType = transform.Find("Item_Type").GetComponent<Text>();
         gameObject.SetActive(false);
     }
 

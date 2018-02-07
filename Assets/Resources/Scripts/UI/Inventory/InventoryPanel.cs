@@ -35,17 +35,17 @@ public class InventoryPanel : MonoBehaviour {
 
     void Start()
     {
-        Hands = equipmentPanel.transform.FindChild("Hands").gameObject;
-        Neck = equipmentPanel.transform.FindChild("Neck").gameObject;
-        Head = equipmentPanel.transform.FindChild("Head").gameObject;
-        Weapon = equipmentPanel.transform.FindChild("Weapon").gameObject;
-        Body = equipmentPanel.transform.FindChild("Body").gameObject;
-        Shield = equipmentPanel.transform.FindChild("Shield").gameObject;
-        Boots = equipmentPanel.transform.FindChild("Boots").gameObject;
-        Bottom = equipmentPanel.transform.FindChild("Bottom").gameObject;
-        Necklace = equipmentPanel.transform.FindChild("Necklace").gameObject;
-        Ring = equipmentPanel.transform.FindChild("Ring").gameObject;
-        Glyph = equipmentPanel.transform.FindChild("Glyph").gameObject;
+        Hands = equipmentPanel.transform.Find("Hands").gameObject;
+        Neck = equipmentPanel.transform.Find("Neck").gameObject;
+        Head = equipmentPanel.transform.Find("Head").gameObject;
+        Weapon = equipmentPanel.transform.Find("Weapon").gameObject;
+        Body = equipmentPanel.transform.Find("Body").gameObject;
+        Shield = equipmentPanel.transform.Find("Shield").gameObject;
+        Boots = equipmentPanel.transform.Find("Boots").gameObject;
+        Bottom = equipmentPanel.transform.Find("Bottom").gameObject;
+        Necklace = equipmentPanel.transform.Find("Necklace").gameObject;
+        Ring = equipmentPanel.transform.Find("Ring").gameObject;
+        Glyph = equipmentPanel.transform.Find("Glyph").gameObject;
 
         UpdateMoney();
         onInv = false;
