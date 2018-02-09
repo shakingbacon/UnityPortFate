@@ -7,16 +7,15 @@ using UnityEngine;
 //[RequireComponent(typeof(BoxCollider2D))] // pushing box
 [RequireComponent(typeof(PolygonCollider2D))] // actual hitbox
 
-public class Enemy : MonoBehaviour {
-
-    public Attributes Stats { get; set; }
+public abstract class Enemy : Entity
+{
     public Animator Animator { get; set; }
     public MonsterSpawner Spawner { get; set; }
     public EnemyMovement EnemyMovement { get; set; }
     public Rigidbody2D Rigidbody2D { get; set; }
 
     // MUST SET THESE
-    public int ID {get;set;}
+    public int ID { get; set; }
     public float Knockback { get; set; }
     //public CharacterStats Stats { get; set; }
     public int Experience { get; set; }
@@ -97,24 +96,26 @@ public class Enemy : MonoBehaviour {
         Animator.SetTrigger("Die");
     }
 
-    public virtual void DealDamage()
+    public virtual void DealDamage(Entity victim)
     {
-        if (Player.CanBeHit)
-        {
-            //print("took damage");
-            //Player.GetComponent<Rigidbody2D>().AddForce(new Vector3(-transform.parent.localScale.x * Knockback, 0, 0));
+        victim.TakeDamage(new Damage());
+        //if (Player.CanBeHit)
+        //{
+        //    //print("took damage");
+        //    //Player.GetComponent<Rigidbody2D>().AddForce(new Vector3(-transform.parent.localScale.x * Knockback, 0, 0));
 
-            FloatingText floatingText = FloatingTextController.CreateFloatingText(Stats.Physical.ToString(), Player.transform);
-            floatingText.SetTextColor(new Color(1,0,1));
-            Player.GetComponent<PlayerMovement>().knockable.AddXKnockback(Knockback, transform);
-            Player.TakeDamage(Stats.Physical);            
-        }
+        //    FloatingText floatingText = FloatingTextController.CreateFloatingText(Stats.Physical.ToString(), Player.transform);
+        //    floatingText.SetTextColor(new Color(1, 0, 1));
+        //    Player.GetComponent<PlayerMovement>().knockable.AddXKnockback(Knockback, transform);
+        //    Player.TakeDamage(Stats.Physical);
+        //}
     }
 
-    public virtual void TakeDamage(Damage damage)
+    public override void TakeDamage(Damage damage)
     {
         int random = Random.Range(0, 101);
-        /*print(random)*/;
+        /*print(random)*/
+        ;
         //print(damage.HitChance);
         print("hit chance: " + damage.HitChance);
         print("dodge: " + Stats.Dodge);
@@ -162,7 +163,7 @@ public class Enemy : MonoBehaviour {
     }
 
 
-    public void Die()
+    public override void Die()
     {
         DropLoot();
         CombatEvents.EnemyDied(this);

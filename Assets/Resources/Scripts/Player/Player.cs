@@ -2,19 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : Entity
 {
 
-    public Attributes Stats { get; set; }
     //public CharacterStats Stats { get; set; }
     Animator animator;
 
     public int CurrentHealth { get { return Stats.CurrentHealth; } set { Stats.CurrentHealth = value; UIEventHandler.HealthChanged(); } }
     public int CurrentMana { get { return Stats.CurrentMana; } set { Stats.CurrentMana = value; UIEventHandler.ManaChanged(); } }
 
-
-
-    public string Name { get; set; }
     //public JobTypes CurrentJob { get; set; }
 
     //public enum enum JobTypes
@@ -84,10 +80,10 @@ public class Player : MonoBehaviour
     public delegate int TakeDamageModifier(int damage);
     public static event TakeDamageModifier OnTakeDamage;
 
-    public void TakeDamage(int amount)
+    public override void TakeDamage(Damage dmg)
     {
         if (OnTakeDamage != null)
-            amount = OnTakeDamage(amount);
+            amount = OnTakeDamage(dmg.DamageAmountamount);
         if (amount > 0)
         {
             Stats.CurrentHealth -= amount;
@@ -131,7 +127,7 @@ public class Player : MonoBehaviour
         CanBeHit = true;
     }
 
-    private void Die()
+    public override void Die()
     {
         Debug.Log("Player dead. reset health");
         Stats.CurrentHealth = Stats.MaxHealth;

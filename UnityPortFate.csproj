@@ -319,6 +319,7 @@
     <Compile Include="Assets\Resources\Scripts\General\Attributes.cs" />
     <Compile Include="Assets\Resources\Scripts\General\CurrentMap.cs" />
     <Compile Include="Assets\Resources\Scripts\General\DropTable\DropTable.cs" />
+    <Compile Include="Assets\Resources\Scripts\General\Entity.cs" />
     <Compile Include="Assets\Resources\Scripts\General\GameManager.cs" />
     <Compile Include="Assets\Resources\Scripts\General\Knockable.cs" />
     <Compile Include="Assets\Resources\Scripts\General\Maps\Map.cs" />
