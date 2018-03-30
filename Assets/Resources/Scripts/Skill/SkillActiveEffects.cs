@@ -45,17 +45,17 @@ public class SkillActiveEffects : MonoBehaviour
         return skill;
     }
 
-    static int ManaGaurd(int damage)
+    static Damage ManaGaurd(Damage damage)
     {
         //SoundDatabase.PlaySound()
-        if (player.CurrentMana - damage >= 0)
+        if (player.CurrentMana - damage.DamageAmount >= 0)
         {
-            player.CurrentMana -= damage;
-            damage = 0;
+            player.CurrentMana -= damage.DamageAmount;
+            damage.DamageAmount = 0;
         }
         else
         {
-            damage -= player.CurrentMana;
+            damage.DamageAmount -= player.CurrentMana;
             player.CurrentMana = 0;
         }
         return damage;

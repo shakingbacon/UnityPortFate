@@ -77,16 +77,16 @@ public class Player : Entity
         UIEventHandler.ManaChanged();
     }
 
-    public delegate int TakeDamageModifier(int damage);
+    public delegate Damage TakeDamageModifier(Damage damage);
     public static event TakeDamageModifier OnTakeDamage;
 
     public override void TakeDamage(Damage dmg)
     {
         if (OnTakeDamage != null)
-            amount = OnTakeDamage(dmg.DamageAmountamount);
-        if (amount > 0)
+            dmg = OnTakeDamage(dmg);
+        if (dmg.DamageAmount > 0)
         {
-            Stats.CurrentHealth -= amount;
+            Stats.CurrentHealth -= dmg.DamageAmount;
             if (Stats.CurrentHealth <= 0)
             {
                 Die();
