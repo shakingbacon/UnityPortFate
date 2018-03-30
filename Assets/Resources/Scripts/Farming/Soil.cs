@@ -14,7 +14,7 @@ public class Soil : MonoBehaviour
 
     void UpdateSprite()
     {
-        sprite = Terrain.Name
+        //sprite = Terrain.Name;
     }
 
 

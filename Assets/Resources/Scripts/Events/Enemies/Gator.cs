@@ -6,7 +6,6 @@ public class Gator : Enemy
     protected override void Awake()
     {
         base.Awake();
-
         EnemyMovement.xOffSet = Random.Range(0.6f, 0.8f);
         EnemyMovement.yOffSet = Random.Range(0f, 0.9f);
 
@@ -23,8 +22,8 @@ public class Gator : Enemy
         Stats.MaxHealth = 325;
         Stats.MaxMana = 100;
 
-        Stats.Physical = 25;
-        Stats.Magical = 5;
+        Stats.Physical = 80;
+        Stats.Magical = 10;
 
         Stats.Armor = 40;
         Stats.Resist = 10;
@@ -38,10 +37,7 @@ public class Gator : Enemy
         Experience = 10;
         Cash = 25;
         DropTable = new DropTable();
-        DropTable.loot = new List<LootDrop>()
-        {
-            new LootDrop("Longsword", 15)
-        };
+        DropTable.Loot.Add(new LootDrop("Longsword", 15));
 
         Stats.CurrentHealth = Stats.MaxHealth;
         Stats.CurrentMana = Stats.MaxMana;

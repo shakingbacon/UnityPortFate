@@ -39,8 +39,7 @@ public class CurrentMap : MonoBehaviour {
         foreach(Transform enemy in enemies)
         {
             Enemy lol = enemy.GetComponentInChildren<Enemy>();
-            if (lol != null)
-                enemy.GetComponentInChildren<Enemy>().DestroySelf();
+            if (lol != null) enemy.GetComponentInChildren<Enemy>().DestroySelf();
         }
     }
 

@@ -4,8 +4,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(SpriteRenderer))]
-//[RequireComponent(typeof(BoxCollider2D))] // pushing box
-[RequireComponent(typeof(PolygonCollider2D))] // actual hitbox
+[RequireComponent(typeof(PolygonCollider2D))]
 
 public abstract class Enemy : Entity
 {
@@ -14,38 +13,26 @@ public abstract class Enemy : Entity
     public EnemyMovement EnemyMovement { get; set; }
     public Rigidbody2D Rigidbody2D { get; set; }
 
-    // MUST SET THESE
+    // MUST SET THESE 
     public int ID { get; set; }
     public float Knockback { get; set; }
-    //public CharacterStats Stats { get; set; }
     public int Experience { get; set; }
     public int Cash { get; set; }
-    public Skill.SkillElement Attribute { get; set; }
-    public EnemyType Type { get; set; }
-    public DropTable DropTable { get; set; }
-    // MUST SET ABOVE
+    public DropTable DropTable { get; set; } = new DropTable();
 
-    //public int CurrentHealth { get; set; }
-    //public int CurrentMana { get; set; }
-    public float AttackCooldown { get; set; }
-
-
+    float AttackCooldown { get; set; }
     public Player Player { get; set; }
     public PickupItem PickupItemPrefab { get; set; }
     public EnemyHealthBar HealthBar { get; set; }
 
-
-    public enum EnemyType
-    {
-        Reptile
-    }
+    public List<string> ApplicableTargets = new List<string>() { "Player" };
 
     protected virtual void Awake()
     {
-        Stats = new Attributes();
         PickupItemPrefab = Resources.Load<PickupItem>("Prefabs/Interactable/Pickup Item");
         Player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         EnemyMovement = GetComponentInChildren<EnemyMovement>();
+        EnemyMovement.self = this;
         HealthBar = EnemyHealthBarController.CreateHealthBar(transform);
         Animator = GetComponent<Animator>();
         Stats.CurrentHealth = Stats.MaxHealth;
@@ -61,29 +48,16 @@ public abstract class Enemy : Entity
             AttackCooldown = Stats.AttackSpeed;
             EnemyMovement.canAttack = false;
             EnemyMovement.onAttackCooldown = true;
-            //print("attacked");
         }
         else if (EnemyMovement.onAttackCooldown)
         {
-            AttackCooldown -= Time.deltaTime;
+            AttackCooldown -= Time.fixedDeltaTime;
             if (AttackCooldown <= 0)
             {
                 EnemyMovement.onAttackCooldown = false;
             }
         }
     }
-
-    //public virtual void AwakeStuff()
-    //{
-    //    PickupItemPrefab = Resources.Load<PickupItem>("Prefabs/Interactable/Pickup Item");
-    //    Player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-    //    EnemyMovement = GetComponentInChildren<EnemyMovement>();
-    //    HealthBar = EnemyHealthBarController.CreateHealthBar(transform);
-    //    Animator = GetComponent<Animator>();
-    //    CurrentHealth = MaxHealth;
-    //    CurrentMana = MaxMana;
-    //    Rigidbody2D = GetComponentInParent<Rigidbody2D>();
-    //}
 
     public void PerformAttack()
     {
@@ -96,35 +70,32 @@ public abstract class Enemy : Entity
         Animator.SetTrigger("Die");
     }
 
-    public virtual void DealDamage(Entity victim)
+    // base CreateDamage always deals base physical stat
+    public virtual Damage CreateDamage()
     {
-        victim.TakeDamage(new Damage());
-        //if (Player.CanBeHit)
-        //{
-        //    //print("took damage");
-        //    //Player.GetComponent<Rigidbody2D>().AddForce(new Vector3(-transform.parent.localScale.x * Knockback, 0, 0));
+        Damage dmg = new Damage();
+        dmg.DamageAmount = Stats.Physical;
+        dmg.CritChance = Stats.Crit;
+        dmg.HitChance = Stats.Hit;
+        return dmg;
+    }
 
-        //    FloatingText floatingText = FloatingTextController.CreateFloatingText(Stats.Physical.ToString(), Player.transform);
-        //    floatingText.SetTextColor(new Color(1, 0, 1));
-        //    Player.GetComponent<PlayerMovement>().knockable.AddXKnockback(Knockback, transform);
-        //    Player.TakeDamage(Stats.Physical);
-        //}
+    public virtual void DealDamage()
+    {
+        EnemyMovement.target.TakeDamage(CreateDamage());
     }
 
     public override void TakeDamage(Damage damage)
     {
-        int random = Random.Range(0, 101);
-        /*print(random)*/
-        ;
-        //print(damage.HitChance);
-        print("hit chance: " + damage.HitChance);
-        print("dodge: " + Stats.Dodge);
-        if (((damage.HitChance - Stats.Dodge) < random))
+        print(damage.HitChance);
+        damage.CalculateWithDefences(Stats);
+        print(damage.HitChance);
+        if (damage.DidHit)
         {
             FloatingText floatingText = FloatingTextController.CreateFloatingText("MISS", gameObject.transform);
             floatingText.transform.localScale = new Vector3(1.25f, 1.25f);
         }
-        else // DID HIT
+        else
         {
             FloatingText floatingText = FloatingTextController.CreateFloatingText(damage.DamageAmount.ToString(), gameObject.transform);
             if (damage.DidCrit)
@@ -142,7 +113,7 @@ public abstract class Enemy : Entity
         }
     }
 
-    public virtual void HealthDamaged(int amount)
+    protected virtual void HealthDamaged(int amount)
     {
         Stats.CurrentHealth -= amount;
         HealthBar.SetSliderValue(Stats.CurrentHealth, Stats.MaxHealth);
@@ -173,13 +144,8 @@ public abstract class Enemy : Entity
 
     public void DestroySelf()
     {
-        DestroyHealthBar();
-        Destroy(transform.parent.gameObject);
-    }
-
-    public void DestroyHealthBar()
-    {
         Destroy(HealthBar.gameObject);
+        Destroy(transform.parent.gameObject);
     }
 
     public void SetHealthBarNotActive()

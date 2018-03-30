@@ -84,7 +84,8 @@ public class Player : Entity
     {
         if (OnTakeDamage != null)
             dmg = OnTakeDamage(dmg);
-        if (dmg.DamageAmount > 0)
+        dmg.CalculateWithDefences(Stats);
+        if (dmg.DidHit)
         {
             Stats.CurrentHealth -= dmg.DamageAmount;
             if (Stats.CurrentHealth <= 0)
@@ -93,8 +94,8 @@ public class Player : Entity
             }
             StatusBar.Instance.HealthBarFlash();
             UIEventHandler.HealthChanged();
+            StartCoroutine(GotHitFlashing());
         }
-        StartCoroutine(GotHitFlashing());
     }
 
     public IEnumerator Regenerate()

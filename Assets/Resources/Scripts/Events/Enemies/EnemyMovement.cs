@@ -13,8 +13,8 @@ public class EnemyMovement : MonoBehaviour
     public float CurrentSpeedY { get; set; }
 
 
-    Transform enemy;
-    Transform target;
+    public Enemy self;
+    public Entity target { get { if (Targets.Count != 0) return Targets[0]; else return null; } }
     CircleCollider2D range;
     Rigidbody2D rigidbody2d;
     public bool inRange;
@@ -27,14 +27,14 @@ public class EnemyMovement : MonoBehaviour
     public Knockable knockable;
     public Stunable stun;
 
+    List<Entity> Targets { get; set; } = new List<Entity>();
+
     void Start()
     {
         stun = new Stunable();
         rigidbody2d = transform.parent.GetComponentInParent<Rigidbody2D>();
         knockable = new Knockable(rigidbody2d);
         canMove = false;
-        enemy = transform.parent.parent;
-        target = GameObject.FindWithTag("Player").transform; //target the player
         range = GetComponent<CircleCollider2D>();
         range.isTrigger = true;
     }
@@ -60,10 +60,10 @@ public class EnemyMovement : MonoBehaviour
     {
         if (inRange && canMove && !stun.Stunned)
         {
-            if (!(target.position.x - xOffSet <= transform.position.x && transform.position.x <= target.position.x + xOffSet))
+            if (!(target.transform.position.x - xOffSet <= transform.position.x && transform.position.x <= target.transform.position.x + xOffSet))
             {
                 inXRange = false;
-                if (transform.position.x < target.position.x)
+                if (transform.position.x < target.transform.position.x)
                     CurrentSpeedX += moveSpeedX;
                 else
                     CurrentSpeedX -= moveSpeedX;
@@ -72,10 +72,10 @@ public class EnemyMovement : MonoBehaviour
             {
                 inXRange = true;
             }
-            if (!(target.position.y - yOffSet <= transform.position.y && transform.position.y <= target.position.y + yOffSet))
+            if (!(target.transform.position.y - yOffSet <= transform.position.y && transform.position.y <= target.transform.position.y + yOffSet))
             {
                 inYRange = false;
-                if (target.position.y > enemy.position.y)
+                if (target.transform.position.y > self.transform.position.y)
                 {
                     CurrentSpeedY += moveSpeedY;
                 }
@@ -94,47 +94,52 @@ public class EnemyMovement : MonoBehaviour
 
     void CanAttack()
     {
-        if (inXRange && inYRange)
-        {
-            if (!onAttackCooldown)
+        if (target != null)
+            if (inXRange && inYRange)
             {
-                canAttack = true;
+                if (!onAttackCooldown)
+                {
+                    canAttack = true;
+                }
+                else
+                {
+                    canAttack = false;
+                }
             }
-            else
-            {
-                canAttack = false;
-            }
-        }
     }
 
     void FacePlayer()
     {
-        if (!attacking)
+        if (!attacking && target != null)
         {
-            if (transform.position.x <= target.position.x)
+            if (transform.position.x <= target.transform.position.x)
             {
-                enemy.localScale = new Vector3(-1, 1, 1);
+                self.transform.parent.localScale = new Vector3(-1, 1, 1);
             }
             else
             {
-                enemy.localScale = new Vector3(1, 1, 1);
+                self.transform.parent.localScale = new Vector3(1, 1, 1);
             }
         }
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "Player")
+        Entity entity = other.GetComponent<Entity>();
+        if (entity != null && self.ApplicableTargets.Exists(aTag => aTag == other.tag))
         {
+            Targets.Add(entity);
             inRange = true;
         }
     }
 
     void OnTriggerExit2D(Collider2D other)
     {
-        if (other.tag == "Player")
+        Entity entity = other.GetComponent<Entity>();
+        if (entity != null && self.ApplicableTargets.Exists(aTag => aTag == other.tag))
         {
             inRange = false;
+            Targets.Remove(entity);
         }
     }
 

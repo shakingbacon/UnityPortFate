@@ -59,7 +59,7 @@ public class Fireball : Projectile
         fireball.Damage = new Damage(Damage);
         fireball.Damage.DamageAmount = (int)(fireball.Damage.DamageAmount * 0.75f);
         fireball.CanExplode = false;
-        fireball.EnemiesHit = EnemiesHit;
+        fireball.EntitiesHit = EntitiesHit;
         return fireball;
     }
 

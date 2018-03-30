@@ -5,8 +5,7 @@ using UnityEngine;
 public abstract class Entity : MonoBehaviour
 {
     public string Name { get; set; }
-
-    public Attributes Stats { get; set; }
+    public Attributes Stats { get; set; } = new Attributes();
 
 
     public EntityType Type { get; set; }
@@ -18,5 +17,4 @@ public abstract class Entity : MonoBehaviour
 
     public abstract void TakeDamage(Damage damage);
     public abstract void Die();
-
 }

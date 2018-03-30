@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class DropTable
 {
-    public List<LootDrop> loot;
+    public List<LootDrop> Loot { get; set; } = new List<LootDrop>();
 
     public Item GetDrop()
     {
         int roll = Random.Range(0, 101);
         int weightSum = 0;
-        foreach(LootDrop drop in loot)
+        foreach(LootDrop drop in Loot)
         {
             weightSum += drop.Weight;
             if (roll < weightSum)
@@ -30,7 +30,7 @@ public class LootDrop
 
     public LootDrop(string itemName, int weight)
     {
-        this.ItemName = itemName;
-        this.Weight = weight;
+        ItemName = itemName;
+        Weight = weight;
     }
 }

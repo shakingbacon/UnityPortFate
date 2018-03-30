@@ -8,26 +8,6 @@ public class ProjectileGator : Enemy, IProjectileEnemy
 
     public Transform projectileSpawn;
 
-    public void ShootProjectile()
-    {
-        Projectile currentProjectile = Instantiate(Projectile);
-        currentProjectile.CollideTag = "Player";
-        currentProjectile.Damage = new Damage();
-
-        currentProjectile.transform.position = projectileSpawn.position;
-        if (transform.localScale.x == -1)
-        {
-            currentProjectile.transform.Rotate(180, 180, 0);
-        }
-        currentProjectile.transform.localScale = new Vector3(1, 1, 1);
-        currentProjectile.GetComponent<Rigidbody2D>().AddForce(Vector3.left * 40f * transform.localScale.x);
-
-        currentProjectile.Damage.HitChance = Stats.Hit - 5;
-        currentProjectile.Damage.DamageAmount = (int)(Stats.Physical * 0.45f);
-        currentProjectile.Damage.Knockback = 12.5f;
-        currentProjectile.Damage.Stun = 0.1f;
-    }
-
     protected override void Awake()
     {
         base.Awake();
@@ -48,8 +28,8 @@ public class ProjectileGator : Enemy, IProjectileEnemy
         Stats.MaxHealth = 275;
         Stats.MaxMana = 50;
 
-        Stats.Physical = 15;
-        Stats.Magical = 10;
+        Stats.Physical = 65;
+        Stats.Magical = 40;
 
         Stats.Armor = 35;
         Stats.Resist = 7;
@@ -62,11 +42,8 @@ public class ProjectileGator : Enemy, IProjectileEnemy
         Knockback = 12.5f;
         Experience = 15;
         Cash = 30;
-        DropTable = new DropTable();
-        DropTable.loot = new List<LootDrop>()
-        {
-            new LootDrop("Leather Hat", 10)
-        };
+        Type = EntityType.Reptile;
+        DropTable.Loot.Add(new LootDrop("Leather Hat", 10));
 
         Projectile = Resources.Load<MagicShot>("Prefabs/Projectiles/MagicShot");
 
@@ -74,4 +51,22 @@ public class ProjectileGator : Enemy, IProjectileEnemy
         Stats.CurrentMana = Stats.MaxMana;
 
     }
+
+    public void ShootProjectile()
+    {
+        Projectile currentProjectile = Instantiate(Projectile);
+        currentProjectile.CollideTag = "Player";
+        currentProjectile.Damage = CreateDamage();
+
+        currentProjectile.transform.position = projectileSpawn.position;
+        if (transform.localScale.x == -1) currentProjectile.transform.Rotate(180, 180, 0);
+        currentProjectile.transform.localScale = new Vector3(1, 1, 1);
+        currentProjectile.GetComponent<Rigidbody2D>().AddForce(Vector3.left * 40f * transform.localScale.x);
+
+        currentProjectile.Damage.HitChance = Stats.Hit - 5;
+        currentProjectile.Damage.DamageAmount = (int)(Stats.Physical * 0.45f);
+        currentProjectile.Damage.Knockback = 12.5f;
+        currentProjectile.Damage.Stun = 0.1f;
+    }
+
 }
