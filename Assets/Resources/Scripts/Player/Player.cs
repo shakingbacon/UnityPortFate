@@ -4,42 +4,25 @@ using UnityEngine;
 
 public class Player : Entity
 {
-
-    //public CharacterStats Stats { get; set; }
     Animator animator;
 
     public int CurrentHealth { get { return Stats.CurrentHealth; } set { Stats.CurrentHealth = value; UIEventHandler.HealthChanged(); } }
     public int CurrentMana { get { return Stats.CurrentMana; } set { Stats.CurrentMana = value; UIEventHandler.ManaChanged(); } }
 
-    //public JobTypes CurrentJob { get; set; }
-
-    //public enum enum JobTypes
-    //{
-    //    Mage,
-    //    Rogue,
-    //    Warrior
-    //}
-
     public PlayerLevel PlayerLevel { get; set; }
+    public PlayerMovement PlayerMovement { get; set; }
 
     int sp;
     public int SkillPoints { get { return sp; } set { sp = value; UIEventHandler.SpChanged(); } }
-
-
-    public bool CanRegenerate { get; set; }
-    public bool CanBeHit { get; set; }
-
 
     void Awake()
     {
         UIEventHandler.OnSPChange += () => SkillUI.Instance.SetSPText(sp.ToString());
         SkillPoints = 3;
-        //Stats = new Attributes();
         CanBeHit = true;
         animator = GetComponent<Animator>();
         PlayerLevel = GetComponent<PlayerLevel>();
-        //this.currentHealth = this.maxHealth;
-        //Stats = new CharacterStats(2, 5, 3, 3, 0, 0, 0, 0, 0, 0, 95, 95, 3, 1);
+        PlayerMovement = GetComponent<PlayerMovement>();
         UIEventHandler.OnStatsChanged += StatsUpdate;
         UIEventHandler.OnPlayerLevelChanged += StatsUpdate;
         CanRegenerate = true;
@@ -82,19 +65,35 @@ public class Player : Entity
 
     public override void TakeDamage(Damage dmg)
     {
-        if (OnTakeDamage != null)
-            dmg = OnTakeDamage(dmg);
-        dmg.CalculateWithDefences(Stats);
-        if (dmg.DidHit)
+        if (true)
         {
-            Stats.CurrentHealth -= dmg.DamageAmount;
-            if (Stats.CurrentHealth <= 0)
+            if (OnTakeDamage != null)
+                dmg = OnTakeDamage(dmg);
+            dmg.CalculateWithDefences(Stats);
+            if (dmg.DidHit)
             {
-                Die();
+                Stats.CurrentHealth -= dmg.DamageAmount;
+                if (Stats.CurrentHealth <= 0)
+                {
+                    Die();
+                }
+                FloatingText floatingText = FloatingTextController.CreateFloatingText(dmg.DamageAmount.ToString(), transform);
+                if (dmg.DidCrit) floatingText.SetCritColor();
+                StatusBar.Instance.HealthBarFlash();
+                UIEventHandler.HealthChanged();
+                StartCoroutine(GotHitFlashing());
+                PlayerMovement.knockable.AddXKnockback(dmg.Knockback, dmg.User);
+                if (dmg.Stun > 0)
+                {
+                    animator.SetTrigger("CannotAttack");
+                    PlayerCanvasStatusEffect.Instance.AddStatus("Stun", dmg.Stun);
+                    PlayerMovement.stun.AddStun(dmg.Stun);
+                }
             }
-            StatusBar.Instance.HealthBarFlash();
-            UIEventHandler.HealthChanged();
-            StartCoroutine(GotHitFlashing());
+            else
+            {
+                FloatingTextController.CreateFloatingText("MISS", transform);
+            }
         }
     }
 

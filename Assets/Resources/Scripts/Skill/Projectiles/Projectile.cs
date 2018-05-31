@@ -6,13 +6,11 @@ public abstract class Projectile : MonoBehaviour
 {
     public Vector3 Direction { get; set; }
     public float Range { get; set; }
-    public Damage Damage { get; set; }
+    public Damage Damage { get; set; } = new Damage();
 
     public Vector3 SpawnPosition { get; set; }
 
     public string CollideTag { get; set; } = "Enemy";
-
-
     protected int SoundID { get; set; }
 
     protected List<Entity> EntitiesHit = new List<Entity>();
@@ -41,9 +39,9 @@ public abstract class Projectile : MonoBehaviour
             if (!EntitiesHit.Exists(anEntity => anEntity == entity))
             {
                 EntitiesHit.Add(entity);
-                Damage calculatedDamage = new Damage(SkillActiveEvents.DamageSkillHitEnemy(Damage));
+                //Damage calculatedDamage = new Damage(SkillActiveEvents.DamageSkillHitEnemy(Damage));
                 SoundDatabase.PlaySound(SoundID);
-                entity.TakeDamage(calculatedDamage);
+                entity.TakeDamage(Damage);
                 Explode();
                 Extinguish();
             }

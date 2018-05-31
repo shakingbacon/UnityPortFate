@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TutorialArea : MonoBehaviour
+public class TutorialArea : Map
 {
     public static bool questComplete = false;
 

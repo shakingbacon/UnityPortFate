@@ -4,7 +4,6 @@ using System.Collections;
 public class PlayerMovement : MonoBehaviour
 {
     Player player;
-    //private SpriteRenderer spriteRenderer;
     private static Rigidbody2D rbody;
     Animator anim;
     public float moveSpeed;
@@ -40,8 +39,6 @@ public class PlayerMovement : MonoBehaviour
         StartCoroutine(RunningLoseMana());
         //spriteRenderer = GetComponent<SpriteRenderer>();
     }
-
-
 
     private void Update()
     {
@@ -130,10 +127,9 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
     void FixedUpdate()
     {
         knockable.FinalMove();
-        if (stun.Stunned) return;
+        if (stun.Stunned) { stun.StunnedDuration -= Time.fixedDeltaTime; return; }
     }
 }

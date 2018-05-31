@@ -7,7 +7,7 @@ public class CurrentMap : MonoBehaviour {
     public static CurrentMap Instance { get; set; }
 
     public Transform area;
-     public Transform enemies;
+    public Transform enemies;
     public Transform pickupItems;
 
 	// Use this for initialization

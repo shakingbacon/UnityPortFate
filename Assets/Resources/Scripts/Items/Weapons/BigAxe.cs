@@ -16,9 +16,9 @@ public class BigAxe : Axe {
         bladeDamage = 2f;
         handleDamage = 0.5f;
 
-        Description = "A longer, sharper blade.";
+        Description = "A really big axe";
         Name = "Big Axe";
 
-        Cost = 555;
+        Cost = 690;
     }
 }

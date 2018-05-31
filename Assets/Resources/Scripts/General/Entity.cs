@@ -7,6 +7,9 @@ public abstract class Entity : MonoBehaviour
     public string Name { get; set; }
     public Attributes Stats { get; set; } = new Attributes();
 
+    public bool CanRegenerate { get; set; }
+    public bool CanBeHit { get; set; }
+
 
     public EntityType Type { get; set; }
     public enum EntityType
