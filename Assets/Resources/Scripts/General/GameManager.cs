@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
 
 
 
-    void Awake()
+    void Start()
     {
         InIntro = true;
         if (Instance != null && Instance != this)
@@ -42,6 +42,7 @@ public class GameManager : MonoBehaviour
         FloatingTextController.Initialize();
         EnemyHealthBarController.Initialize();
 
+
     }
 
     void Update()
@@ -55,6 +56,13 @@ public class GameManager : MonoBehaviour
         }
 
     }
+
+    
+    public GameObject FindCanvasChild(string name)
+    {
+        return canvas.transform.Find(name).gameObject;
+    }
+
 
     public void CreateIntro()
     {
@@ -73,24 +81,4 @@ public class GameManager : MonoBehaviour
         jobSelect.GetComponent<RectTransform>().offsetMax = new Vector2(0, 0);
         //jobSelect.SetAsLastSibling();
     }
-
-    //public void CreateTutorialUI()
-    //{
-    //    Transform tutorial = Instantiate(Resources.Load<Transform>("Prefabs/Tutorial UI"), canvas.transform);
-    //    tutorial.localScale = new Vector3(1, 1, 1);
-    //    tutorial.GetComponent<RectTransform>().offsetMin = new Vector2(0, 0);
-    //    tutorial.GetComponent<RectTransform>().offsetMax = new Vector2(0, 0);
-    //    tutorial.SetSiblingIndex(1);
-    //}
-
-    //public static void IsPlayerDead()
-    //{
-    //    if (player.IsDead())
-    //    {
-    //        OpenClosePage("Death Screen");
-    //        cantMove = true;
-    //    }
-    //}
-
-
 }

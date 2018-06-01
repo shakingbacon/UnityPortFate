@@ -3,56 +3,40 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System;
 
+public class InventoryItemHolder : ItemHolder
+{
+    protected InventoryItemDescription desc;
 
-public class InventoryItemHolder : MonoBehaviour {
-
-    Item item;
-
-    InventoryItemDescription desc;
-
-    void Start()
+    override protected void Start()
     {
-        desc = GetComponentInParent<InventoryPanel2>().itemDesc;
-        print(desc);
-        EventTrigger trigger = GetComponent<EventTrigger>();
-        //
-        EventTrigger.Entry entry = new EventTrigger.Entry();
-        entry.eventID = EventTriggerType.PointerClick;
-        entry.callback.AddListener(data => ItemAction());
-        trigger.triggers.Add(entry);
-        // 
-        entry = new EventTrigger.Entry();
-        entry.eventID = EventTriggerType.PointerEnter;
-        entry.callback.AddListener(data => desc.SetDescription(item));
-        trigger.triggers.Add(entry);
-        //
-        entry = new EventTrigger.Entry();
-        entry.eventID = EventTriggerType.PointerExit;
-        entry.callback.AddListener(data => desc.gameObject.SetActive(false));
-        trigger.triggers.Add(entry);
+        desc = InventoryController.Instance.InventoryPanel.GetComponentInChildren<InventoryPanel>().itemDesc;
+        base.Start();
+    }
+
+    protected override void ClickAction()
+    {
+        PlayerEquipController.Instance.EquipItem(item);
+        Destroy(gameObject);
         desc.gameObject.SetActive(false);
     }
 
-
-
-    public void SetItem(Item item)
+    protected override void EnterAction()
     {
-        this.item = item;
-        Image image = GetComponent<Image>();
-        image.sprite = Resources.Load<Sprite>("Icons/Items/" + item.name);
-    }
-
-    void ItemAction()
-    {
-        if (item is Weapon)
+        if (item != null)
         {
-            print("equipped: " + item.name);
-            Destroy(gameObject);
-            //InventoryController.Instance.EquipWeapon(item);
+            string action = "";
+            if (item is Weapon) action = "Click to wield";
+            if (item is Armor) action = "Click to equip";
+            else if (item is Consumable) action = "Click to consume";
+            desc.SetDescription(item, action, 125);
         }
+    }
+
+    protected override void ExitAction()
+    {
         desc.gameObject.SetActive(false);
     }
-    
 
 }

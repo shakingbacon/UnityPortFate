@@ -135,7 +135,7 @@ public class PlayerWeaponController : MonoBehaviour
             //print("unequipped");
             //print(equippedWeapon.Stats.Physical);
             equippedWeapon.Stats.RemoveStatsFromOther(player.Stats);
-            inventoryController.GiveItem(currentlyEquippedItem.Name);
+            inventoryController.AddItem(currentlyEquippedItem);
             Destroy(playerHand.transform.GetChild(0).gameObject);
             UIEventHandler.ItemUnequipped(item);
             UIEventHandler.StatsChanged();

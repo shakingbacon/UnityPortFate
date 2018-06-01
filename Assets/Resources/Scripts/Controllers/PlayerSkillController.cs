@@ -16,7 +16,7 @@ public class PlayerSkillController : MonoBehaviour
 
     public ConsumableController consumableController;
     public PlayerWeaponController playerWeaponController;
-    public PlayerArmorController playerArmorController;
+    //public PlayerArmorController playerArmorController;
     // assigned in inspector
     public SkillPanelDetails skillDetailsPanel;
 
@@ -31,7 +31,7 @@ public class PlayerSkillController : MonoBehaviour
             Instance = this;
         consumableController = GetComponent<ConsumableController>();
         playerWeaponController = GetComponent<PlayerWeaponController>();
-        playerArmorController = GetComponent<PlayerArmorController>();
+        //playerArmorController = GetComponent<PlayerArmorController>();
         //UIEventHandler.OnSkillLearn += Skills.Add;
 
     }

@@ -19,7 +19,7 @@ public class PickupItem : Interactable {
 
     protected virtual void Pickup()
     {
-        InventoryController.Instance.GiveItem(ItemDrop);
+        InventoryController.Instance.AddItem(ItemDrop);
         EventNotifier.Instance.MakeEventNotifier(string.Format("Obtained item: {0}", ItemDrop.Name));
         Destroy(gameObject);
     }

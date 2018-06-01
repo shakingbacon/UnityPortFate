@@ -309,9 +309,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Resources\New Update\Inventory Panel\EquipmentItemHolder.cs" />
+    <Compile Include="Assets\Resources\New Update\Inventory Panel\EquipmentPanel.cs" />
+    <Compile Include="Assets\Resources\New Update\Inventory Panel\InventoryController.cs" />
     <Compile Include="Assets\Resources\New Update\Inventory Panel\InventoryItemDescription.cs" />
     <Compile Include="Assets\Resources\New Update\Inventory Panel\InventoryItemHolder.cs" />
-    <Compile Include="Assets\Resources\New Update\Inventory Panel\InventoryPanel2.cs" />
+    <Compile Include="Assets\Resources\New Update\Inventory Panel\InventoryPanel.cs" />
+    <Compile Include="Assets\Resources\New Update\Inventory Panel\ItemHolder.cs" />
+    <Compile Include="Assets\Resources\New Update\Inventory Panel\PlayerEquipController.cs" />
     <Compile Include="Assets\Resources\Scripts\Controllers\ConsumableController.cs" />
     <Compile Include="Assets\Resources\Scripts\Controllers\PlayerActivesController.cs" />
     <Compile Include="Assets\Resources\Scripts\Controllers\PlayerInteractController.cs" />
@@ -356,7 +361,6 @@
     <Compile Include="Assets\Resources\Scripts\Items\Consumables\LogPotion.cs" />
     <Compile Include="Assets\Resources\Scripts\Items\Item.cs" />
     <Compile Include="Assets\Resources\Scripts\Items\ItemDatabase.cs" />
-    <Compile Include="Assets\Resources\Scripts\Items\ItemHolder.cs" />
     <Compile Include="Assets\Resources\Scripts\Items\Weapons\Base Weapons\Axe.cs" />
     <Compile Include="Assets\Resources\Scripts\Items\Weapons\Base Weapons\IProjectileWeapon.cs" />
     <Compile Include="Assets\Resources\Scripts\Items\Weapons\Base Weapons\IWeapon.cs" />
@@ -408,17 +412,9 @@
     <Compile Include="Assets\Resources\Scripts\UI\EventNotifier.cs" />
     <Compile Include="Assets\Resources\Scripts\UI\EventNotifierText.cs" />
     <Compile Include="Assets\Resources\Scripts\UI\Intro.cs" />
-    <Compile Include="Assets\Resources\Scripts\UI\Inventory\EquipmentUIItem.cs" />
-    <Compile Include="Assets\Resources\Scripts\UI\Inventory\InventoryController.cs" />
-    <Compile Include="Assets\Resources\Scripts\UI\Inventory\InventoryPanel.cs" />
-    <Compile Include="Assets\Resources\Scripts\UI\Inventory\InventoryUI.cs" />
-    <Compile Include="Assets\Resources\Scripts\UI\Inventory\InventoryUIDetails.cs" />
-    <Compile Include="Assets\Resources\Scripts\UI\Inventory\InventoryUIItem.cs" />
-    <Compile Include="Assets\Resources\Scripts\UI\Inventory\PlayerArmorController.cs" />
     <Compile Include="Assets\Resources\Scripts\UI\JobSelect.cs" />
     <Compile Include="Assets\Resources\Scripts\UI\Panel_Skills\PanelSkill.cs" />
     <Compile Include="Assets\Resources\Scripts\UI\Quest\PlayerQuestController.cs" />
-    <Compile Include="Assets\Resources\Scripts\UI\Quest\PlayerUtilities.cs" />
     <Compile Include="Assets\Resources\Scripts\UI\Quest\Quest.cs" />
     <Compile Include="Assets\Resources\Scripts\UI\Quest\QuestAgreementPanel.cs" />
     <Compile Include="Assets\Resources\Scripts\UI\Quest\QuestCompletedActivations.cs" />

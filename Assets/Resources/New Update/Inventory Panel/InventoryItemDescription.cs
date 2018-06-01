@@ -17,8 +17,9 @@ public class InventoryItemDescription : MonoBehaviour
         action = transform.Find("Action").GetComponent<Text>();
     }
 
-    public void SetDescription(Item item)
+    public void SetDescription(Item item, string act, int x)
     {
+        transform.localPosition = new Vector3(x, transform.position.y);
         gameObject.SetActive(true);
         action.gameObject.SetActive(true);
         mingzi.text = item.name;
@@ -35,8 +36,7 @@ public class InventoryItemDescription : MonoBehaviour
 
             }
         }
-        if (item is Weapon) action.text = "Click to wield";
-
+        action.text = act;
     }
 
 
