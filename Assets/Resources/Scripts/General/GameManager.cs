@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour
 
         canvas = GameObject.FindGameObjectWithTag("Canvas");
         characterPanel = canvas.transform.Find("Panel_Character").gameObject;
-        //StartCoroutine(ScreenFader.FadeToClear());
+        StartCoroutine(ScreenFader.FadeToClear());
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         Camera.main.transform.position = player.transform.position;
         GameVersion = "Development V10.0";

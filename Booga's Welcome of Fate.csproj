@@ -429,6 +429,7 @@
     <Compile Include="Assets\Resources\Scripts\UI\SliderUtilities.cs" />
     <Compile Include="Assets\Resources\Scripts\UI\StatusBar.cs" />
     <Compile Include="Assets\Resources\Scripts\UI\StatusEffects\PlayerCanvasStatusEffectHolder.cs" />
+    <Compile Include="Assets\Resources\Skeleton Test\PlayerMovementController.cs" />
     <Compile Include="Assets\UnityPackages\JsonNetSample\JsonNetSample.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

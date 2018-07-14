@@ -1,30 +1,28 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CameraFollow : MonoBehaviour {
+public class CameraFollow : MonoBehaviour
+{
     public Transform target;
     public float moveSpeed = 0.1f;
-    //private Camera myCam;
+    private Camera myCam;
     float baseOrthographicSize;
 
-
-	// Use this for initialization
-	void Start () {
-        //myCam = GetComponent<Camera>();
-        //myCam.GetComponent<Camera>().orthographicSize = 4;
-
+    void Start()
+    {
+        myCam = GetComponent<Camera>();
+        myCam.GetComponent<Camera>().orthographicSize = 4;
     }
-	
-	// Update is called once per frame
-	void Update () {
 
-        //myCam.orthographicSize = (Screen.height / 100f) / 2.3f;
+    void Update()
+    {
+
+        myCam.orthographicSize = (Screen.height / 100f) / 2.3f;
         if (target)
         {
-            baseOrthographicSize = Screen.height / 100.0f / 2.0f;
-            Camera.main.orthographicSize = baseOrthographicSize;
-            transform.position = Vector3.Lerp(transform.position, target.position, moveSpeed) + new Vector3(0, 0, -11); //from, to ,howfast
+
+            transform.position = Vector3.Lerp(transform.position, target.position, moveSpeed) + new Vector3(0, 0, -3); //from, to ,howfast
         }
-        
-	}
+
+    }
 }

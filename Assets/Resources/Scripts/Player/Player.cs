@@ -86,7 +86,7 @@ public class Player : Entity
                 if (dmg.Stun > 0)
                 {
                     animator.SetTrigger("CannotAttack");
-                    PlayerCanvasStatusEffect.Instance.AddStatus("Stun", dmg.Stun);
+                    //PlayerCanvasStatusEffect.Instance.AddStatus("Stun", dmg.Stun);
                     PlayerMovement.stun.AddStun(dmg.Stun);
                 }
             }
