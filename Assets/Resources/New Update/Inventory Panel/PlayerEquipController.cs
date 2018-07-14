@@ -15,12 +15,14 @@ public class PlayerEquipController : MonoBehaviour
     public event InventoryController.ItemEventHandler OnEquipItem;
     public void EquipItem(Item item)
     {
+        SoundDatabase.PlaySound(0);
         OnEquipItem(item);
     }
 
     public event InventoryController.ItemEventHandler OnUnequipItem;
     public void UnequipItem(Item item)
     {
+        SoundDatabase.PlaySound(0);
         OnUnequipItem(item);
     }
 

@@ -10,6 +10,7 @@ using UnityEngine.EventSystems;
 public abstract class ItemHolder : MonoBehaviour
 {
     protected Item item = null;
+    public Item Item { get { return item; } set { SetItem(value); } }
     protected EventTrigger.Entry click, enter, exit;
 
     virtual protected void Start()
@@ -18,7 +19,7 @@ public abstract class ItemHolder : MonoBehaviour
         //
         click = new EventTrigger.Entry();
         click.eventID = EventTriggerType.PointerClick;
-        click.callback.AddListener(data => ClickAction());
+        click.callback.AddListener(data => ClickAction((PointerEventData)data));
         trigger.triggers.Add(click);
         // 
         enter = new EventTrigger.Entry();
@@ -32,7 +33,7 @@ public abstract class ItemHolder : MonoBehaviour
         trigger.triggers.Add(exit);
     }
 
-    public void SetItem(Item item)
+    void SetItem(Item item)
     {
         this.item = item;
         if (item != null)
@@ -41,7 +42,7 @@ public abstract class ItemHolder : MonoBehaviour
         }
     }
 
-    protected abstract void ClickAction();
+    protected abstract void ClickAction(PointerEventData data);
     protected abstract void EnterAction();
     protected abstract void ExitAction();
 

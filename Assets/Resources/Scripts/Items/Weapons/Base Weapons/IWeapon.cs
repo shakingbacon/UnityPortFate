@@ -10,6 +10,4 @@ public interface IWeapon {
     //Damage CurrentDamage { get; set; }
     void PerformAttack();
     void PerformSkillAnimation();
-    
-
 }

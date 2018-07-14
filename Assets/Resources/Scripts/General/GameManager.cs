@@ -23,8 +23,6 @@ public class GameManager : MonoBehaviour
     [HideInInspector]
     public GameObject characterPanel;
 
-
-
     void Start()
     {
         InIntro = true;

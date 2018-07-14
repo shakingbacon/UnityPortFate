@@ -15,11 +15,14 @@ public class InventoryItemHolder : ItemHolder
         base.Start();
     }
 
-    protected override void ClickAction()
+    protected override void ClickAction(PointerEventData data)
     {
-        PlayerEquipController.Instance.EquipItem(item);
-        Destroy(gameObject);
-        desc.gameObject.SetActive(false);
+        if (item != null && data.button == PointerEventData.InputButton.Left)
+        {
+            PlayerEquipController.Instance.EquipItem(item);
+            Destroy(gameObject);
+            desc.gameObject.SetActive(false);
+        }
     }
 
     protected override void EnterAction()

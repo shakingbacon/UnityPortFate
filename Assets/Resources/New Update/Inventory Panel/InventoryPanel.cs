@@ -44,6 +44,6 @@ public class InventoryPanel : MonoBehaviour
     void AddItem(Item item)
     {
         InventoryItemHolder add = Instantiate(holderPrefab, items);
-        add.SetItem(item);
+        add.Item = (item);
     }
 }

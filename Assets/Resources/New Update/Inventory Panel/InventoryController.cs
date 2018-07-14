@@ -16,6 +16,7 @@ public class InventoryController : MonoBehaviour
         if (Instance != null && Instance != this) Destroy(gameObject);
         else Instance = this;
         invPanel = GameManager.Instance.FindCanvasChild("Inventory Panel");
+        PlayerEquipController.Instance.OnUnequipItem += AddItem;
     }
 
     void Update()

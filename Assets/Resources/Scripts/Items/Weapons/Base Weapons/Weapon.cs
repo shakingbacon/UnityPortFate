@@ -3,23 +3,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Weapon : Item, IWeapon, IHasHitbox
+public abstract class Weapon : Item, IHasHitbox
 {
-    public Attributes player;
+    public Attributes UserStats { get; set; }
     public Animator Animator { get; set; }
     //public List<BaseStat> Stats { get; set; }
-    public PlayerSkillController playerSkillController { get; set; }
+    //public PlayerSkillController playerSkillController { get; set; }
     public float Knockback { get; set; }
     public float StunDuration { get; set; }
-
-
-
 
     // IHasHitbox
     public List<Entity> EntitiesHit { get; set; } = new List<Entity>();
     public int Pierce { get; set; }
-    public int Damage { get { return (int)(player.Physical * Animator.GetFloat("DamageMultiplier")); } }
-    public int HitChance { get { return player.Hit; } }
+    public int Damage { get { return (int)(UserStats.Physical * Animator.GetFloat("DamageMultiplier")); } }
+    public int HitChance { get { return UserStats.Hit; } }
 
 
     int collideSoundID = -1;
@@ -28,6 +25,7 @@ public abstract class Weapon : Item, IWeapon, IHasHitbox
     {
         Sword,
         Axe,
+        Dagger,
         Wand,
         Staff
     }
@@ -84,7 +82,6 @@ public abstract class Weapon : Item, IWeapon, IHasHitbox
             Animator.SetTrigger("Channel");
             Animator.SetFloat("ChannelTime", 1 / skill.skillChannelDuration);
         }
-
     }
 
     // Animation Events
@@ -110,7 +107,7 @@ public abstract class Weapon : Item, IWeapon, IHasHitbox
 
     public virtual void ActivateSkill()
     {
-        playerSkillController.ActivateSkill(playerSkillController.UsingSkill);
+        //playerSkillController.ActivateSkill(playerSkillController.UsingSkill);
     }
 
     public void SetCollideSound(int id)
