@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerInteractController : MonoBehaviour {
+public class PlayerInteractController : MonoBehaviour
+{
 
     public static PlayerInteractController Instance { get; set; }
-    bool CanInteract {get;set;}
+    bool CanInteract { get; set; }
     public GameObject interactNotifier;
     public Text interactNotifierKey, interactWhat;
 
@@ -21,7 +22,7 @@ public class PlayerInteractController : MonoBehaviour {
             Instance = this;
     }
 
-        void Update()
+    void Update()
     {
         if (CanInteract)
         {

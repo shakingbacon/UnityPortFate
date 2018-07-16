@@ -22,6 +22,9 @@ public abstract class Sword : Weapon
         swordTip.DamageMultiplier = TipDamage;
         swordBase.DamageMultiplier = BaseDamage;
         swordHilt.DamageMultiplier = HiltDamage;
+        Hitboxes.Add(swordTip);
+        Hitboxes.Add(swordBase);
+        Hitboxes.Add(swordHilt);
     }
 
     public override void GiveStats()

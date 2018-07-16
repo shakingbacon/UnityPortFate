@@ -18,6 +18,7 @@ public abstract class Weapon : Item, IHasHitbox
     public int Damage { get { return (int)(UserStats.Physical * Animator.GetFloat("DamageMultiplier")); } }
     public int HitChance { get { return UserStats.Hit; } }
 
+    protected List<DamagingHitbox> Hitboxes { get; set; } = new List<DamagingHitbox>();
 
     int collideSoundID = -1;
 
@@ -82,6 +83,11 @@ public abstract class Weapon : Item, IHasHitbox
             Animator.SetTrigger("Channel");
             Animator.SetFloat("ChannelTime", 1 / skill.skillChannelDuration);
         }
+    }
+
+    public virtual void ActivateHitbox(bool yes)
+    {
+        Hitboxes.ForEach(hitbox => hitbox.gameObject.SetActive(yes));
     }
 
     // Animation Events

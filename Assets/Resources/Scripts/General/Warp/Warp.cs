@@ -12,7 +12,7 @@ public class Warp : Interactable {
     void Start()
     {
         interactString = "Warp";
-        GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("General/Game/Warp Portal");
+        GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Icons/General/Game/Warp Portal");
         GetComponent<PolygonCollider2D>().isTrigger = true;
         transform.transform.localScale = new Vector3(2, 2, 1);
         GetComponent<SpriteRenderer>().sortingOrder = 2;
