@@ -56,9 +56,9 @@ public class GameManager : MonoBehaviour
     }
 
     
-    public GameObject FindCanvasChild(string name)
+    public GameObject FindCanvasChild(string mingzi)
     {
-        return canvas.transform.Find(name).gameObject;
+        return canvas.transform.Find(mingzi).gameObject;
     }
 
 

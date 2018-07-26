@@ -9,7 +9,7 @@ public class InventoryItemHolder : ItemHolder
 {
     protected InventoryItemDescription desc;
 
-    override protected void Start()
+    protected override void Start()
     {
         desc = InventoryController.Instance.InventoryPanel.GetComponentInChildren<InventoryPanel>().itemDesc;
         base.Start();

@@ -73,12 +73,14 @@ public abstract class Enemy : Entity
     // base CreateDamage always deals base physical stat
     public virtual Damage CreateDamage()
     {
-        Damage dmg = new Damage();
-        dmg.User = transform;
-        dmg.DamageAmount = Stats.Physical;
-        dmg.CritChance = Stats.Crit;
-        dmg.HitChance = Stats.Hit;
-        dmg.Knockback = Knockback;
+        Damage dmg = new Damage
+        {
+            User = transform,
+            DamageAmount = Stats.Physical,
+            CritChance = Stats.Crit,
+            HitChance = Stats.Hit,
+            Knockback = Knockback
+        };
         return dmg;
     }
 

@@ -1,13 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class PickupItem : Interactable {
+﻿public class PickupItem : Interactable
+{
     public Item ItemDrop { get; set; }
 
-    void Start()
+    private void Start()
     {
-        interactString = string.Format("Pick Up") ;
+        interactString = "Pick Up";
     }
 
     public override void Interact()
@@ -20,8 +17,7 @@ public class PickupItem : Interactable {
     protected virtual void Pickup()
     {
         InventoryController.Instance.AddItem(ItemDrop);
-        EventNotifier.Instance.MakeEventNotifier(string.Format("Obtained item: {0}", ItemDrop.Name));
+        EventNotifier.Instance.MakeEventNotifier($"Obtained item: {ItemDrop.Name}");
         Destroy(gameObject);
     }
-
 }
