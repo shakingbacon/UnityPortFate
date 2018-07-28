@@ -1,18 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+﻿using System.Collections.Generic;
 
 public class BaseStat
 {
-    public int BaseValue { get; set; }
-    public List<int> Bonuses { get; set; }
-
-    public int FinalValue { get { return GetFinalValue(); } }
-
-    public StatType Type { get; set; }
-
     public enum StatType
     {
         Strength,
@@ -37,7 +26,6 @@ public class BaseStat
         ManaRegen
     }
 
-
     public BaseStat(StatType type)
     {
         BaseValue = 0;
@@ -51,24 +39,28 @@ public class BaseStat
         Type = type;
         Bonuses = new List<int>();
     }
+
+    public int BaseValue { get; set; }
+    public List<int> Bonuses { get; set; }
+    public int FinalValue => GetFinalValue();
+    public StatType Type { get; set; }
+
     public void Buff(int value)
     {
         Bonuses.Add(value);
-        UIEventHandler.StatsChanged();
+        //UIEventHandler.StatsChanged();
     }
-    
+
     public void RemoveBuff(int value)
     {
         Bonuses.Remove(value);
-        UIEventHandler.StatsChanged();
+        //UIEventHandler.StatsChanged();
     }
 
-    int GetFinalValue()
+    private int GetFinalValue()
     {
-        int finalValue = BaseValue;
+        var finalValue = BaseValue;
         Bonuses.ForEach(value => finalValue += value);
         return finalValue;
     }
-
-
 }

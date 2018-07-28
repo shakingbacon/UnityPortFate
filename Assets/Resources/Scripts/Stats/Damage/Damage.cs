@@ -1,24 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Damage
 {
-    public Transform User { get; set; }
-
-    // Damage Amount
-    public int DamageAmount { get; set; } = 0;
-
-    public bool DidCrit { get; set; } = false;
-    public bool DidHit { get { return HitChance > Random.Range(0, 101); } }
-
-    public int CritChance { get; set; } = 0;
-    public int HitChance { get; set; } = 0;
-    public float Knockback { get; set; } = 0;
-    public float Stun { get; set; } = 0;
-
-    public DamageType Type { get; set; }
-
     public enum DamageType
     {
         Physical,
@@ -37,31 +20,53 @@ public class Damage
         Stun = dmg.Stun;
     }
 
+    public Transform User { get; set; }
+
+    // Damage Amount
+    public int DamageAmount { get; set; }
+
+    public bool DidCrit { get; set; }
+    public bool DidHit => HitChance > Random.Range(0, 101);
+
+    public int CritChance { get; set; } = 0;
+    public int HitChance { get; set; }
+    public float Knockback { get; set; }
+    public float Stun { get; set; }
+
+    public DamageType Type { get; set; }
+
     private void CalculateCrit()
     {
-        int critDamage = (int)(DamageAmount * Random.Range(.5f, .75f));
+        var critDamage = (int) (DamageAmount * Random.Range(.5f, .75f));
         DamageAmount += critDamage;
     }
 
-    bool CheckCrit()
+    private bool CheckCrit()
     {
-        if (CritChance > Random.Range(0, 101))
-        {
-            DidCrit = true;
-            CalculateCrit();
-            return true;
-        }
-        return false;
+        if (CritChance <= Random.Range(0, 101)) return false;
+        DidCrit = true;
+        CalculateCrit();
+        return true;
+
     }
 
     // shohuld be used first if ever using
     public void CalculateWithDefences(Attributes stats)
     {
-        if (Type == DamageType.Physical) DamageAmount -= stats.Armor;
-        else DamageAmount -= stats.Resist;
-        if (DamageAmount < 0) DamageAmount = 0;
+        if (Type == DamageType.Physical)
+        {
+            DamageAmount -= stats.Armor;
+        }
+        else
+        {
+            DamageAmount -= stats.Resist;
+        }
+
+        if (DamageAmount < 0)
+        {
+            DamageAmount = 0;
+        }
         HitChance -= stats.Dodge;
         CheckCrit();
     }
-
 }

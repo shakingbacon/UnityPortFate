@@ -60,140 +60,29 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Resources\New Update\Inventory Panel\EquipmentItemHolder.cs" />
-    <Compile Include="Assets\Resources\New Update\Inventory Panel\EquipmentPanel.cs" />
-    <Compile Include="Assets\Resources\New Update\Inventory Panel\InventoryController.cs" />
-    <Compile Include="Assets\Resources\New Update\Inventory Panel\InventoryItemDescription.cs" />
-    <Compile Include="Assets\Resources\New Update\Inventory Panel\InventoryItemHolder.cs" />
-    <Compile Include="Assets\Resources\New Update\Inventory Panel\InventoryPanel.cs" />
-    <Compile Include="Assets\Resources\New Update\Inventory Panel\ItemHolder.cs" />
-    <Compile Include="Assets\Resources\New Update\Inventory Panel\PlayerEquipController.cs" />
-    <Compile Include="Assets\Resources\Scripts\Controllers\ConsumableController.cs" />
-    <Compile Include="Assets\Resources\Scripts\Controllers\PlayerActivesController.cs" />
-    <Compile Include="Assets\Resources\Scripts\Controllers\PlayerInteractController.cs" />
-    <Compile Include="Assets\Resources\Scripts\Controllers\PlayerSkillController.cs" />
-    <Compile Include="Assets\Resources\Scripts\Controllers\PlayerWeapon.cs" />
-    <Compile Include="Assets\Resources\Scripts\Enemies\Enemy.cs" />
-    <Compile Include="Assets\Resources\Scripts\Enemies\EnemyMovement.cs" />
-    <Compile Include="Assets\Resources\Scripts\Enemies\IEnemy.cs" />
-    <Compile Include="Assets\Resources\Scripts\Enemies\IProjectileEnemy.cs" />
-    <Compile Include="Assets\Resources\Scripts\Enemies\Monsters\Gator.cs" />
-    <Compile Include="Assets\Resources\Scripts\Enemies\Monsters\ProjectileGator.cs" />
-    <Compile Include="Assets\Resources\Scripts\Enemies\MonsterSpawner.cs" />
-    <Compile Include="Assets\Resources\Scripts\Events\CombatEvents.cs" />
-    <Compile Include="Assets\Resources\Scripts\Events\SkillEvents.cs" />
-    <Compile Include="Assets\Resources\Scripts\Events\UIEventHandler.cs" />
-    <Compile Include="Assets\Resources\Scripts\Farming\Plant.cs" />
-    <Compile Include="Assets\Resources\Scripts\Farming\Soil.cs" />
-    <Compile Include="Assets\Resources\Scripts\Farming\Terrain.cs" />
-    <Compile Include="Assets\Resources\Scripts\General\CurrentMap.cs" />
-    <Compile Include="Assets\Resources\Scripts\General\DropTable\DropTable.cs" />
-    <Compile Include="Assets\Resources\Scripts\General\Entity.cs" />
-    <Compile Include="Assets\Resources\Scripts\General\GameManager.cs" />
-    <Compile Include="Assets\Resources\Scripts\General\Knockable.cs" />
-    <Compile Include="Assets\Resources\Scripts\General\SoundDatabase.cs" />
-    <Compile Include="Assets\Resources\Scripts\General\Stunable.cs" />
-    <Compile Include="Assets\Resources\Scripts\General\Warp\Door.cs" />
-    <Compile Include="Assets\Resources\Scripts\General\Warp\Warp.cs" />
-    <Compile Include="Assets\Resources\Scripts\Interactable\CashDrop.cs" />
-    <Compile Include="Assets\Resources\Scripts\Interactable\ComputerScreen.cs" />
-    <Compile Include="Assets\Resources\Scripts\Interactable\EnviromentHazard.cs" />
-    <Compile Include="Assets\Resources\Scripts\Interactable\Interactable.cs" />
-    <Compile Include="Assets\Resources\Scripts\Interactable\NPC\CleanBooga.cs" />
-    <Compile Include="Assets\Resources\Scripts\Interactable\NPC\NPC.cs" />
-    <Compile Include="Assets\Resources\Scripts\Interactable\NPC\NPCInfo.cs" />
-    <Compile Include="Assets\Resources\Scripts\Interactable\NPC\NPCInfoDatabase.cs" />
-    <Compile Include="Assets\Resources\Scripts\Interactable\OnTriggerMakeShop.cs" />
-    <Compile Include="Assets\Resources\Scripts\Interactable\PickupItem.cs" />
-    <Compile Include="Assets\Resources\Scripts\Items\Armor\Armor.cs" />
-    <Compile Include="Assets\Resources\Scripts\Items\Armor\LeatherHat.cs" />
-    <Compile Include="Assets\Resources\Scripts\Items\Consumable.cs" />
-    <Compile Include="Assets\Resources\Scripts\Items\Consumables\IConsumable.cs" />
-    <Compile Include="Assets\Resources\Scripts\Items\Consumables\LogPotion.cs" />
-    <Compile Include="Assets\Resources\Scripts\Items\Item.cs" />
-    <Compile Include="Assets\Resources\Scripts\Items\ItemDatabase.cs" />
-    <Compile Include="Assets\Resources\Scripts\Items\Weapons\Base Weapons\Axe.cs" />
-    <Compile Include="Assets\Resources\Scripts\Items\Weapons\Base Weapons\IProjectileWeapon.cs" />
-    <Compile Include="Assets\Resources\Scripts\Items\Weapons\Base Weapons\IWeapon.cs" />
-    <Compile Include="Assets\Resources\Scripts\Items\Weapons\Base Weapons\Staff.cs" />
-    <Compile Include="Assets\Resources\Scripts\Items\Weapons\Base Weapons\Sword.cs" />
-    <Compile Include="Assets\Resources\Scripts\Items\Weapons\Base Weapons\Weapon.cs" />
-    <Compile Include="Assets\Resources\Scripts\Items\Weapons\BigAxe.cs" />
-    <Compile Include="Assets\Resources\Scripts\Items\Weapons\Hitbox\DamagingHitbox.cs" />
-    <Compile Include="Assets\Resources\Scripts\Items\Weapons\Hitbox\IHasHitbox.cs" />
-    <Compile Include="Assets\Resources\Scripts\Items\Weapons\Longsword.cs" />
-    <Compile Include="Assets\Resources\Scripts\Items\Weapons\WoodenStaff.cs" />
-    <Compile Include="Assets\Resources\Scripts\Maps\Map.cs" />
-    <Compile Include="Assets\Resources\Scripts\Maps\TutorialArea.cs" />
-    <Compile Include="Assets\Resources\Scripts\Player\CameraFollow.cs" />
-    <Compile Include="Assets\Resources\Scripts\Player\Player.cs" />
-    <Compile Include="Assets\Resources\Scripts\Player\PlayerCanvasStatusEffect.cs" />
-    <Compile Include="Assets\Resources\Scripts\Player\PlayerLevel.cs" />
-    <Compile Include="Assets\Resources\Scripts\Player\PlayerMovement.cs" />
-    <Compile Include="Assets\Resources\Scripts\Skill\ActiveHolder.cs" />
-    <Compile Include="Assets\Resources\Scripts\Skill\PlayerSkill.cs" />
-    <Compile Include="Assets\Resources\Scripts\Skill\PlayerSkillUpdate.cs" />
-    <Compile Include="Assets\Resources\Scripts\Skill\Projectiles\Fireball.cs" />
-    <Compile Include="Assets\Resources\Scripts\Skill\Projectiles\MagicShot.cs" />
-    <Compile Include="Assets\Resources\Scripts\Skill\Projectiles\Projectile.cs" />
-    <Compile Include="Assets\Resources\Scripts\Skill\Skill.cs" />
-    <Compile Include="Assets\Resources\Scripts\Skill\SkillActiveEffects.cs" />
-    <Compile Include="Assets\Resources\Scripts\Skill\SkillAilment.cs" />
-    <Compile Include="Assets\Resources\Scripts\Skill\SkillDatabase.cs" />
-    <Compile Include="Assets\Resources\Scripts\Skill\SkillPanelContainer.cs" />
-    <Compile Include="Assets\Resources\Scripts\Skill\SkillPanelDetails.cs" />
-    <Compile Include="Assets\Resources\Scripts\Skill\SkillPassiveEffects.cs" />
-    <Compile Include="Assets\Resources\Scripts\Skill\SkillUI.cs" />
+    <Compile Include="Assets\Resources\Scripts\Database\SoundDatabase.cs" />
+    <Compile Include="Assets\Resources\Scripts\Game\CameraFollow.cs" />
+    <Compile Include="Assets\Resources\Scripts\Item\Item.cs" />
+    <Compile Include="Assets\Resources\Scripts\Item\Weapon\Weapon.cs" />
+    <Compile Include="Assets\Resources\Scripts\Player\PlayerAttackController.cs" />
+    <Compile Include="Assets\Resources\Scripts\Player\PlayerMovementController.cs" />
+    <Compile Include="Assets\Resources\Scripts\Player\PlayerWeaponController.cs" />
     <Compile Include="Assets\Resources\Scripts\Stats\Attributes.cs" />
     <Compile Include="Assets\Resources\Scripts\Stats\BaseStat.cs" />
     <Compile Include="Assets\Resources\Scripts\Stats\Damage\Damage.cs" />
-    <Compile Include="Assets\Resources\Scripts\Stats\Job\Mage.cs" />
-    <Compile Include="Assets\Resources\Scripts\Stats\StatBonus.cs" />
-    <Compile Include="Assets\Resources\Scripts\UI\Channel Bar\ChannelBar.cs" />
-    <Compile Include="Assets\Resources\Scripts\UI\Channel Bar\ChannelBarController.cs" />
-    <Compile Include="Assets\Resources\Scripts\UI\CharacterPanel.cs" />
-    <Compile Include="Assets\Resources\Scripts\UI\Damage Popup\EnemyHealthBar.cs" />
-    <Compile Include="Assets\Resources\Scripts\UI\Damage Popup\EnemyHealthBarController.cs" />
-    <Compile Include="Assets\Resources\Scripts\UI\Damage Popup\FloatingText.cs" />
-    <Compile Include="Assets\Resources\Scripts\UI\Damage Popup\FloatingTextController.cs" />
-    <Compile Include="Assets\Resources\Scripts\UI\DeathScreen.cs" />
-    <Compile Include="Assets\Resources\Scripts\UI\Dialogue System\DialogueSystem.cs" />
-    <Compile Include="Assets\Resources\Scripts\UI\Dialogue System\DialogueSystemOptionObject.cs" />
-    <Compile Include="Assets\Resources\Scripts\UI\Dialogue System\DialogueSystemOptionSelectController.cs" />
-    <Compile Include="Assets\Resources\Scripts\UI\EventNotifier.cs" />
-    <Compile Include="Assets\Resources\Scripts\UI\EventNotifierText.cs" />
-    <Compile Include="Assets\Resources\Scripts\UI\Intro.cs" />
-    <Compile Include="Assets\Resources\Scripts\UI\JobSelect.cs" />
-    <Compile Include="Assets\Resources\Scripts\UI\Panel_Skills\PanelSkill.cs" />
-    <Compile Include="Assets\Resources\Scripts\UI\Quest\PlayerQuestController.cs" />
-    <Compile Include="Assets\Resources\Scripts\UI\Quest\Quest.cs" />
-    <Compile Include="Assets\Resources\Scripts\UI\Quest\QuestAgreementPanel.cs" />
-    <Compile Include="Assets\Resources\Scripts\UI\Quest\QuestCompletedActivations.cs" />
-    <Compile Include="Assets\Resources\Scripts\UI\Quest\QuestDatabase.cs" />
-    <Compile Include="Assets\Resources\Scripts\UI\Quest\QuestGoal.cs" />
-    <Compile Include="Assets\Resources\Scripts\UI\Quest\QuestPanel.cs" />
-    <Compile Include="Assets\Resources\Scripts\UI\Quest\QuestUI.cs" />
-    <Compile Include="Assets\Resources\Scripts\UI\Quest\QuestUIContainer.cs" />
-    <Compile Include="Assets\Resources\Scripts\UI\ScreenFader.cs" />
-    <Compile Include="Assets\Resources\Scripts\UI\SkillActiveEvents.cs" />
-    <Compile Include="Assets\Resources\Scripts\UI\SliderUtilities.cs" />
-    <Compile Include="Assets\Resources\Scripts\UI\StatusBar.cs" />
-    <Compile Include="Assets\Resources\Scripts\UI\StatusEffects\PlayerCanvasStatusEffectHolder.cs" />
-    <Compile Include="Assets\Resources\Skeleton Test\PlayerAttackController.cs" />
-    <Compile Include="Assets\Resources\Skeleton Test\PlayerMovementController.cs" />
-    <Compile Include="Assets\Resources\Skeleton Test\PlayerWeaponController.cs" />
+    <Compile Include="Assets\Resources\Scripts\Stats\Entity\Entity.cs" />
     <Compile Include="Assets\UnityPackages\JsonNetSample\JsonNetSample.cs" />
     <Reference Include="UnityEditor.StandardEvents">
-      <HintPath>C:/Users/Hagabooga/Desktop/Unity Port Fate/UnityPortFate/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
+      <HintPath>C:/Users/Hagabooga/Desktop/UnityPortFate/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
-      <HintPath>C:/Users/Hagabooga/Desktop/Unity Port Fate/UnityPortFate/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+      <HintPath>C:/Users/Hagabooga/Desktop/UnityPortFate/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.PackageManagerUI.Editor">
-      <HintPath>C:/Users/Hagabooga/Desktop/Unity Port Fate/UnityPortFate/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
+      <HintPath>C:/Users/Hagabooga/Desktop/UnityPortFate/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
-      <HintPath>C:/Users/Hagabooga/Desktop/Unity Port Fate/UnityPortFate/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+      <HintPath>C:/Users/Hagabooga/Desktop/UnityPortFate/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>C:/Users/Hagabooga/Desktop/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
@@ -391,7 +280,7 @@
       <HintPath>C:/Users/Hagabooga/Desktop/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
-      <HintPath>C:/Users/Hagabooga/Desktop/Unity Port Fate/UnityPortFate/Assets/UnityPackages/JsonNet/Newtonsoft.Json.dll</HintPath>
+      <HintPath>C:/Users/Hagabooga/Desktop/UnityPortFate/Assets/UnityPackages/JsonNet/Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.Analytics">
       <HintPath>C:/Users/Hagabooga/AppData/Local/Unity/cache/packages/packages.unity.com/com.unity.analytics@2.0.16/UnityEngine.Analytics.dll</HintPath>
