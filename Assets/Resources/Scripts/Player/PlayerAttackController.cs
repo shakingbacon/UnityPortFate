@@ -1,29 +1,30 @@
 ﻿using UnityEngine;
 
-public class PlayerAttackController : MonoBehaviour
+public class PlayerAttackController : PlayerAnimatorController
 {
-    private Animator _animator;
     public static PlayerAttackController Instance { get; set; }
-
-    private bool CanPerformAttack
-    {
-        get { return _animator.GetBool("CanPerformAttack"); }
-        set { _animator.SetBool("CanPerformAttack", value); }
-    }
-
 
     private void Start()
     {
         if (Instance != null && Instance != this) Destroy(gameObject);
         else Instance = this;
-
-        _animator = GetComponent<Animator>();
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.X) && !_animator.GetCurrentAnimatorStateInfo(1).IsTag("AttackFinal") &&
-            CanPerformAttack) _animator.SetTrigger("WeaponSwing");
+        Attacking = _animator.GetCurrentAnimatorStateInfo(1).IsTag("Attack");
+        if (Input.GetKeyDown(KeyCode.X) && CanPerformAttack)
+        {
+            if (!WaitingForAttack) WaitingForAttack = true;
+            _animator.SetTrigger("WeaponSwing");
+        }
+    }
+
+    private void BasicPerformAttackStartEvents()
+    {
+        CanPerformAttack = false;
+        WaitingForAttack = false;
+        CanMove = false;
     }
 
     private void DisablePerformAttack() => CanPerformAttack = false;

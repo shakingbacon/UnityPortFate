@@ -64,6 +64,7 @@
     <Compile Include="Assets\Resources\Scripts\Game\CameraFollow.cs" />
     <Compile Include="Assets\Resources\Scripts\Item\Item.cs" />
     <Compile Include="Assets\Resources\Scripts\Item\Weapon\Weapon.cs" />
+    <Compile Include="Assets\Resources\Scripts\Player\PlayerAnimatorController.cs" />
     <Compile Include="Assets\Resources\Scripts\Player\PlayerAttackController.cs" />
     <Compile Include="Assets\Resources\Scripts\Player\PlayerMovementController.cs" />
     <Compile Include="Assets\Resources\Scripts\Player\PlayerWeaponController.cs" />
