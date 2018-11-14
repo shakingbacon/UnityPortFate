@@ -1,7 +1,8 @@
 # UnityPortFate
-Port of the Pygame Booga's Welcome of Fate to Unity
 
-This game is a single player RPG.
+A Unity port of the single player RPG game orignially coded in PyGame, Booga's Welcome of Fate.
+
+
 
 
 
